@@ -11,6 +11,8 @@ public:
     void swap();
     void destroy();
 
+    float getAspect() { return (float)width / (float)height; }
+
 private:
     GLFWwindow* handle;
     int width = 0;
