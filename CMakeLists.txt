@@ -7,6 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(external/glfw)
 add_subdirectory(external/glm)
 
+# ---------------- GLAD ----------------
+add_library(glad external/glad/src/glad.c)
+target_include_directories(glad PUBLIC external/glad/include)
+
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
 add_executable(FikaEngine ${ENGINE_SOURCES})
@@ -16,4 +20,5 @@ target_link_libraries(FikaEngine
 	glfw
 	opengl32
 	glm
+	glad
 )
