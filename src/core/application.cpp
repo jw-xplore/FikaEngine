@@ -19,9 +19,19 @@ void Application::run()
     mainCamera.setPerspective(90, window.getAspect(), 0.1f, 100);
     mainCamera.updateVectors();
 
+    float lastTime = 0;
+
     // Game loop
     while (!window.shouldClose())
     {
+        float now = glfwGetTime();
+        float dt = now - lastTime;
+           lastTime = now;
+
+        char title[64];
+        snprintf(title, 64, "Fika Engine - %.0f", (1.0f / dt));
+        glfwSetWindowTitle(glfwGetCurrentContext(), title);
+
         window.poll();
 
         // Temporary cam controls

@@ -11,7 +11,13 @@ add_subdirectory(external/glm)
 add_library(glad external/glad/src/glad.c)
 target_include_directories(glad PUBLIC external/glad/include)
 
-file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*.cpp)
+# ---------------- Engine src ----------------
+file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*.cpp src/*.h)
+
+add_library(Engine ${ENGINE_SOURCES})
+
+# Create Visual Studio filters based on folder structure
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source" FILES ${ENGINE_SOURCES})
 
 add_executable(FikaEngine ${ENGINE_SOURCES})
 
