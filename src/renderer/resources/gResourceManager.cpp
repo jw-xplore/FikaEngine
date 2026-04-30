@@ -34,6 +34,14 @@ void ShaderResource::loadShader(const char* path, GLchar*& buffer)
 	{
 		std::fstream file(path);
 
+		// Not found
+		if (file.fail())
+		{
+			std::cout << "Shader file: '" << path << "' not found! \n";
+			return;
+		}
+
+		// Read
 		std::string line;
 		while (std::getline(file, line))
 		{

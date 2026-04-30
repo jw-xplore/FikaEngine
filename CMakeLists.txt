@@ -1,30 +1,50 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.31)
-PROJECT(FikaEngine)
+set(TARGET_NAME FikaEngine)
+set(APP_NAME FikaApp)
 
-set(CMAKE_CXX_STANDARD 20)
-
-# External dependencies
+# ---------------- Dependencies ----------------
 add_subdirectory(external/glfw)
 add_subdirectory(external/glm)
 
-# ---------------- GLAD ----------------
 add_library(glad external/glad/src/glad.c)
 target_include_directories(glad PUBLIC external/glad/include)
 
-# ---------------- Engine src ----------------
+# ---------------- Sources ----------------
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS src/*.cpp src/*.h)
 
-add_library(Engine ${ENGINE_SOURCES})
+list(FILTER ENGINE_SOURCES EXCLUDE REGEX ".*main\\.cpp$")
 
-# Create Visual Studio filters based on folder structure
-source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source" FILES ${ENGINE_SOURCES})
+# Engine library
+add_library(${TARGET_NAME} ${ENGINE_SOURCES})
 
-add_executable(FikaEngine ${ENGINE_SOURCES})
+# Executable (entry point only)
+add_executable(${APP_NAME} src/main.cpp)
 
-target_link_libraries(FikaEngine
-	PRIVATE
-	glfw
-	opengl32
-	glm
-	glad
+# Link everything
+target_link_libraries(${TARGET_NAME}
+    PUBLIC
+    glfw
+    glm::glm
+    glad
+    opengl32
 )
+
+target_link_libraries(${APP_NAME}
+    PRIVATE
+    ${TARGET_NAME}
+)
+
+# Copy assets
+add_custom_command(TARGET ${APP_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:${APP_NAME}>/assets
+)
+
+# Working directory
+set_target_properties(${APP_NAME} PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY $<TARGET_FILE_DIR:${APP_NAME}>
+)
+
+# Filters
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR}/src PREFIX "Source" FILES ${ENGINE_SOURCES})

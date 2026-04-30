@@ -1,21 +1,12 @@
 #pragma once
+#include <string>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
+class MeshResource;
 class TextureResource;
-
-class MeshResource
-{
-public:
-	GLuint VOA; // Vertex object array
-	GLuint VBO; // Vertex Buffer Object
-	GLuint EBO; // Element Buffer Object
-	int indicesCount;
-	TextureResource* textureRes;
-
-	~MeshResource();
-
-	void cleanup();
-};
+class ShaderResource;
 
 
 //------------------------------------------------------------------------------
@@ -24,5 +15,26 @@ public:
 
 class MeshInstance
 {
+private:
+	MeshResource* mesh;
+	TextureResource* texture;
+	ShaderResource* shader;
 
+public:
+	glm::mat4 transform;
+
+	MeshInstance();
+
+	MeshResource* setMesh(std::string name);
+	MeshResource* setMesh(std::string name, MeshResource* mesh);
+	TextureResource* setTexture(std::string name);
+	TextureResource* setTexture(std::string name, TextureResource* texture);
+	ShaderResource* setShader(std::string name);
+	ShaderResource* setShader(std::string name, ShaderResource* shader);
+
+	MeshResource* getMesh() { return mesh; }
+	TextureResource* getTexture() { return texture; }
+	ShaderResource* gettShader() { return shader; }
+
+	void draw();
 };

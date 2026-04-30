@@ -1,4 +1,6 @@
 #pragma once
+#define GLFW_INCLUDE_NONE
+
 #include <map>
 #include <string>
 #include <glad/glad.h>

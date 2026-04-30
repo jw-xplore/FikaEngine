@@ -1,8 +1,14 @@
 #include "application.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "../platform/window.h";
 #include "../platform/input.h"
 #include "../renderer/camera.h"
+#include "../renderer/resources/gResourceManager.h"
+#include "../renderer/resources/meshBuilder.h"
+#include "../renderer/resources/meshInstance.h"
+
+MeshInstance* testPlane;
 
 void Application::run()
 {
@@ -20,6 +26,16 @@ void Application::run()
     mainCamera.updateVectors();
 
     float lastTime = 0;
+
+    // Test mesh
+    MeshResource planeMesh = MeshBuilder().createQuad(0.5, 0.5).build();
+    ShaderResource basicShader;
+    basicShader.loadShaders("assets/shaders/basic.vert", "assets/shaders/basic.frag");
+    basicShader.compile();
+
+    testPlane = new MeshInstance();
+    testPlane->setMesh("plane", &planeMesh);
+    testPlane->setShader("basic", &basicShader);
 
     // Game loop
     while (!window.shouldClose())
