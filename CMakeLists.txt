@@ -1,4 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.31)
+
+project(FikaEngine)
 set(TARGET_NAME FikaEngine)
 set(APP_NAME FikaApp)
 

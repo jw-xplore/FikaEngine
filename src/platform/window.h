@@ -11,7 +11,10 @@ public:
     void swap();
     void destroy();
 
+    float getWidth() { return width; }
+    float getHeight() { return height; }
     float getAspect() { return (float)width / (float)height; }
+    GLFWwindow* getHandle() { return handle; }
 
 private:
     GLFWwindow* handle;

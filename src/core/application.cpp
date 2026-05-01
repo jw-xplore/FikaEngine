@@ -7,6 +7,7 @@
 #include "../renderer/resources/gResourceManager.h"
 #include "../renderer/resources/meshBuilder.h"
 #include "../renderer/resources/meshInstance.h"
+#include "../renderer/camera.h"
 
 MeshInstance* testPlane;
 
@@ -21,14 +22,14 @@ void Application::run()
     glEnable(GL_DEPTH_TEST);
 
     // Temporary cam setup
-    Camera mainCamera;
-    mainCamera.setPerspective(90, window.getAspect(), 0.1f, 100);
-    mainCamera.updateVectors();
+    Camera mainCamera = Camera(window);
+    //mainCamera.setPerspective(90, window.getAspect(), 0.1f, 100);
+    //mainCamera.updateVectors();
 
     float lastTime = 0;
 
     // Test mesh
-    MeshResource planeMesh = MeshBuilder().createQuad(0.5, 0.5).build();
+    MeshResource planeMesh = MeshBuilder().createCube(0.5).build();
     ShaderResource basicShader;
     basicShader.loadShaders("assets/shaders/basic.vert", "assets/shaders/basic.frag");
     basicShader.compile();
@@ -52,11 +53,14 @@ void Application::run()
 
         // Temporary cam controls
         glm::vec2 mouseMove = inputManager.mouseMovement();
-        mainCamera.processMouse(mouseMove.x, mouseMove.y);
+        mainCamera.update(dt);
 
         // temporary clear color
-        glClearColor(0.2f, 0.1f, 0.12f, 1.0f);
+        //glClearColor(0.2f, 0.1f, 0.12f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        mainCamera.update(dt);
+        testPlane->draw(mainCamera.getProjection());
 
         window.swap();
     }

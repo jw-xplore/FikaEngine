@@ -104,10 +104,11 @@ ShaderResource* MeshInstance::setShader(std::string name, ShaderResource* shader
 }
 
 // Draw - Render
-void MeshInstance::draw()
+void MeshInstance::draw(glm::mat4 mvp)
 {
 	shader->use();
 	shader->setUniform("transform", transform);
+	shader->setUniform("MVP", mvp);
 
 	if (mesh->textureRes->texture)
 		glBindTexture(GL_TEXTURE_2D, mesh->textureRes->texture);

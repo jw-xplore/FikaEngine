@@ -1,27 +1,43 @@
 #pragma once
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+
+class Window;
 
 class Camera
 {
 public:
-	void setPerspective(float fov, float aspect, float nearPlane, float farPlane);
+    Camera() {}
+    Camera(Window& window);
+
 	void updateVectors();
 
-	glm::mat4 getViewMatrix() const;
-	glm::mat4 getProjectionMatrix() const;
+    void lookAt(glm::vec3 target);
+    void update(float dt);
+	void processMouse(float dt);
+	void processKeyboard(float dt);
 
-	void processMouse(float dx, float dy);
-	void processKeyboard(float forward, float right, float deltaTime);
+    glm::mat4 getProjection() { return projection; }
 
-	glm::vec3 position{ 0.0f, 1.6f, 3.0f };
+	glm::vec3 position{ 0, 0, -5 };
 
 private:
-    float yaw = -90.0f;
-    float pitch = 0.0f;
+    Window* window;
+
+    float yaw = 90;
+    float pitch = 0;
 
     float speed = 5.0f;
-    float sensitivity = 0.1f;
+    float sensitivity = 10.1f;
 
+    glm::vec3 rotation;
+
+    float fov = 45.0f;
+    float nearPlane = 0.1f;
+    float farPlane = 100.0f;
+
+    glm::vec3 direction = { 0, 0, 1};
     glm::vec3 front{ 0,0,-1 };
     glm::vec3 rightVec{ 1,0,0 };
     glm::vec3 upVec{ 0,1,0 };

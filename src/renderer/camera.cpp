@@ -1,47 +1,81 @@
 #include "camera.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "../platform/window.h";
+#include <iostream>
 
-void Camera::setPerspective(float fov, float aspect, float nearPlane, float farPlane)
+Camera::Camera(Window& window)
 {
-    projection = glm::perspective(glm::radians(fov), aspect, nearPlane, farPlane);
+    this->window = &window;
+    glfwSetCursorPos(window.getHandle(), window.getWidth() * 0.5f, window.getHeight() * 0.5f);
 }
 
-glm::mat4 Camera::getProjectionMatrix() const
+void Camera::lookAt(glm::vec3 target)
 {
-    return projection;
+    glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+    projection = glm::lookAt(position, target, up);
+
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    float ratio = (float)viewport[2] / (float)viewport[3];
+
+    projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane) * projection;
 }
 
-glm::mat4 Camera::getViewMatrix() const
+void Camera::update(float dt)
 {
-    return glm::lookAt(position, position + front, upVec);
+    // Free cam controls
+    processMouse(dt);
+    processKeyboard(dt);
+    updateVectors();
+
+    lookAt(position + direction);
 }
 
 void Camera::updateVectors()
 {
-    glm::vec3 f;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 
-    f.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-    f.y = sin(glm::radians(pitch));
-    f.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-
-    front = glm::normalize(f);
+    front = glm::normalize(direction);
     rightVec = glm::normalize(glm::cross(front, glm::vec3(0, 1, 0)));
     upVec = glm::normalize(glm::cross(rightVec, front));
 }
 
-void Camera::processMouse(float dx, float dy)
+void Camera::processMouse(float dt)
 {
-    yaw += dx * sensitivity;
-    pitch -= dy * sensitivity;
+    double centerX = window->getWidth() * 0.5f, centerY = window->getHeight() * 0.5f;
+    double xpos, ypos;
+    glfwGetCursorPos(window->getHandle(), &xpos, &ypos);
+
+    double changeX = xpos - centerX;
+    double changeY = ypos - centerY;
+
+    //std::cout << "change: " << changeX << ", " << changeY << "\n";
+
+    yaw += changeX * sensitivity * dt;
+    pitch -= changeY * sensitivity * dt;
 
     if (pitch > 89.0f) pitch = 89.0f;
     if (pitch < -89.0f) pitch = -89.0f;
 
-    updateVectors();
+    glfwSetCursorPos(window->getHandle(), centerX, centerY);
 }
 
-void Camera::processKeyboard(float forward, float right, float dt)
+void Camera::processKeyboard(float dt)
 {
+    float forward = 0;
+    if (glfwGetKey(window->getHandle(), GLFW_KEY_W) == GLFW_PRESS)
+        forward = 1;
+    if (glfwGetKey(window->getHandle(), GLFW_KEY_S) == GLFW_PRESS)
+        forward = -1;
+
+    float right = 0;
+    if (glfwGetKey(window->getHandle(), GLFW_KEY_D) == GLFW_PRESS)
+        right = 1;
+    if (glfwGetKey(window->getHandle(), GLFW_KEY_A) == GLFW_PRESS)
+        right = -1;
+
     float velocity = speed * dt;
     position += front * forward * velocity;
     position += rightVec * right * velocity;

@@ -36,5 +36,5 @@ public:
 	TextureResource* getTexture() { return texture; }
 	ShaderResource* gettShader() { return shader; }
 
-	void draw();
+	void draw(glm::mat4 mvp);
 };
