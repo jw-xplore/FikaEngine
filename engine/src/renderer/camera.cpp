@@ -76,7 +76,14 @@ void Camera::processKeyboard(float dt)
     if (glfwGetKey(window->getHandle(), GLFW_KEY_A) == GLFW_PRESS)
         right = -1;
 
+    float up = 0;
+    if (glfwGetKey(window->getHandle(), GLFW_KEY_E) == GLFW_PRESS)
+        up = 1;
+    if (glfwGetKey(window->getHandle(), GLFW_KEY_Q) == GLFW_PRESS)
+        up = -1;
+
     float velocity = speed * dt;
     position += front * forward * velocity;
     position += rightVec * right * velocity;
+    position.y += up * velocity;
 }
