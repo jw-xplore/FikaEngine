@@ -2,6 +2,9 @@
 
 // Core
 #include "core/application.h"
+#include "core/gameobject.h"
+#include "core/component.h"
+#include "core/gameobjectmanager.h"
 
 // Render
 #include "renderer/renderer.h"
