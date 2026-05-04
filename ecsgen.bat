@@ -19,7 +19,10 @@ set TEMPLATE_DIR=engine\templates
 set OUTPUT_DIR=projects\%PROJECT%\src
 
 :: Ensure output directory exists
-if not exist "%OUTPUT_DIR%" mkdir "%OUTPUT_DIR%"
+if not exist "%OUTPUT_DIR%" (echo Target folder "src\" does not exist & exit /b)
+
+if exist "%OUTPUT_DIR%\%NAME%.h" (echo File already exists: src\%NAME%.h & exit /b)
+if exist "%OUTPUT_DIR%\%NAME%.cpp" (echo File already exists: src\%NAME%.cpp & exit /b)
 
 :: Generate header
 powershell.exe -NoProfile -Command "(Get-Content 'engine\templates\ecstemplate.h') -replace '{{NAME}}', '%NAME%' | Set-Content '%OUTPUT_DIR%\%NAME%.h'"
