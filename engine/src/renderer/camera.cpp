@@ -1,7 +1,9 @@
 #include "camera.h"
+#include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include "../platform/window.h";
-#include <iostream>
+#include "../platform/inputs/inputdevices.h"
+#include "../platform/inputs/inputhandler.h"
 
 Camera::Camera(Window& window)
 {

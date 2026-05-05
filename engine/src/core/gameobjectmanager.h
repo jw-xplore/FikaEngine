@@ -9,9 +9,13 @@ struct GameObjectId;
 
 class GameObjectManager
 {
-public:
+private:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;
 
+	int removeGOsCount = 0;
+	std::vector<GameObject*> removeGOs;
+
+public:
 	GameObjectManager();
 	~GameObjectManager() {}
 

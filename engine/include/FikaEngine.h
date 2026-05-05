@@ -14,4 +14,6 @@
 
 // Plaftorm
 #include "platform/window.h"
-#include "platform/input.h"
+#include "platform/inputs/inputdevices.h"
+#include "platform/inputs/inputhandler.h"
+#include "platform/inputs/inputmapping.h"

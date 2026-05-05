@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "inputs/inputhandler.h"
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -35,6 +36,8 @@ bool Window::create(int width, int height, const char* title)
 
     // Enable vsync (prevents tearing)
     glfwSwapInterval(1);
+
+    Input::InputHandler::Init(handle);
 
     return true;
 }

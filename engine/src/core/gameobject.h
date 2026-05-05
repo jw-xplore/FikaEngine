@@ -10,6 +10,9 @@ static unsigned int lastGameObjectId = 0;
 struct GameObjectId
 {
 	unsigned int id = 0;
+
+	inline bool operator==(const GameObjectId& rhs) { return this->id == rhs.id; }
+	inline bool operator!=(const GameObjectId& rhs) { return this->id != rhs.id; }
 };
 
 class GameObject
@@ -23,7 +26,7 @@ public:
 	~GameObject();
 
 	template<typename T>
-	void getComponent()
+	inline void getComponent()
 	{
 		for (auto& comp : components)
 		{
@@ -33,7 +36,7 @@ public:
 	}
 
 	template<typename T>
-	void addComponent()
+	inline void addComponent()
 	{
 		auto component = std::make_unique<T>();
 		T* rawPtr = component.get();
