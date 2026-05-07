@@ -17,21 +17,30 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	void InputHandler::Init(GLFWwindow* window)
+	void InputHandler::init(GLFWwindow* window)
 	{
 		if (hid == nullptr)
 			hid = new HIDState();
 
-		glfwSetKeyCallback(window, OnGLKeyCallback);
-		glfwSetMouseButtonCallback(window, OnGLMousePressCallback);
-		glfwSetCursorPosCallback(window, OnGLMouseMoveCallback);
-		glfwSetScrollCallback(window, OnGLMouseScrollCallback);
+		//glfwSetKeyCallback(window, OnGLKeyCallback);
+		glfwSetMouseButtonCallback(window, onGLMousePressCallback);
+		glfwSetCursorPosCallback(window, onGLMouseMoveCallback);
+		glfwSetScrollCallback(window, onGLMouseScrollCallback);
 	}
 
-	void InputHandler::OnGLKeyCallback(GLFWwindow* win, int key, int scancode, int action, int mods) { HandleKeyEvent(key, scancode, action, mods); }
-	void InputHandler::OnGLMousePressCallback(GLFWwindow* win, int button, int action, int mods) { HandleMousePressEvent(button, action, mods); }
-	void InputHandler::OnGLMouseMoveCallback(GLFWwindow* win, double x, double y) { HandleMouseMoveEvent(x, y); }
-	void InputHandler::OnGLMouseScrollCallback(GLFWwindow* win, double x, double y)
+	void InputHandler::onGLKeyCallback(GLFWwindow* win, int key, int scancode, int action, int mods)
+	{
+		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		{
+			glfwSetWindowShouldClose(win, GLFW_TRUE);
+			return;
+		}
+
+		handleKeyEvent(key, scancode, action, mods);
+	}
+	void InputHandler::onGLMousePressCallback(GLFWwindow* win, int button, int action, int mods) { handleMousePressEvent(button, action, mods); }
+	void InputHandler::onGLMouseMoveCallback(GLFWwindow* win, double x, double y) { handleMouseMoveEvent(x, y); }
+	void InputHandler::onGLMouseScrollCallback(GLFWwindow* win, double x, double y)
 	{
 		hid->mouse.currentYScroll = y;
 	}
@@ -39,7 +48,7 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	void InputHandler::BeginFrame()
+	void InputHandler::beginFrame()
 	{
 		for (int i = 0; i < Key::Code::NumKeyCodes; i++)
 		{
@@ -67,7 +76,7 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	void InputHandler::HandleKeyEvent(int key, int scancode, int action, int mods)
+	void InputHandler::handleKeyEvent(int key, int scancode, int action, int mods)
 	{
 		if (action == GLFW_PRESS)
 		{
@@ -116,7 +125,7 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	void InputHandler::HandleMousePressEvent(int button, int action, int mods)
+	void InputHandler::handleMousePressEvent(int button, int action, int mods)
 	{
 		assert(button < Mouse::Button::NumMouseButtons);
 		if (action == GLFW_PRESS)
@@ -133,7 +142,7 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	void InputHandler::HandleMouseMoveEvent(double x, double y)
+	void InputHandler::handleMouseMoveEvent(double x, double y)
 	{
 		hid->mouse.position = glm::vec2(x, y);
 		hid->mouse.delta = hid->mouse.position - hid->mouse.previousPosition;
@@ -142,7 +151,7 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	Keyboard* GetDefaultKeyboard()
+	Keyboard* getDefaultKeyboard()
 	{
 		assert(hid != nullptr);
 		return &hid->keyboard;
@@ -151,7 +160,7 @@ namespace Input
 	//------------------------------------------------------------------------------
 	/**
 	*/
-	Mouse* GetDefaultMouse()
+	Mouse* getDefaultMouse()
 	{
 		assert(hid != nullptr);
 		return &hid->mouse;

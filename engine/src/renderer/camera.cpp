@@ -9,6 +9,9 @@ Camera::Camera(Window& window)
 {
     this->window = &window;
     glfwSetCursorPos(window.getHandle(), window.getWidth() * 0.5f, window.getHeight() * 0.5f);
+
+    keyboard = Input::getDefaultKeyboard();
+    mouse = Input::getDefaultMouse();
 }
 
 void Camera::lookAt(glm::vec3 target)
@@ -66,25 +69,39 @@ void Camera::processMouse(float dt)
 
 void Camera::processKeyboard(float dt)
 {
+    // Adjust speed
+    if (mouse->currentYScroll > 0 && speed < maxSpeed)
+        speed += speedChange;
+    else if (mouse->currentYScroll < 0 && speed > minSpeed)
+        speed -= speedChange;
+
+    // Forwards - backwards
     float forward = 0;
-    if (glfwGetKey(window->getHandle(), GLFW_KEY_W) == GLFW_PRESS)
+    if (keyboard->held[Input::Key::W])
         forward = 1;
-    if (glfwGetKey(window->getHandle(), GLFW_KEY_S) == GLFW_PRESS)
+    if (keyboard->held[Input::Key::S])
         forward = -1;
 
+    // Sides
     float right = 0;
-    if (glfwGetKey(window->getHandle(), GLFW_KEY_D) == GLFW_PRESS)
+    if (keyboard->held[Input::Key::D])
         right = 1;
-    if (glfwGetKey(window->getHandle(), GLFW_KEY_A) == GLFW_PRESS)
+    if (keyboard->held[Input::Key::A])
         right = -1;
 
+    // Up - Down
     float up = 0;
-    if (glfwGetKey(window->getHandle(), GLFW_KEY_E) == GLFW_PRESS)
+    if (keyboard->held[Input::Key::E])
         up = 1;
-    if (glfwGetKey(window->getHandle(), GLFW_KEY_Q) == GLFW_PRESS)
+    if (keyboard->held[Input::Key::Q])
         up = -1;
 
-    float velocity = speed * dt;
+    // Boost
+    float boost = 1;
+    if (keyboard->held[Input::Key::LeftShift])
+        boost = 3;
+
+    float velocity = speed * dt * boost;
     position += front * forward * velocity;
     position += rightVec * right * velocity;
     position.y += up * velocity;

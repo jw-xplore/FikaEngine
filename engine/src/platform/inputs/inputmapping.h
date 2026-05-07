@@ -12,8 +12,8 @@ enum EInputDevice
 {
 	DeviceKeyboard,
 	DeviceMouse,
-	DeviceGamepadButtons,
-	DeviceGamepadAxes,
+	//DeviceGamepadButtons,
+	//DeviceGamepadAxes,
 	EInputDeviceCount,
 };
 
@@ -21,8 +21,8 @@ constexpr static const char* const DeviceNames[EInputDevice::EInputDeviceCount] 
 {
 	"Keyboard",
 	"Mouse",
-	"Gamepad - Buttons",
-	"Gamepad - Axes",
+	//"Gamepad - Buttons",
+	//"Gamepad - Axes",
 };
 
 enum EInputHandlingType

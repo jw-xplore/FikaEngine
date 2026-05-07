@@ -4,12 +4,6 @@
 #include <iostream>
 #include "inputs/inputhandler.h"
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-}
-
 bool Window::create(int width, int height, const char* title)
 {
     this->width = width;
@@ -37,7 +31,8 @@ bool Window::create(int width, int height, const char* title)
     // Enable vsync (prevents tearing)
     glfwSwapInterval(1);
 
-    Input::InputHandler::Init(handle);
+    glfwSetWindowUserPointer(handle, this);
+    Input::InputHandler::init(handle);
 
     return true;
 }
@@ -45,7 +40,7 @@ bool Window::create(int width, int height, const char* title)
 void Window::poll()
 {
     glfwPollEvents();
-    glfwSetKeyCallback(handle, key_callback);
+    glfwSetKeyCallback(handle, Input::InputHandler::onGLKeyCallback);
 }
 
 void Window::swap()

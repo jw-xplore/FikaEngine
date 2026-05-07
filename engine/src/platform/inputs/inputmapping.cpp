@@ -1,9 +1,11 @@
 #include "inputmapping.h"
+#include "../../core/filemanagement/json.h"
+#include <fstream>
 
 //----------------------------------------------
 // Input types
 //----------------------------------------------
-/*
+
 ButtonInputEvent::ButtonInputEvent(EInputDevice device, int button)
 {
 	inputData.device = device;
@@ -11,19 +13,12 @@ ButtonInputEvent::ButtonInputEvent(EInputDevice device, int button)
 	input.button = button;
 }
 
-bool ButtonInputEvent::IsPressed()
+bool ButtonInputEvent::isPressed()
 {
 	switch (inputData.device)
 	{
-	case EInputDevice::DeviceKeyboard: return Input::GetDefaultKeyboard()->held[input.button];
-	case EInputDevice::DeviceMouse: return Input::GetDefaultMouse()->held[input.button];
-	case EInputDevice::DeviceGamepadButtons: return Input::GetGamepad(0)->buttonHeld[input.button];
-
-		// Gamepad axes
-	case EInputDevice::DeviceGamepadAxes:
-	{
-		return Input::GetGamepad(0)->axesValues[input.button] > 0;
-	}
+	case EInputDevice::DeviceKeyboard: return Input::getDefaultKeyboard()->held[input.button];
+	case EInputDevice::DeviceMouse: return Input::getDefaultMouse()->held[input.button];
 
 	//End
 	}
@@ -31,14 +26,12 @@ bool ButtonInputEvent::IsPressed()
 	return false;
 }
 
-float ButtonInputEvent::InputAxis()
+float ButtonInputEvent::inputAxis()
 {
 	switch (inputData.device)
 	{
-	case EInputDevice::DeviceKeyboard: return Input::GetDefaultKeyboard()->held[input.button];
-	case EInputDevice::DeviceMouse: return Input::GetDefaultMouse()->held[input.button];
-	case EInputDevice::DeviceGamepadButtons: return Input::GetGamepad(0)->buttonHeld[input.button];
-	case EInputDevice::DeviceGamepadAxes: return Input::GetGamepad(0)->axesValues[input.button];
+	case EInputDevice::DeviceKeyboard: return Input::getDefaultKeyboard()->held[input.button];
+	case EInputDevice::DeviceMouse: return Input::getDefaultMouse()->held[input.button];
 	}
 
 	return 0;
@@ -53,25 +46,12 @@ AxisInputEvent::AxisInputEvent(EInputDevice device, int positive, int negative)
 	input.negative = negative;
 }
 
-bool AxisInputEvent::IsPressed()
+bool AxisInputEvent::isPressed()
 {
 	switch (inputData.device)
 	{
-	case DeviceKeyboard: return Input::GetDefaultKeyboard()->held[input.positive] || Input::GetDefaultKeyboard()->held[input.negative];
-	case DeviceMouse: return Input::GetDefaultMouse()->held[input.positive] || Input::GetDefaultMouse()->held[input.negative];
-
-		// Gamepad buttons
-	case EInputDevice::DeviceGamepadButtons:
-	{
-		return Input::GetGamepad(0)->buttonHeld[input.positive] || Input::GetGamepad(0)->buttonHeld[input.negative];
-	}
-
-	// Gamepad axes
-	case EInputDevice::DeviceGamepadAxes:
-	{
-		// Use only positive input
-		return Input::GetGamepad(0)->axesValues[input.positive] != 0;
-	}
+	case DeviceKeyboard: return Input::getDefaultKeyboard()->held[input.positive] || Input::getDefaultKeyboard()->held[input.negative];
+	case DeviceMouse: return Input::getDefaultMouse()->held[input.positive] || Input::getDefaultMouse()->held[input.negative];
 
 	// End
 	}
@@ -86,9 +66,9 @@ float AxisInputEvent::inputAxis()
 
 	case DeviceKeyboard:
 	{
-		if (Input::GetDefaultKeyboard()->held[input.positive])
+		if (Input::getDefaultKeyboard()->held[input.positive])
 			return 1;
-		else if (Input::GetDefaultKeyboard()->held[input.negative])
+		else if (Input::getDefaultKeyboard()->held[input.negative])
 			return -1;
 
 		return 0;
@@ -96,9 +76,9 @@ float AxisInputEvent::inputAxis()
 
 	case DeviceMouse:
 	{
-		if (Input::GetDefaultMouse()->held[input.positive])
+		if (Input::getDefaultMouse()->held[input.positive])
 			return 1;
-		else if (Input::GetDefaultMouse()->held[input.negative])
+		else if (Input::getDefaultMouse()->held[input.negative])
 			return -1;
 
 		return 0;
@@ -118,7 +98,7 @@ InputMapping* InputMapping::instance = new InputMapping();
 
 InputMapping::InputMapping()
 {
-	LoadInputMapping();
+	loadInputMapping();
 }
 
 InputMapping::~InputMapping()
@@ -126,7 +106,7 @@ InputMapping::~InputMapping()
 
 }
 
-void InputSyInputMappingstem::SetDefaultInputMapping()
+void InputMapping::setDefaultInputMapping()
 {
 	actions.clear();
 
@@ -140,15 +120,15 @@ void InputSyInputMappingstem::SetDefaultInputMapping()
 	};
 }
 
-void InputMapping::LoadInputMapping()
+void InputMapping::loadInputMapping()
 {
 	// Read json
 	std::ifstream file(this->filePath);
 	if (!file.is_open())
 	{
 		// Fill with default setting
-		SetDefaultInputMapping();
-		SaveInputMapping();
+		setDefaultInputMapping();
+		saveInputMapping();
 		return;
 	}
 
@@ -187,7 +167,7 @@ void InputMapping::LoadInputMapping()
 
 }
 
-void InputMapping::SaveInputMapping()
+void InputMapping::saveInputMapping()
 {
 	nlohmann::json j;
 
@@ -240,4 +220,3 @@ void InputMapping::SaveInputMapping()
 	file << std::setw(4) << j;
 	file.close();
 }
-*/

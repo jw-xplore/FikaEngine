@@ -5,6 +5,12 @@
 
 class Window;
 
+namespace Input
+{
+    struct Keyboard;
+    struct Mouse;
+}
+
 class Camera
 {
 public:
@@ -24,11 +30,14 @@ public:
 
 private:
     Window* window;
+    Input::Keyboard* keyboard;
+    Input::Mouse* mouse;
 
     float yaw = 90;
     float pitch = 0;
 
     float speed = 5.0f;
+    float minSpeed = 1.0f, maxSpeed = 20.0f, speedChange = 1.0f;
     float sensitivity = 10.1f;
 
     glm::vec3 rotation;

@@ -6,6 +6,8 @@
 #include "../renderer/resources/gResourceManager.h"
 #include "../renderer/resources/meshBuilder.h"
 #include "../renderer/resources/meshInstance.h"
+#include "../platform/inputs/inputhandler.h"
+
 MeshInstance* testPlane;
 
 void Application::run()
@@ -40,6 +42,8 @@ void Application::run()
     // Game loop
     while (!window.shouldClose())
     {
+        Input::InputHandler::beginFrame();
+
         float now = glfwGetTime();
         float dt = now - lastTime;
            lastTime = now;
