@@ -7,46 +7,45 @@ class PoolAllocator
 {
 public:
 	T* buffer;
-	//size_t size;
+	
 	size_t elementSize;
-	size_t elementsCount;
-
-	size_t usedCount = 0;
+	size_t reserved;
+	size_t used = 0;
 	T** handles;
 
 	PoolAllocator(size_t count)
 	{
-		usedCount = 0;
-		elementsCount = count;
+		used = 0;
+		reserved = count;
 		elementSize = sizeof(T);
 
-		//size = elementsCount * elementSize;
-		buffer = new T[elementsCount];
-		handles = new T * [elementsCount];
+		//size = reserved * elementSize;
+		buffer = new T[reserved];
+		handles = new T * [reserved];
 
-		for (size_t i = 0; i < elementsCount; i++)
+		for (size_t i = 0; i < reserved; i++)
 		{
 			T* element = buffer + i;
 			handles[i] = element;
 		}
 	}
 
-	T* Allocate()
+	T* allocate()
 	{
-		if (usedCount >= elementsCount)
+		if (used >= reserved)
 			return nullptr;
 
-		T* pos = handles[usedCount];
-		usedCount++;
+		T* pos = handles[used];
+		used++;
 
 		return pos;
 	}
 
-	void Remove(T* element)
+	void remove(T* element)
 	{
 		// Find element
 		int pos = -1;
-		for (size_t i = 0; i < elementsCount; i++)
+		for (size_t i = 0; i < reserved; i++)
 		{
 			if (handles[i] == element)
 			{
@@ -59,13 +58,13 @@ public:
 			return;
 
 		// Decrease used and switch element position
-		usedCount--;
+		used--;
 
-		if (pos < usedCount)
+		if (pos < used)
 		{
 			T* temp = handles[pos];
-			handles[pos] = handles[usedCount];
-			handles[usedCount] = temp;
+			handles[pos] = handles[used];
+			handles[used] = temp;
 		}
 	}
 

@@ -32,6 +32,10 @@ public:
 	ShaderResource* setShader(std::string name);
 	ShaderResource* setShader(std::string name, ShaderResource* shader);
 
+	void setMesh(MeshResource* mesh) { this->mesh = mesh; }
+	void setTexture(TextureResource* texture) { this->texture = texture; }
+	void setShader(ShaderResource* shader) { this->shader = shader; }
+
 	MeshResource* getMesh() { return mesh; }
 	TextureResource* getTexture() { return texture; }
 	ShaderResource* gettShader() { return shader; }

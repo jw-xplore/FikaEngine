@@ -3,10 +3,12 @@
 #include <GLFW/glfw3.h>
 #include "../platform/window.h";
 #include "../renderer/camera.h"
+#include "../renderer/renderer.h"
 #include "../renderer/resources/gResourceManager.h"
 #include "../renderer/resources/meshBuilder.h"
 #include "../renderer/resources/meshInstance.h"
 #include "../platform/inputs/inputhandler.h"
+#include <glm/ext/matrix_transform.hpp>
 
 MeshInstance* testPlane;
 
@@ -33,9 +35,13 @@ void Application::run()
     basicShader.loadShaders("assets/shaders/basic.vert", "assets/shaders/basic.frag");
     basicShader.compile();
 
-    testPlane = new MeshInstance();
-    testPlane->setMesh("plane", &planeMesh);
-    testPlane->setShader("basic", &basicShader);
+    //testPlane = new MeshInstance();
+    //testPlane->setMesh("plane", &planeMesh);
+    //testPlane->setShader("basic", &basicShader);
+
+    Renderer::addMeshInstance(planeMesh, basicShader);
+    MeshInstance* mi1 = Renderer::addMeshInstance(planeMesh, basicShader);
+    mi1->transform = glm::translate(mi1->transform, glm::vec3(0,1,0));
 
     char title[64];
 
@@ -56,7 +62,8 @@ void Application::run()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mainCamera.update(dt);
-        testPlane->draw(mainCamera.getProjection());
+        Renderer::render(mainCamera.getProjection());
+        //testPlane->draw(mainCamera.getProjection());
 
         window.swap();
     }

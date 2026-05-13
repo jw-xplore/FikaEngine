@@ -1,10 +1,18 @@
-#ifndef _RENDERER_H
-#define _RENDERER_H
+#pragma once
+#include <vector>
+#include <glm/glm.hpp>
+
+class MeshResource;
+class ShaderResource;
+class MeshInstance;
 
 namespace Renderer
 {
-	void init(int w, int h);
-	void clear();
-}
+	const int MAX_MESHES = 256;
 
-#endif
+	void init(int w, int h);
+	void render(glm::mat4 mvp);
+	void clear();
+
+	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader);
+}
