@@ -3,14 +3,26 @@
 #include <GLFW/glfw3.h>
 #include <FikaEngine.h>
 
-static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+MeshInstance cube0;
+MeshInstance cube1;
+
+void start()
 {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
+    ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+
+    Renderer::addMeshInstance(cubeMesh, basicShader);
+    MeshInstance* mi1 = Renderer::addMeshInstance(cubeMesh, basicShader);
+    mi1->transform = glm::translate(mi1->transform, glm::vec3(0, 1, 0));
+}
+
+void update(float dt)
+{
+    return;
 }
 
 int main()
 {
-    Application app;
+    Application app(start, update);
     app.run();
 }

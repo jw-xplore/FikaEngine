@@ -10,40 +10,44 @@
 #include "../platform/inputs/inputhandler.h"
 #include <glm/ext/matrix_transform.hpp>
 
-MeshInstance* testPlane;
+MeshResource cubeMesh;
+ShaderResource basicShader;
+
+Application::Application(void (*startFnc)(), void (*updateFnc)(float))
+{
+    this->startFnc = startFnc;
+    this->updateFnc = updateFnc;
+}
+
+Application::~Application()
+{
+
+}
+
+void Application::setup()
+{
+    cubeMesh = MeshBuilder().createCube(0.5).build();
+    GResourceManager::storeMesh("cube", cubeMesh);
+
+    basicShader = ShaderResource("assets/shaders/basic.vert", "assets/shaders/basic.frag");
+    GResourceManager::storeShader("basic", basicShader);
+}
 
 void Application::run()
 {
 	Window window;
-    //InputManager inputManager;
+    float lastTime = 0;
+    char title[64];
 
     if (!window.create(1280, 720, "Fika Engine"))
         return;
 
+    setup();
     glEnable(GL_DEPTH_TEST);
 
-    // Temporary cam setup
     Camera mainCamera = Camera(window);
-    //mainCamera.setPerspective(90, window.getAspect(), 0.1f, 100);
-    //mainCamera.updateVectors();
 
-    float lastTime = 0;
-
-    // Test mesh
-    MeshResource planeMesh = MeshBuilder().createCube(0.5).build();
-    ShaderResource basicShader;
-    basicShader.loadShaders("assets/shaders/basic.vert", "assets/shaders/basic.frag");
-    basicShader.compile();
-
-    //testPlane = new MeshInstance();
-    //testPlane->setMesh("plane", &planeMesh);
-    //testPlane->setShader("basic", &basicShader);
-
-    Renderer::addMeshInstance(planeMesh, basicShader);
-    MeshInstance* mi1 = Renderer::addMeshInstance(planeMesh, basicShader);
-    mi1->transform = glm::translate(mi1->transform, glm::vec3(0,1,0));
-
-    char title[64];
+    startFnc();
 
     // Game loop
     while (!window.shouldClose())
@@ -61,9 +65,10 @@ void Application::run()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        // Base game update
         mainCamera.update(dt);
         Renderer::render(mainCamera.getProjection());
-        //testPlane->draw(mainCamera.getProjection());
+        updateFnc(dt);
 
         window.swap();
     }

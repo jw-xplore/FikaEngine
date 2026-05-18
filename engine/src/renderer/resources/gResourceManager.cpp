@@ -16,7 +16,7 @@ void MeshResource::cleanup()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 	glDeleteVertexArrays(1, &VOA);
-	delete textureRes;
+	//delete textureRes;
 }
 
 //------------------------------------------------------------------------------
@@ -24,6 +24,12 @@ void MeshResource::cleanup()
 //------------------------------------------------------------------------------
 
 #define STRING_BUFFER_SIZE 8192
+
+ShaderResource::ShaderResource(const char* vpath, const char* fpath)
+{
+	loadShaders(vpath, fpath);
+	compile();
+}
 
 void ShaderResource::loadShader(const char* path, GLchar*& buffer)
 {
@@ -210,12 +216,78 @@ void TextureResource::activateTexture(unsigned int* texture)
 // Resource manager
 //------------------------------------------------------------------------------
 
-GResourceManager* GResourceManager::instance = new GResourceManager();
-
-void GResourceManager::reloadShaders()
+namespace GResourceManager
 {
-	for (auto shader : shaders)
+	std::vector<MeshResource> meshes;
+	std::vector<TextureResource> textures;
+	std::vector<ShaderResource> shaders;
+
+	std::map<std::string, int> meshHandles;
+	std::map<std::string, int> textureHandles;
+	std::map<std::string, int> shaderHandles;
+
+	int storeMesh(std::string name, MeshResource& mesh)
 	{
-		shader.second->reload();
+		meshes.push_back(mesh);
+		return meshes.size() - 1;
+	}
+
+	int storeTexture(std::string name, TextureResource& texture)
+	{
+		textures.push_back(texture);
+		return textures.size() - 1;
+	}
+
+	int storeShader(std::string name, ShaderResource& shader)
+	{
+		shaders.push_back(shader);
+		return shaders.size() - 1;
+	}
+
+	int meshHandle(std::string name)
+	{
+		if (meshHandles.find(name) != meshHandles.end())
+			return -1;
+
+		return meshHandles[name];
+	}
+
+	int textureHandle(std::string name)
+	{
+		if (textureHandles.find(name) != textureHandles.end())
+			return -1;
+
+		return textureHandles[name];
+	}
+
+	int shaderHandle(std::string name)
+	{
+		if (shaderHandles.find(name) != shaderHandles.end())
+			return -1;
+
+		return shaderHandles[name];
+	}
+
+	MeshResource& getMesh(int handle)
+	{
+		return meshes[handle];
+	}
+
+	TextureResource& getTexture(int handle)
+	{
+		return textures[handle];
+	}
+
+	ShaderResource& getShader(int handle)
+	{
+		return shaders[handle];
+	}
+
+	void reloadShaders()
+	{
+		for (auto shader : shaders)
+		{
+			shader.reload();
+		}
 	}
 }

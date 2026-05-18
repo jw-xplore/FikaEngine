@@ -17,3 +17,7 @@
 #include "platform/inputs/inputdevices.h"
 #include "platform/inputs/inputhandler.h"
 #include "platform/inputs/inputmapping.h"
+
+// External
+#include <glm/glm.hpp>
+#include <glm/ext/matrix_transform.hpp>

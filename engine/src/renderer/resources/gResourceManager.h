@@ -49,6 +49,7 @@ public:
 	std::string compilerLog;
 
 	ShaderResource() {}
+	ShaderResource(const char* vpath, const char* fpath);
 
 	void loadShader(const char* path, GLchar*& buffer);
 	void loadShaders(const char* vpath, const char* fpath);
@@ -107,25 +108,19 @@ public:
 // Resource manager
 //------------------------------------------------------------------------------
 
-class GResourceManager
+namespace GResourceManager
 {
-private:
-	static GResourceManager* instance;
+	int storeMesh(std::string name, MeshResource& mesh);
+	int storeTexture(std::string name, TextureResource& texture);
+	int storeShader(std::string name, ShaderResource& shader);
 
-public:
-	std::map<std::string, MeshResource*> meshes;
-	std::map<std::string, TextureResource*> textures;
-	std::map<std::string, ShaderResource*> shaders;
+	int meshHandle(std::string name);
+	int textureHandle(std::string name);
+	int shaderHandle(std::string name);
 
-	static GResourceManager* getInstance()
-	{
-		if (!instance)
-			instance = new GResourceManager();
-
-		return instance;
-	}
-
-	GResourceManager() {}
+	MeshResource& getMesh(int handle);
+	TextureResource& getTexture(int handle);
+	ShaderResource& getShader(int handle);
 
 	void reloadShaders();
 };
