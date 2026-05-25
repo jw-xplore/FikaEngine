@@ -12,8 +12,8 @@ void start()
     ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
     Renderer::addMeshInstance(cubeMesh, basicShader);
-    MeshInstance* mi1 = Renderer::addMeshInstance(cubeMesh, basicShader);
-    mi1->transform = glm::translate(mi1->transform, glm::vec3(0, 1, 0));
+    //MeshInstance* mi1 = Renderer::addMeshInstance(cubeMesh, basicShader);
+    //mi1->transform = glm::translate(mi1->transform, glm::vec3(0, 1, 0));
 }
 
 void update(float dt)

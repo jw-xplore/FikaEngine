@@ -12,11 +12,11 @@ namespace Renderer
 
 	void render(glm::mat4 mvp);
 
-	/// <summary>
-	/// Create new mesh instance into render pool. Mesh instance will be automatically rendered each frame.
-	/// </summary>
-	/// <param name="meshRes">Model mesh used for the instance.</param>
-	/// <param name="shader">Shader used for the instance/</param>
-	/// <returns>New created mesh instanced</returns>
+	/**
+	 * @brief Create new mesh instance into render pool. Mesh instance will be automatically rendered each frame.
+	 * @param meshRes Model mesh used for the instance.
+	 * @param shader Shader used for the instance
+	 * @return New created mesh instanced
+	 */
 	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader);
 }

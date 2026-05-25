@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 
-/* FikaEngine
+/** FikaEngine
 * This header gives access to full functionality of the engine.
 */
 
@@ -35,16 +35,15 @@ Includes
 Engine
 */
 
-/// <summary>
-/// Main engine namespace.
-/// Call run to initiate engine and game loop in your project.
-/// </summary>
+/**
+ * @brief Main engine namespace - Call run to initiate engine and game loop in your project.
+ */
 namespace FikaEngine
 {
-	/// <summary>
-	/// Create window, initialize engine and run game loop
-	/// </summary>
-	/// <param name="startFnc">Function for setting up custom project. Is called right before first game loop update.</param>
-	/// <param name="updateFnc">Function for custom update. Is called every frame before render.</param>
+	/**
+	 * @brief Create window, initialize engine and run game loop.
+	 * @param startFnc Function for setting up custom project. Is called right before first game loop update.
+	 * @param updateFnc Function for custom update. Is called every frame before render.
+	 */
 	void run(void (*startFnc)(), void (*updateFnc)(float));
 }

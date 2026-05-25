@@ -8,30 +8,30 @@ MeshBuilder::MeshBuilder()
 	texturePath = "";
 }
 
-MeshResource& MeshBuilder::build()
+void MeshBuilder::build(MeshResource& resource)
 {
-	MeshResource* resource = new MeshResource();
+	//MeshResource resource = MeshResource();
 
-	glGenVertexArrays(1, &resource->VOA);
-	glBindVertexArray(resource->VOA);
+	glGenVertexArrays(1, &resource.VOA);
+	glBindVertexArray(resource.VOA);
 
 	// Vertices
-	glGenBuffers(1, &resource->VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, resource->VBO);
+	glGenBuffers(1, &resource.VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, resource.VBO);
 	int size = sizeof(VertexAttributes) * vertexBuffer.size();
 	glBufferData(GL_ARRAY_BUFFER, size, vertexBuffer.data(), GL_STATIC_DRAW);
 
 	// Elements
-	glGenBuffers(1, &resource->EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource->EBO);
+	glGenBuffers(1, &resource.EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.EBO);
 	size = sizeof(int) * indices.size();
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices.data(), GL_STATIC_DRAW);
 
 	// Texture
 	if (texturePath && texturePath != "" && strlen(texturePath) != 0)
 	{
-		resource->textureRes = new TextureResource();
-		resource->textureRes->loadTexture(texturePath);
+		resource.textureRes = new TextureResource();
+		resource.textureRes->loadTexture(texturePath);
 	}
 
 	// Attributes
@@ -52,13 +52,13 @@ MeshResource& MeshBuilder::build()
 	offset += 2;
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(VertexAttributes), (GLvoid*)(sizeof(GLfloat) * offset));
 
-	resource->indicesCount = indices.size();
+	resource.indicesCount = indices.size();
 
 	vertexBuffer.clear();
 	indices.clear();
 	texturePath = "";
 
-	return *resource;
+	//return resource;
 }
 
 MeshBuilder& MeshBuilder::addVertices(glm::vec3 position, glm::vec4 color, glm::vec2 uv = glm::vec2(0, 0), glm::vec3 normal = glm::vec3(0, 0, 0))

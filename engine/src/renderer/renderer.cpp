@@ -15,7 +15,8 @@ namespace Renderer
 	{
 		for (size_t i = 0; i < meshes.used; i++)
 		{
-			meshes.at(i).draw(mvp);
+			MeshInstance mesh = meshes.at(i);
+			mesh.draw(mvp);
 		}
 	}
 

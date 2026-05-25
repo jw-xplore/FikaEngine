@@ -2,19 +2,15 @@
 
 namespace FikaEngine
 {
-	// TODO: Make possible to remove these
-	MeshResource cubeMesh;
-	ShaderResource basicShader;
-
-	/// <summary>
-	/// Load in all default resources like cube meshes, basic shaders, engine data, etc. 
-	/// </summary>
-	void setup()
+    /**
+     * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
+     */
+    void setup()
 	{
-		cubeMesh = MeshBuilder().createCube(0.5).build();
-		GResourceManager::storeMesh("cube", cubeMesh);
+        MeshResource& cubeMesh = GResourceManager::reserveMesh("cube");
+        MeshBuilder().createCube(0.5).build(cubeMesh);
 
-		basicShader = ShaderResource("assets/shaders/basic.vert", "assets/shaders/basic.frag");
+        ShaderResource basicShader = ShaderResource("assets/shaders/basic.vert", "assets/shaders/basic.frag");
 		GResourceManager::storeShader("basic", basicShader);
 	}
 

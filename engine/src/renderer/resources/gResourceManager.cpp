@@ -260,27 +260,45 @@ namespace GResourceManager
 	std::map<std::string, int> textureHandles;
 	std::map<std::string, int> shaderHandles;
 
+	MeshResource& reserveMesh(std::string name)
+	{
+		meshes.push_back(MeshResource());
+		int id = meshes.size() - 1;
+		meshHandles[name] = id;
+
+		return meshes[id];
+	}
+
 	int storeMesh(std::string name, MeshResource& mesh)
 	{
 		meshes.push_back(mesh);
-		return meshes.size() - 1;
+		int id = meshes.size() - 1;
+		meshHandles[name] = id;
+
+		return id;
 	}
 
 	int storeTexture(std::string name, TextureResource& texture)
 	{
 		textures.push_back(texture);
-		return textures.size() - 1;
+		int id = textures.size() - 1;
+		textureHandles[name] = id;
+
+		return id;
 	}
 
 	int storeShader(std::string name, ShaderResource& shader)
 	{
 		shaders.push_back(shader);
-		return shaders.size() - 1;
+		int id = shaders.size() - 1;
+		shaderHandles[name] = id;
+
+		return id;
 	}
 
 	int meshHandle(std::string name)
 	{
-		if (meshHandles.find(name) != meshHandles.end())
+		if (!meshHandles.contains(name))
 			return -1;
 
 		return meshHandles[name];
@@ -288,7 +306,7 @@ namespace GResourceManager
 
 	int textureHandle(std::string name)
 	{
-		if (textureHandles.find(name) != textureHandles.end())
+		if (!textureHandles.contains(name))
 			return -1;
 
 		return textureHandles[name];
@@ -296,7 +314,7 @@ namespace GResourceManager
 
 	int shaderHandle(std::string name)
 	{
-		if (shaderHandles.find(name) != shaderHandles.end())
+		if (!shaderHandles.contains(name))
 			return -1;
 
 		return shaderHandles[name];
