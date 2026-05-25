@@ -23,6 +23,5 @@ void update(float dt)
 
 int main()
 {
-    Application app(start, update);
-    app.run();
+    FikaEngine::run(start, update);
 }
