@@ -1,7 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <FikaEngine.h>
+#include <fikaEngine.h>
 
 MeshInstance cube0;
 MeshInstance cube1;

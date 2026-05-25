@@ -1,4 +1,9 @@
 #pragma once
+#include <functional>
+
+/*
+Includes
+*/
 
 // Core
 #include "core/application.h"
@@ -21,3 +26,17 @@
 // External
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
+
+/*
+Engine
+*/
+
+/// <summary>
+/// Main engine namespace
+/// Call run to run engine game loop in your project
+/// </summary>
+namespace FikaEngine
+{
+	//void init();
+	void run();
+}
