@@ -6,6 +6,19 @@
 // Mesh resource
 //------------------------------------------------------------------------------
 
+MeshResource::MeshResource()
+{
+}
+
+MeshResource::MeshResource(const MeshResource& meshRes)
+{
+	VOA = meshRes.VOA;
+	VBO = meshRes.VBO;
+	EBO = meshRes.EBO;
+	indicesCount = meshRes.indicesCount;
+	textureRes = meshRes.textureRes;
+}
+
 MeshResource::~MeshResource()
 {
 	cleanup();
@@ -24,6 +37,25 @@ void MeshResource::cleanup()
 //------------------------------------------------------------------------------
 
 #define STRING_BUFFER_SIZE 8192
+
+ShaderResource::ShaderResource()
+{
+}
+
+ShaderResource::ShaderResource(const ShaderResource& shaderRes)
+{
+	vertexBuffer = shaderRes.vertexBuffer;
+	fragmentBuffer = shaderRes.fragmentBuffer;
+
+	lastVpath = shaderRes.lastVpath;
+	lastFpath = shaderRes.lastFpath;
+
+	program = shaderRes.program;
+	vertexShader = shaderRes.vertexShader;
+	pixelShader = shaderRes.pixelShader;
+
+	compilerLog = shaderRes.compilerLog;
+}
 
 ShaderResource::ShaderResource(const char* vpath, const char* fpath)
 {
@@ -73,7 +105,7 @@ void ShaderResource::loadShaders(const char* vpath, const char* fpath)
 	loadShader(fpath, fragmentBuffer);
 }
 
-void ShaderResource::compile()
+ShaderResource& ShaderResource::compile()
 {
 	// check if shader already exists
 	if (this->program)
@@ -144,6 +176,8 @@ void ShaderResource::compile()
 		printf("[PROGRAM LINK ERROR]: %s", buf);
 		delete[] buf;
 	}
+
+	return *this;
 }
 
 void ShaderResource::reload()

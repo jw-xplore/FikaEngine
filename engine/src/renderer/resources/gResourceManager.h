@@ -24,6 +24,8 @@ public:
 	int indicesCount;
 	TextureResource* textureRes;
 
+	MeshResource();
+	MeshResource(const MeshResource& meshRes);
 	~MeshResource();
 
 	void cleanup();
@@ -48,12 +50,13 @@ public:
 
 	std::string compilerLog;
 
-	ShaderResource() {}
+	ShaderResource();
+	ShaderResource(const ShaderResource& shaderRes);
 	ShaderResource(const char* vpath, const char* fpath);
 
 	void loadShader(const char* path, GLchar*& buffer);
 	void loadShaders(const char* vpath, const char* fpath);
-	void compile();
+	ShaderResource& compile();
 	void reload();
 	void use();
 

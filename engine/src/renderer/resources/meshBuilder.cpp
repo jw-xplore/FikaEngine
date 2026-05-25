@@ -28,7 +28,7 @@ MeshResource& MeshBuilder::build()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices.data(), GL_STATIC_DRAW);
 
 	// Texture
-	if (texturePath && texturePath != "")
+	if (texturePath && texturePath != "" && strlen(texturePath) != 0)
 	{
 		resource->textureRes = new TextureResource();
 		resource->textureRes->loadTexture(texturePath);
