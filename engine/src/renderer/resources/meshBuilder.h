@@ -37,7 +37,7 @@ public:
 	MeshBuilder& addTriangles(unsigned int v0, unsigned int v1, unsigned int v2);
 	MeshBuilder& setTexturePath(const char* path);
 
-	//MeshBuilder& loadMesh(const char* path);
+	MeshBuilder& loadMesh(const char* path);
 	MeshBuilder& createQuad(float width, float height);
 	MeshBuilder& createCube(float size);
 };

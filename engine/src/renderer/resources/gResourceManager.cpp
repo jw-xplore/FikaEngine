@@ -260,13 +260,13 @@ namespace GResourceManager
 	std::map<std::string, int> textureHandles;
 	std::map<std::string, int> shaderHandles;
 
-	MeshResource& reserveMesh(std::string name)
+	MeshResource* reserveMesh(std::string name)
 	{
 		meshes.push_back(MeshResource());
 		int id = meshes.size() - 1;
 		meshHandles[name] = id;
 
-		return meshes[id];
+		return &meshes[id];
 	}
 
 	int storeMesh(std::string name, MeshResource& mesh)
@@ -335,11 +335,24 @@ namespace GResourceManager
 		return shaders[handle];
 	}
 
+	void init()
+	{
+		// TODO: Add safety for resources changing address due to pushing over reserved count
+		meshes.reserve(128);
+		textures.reserve(128);
+		shaders.reserve(128);
+	}
+
 	void reloadShaders()
 	{
 		for (auto shader : shaders)
 		{
 			shader.reload();
 		}
+	}
+
+	void debugPrint()
+	{
+		std::cout << "Meshes: " << &meshes[0] << "\n";
 	}
 }

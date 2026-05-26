@@ -12,10 +12,17 @@ target_link_libraries(${APP_NAME}
     FikaEngine
 )
 
-# Copy assets (project-specific or shared)
+# Copy engine shared assets
 add_custom_command(TARGET ${APP_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             ${CMAKE_SOURCE_DIR}/assets
+            $<TARGET_FILE_DIR:${APP_NAME}>/assets/common
+)
+
+# Copy project assets
+add_custom_command(TARGET ${APP_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_SOURCE_DIR}/projects/${APP_NAME}/assets
             $<TARGET_FILE_DIR:${APP_NAME}>/assets
 )
 

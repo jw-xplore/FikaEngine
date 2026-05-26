@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "gResourceManager.h"
+#include "core/filemanagement/objparser.h"
 
 MeshBuilder::MeshBuilder()
 {
@@ -10,8 +11,6 @@ MeshBuilder::MeshBuilder()
 
 void MeshBuilder::build(MeshResource& resource)
 {
-	//MeshResource resource = MeshResource();
-
 	glGenVertexArrays(1, &resource.VOA);
 	glBindVertexArray(resource.VOA);
 
@@ -57,8 +56,6 @@ void MeshBuilder::build(MeshResource& resource)
 	vertexBuffer.clear();
 	indices.clear();
 	texturePath = "";
-
-	//return resource;
 }
 
 MeshBuilder& MeshBuilder::addVertices(glm::vec3 position, glm::vec4 color, glm::vec2 uv = glm::vec2(0, 0), glm::vec3 normal = glm::vec3(0, 0, 0))
@@ -93,6 +90,12 @@ MeshBuilder& MeshBuilder::addTriangles(unsigned int v0, unsigned int v1, unsigne
 MeshBuilder& MeshBuilder::setTexturePath(const char* path)
 {
 	texturePath = path;
+	return *this;
+}
+
+MeshBuilder& MeshBuilder::loadMesh(const char* path)
+{
+	OBJParser::readFile(path, *this);
 	return *this;
 }
 

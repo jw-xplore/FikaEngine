@@ -8,16 +8,24 @@ MeshInstance cube1;
 
 void start()
 {
-    MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
+    MeshResource* cubeMesh = &GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
     ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
-    Renderer::addMeshInstance(cubeMesh, basicShader);
-    //MeshInstance* mi1 = Renderer::addMeshInstance(cubeMesh, basicShader);
-    //mi1->transform = glm::translate(mi1->transform, glm::vec3(0, 1, 0));
+    //Renderer::addMeshInstance(*cubeMesh, basicShader);
+    GResourceManager::debugPrint();
+    
+    // TODO: Fix storing and using of multiple mesh resources
+    MeshResource* customMesh = GResourceManager::reserveMesh("custom1");
+    GResourceManager::debugPrint();
+    MeshBuilder().loadMesh("assets/models/testcharacter.obj").build(*customMesh);
+
+    Renderer::addMeshInstance(*customMesh, basicShader);
+    //Renderer::addMeshInstance(*cubeMesh, basicShader);
 }
 
 void update(float dt)
 {
+    //GResourceManager::debugPrint();
     return;
 }
 

@@ -7,10 +7,12 @@ namespace FikaEngine
      */
     void setup()
 	{
-        MeshResource& cubeMesh = GResourceManager::reserveMesh("cube");
-        MeshBuilder().createCube(0.5).build(cubeMesh);
+        GResourceManager::init();
 
-        ShaderResource basicShader = ShaderResource("assets/shaders/basic.vert", "assets/shaders/basic.frag");
+        MeshResource* cubeMesh = GResourceManager::reserveMesh("cube");
+        MeshBuilder().createCube(0.5).build(*cubeMesh);
+
+        ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
 		GResourceManager::storeShader("basic", basicShader);
 	}
 

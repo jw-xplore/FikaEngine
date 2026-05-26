@@ -113,7 +113,7 @@ public:
 
 namespace GResourceManager
 {
-	MeshResource& reserveMesh(std::string name);
+	MeshResource* reserveMesh(std::string name);
 	int storeMesh(std::string name, MeshResource& mesh);
 	int storeTexture(std::string name, TextureResource& texture);
 	int storeShader(std::string name, ShaderResource& shader);
@@ -126,5 +126,7 @@ namespace GResourceManager
 	TextureResource& getTexture(int handle);
 	ShaderResource& getShader(int handle);
 
+	void init();
 	void reloadShaders();
+	void debugPrint();
 };

@@ -5,6 +5,7 @@
 #include "resources/meshBuilder.h"
 #include "resources/meshInstance.h"
 #include "../core/memory.h"
+#include <iostream>
 
 namespace Renderer
 {
@@ -23,6 +24,7 @@ namespace Renderer
 	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader)
 	{
 		MeshInstance* mesh = meshes.allocate();
+		//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 		mesh->setMesh(&meshRes);
 		mesh->setShader(&shader);
 
