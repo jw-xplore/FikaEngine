@@ -19,7 +19,8 @@ Includes
 #include "renderer/resources/gResourceManager.h"
 #include "renderer/resources/meshInstance.h"
 #include "renderer/resources/meshBuilder.h"
-#include "renderer/camera.h"
+#include "renderer/camera/cameraManager.h"
+#include "renderer/camera/camera.h"
 
 // Plaftorm
 #include "platform/window.h"

@@ -1,9 +1,9 @@
 #include "camera.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
-#include "../platform/window.h";
-#include "../platform/inputs/inputdevices.h"
-#include "../platform/inputs/inputhandler.h"
+#include "../../platform/window.h";
+#include "../../platform/inputs/inputdevices.h"
+#include "../../platform/inputs/inputhandler.h"
 
 Camera::Camera(Window& window)
 {
@@ -26,13 +26,20 @@ void Camera::lookAt(glm::vec3 target)
     projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane) * projection;
 }
 
-void Camera::update(float dt)
+void Camera::update(float dt, glm::vec3 position, glm::vec3 direction)
+{
+    this->position = position;
+    this->direction = direction;
+    updateVectors();
+    lookAt(position + direction);
+}
+
+void Camera::flycamUpdate(float dt)
 {
     // Free cam controls
     processMouse(dt);
     processKeyboard(dt);
     updateVectors();
-
     lookAt(position + direction);
 }
 

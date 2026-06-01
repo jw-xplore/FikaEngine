@@ -19,8 +19,8 @@ public:
 	GameObjectManager();
 	~GameObjectManager() {}
 
-	void Update(float dt);
-	GameObject* AddGameObject();
-	void RemoveGameObject(GameObject* gameObject);
-	GameObject* FindById(GameObjectId id);
+	void update(float dt);
+	GameObject* addGameObject();
+	void removeGameObject(GameObject* gameObject);
+	GameObject* findById(GameObjectId id);
 };

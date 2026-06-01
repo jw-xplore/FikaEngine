@@ -28,7 +28,9 @@ namespace FikaEngine
         setup();
         glEnable(GL_DEPTH_TEST);
 
-        Camera mainCamera = Camera(window);
+        //Camera mainCamera = Camera(window);
+        Camera* mainCamera = CameraManager::getMainCamera();
+        mainCamera->update(0, glm::vec3(0), glm::vec3(0, 0, 1));
 
         // Custom user start and setup
         startFnc();
@@ -55,8 +57,8 @@ namespace FikaEngine
             updateFnc(dt);
 
             // Base game update
-            mainCamera.update(dt);
-            Renderer::render(mainCamera.getProjection());
+            //mainCamera.update(dt);
+            Renderer::render(mainCamera->getProjection());
 
             window.swap();
         }

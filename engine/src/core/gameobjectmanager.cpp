@@ -8,14 +8,14 @@ GameObjectManager::GameObjectManager()
 	removeGOs.reserve(16);
 }
 
-void GameObjectManager::Update(float dt)
+void GameObjectManager::update(float dt)
 {
 	// Update
 	for (auto& go : gameObjects)
 	{
 		for (auto& comp : go->getComponents())
 		{
-			comp->Update(dt);
+			comp->update(dt);
 		}
 	}
 
@@ -39,18 +39,18 @@ void GameObjectManager::Update(float dt)
 	}
 }
 
-GameObject* GameObjectManager::AddGameObject()
+GameObject* GameObjectManager::addGameObject()
 {
 	return nullptr;
 }
 
-void GameObjectManager::RemoveGameObject(GameObject* gameObject)
+void GameObjectManager::removeGameObject(GameObject* gameObject)
 {
 	removeGOs.push_back(gameObject);
 	removeGOsCount++;
 }
 
-GameObject* GameObjectManager::FindById(GameObjectId id)
+GameObject* GameObjectManager::findById(GameObjectId id)
 {
 	for (auto& go : gameObjects)
 	{

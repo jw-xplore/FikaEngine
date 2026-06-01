@@ -10,7 +10,7 @@ public:
 	Component() {}
 	virtual ~Component() {}
 
-	virtual void Start() {}
-	virtual void Update(float dt) {}
-	virtual void Deallocate() {};
+	virtual void start() {}
+	virtual void update(float dt) {}
+	virtual void deallocate() {};
 };

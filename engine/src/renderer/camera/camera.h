@@ -20,7 +20,8 @@ public:
 	void updateVectors();
 
     void lookAt(glm::vec3 target);
-    void update(float dt);
+    void update(float dt, glm::vec3 position, glm::vec3 direction);
+    void flycamUpdate(float dt);
 	void processMouse(float dt);
 	void processKeyboard(float dt);
 
