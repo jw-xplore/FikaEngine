@@ -26,7 +26,7 @@ void Camera::lookAt(glm::vec3 target)
     projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane) * projection;
 }
 
-void Camera::update(float dt, glm::vec3 position, glm::vec3 direction)
+void Camera::move(glm::vec3 position, glm::vec3 direction)
 {
     this->position = position;
     this->direction = direction;

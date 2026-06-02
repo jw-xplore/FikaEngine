@@ -25,15 +25,6 @@ public:
 
 	MeshInstance();
 
-	/*
-	MeshResource* setMesh(std::string name);
-	MeshResource* setMesh(std::string name, MeshResource* mesh);
-	TextureResource* setTexture(std::string name);
-	TextureResource* setTexture(std::string name, TextureResource* texture);
-	ShaderResource* setShader(std::string name);
-	ShaderResource* setShader(std::string name, ShaderResource* shader);
-	*/
-
 	void setMesh(MeshResource* mesh) { this->mesh = mesh; }
 	void setTexture(TextureResource* texture) { this->texture = texture; }
 	void setShader(ShaderResource* shader) { this->shader = shader; }

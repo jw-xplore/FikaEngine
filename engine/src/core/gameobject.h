@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include "component.h"
+#include <glm/glm.hpp>
 
 class Component;
 
@@ -20,10 +21,11 @@ class GameObject
 private:
 	GameObjectId id;
 	std::vector<std::unique_ptr<Component>> components;
+	glm::mat4 transform;
 
 public:
 	GameObject();
-	~GameObject();
+	~GameObject() {}
 
 	template<typename T>
 	inline void getComponent()
@@ -36,11 +38,17 @@ public:
 	}
 
 	template<typename T>
-	inline void addComponent()
+	inline T* addComponent()
 	{
 		auto component = std::make_unique<T>();
 		T* rawPtr = component.get();
 		components.push_back(std::move(component));
+
+		Component* cmp = dynamic_cast<Component*>(rawPtr);
+		cmp->owner = this;
+		cmp->start();
+		//rawPtr.start();
+
 		return rawPtr;
 	}
 
@@ -48,4 +56,11 @@ public:
 
 	inline GameObjectId getId() { return id; }
 	inline std::vector<std::unique_ptr<Component>>& getComponents() { return components; }
+
+	inline glm::mat4 getTransform() { return transform; }
+	void setPosition(glm::vec3 position);
+	void setRotation(glm::vec4 rotation);
+	void setScale(glm::vec3 scale);
+	void translate(glm::vec3 translation);
+	void rotate(glm::vec4 rotation);
 };

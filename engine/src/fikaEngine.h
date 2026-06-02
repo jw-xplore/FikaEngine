@@ -32,6 +32,9 @@ Includes
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
+// Components
+#include "components/meshInstanceComponent.h"
+
 /*
 Engine
 */

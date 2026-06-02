@@ -111,12 +111,9 @@ void InputMapping::setDefaultInputMapping()
 	actions.clear();
 
 	actions = {
-		{ "Forward", new ButtonInputEvent(EInputDevice::DeviceKeyboard, Input::Key::W) },
-		{ "Boost", new ButtonInputEvent(EInputDevice::DeviceKeyboard, Input::Key::Shift) },
-		{ "Yaw", new AxisInputEvent(EInputDevice::DeviceKeyboard, Input::Key::Left, Input::Key::Right) }, // Around Y axis
-		{ "Roll", new AxisInputEvent(EInputDevice::DeviceKeyboard, Input::Key::D, Input::Key::A) },
-		{ "Pitch", new AxisInputEvent(EInputDevice::DeviceKeyboard, Input::Key::Up, Input::Key::Down) },
-		{ "Shoot", new ButtonInputEvent(EInputDevice::DeviceKeyboard, Input::Key::Space) }
+		{ "Horizontal", new AxisInputEvent(EInputDevice::DeviceKeyboard, Input::Key::A, Input::Key::D) },
+		{ "Vertical", new AxisInputEvent(EInputDevice::DeviceKeyboard, Input::Key::W, Input::Key::S) },
+		{ "Sprint", new ButtonInputEvent(EInputDevice::DeviceKeyboard, Input::Key::Shift) },
 	};
 }
 
@@ -135,9 +132,6 @@ void InputMapping::loadInputMapping()
 	// Parse data
 	nlohmann::ordered_json jsonRes = nlohmann::ordered_json::parse(file);
 	file.close();
-
-	//tartingPopulation = jsonRes["worldData"]["population"];
-	//ironOreAmount = jsonRes["worldData"]["ironOreAmount"];
 
 	actions.clear();
 

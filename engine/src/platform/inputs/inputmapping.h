@@ -89,10 +89,10 @@ class InputMapping
 {
 private:
 	static InputMapping* instance;
+	std::map<std::string, InputEvent*> actions;
 
 public:
 	const const char* filePath = "InputMapping.json";
-	std::map<std::string, InputEvent*> actions;
 
 	static InputMapping* GetInstance()
 	{
@@ -104,6 +104,8 @@ public:
 
 	InputMapping();
 	~InputMapping();
+
+	inline InputEvent* getAction(std::string name) { return actions[name]; }
 
 	void setDefaultInputMapping();
 	void loadInputMapping();

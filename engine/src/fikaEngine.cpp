@@ -30,7 +30,7 @@ namespace FikaEngine
 
         //Camera mainCamera = Camera(window);
         Camera* mainCamera = CameraManager::getMainCamera();
-        mainCamera->update(0, glm::vec3(0), glm::vec3(0, 0, 1));
+        mainCamera->move(glm::vec3(0), glm::vec3(0, 0, 1));
 
         // Custom user start and setup
         startFnc();
@@ -58,6 +58,7 @@ namespace FikaEngine
 
             // Base game update
             //mainCamera.update(dt);
+            GameObjectManager::update(dt);
             Renderer::render(mainCamera->getProjection());
 
             window.swap();

@@ -3,9 +3,8 @@
 class PlayerComponent : public Component
 {
 private:
-	Input::Keyboard* keyboard;
 	MeshInstance* meshInstance;
-	float speed = 10;
+	float speed = 4;
 
 public:
 	void start() override;

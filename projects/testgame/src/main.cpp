@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <fikaEngine.h>
 
+#include "playerComponent.h"
+
 MeshInstance cube0;
 MeshInstance cube1;
 
@@ -19,8 +21,21 @@ void start()
     GResourceManager::debugPrint();
     MeshBuilder().loadMesh("assets/models/testcharacter.obj").build(*customMesh);
 
-    Renderer::addMeshInstance(*customMesh, basicShader);
+    //Renderer::addMeshInstance(*customMesh, basicShader);
     //Renderer::addMeshInstance(*cubeMesh, basicShader);
+
+    // Setup camera
+    CameraManager::getMainCamera()->move(glm::vec3(0, 2, -5), glm::vec3(0, 0, 1));
+
+    // Setup testing player game object
+    GameObject* player = GameObjectManager::addGameObject();
+    MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
+    meshCmp->setup(*customMesh, basicShader);
+
+    player->addComponent<PlayerComponent>();
+
+    // Input mapping
+    InputMapping::GetInstance();
 }
 
 void update(float dt)

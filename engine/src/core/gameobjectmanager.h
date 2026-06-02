@@ -7,17 +7,9 @@ class Component;
 
 struct GameObjectId;
 
-class GameObjectManager
+namespace GameObjectManager
 {
-private:
-	std::vector<std::unique_ptr<GameObject>> gameObjects;
-
-	int removeGOsCount = 0;
-	std::vector<GameObject*> removeGOs;
-
-public:
-	GameObjectManager();
-	~GameObjectManager() {}
+	void init();
 
 	void update(float dt);
 	GameObject* addGameObject();
