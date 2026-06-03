@@ -1,4 +1,7 @@
 #pragma once
+/**
+* @author Based on inputserver.h from Nebula: https://github.com/gscept/nebula.git 
+*/
 #include "inputdevices.h"
 #include <iostream>
 

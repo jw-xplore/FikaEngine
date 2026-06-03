@@ -10,6 +10,10 @@ namespace Renderer
 {
 	const int MAX_MESHES = 256;
 
+	/**
+	 * @brief Render all mesh instances in list withing given projection. 
+	 * @param mvp Model view projection. Camera view matrix.
+	 */
 	void render(glm::mat4 mvp);
 
 	/**

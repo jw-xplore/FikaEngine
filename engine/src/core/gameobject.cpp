@@ -28,12 +28,13 @@ void GameObject::setPosition(glm::vec3 position)
 
 void GameObject::setRotation(glm::vec4 rotation)
 {
+    // TODO
     //transform[3] = glm::vec4(position.x, position.y, position.z, 1);
 }
 
 void GameObject::setScale(glm::vec3 scale)
 {
-
+    // TODO
 }
 
 void GameObject::translate(glm::vec3 translation)
@@ -43,5 +44,5 @@ void GameObject::translate(glm::vec3 translation)
 
 void GameObject::rotate(glm::vec4 rotation)
 {
-
+    // TODO
 }

@@ -8,7 +8,12 @@ private:
 
 public:
 	MeshInstanceComponent() {}
-	MeshInstanceComponent(MeshResource& meshRes, ShaderResource& shader);
+
+	/**
+	 * @brief Adds MeshInstance into rendered on creation.
+	 * @param meshRes Mesh reference.
+	 * @param shader Shader reference.
+	 */
 	void setup(MeshResource& meshRes, ShaderResource& shader);
 	void start() override;
 	void update(float dt) override;

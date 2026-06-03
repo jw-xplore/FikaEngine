@@ -105,9 +105,25 @@ public:
 	InputMapping();
 	~InputMapping();
 
+	/**
+	 * @brief Get action of matching string from input map.
+	 * @param name 
+	 * @return InputEvent pointer to action.
+	 */
 	inline InputEvent* getAction(std::string name) { return actions[name]; }
 
+	/**
+	 * @brief Replace current inputs map with default mapping. Doesn't influence input mapping file.
+	 */
 	void setDefaultInputMapping();
+
+	/**
+	 * @brief Load stored input mapping file from filePath.
+	 */
 	void loadInputMapping();
+
+	/**
+	 * @brief Save current state of inputs map at filePath.
+	 */
 	void saveInputMapping();
 };

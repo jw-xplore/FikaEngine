@@ -1,3 +1,6 @@
+/**
+* @author Based on inputserver.cc from Nebula: https://github.com/gscept/nebula.git
+*/
 #include "inputhandler.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

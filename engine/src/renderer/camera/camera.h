@@ -13,17 +13,34 @@ namespace Input
 
 class Camera
 {
+private:
+    void processMouse(float dt);
+    void processKeyboard(float dt);
+
 public:
     Camera() {}
     Camera(Window& window);
 
 	void updateVectors();
 
+    /**
+     * @brief Set direction toward given target.
+     * @param target vec3 position to look at.
+     */
     void lookAt(glm::vec3 target);
+
+    /**
+     * @brief Update camera position and direction.
+     * @param position 
+     * @param direction 
+     */
     void move(glm::vec3 position, glm::vec3 direction);
+
+    /**
+     * @brief Updates free flying camera, including keyboard and mouse controls.
+     * @param dt 
+     */
     void flycamUpdate(float dt);
-	void processMouse(float dt);
-	void processKeyboard(float dt);
 
     glm::mat4 getProjection() { return projection; }
 

@@ -3,7 +3,6 @@
 ## TODO:
 - Turn source code into library & decouple projects from engine
 - Commet uncommented code
-- Properly marked licensed code
 - Test separated update and render threads
 - Add debug output for openGL
 - Test add texture rendering

@@ -7,7 +7,6 @@ void PlayerComponent::start()
 
 void PlayerComponent::update(float dt)
 {
-    // TODO: Implement controls using input mapping
     InputMapping* input = InputMapping::GetInstance();
     float forward = input->getAction("Vertical")->inputAxis();
     float right = input->getAction("Horizontal")->inputAxis();

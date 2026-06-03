@@ -10,7 +10,14 @@ public:
 	Component() {}
 	virtual ~Component() {}
 
+	/**
+	 * @brief Called when Component is added.
+	 */
 	virtual void start() {}
+
+	/**
+	 * @brief Called each frame.
+	 * @param dt 
+	 */
 	virtual void update(float dt) {}
-	virtual void deallocate() {};
 };

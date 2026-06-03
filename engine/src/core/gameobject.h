@@ -16,6 +16,9 @@ struct GameObjectId
 	inline bool operator!=(const GameObjectId& rhs) { return this->id != rhs.id; }
 };
 
+/**
+ * @brief Main object for engine entity. Holds list of functional components and it is updated by GameObjectManager.
+ */
 class GameObject
 {
 private:
@@ -27,6 +30,10 @@ public:
 	GameObject();
 	~GameObject() {}
 
+	/**
+	 * @brief Find first component of selected type from components list.
+	 * @tparam T Must be of class Component.
+	 */
 	template<typename T>
 	inline void getComponent()
 	{
@@ -37,6 +44,11 @@ public:
 		}
 	}
 
+	/**
+	 * @brief Add new component into components list.
+	 * @tparam T Must be of class Component.
+	 * @return Pointer to new created component object.
+	 */
 	template<typename T>
 	inline T* addComponent()
 	{
@@ -47,14 +59,26 @@ public:
 		Component* cmp = dynamic_cast<Component*>(rawPtr);
 		cmp->owner = this;
 		cmp->start();
-		//rawPtr.start();
 
 		return rawPtr;
 	}
 
+	/**
+	 * @brief Remove selected component from components list if found.
+	 * @param component 
+	 */
 	void removeComponent(Component* component);
 
+	/**
+	 * @brief Get unique id of gameobject
+	 * @return 
+	 */
 	inline GameObjectId getId() { return id; }
+
+	/**
+	 * @brief List of all components
+	 * @return 
+	 */
 	inline std::vector<std::unique_ptr<Component>>& getComponents() { return components; }
 
 	inline glm::mat4 getTransform() { return transform; }
