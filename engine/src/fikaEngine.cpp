@@ -3,12 +3,14 @@
 namespace FikaEngine
 {
     float deltaTime = 1;
+    Input::Keyboard* keyboard;
 
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
      */
     void setup()
 	{
+        // Setup and load basic resources
         GResourceManager::init();
 
         MeshResource* cubeMesh = GResourceManager::reserveMesh("cube");
@@ -16,6 +18,9 @@ namespace FikaEngine
 
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
 		GResourceManager::storeShader("basic", basicShader);
+
+        // Keyboard
+        keyboard = Input::getDefaultKeyboard();
 	}
 
     void debugUI(GLFWwindow* window)
@@ -62,8 +67,9 @@ namespace FikaEngine
         setup();
         glEnable(GL_DEPTH_TEST);
 
-        //Camera mainCamera = Camera(window);
-        Camera* mainCamera = CameraManager::getMainCamera();
+        // Setup cameras
+        CameraManager::init(window);
+        Camera* mainCamera = CameraManager::getActiveCamera();
         mainCamera->move(glm::vec3(0), glm::vec3(0, 0, 1));
 
         // Custom user start and setup
@@ -96,8 +102,17 @@ namespace FikaEngine
             // Custom user update
             updateFnc(dt);
 
+            // Free cam update
+            if (keyboard->pressed[Input::Key::P])
+            {
+                CameraManager::useFreeCamera(!CameraManager::isUsingFreeCamera());
+                mainCamera = CameraManager::getActiveCamera();
+            }
+
+            if (CameraManager::isUsingFreeCamera())
+                CameraManager::getFreeCamera()->flycamUpdate(dt);
+
             // Base game update
-            //mainCamera.update(dt);
             GameObjectManager::update(dt);
             Renderer::render(mainCamera->getProjection());
             debugUI(window.getHandle());
