@@ -13,6 +13,7 @@ target_link_libraries(${ENGINE_NAME}
     glm::glm
     glad
     opengl32
+    imgui
 )
 
 target_include_directories(${ENGINE_NAME}
