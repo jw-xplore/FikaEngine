@@ -21,6 +21,9 @@ void start()
     GResourceManager::debugPrint();
     MeshBuilder().loadMesh("assets/models/testcharacter.obj").build(*customMesh);
 
+    
+    TextureResource* customTexture = GResourceManager::reseveTexture("customTex1");
+    customTexture->loadTexture("assets/textures/testPlayer.jpg");
     //Renderer::addMeshInstance(*customMesh, basicShader);
     //Renderer::addMeshInstance(*cubeMesh, basicShader);
 
@@ -30,7 +33,7 @@ void start()
     // Setup testing player game object
     GameObject* player = GameObjectManager::addGameObject();
     MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
-    meshCmp->setup(*customMesh, basicShader);
+    meshCmp->setup(*customMesh, basicShader, customTexture);
 
     player->addComponent<PlayerComponent>();
 

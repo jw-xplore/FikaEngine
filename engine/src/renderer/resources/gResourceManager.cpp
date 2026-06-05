@@ -1,6 +1,8 @@
 #include "gResourceManager.h"
 #include <iostream>
 #include <fstream>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 //------------------------------------------------------------------------------
 // Mesh resource
@@ -222,7 +224,6 @@ void TextureResource::loadTexture(const char* path)
 	// Load
 	int width, height, channels;
 
-	/*
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char* image = stbi_load(path, &width, &height, &channels, 0);
 	if (image)
@@ -234,7 +235,6 @@ void TextureResource::loadTexture(const char* path)
 	{
 		std::cout << "Texuture not found: " << path << "\n";
 	}
-	*/
 
 	// Cleanup
 	//stbi_image_free(image);
@@ -267,6 +267,15 @@ namespace GResourceManager
 		meshHandles[name] = id;
 
 		return &meshes[id];
+	}
+
+	TextureResource* reseveTexture(std::string name)
+	{
+		textures.push_back(TextureResource());
+		int id = textures.size() - 1;
+		textureHandles[name] = id;
+
+		return &textures[id];
 	}
 
 	int storeMesh(std::string name, MeshResource& mesh)

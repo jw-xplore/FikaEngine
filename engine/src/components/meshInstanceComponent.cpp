@@ -2,9 +2,9 @@
 #include "../core/gameobject.h"
 #include "../renderer/renderer.h"
 
-void MeshInstanceComponent::setup(MeshResource& meshRes, ShaderResource& shader)
+void MeshInstanceComponent::setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 {
-	instance = Renderer::addMeshInstance(meshRes, shader);
+	instance = Renderer::addMeshInstance(meshRes, shader, texture);
 }
 
 void MeshInstanceComponent::start()

@@ -21,11 +21,12 @@ namespace Renderer
 		}
 	}
 
-	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader)
+	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 	{
 		MeshInstance* mesh = meshes.allocate();
 		//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 		mesh->setMesh(&meshRes);
+		mesh->setTexture(texture);
 		mesh->setShader(&shader);
 
 		return mesh;

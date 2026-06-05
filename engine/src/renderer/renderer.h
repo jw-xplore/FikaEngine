@@ -5,6 +5,7 @@
 class MeshResource;
 class ShaderResource;
 class MeshInstance;
+class TextureResource;
 
 namespace Renderer
 {
@@ -22,5 +23,5 @@ namespace Renderer
 	 * @param shader Shader used for the instance
 	 * @return New created mesh instanced
 	 */
-	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader);
+	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
 }

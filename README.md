@@ -1,7 +1,6 @@
 # Fika Engine
 
 ## TODO:
-- Test add texture rendering
 - Detect simple distance collisions
 - Comment uncommented code
 - Turn source code into library & decouple projects from engine

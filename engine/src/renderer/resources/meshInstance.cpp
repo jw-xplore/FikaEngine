@@ -14,10 +14,10 @@ void MeshInstance::draw(glm::mat4 mvp)
 	shader->setUniform("transform", transform);
 	shader->setUniform("MVP", mvp);
 
-	/*
-	if (mesh->textureRes->texture)
-		glBindTexture(GL_TEXTURE_2D, mesh->textureRes->texture);
-	*/
+	if (texture)
+	{
+		glBindTexture(GL_TEXTURE_2D, texture->texture);
+	}
 
 	glBindVertexArray(mesh->VOA);
 	glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);

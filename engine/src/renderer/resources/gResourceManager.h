@@ -114,6 +114,8 @@ public:
 namespace GResourceManager
 {
 	MeshResource* reserveMesh(std::string name);
+	TextureResource* reseveTexture(std::string name);
+
 	int storeMesh(std::string name, MeshResource& mesh);
 	int storeTexture(std::string name, TextureResource& texture);
 	int storeShader(std::string name, ShaderResource& shader);

@@ -14,7 +14,7 @@ public:
 	 * @param meshRes Mesh reference.
 	 * @param shader Shader reference.
 	 */
-	void setup(MeshResource& meshRes, ShaderResource& shader);
+	void setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture);
 	void start() override;
 	void update(float dt) override;
 };
