@@ -4,14 +4,22 @@
 
 MeshInstance::MeshInstance()
 {
-	transform = glm::mat4(1.0f);
+
+}
+
+MeshInstance::MeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture, glm::mat4* transform)
+{
+	this->mesh = &meshRes;
+	this->shader = &shader;
+	this->texture = texture;
+	this->transform = transform;
 }
 
 // Draw - Render
 void MeshInstance::draw(glm::mat4 mvp)
 {
 	shader->use();
-	shader->setUniform("transform", transform);
+	shader->setUniform("transform", *transform);
 	shader->setUniform("MVP", mvp);
 
 	if (texture)

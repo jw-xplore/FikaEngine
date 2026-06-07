@@ -21,13 +21,15 @@ private:
 	ShaderResource* shader;
 
 public:
-	glm::mat4 transform;
+	glm::mat4* transform;
 
 	MeshInstance();
+	MeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture, glm::mat4* transform);
 
 	void setMesh(MeshResource* mesh) { this->mesh = mesh; }
 	void setTexture(TextureResource* texture) { this->texture = texture; }
 	void setShader(ShaderResource* shader) { this->shader = shader; }
+	void setTransform(glm::mat4* transform) { this->transform = transform; }
 
 	MeshResource* getMesh() { return mesh; }
 	TextureResource* getTexture() { return texture; }

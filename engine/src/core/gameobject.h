@@ -81,7 +81,7 @@ public:
 	 */
 	inline std::vector<std::unique_ptr<Component>>& getComponents() { return components; }
 
-	inline glm::mat4 getTransform() { return transform; }
+	inline glm::mat4& getTransform() { return transform; }
 	void setPosition(glm::vec3 position);
 	void setRotation(glm::vec4 rotation);
 	void setScale(glm::vec3 scale);

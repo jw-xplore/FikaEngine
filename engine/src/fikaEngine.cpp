@@ -5,11 +5,17 @@ namespace FikaEngine
     float deltaTime = 1;
     Input::Keyboard* keyboard;
 
+    Renderer* renderer;
+
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
      */
     void setup()
 	{
+        // Systems
+        SystemsHolder* systemsHolder = SystemsHolder::getInstance();
+        renderer = systemsHolder->getMainRenderer();
+
         // Setup and load basic resources
         GResourceManager::init();
 
@@ -114,7 +120,7 @@ namespace FikaEngine
 
             // Base game update
             GameObjectManager::update(dt);
-            Renderer::render(mainCamera->getProjection());
+            renderer->render(mainCamera->getProjection());
             debugUI(window.getHandle());
 
             window.swap();
@@ -122,4 +128,6 @@ namespace FikaEngine
 
         window.destroy();
     }
+
+    static float getDeltaTime() { return deltaTime; }
 }

@@ -7,28 +7,25 @@
 #include "../core/memory.h"
 #include <iostream>
 
-namespace Renderer
+static PoolAllocator<MeshInstance> meshes(Renderer::MAX_MESHES);
+
+void Renderer::render(glm::mat4 mvp)
 {
-	static int width, height;
-	static PoolAllocator<MeshInstance> meshes(MAX_MESHES);
-
-	void render(glm::mat4 mvp)
+	for (size_t i = 0; i < meshes.used; i++)
 	{
-		for (size_t i = 0; i < meshes.used; i++)
-		{
-			MeshInstance mesh = meshes.at(i);
-			mesh.draw(mvp);
-		}
+		MeshInstance mesh = meshes.at(i);
+		mesh.draw(mvp);
 	}
+}
 
-	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
-	{
-		MeshInstance* mesh = meshes.allocate();
-		//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
-		mesh->setMesh(&meshRes);
-		mesh->setTexture(texture);
-		mesh->setShader(&shader);
+MeshInstance* Renderer::addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
+{
+	MeshInstance* mesh = meshes.allocate();
+	//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
+	mesh->setMesh(&meshRes);
+	mesh->setTexture(texture);
+	mesh->setShader(&shader);
+	mesh->setTransform(transform);
 
-		return mesh;
-	}
+	return mesh;
 }

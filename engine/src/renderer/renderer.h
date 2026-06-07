@@ -7,12 +7,13 @@ class ShaderResource;
 class MeshInstance;
 class TextureResource;
 
-namespace Renderer
+class Renderer
 {
-	const int MAX_MESHES = 256;
+public:
+	static const int MAX_MESHES = 256;
 
 	/**
-	 * @brief Render all mesh instances in list withing given projection. 
+	 * @brief Render all mesh instances in list withing given projection.
 	 * @param mvp Model view projection. Camera view matrix.
 	 */
 	void render(glm::mat4 mvp);
@@ -23,5 +24,5 @@ namespace Renderer
 	 * @param shader Shader used for the instance
 	 * @return New created mesh instanced
 	 */
-	MeshInstance* addMeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
-}
+	MeshInstance* addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
+};

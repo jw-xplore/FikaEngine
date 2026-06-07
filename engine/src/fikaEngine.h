@@ -13,6 +13,7 @@ Includes
 #include "core/gameobject.h"
 #include "core/component.h"
 #include "core/gameobjectmanager.h"
+#include "core/systemsHolder.h"
 
 // Render
 #include "renderer/renderer.h"
@@ -55,4 +56,6 @@ namespace FikaEngine
 	 * @param updateFnc Function for custom update. Is called every frame before render.
 	 */
 	void run(void (*startFnc)(), void (*updateFnc)(float));
+	
+	static float getDeltaTime();
 }
