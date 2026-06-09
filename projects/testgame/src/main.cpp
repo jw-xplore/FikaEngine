@@ -38,6 +38,13 @@ void start()
     player->addComponent<RigidbodyComponent>();
     player->addComponent<PlayerComponent>();
 
+    // Setup dummy wall
+    GameObject* wall = GameObjectManager::addGameObject();
+    wall->addComponent<MeshInstanceComponent>()->setup(*cubeMesh, basicShader, nullptr);
+    wall->getTransformComponent().translate(glm::vec3(2, 1, 0));
+    RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
+    wallRb->setBodyType(EBodyType::Static);
+
     // Input mapping
     InputMapping::GetInstance();
 }

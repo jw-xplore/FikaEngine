@@ -13,16 +13,20 @@ PhysicsSolver::~PhysicsSolver()
 
 void PhysicsSolver::update(float dt)
 {
+	// Apply physical forces 
 	for (auto& body : bodies)
 	{
 		body->transform = glm::translate(body->transform, body->velocity * dt);
 	}
+
+	// Collider calculations
+	collisionsSolver.update(dt);
 }
 
-Body& PhysicsSolver::addBody()
+Body& PhysicsSolver::addBody(const glm::mat4& tranform)
 {
 	std::unique_ptr<Body> body(new Body());
-	body.get()->transform = glm::mat4(1.0);
+	body.get()->transform = tranform;
 	bodies.push_back(std::move(body));
 
 	return *bodies[bodies.size() - 1];

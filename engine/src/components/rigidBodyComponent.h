@@ -2,6 +2,7 @@
 #include "core/component.h"
 #include "glm/glm.hpp"
 
+enum EBodyType;
 struct Body;
 class Tranform;
 
@@ -18,4 +19,5 @@ public:
 	void update(float dt) override;
 
 	void setVelocity(glm::vec3 velocity);
+	void setBodyType(EBodyType type);
 };
