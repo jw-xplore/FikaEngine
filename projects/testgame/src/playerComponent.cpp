@@ -2,7 +2,7 @@
 
 void PlayerComponent::start()
 {
-
+    rb = owner->getComponent<RigidbodyComponent>();
 }
 
 void PlayerComponent::update(float dt)
@@ -11,6 +11,6 @@ void PlayerComponent::update(float dt)
     float forward = input->getAction("Vertical")->inputAxis();
     float right = input->getAction("Horizontal")->inputAxis();
 
-    glm::vec3 tranlation = glm::vec3(right, 0, forward) * speed * dt;
-    owner->translate(tranlation);
+    glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
+    rb->setVelocity(velocity);
 }

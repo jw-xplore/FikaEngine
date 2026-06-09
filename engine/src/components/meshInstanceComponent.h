@@ -1,5 +1,5 @@
-#include "../core/component.h"
-#include "../renderer/resources/meshInstance.h"
+#include "core/component.h"
+#include "renderer/resources/meshInstance.h"
 
 class MeshInstanceComponent : public Component
 {

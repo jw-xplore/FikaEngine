@@ -23,6 +23,10 @@ Includes
 #include "renderer/camera/cameraManager.h"
 #include "renderer/camera/camera.h"
 
+// Physics
+#include "physics/physics.h"
+#include "physics/collisions.h"
+
 // Plaftorm
 #include "platform/window.h"
 #include "platform/inputs/inputdevices.h"
@@ -39,7 +43,9 @@ Includes
 #include <GLFW/glfw3.h>
 
 // Components
+#include "components/transform.h"
 #include "components/meshInstanceComponent.h"
+#include "components/rigidBodyComponent.h"
 
 /*
 Engine

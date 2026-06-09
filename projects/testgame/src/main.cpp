@@ -35,6 +35,7 @@ void start()
     MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
     meshCmp->setup(*customMesh, basicShader, customTexture);
 
+    player->addComponent<RigidbodyComponent>();
     player->addComponent<PlayerComponent>();
 
     // Input mapping

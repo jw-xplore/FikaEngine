@@ -2,18 +2,21 @@
 #include <memory>
 
 class Renderer;
+class PhysicsSolver;
 
 class SystemsHolder
 {
 private:
 	static SystemsHolder* instance;
-	std::unique_ptr<Renderer> mainRenderer;
+	std::unique_ptr<Renderer> renderer;
+	std::unique_ptr<PhysicsSolver> physicsSolver;
 
 public:
 	SystemsHolder();
 	~SystemsHolder();
 
-	Renderer* getMainRenderer() { return mainRenderer.get(); }
+	Renderer* getMainRenderer() { return renderer.get(); }
+	PhysicsSolver* getMainPhysicsSolver() { return physicsSolver.get(); }
 
 	static SystemsHolder* getInstance()
 	{

@@ -6,6 +6,7 @@ namespace FikaEngine
     Input::Keyboard* keyboard;
 
     Renderer* renderer;
+    PhysicsSolver* physicsSolver;
 
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
@@ -15,6 +16,7 @@ namespace FikaEngine
         // Systems
         SystemsHolder* systemsHolder = SystemsHolder::getInstance();
         renderer = systemsHolder->getMainRenderer();
+        physicsSolver = systemsHolder->getMainPhysicsSolver();
 
         // Setup and load basic resources
         GResourceManager::init();
@@ -120,6 +122,7 @@ namespace FikaEngine
 
             // Base game update
             GameObjectManager::update(dt);
+            physicsSolver->update(dt);
             renderer->render(mainCamera->getProjection());
             debugUI(window.getHandle());
 

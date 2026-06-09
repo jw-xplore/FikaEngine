@@ -3,7 +3,7 @@
 class PlayerComponent : public Component
 {
 private:
-	MeshInstance* meshInstance;
+	RigidbodyComponent* rb;
 	float speed = 4;
 
 public:

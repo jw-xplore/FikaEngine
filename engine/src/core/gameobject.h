@@ -3,6 +3,7 @@
 #include <memory>
 #include "component.h"
 #include <glm/glm.hpp>
+#include "components/transform.h"
 
 class Component;
 
@@ -24,7 +25,7 @@ class GameObject
 private:
 	GameObjectId id;
 	std::vector<std::unique_ptr<Component>> components;
-	glm::mat4 transform;
+	TransformComponent transformComponent;
 
 public:
 	GameObject();
@@ -35,13 +36,16 @@ public:
 	 * @tparam T Must be of class Component.
 	 */
 	template<typename T>
-	inline void getComponent()
+	inline T* getComponent()
 	{
 		for (auto& comp : components)
 		{
-			if (auto& casted = dynamic_cast<T*>(comp))
+			T* casted = dynamic_cast<T*>(comp.get());
+			if (casted)
 				return casted;
 		}
+
+		return nullptr;
 	}
 
 	/**
@@ -81,10 +85,6 @@ public:
 	 */
 	inline std::vector<std::unique_ptr<Component>>& getComponents() { return components; }
 
-	inline glm::mat4& getTransform() { return transform; }
-	void setPosition(glm::vec3 position);
-	void setRotation(glm::vec4 rotation);
-	void setScale(glm::vec3 scale);
-	void translate(glm::vec3 translation);
-	void rotate(glm::vec4 rotation);
+	inline TransformComponent& getTransformComponent() { return transformComponent; }
+	inline glm::mat4& getTransform() { return transformComponent.getTransform(); }
 };
