@@ -5,6 +5,23 @@
 
 bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
 {
+	/*
+	Vec3 d = posA - posB;
+	float dist2 = dot(d, d);
+	float rsum = A.radius + B.radius;
+	float rsum2 = rsum * rsum;
+	if (dist2 >= rsum2) return false;
+	float dist = std::sqrt(dist2);
+	float penetration = rsum - dist;
+	Vec3 normal = dist > 1e-6f ? d / dist : Vec3(0, 1, 0);
+	if (out) {
+		out->normal = normal;
+		out->penetration = penetration;
+		out->point = posB + normal * (B.radius - penetration * 0.5f); // approx contact on B
+	}
+	return true;
+	*/
+
 	glm::vec3 posA = colA.body->transform[3];
 	glm::vec3 posB = colB.body->transform[3];
 
@@ -35,24 +52,32 @@ void resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float 
 	Body& bodyA = *colA.body;
 	Body& bodyB = *colB.body;
 
-	glm::vec3 reaction = contact.normal * contact.penetration * dt;
+	glm::vec3 reaction = contact.normal * contact.penetration * PENETRATION_MULT;
 
 	if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Static)
 	{
 		// First kinematic
-		bodyA.transform = glm::translate(bodyA.transform, reaction);
+		applyForce(bodyA, reaction);
 	}
 	else if (bodyA.type == EBodyType::Static && bodyB.type == EBodyType::Kinematic)
 	{
 		// Second kinematic
-		bodyB.transform = glm::translate(bodyB.transform, -reaction);
+		applyForce(bodyB, -reaction);
 	}
 	else if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Kinematic)
 	{
 		// Both kinematic
-		bodyA.transform = glm::translate(bodyA.transform, reaction);
-		bodyB.transform = glm::translate(bodyB.transform, -reaction);
+		applyForce(bodyA, reaction * 0.5f);
+		applyForce(bodyB, -reaction * 0.5f);
 	}
+
+	// Callbacks - On enter
+	// TODO: Make enter be triggered only once
+	if (bodyA.onEnter)
+		bodyA.onEnter(bodyB);
+
+	if (bodyB.onEnter)
+		bodyB.onEnter(bodyA);
 }
 
 CollisionSolver::CollisionSolver()
@@ -68,25 +93,6 @@ CollisionSolver::~CollisionSolver()
 void CollisionSolver::update(float dt)
 {
 	Contact contact;
-
-	/*
-	// Sphere checks
-	for (auto& sphereA : sphereColliders)
-	{
-		// Sphere
-		for (auto& sphereB : sphereColliders)
-		{
-			// TODO: Make better way to iterate and avoid same colliders
-			if (sphereA == sphereB)
-				continue;
-
-			if (overlapSphereSphere(*sphereA, *sphereB, &contact))
-			{
-				resolveSphereCollision(*sphereA, *sphereB, contact);
-			}
-		}
-	}
-	*/
 
 	// Sphere checks
 	for (size_t a = 0; a < sphereColliders.size(); a++)

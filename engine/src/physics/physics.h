@@ -7,7 +7,15 @@
 enum EBodyType
 {
 	Static,
-	Kinematic
+	Kinematic,
+	Trigger,
+};
+
+enum EAxes
+{
+	X = 1,
+	Y = 2,
+	Z = 4,
 };
 
 struct Body
@@ -16,7 +24,16 @@ struct Body
 	EBodyType type = EBodyType::Kinematic;
 	glm::mat4 transform;
 	glm::vec3 velocity;
+	EAxes freezeMovement = (EAxes)0;
+	EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
+
+	// Callbacks
+	std::function<void(Body&)> onEnter;
 };
+
+void applyForce(Body& body, const glm::vec3& force);
+void bodyFreezeMovement(Body& body, bool x, bool y, bool z);
+void bodyFreezeRotation(Body& body, bool x, bool y, bool z);
 
 class PhysicsSolver
 {

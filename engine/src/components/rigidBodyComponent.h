@@ -20,4 +20,6 @@ public:
 
 	void setVelocity(glm::vec3 velocity);
 	void setBodyType(EBodyType type);
+
+	void onEnter(Body& body);
 };

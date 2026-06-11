@@ -17,6 +17,8 @@ struct Contact
 	glm::vec3 point;
 };
 
+const float PENETRATION_MULT = 0.0166f; // TODO: Adjust this with proper behavior and calculation
+
 bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 void resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt);
 
