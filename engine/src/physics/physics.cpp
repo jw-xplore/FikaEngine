@@ -77,7 +77,14 @@ Body& PhysicsSolver::addBody(const glm::mat4& tranform)
 {
 	std::unique_ptr<Body> body(new Body());
 	body.get()->transform = tranform;
+
+	int id = bodies.size();
+	body->id = id;
+
 	bodies.push_back(std::move(body));
 
-	return *bodies[bodies.size() - 1];
+	// TODO: Make option to call this after all
+	collisionsSolver.setupOngoinContacts(bodies);
+
+	return *bodies[id];
 }

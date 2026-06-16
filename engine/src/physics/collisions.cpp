@@ -3,83 +3,6 @@
 #include "components/transform.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
-{
-	/*
-	Vec3 d = posA - posB;
-	float dist2 = dot(d, d);
-	float rsum = A.radius + B.radius;
-	float rsum2 = rsum * rsum;
-	if (dist2 >= rsum2) return false;
-	float dist = std::sqrt(dist2);
-	float penetration = rsum - dist;
-	Vec3 normal = dist > 1e-6f ? d / dist : Vec3(0, 1, 0);
-	if (out) {
-		out->normal = normal;
-		out->penetration = penetration;
-		out->point = posB + normal * (B.radius - penetration * 0.5f); // approx contact on B
-	}
-	return true;
-	*/
-
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
-
-	glm::vec3 d = posA - posB;
-	float dist2 = glm::dot(d, d);
-	float rsum = colA.radius + colB.radius;
-	float rsum2 = rsum * rsum;
-
-	if (dist2 >= rsum)
-		return false;
-
-	float dist = std::sqrtf(dist2);
-	float penetration = rsum - dist;
-	glm::vec3 normal = dist > 1e-6f ? d / dist : glm::vec3(0, 1, 0);
-
-	if (out)
-	{
-		out->normal = normal;
-		out->penetration = penetration;
-		out->point = posB + normal * (colB.radius - penetration * 0.5f); // approx contact on B
-	}
-
-	return true;
-}
-
-void resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt)
-{
-	Body& bodyA = *colA.body;
-	Body& bodyB = *colB.body;
-
-	glm::vec3 reaction = contact.normal * contact.penetration * PENETRATION_MULT;
-
-	if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Static)
-	{
-		// First kinematic
-		applyForce(bodyA, reaction);
-	}
-	else if (bodyA.type == EBodyType::Static && bodyB.type == EBodyType::Kinematic)
-	{
-		// Second kinematic
-		applyForce(bodyB, -reaction);
-	}
-	else if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Kinematic)
-	{
-		// Both kinematic
-		applyForce(bodyA, reaction * 0.5f);
-		applyForce(bodyB, -reaction * 0.5f);
-	}
-
-	// Callbacks - On enter
-	// TODO: Make enter be triggered only once
-	if (bodyA.onEnter)
-		bodyA.onEnter(bodyB);
-
-	if (bodyB.onEnter)
-		bodyB.onEnter(bodyA);
-}
-
 CollisionSolver::CollisionSolver()
 {
 	sphereColliders.reserve(256);
@@ -109,4 +32,100 @@ void CollisionSolver::update(float dt)
 			}
 		}
 	}
+}
+
+bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
+{
+	glm::vec3 posA = colA.body->transform[3];
+	glm::vec3 posB = colB.body->transform[3];
+
+	glm::vec3 d = posA - posB;
+	float dist2 = glm::dot(d, d);
+	float rsum = colA.radius + colB.radius;
+	float rsum2 = rsum * rsum;
+
+	int contactId = contactFromPair(colA.body->id, colB.body->id);
+
+	// No collision
+	if (dist2 >= rsum)
+	{
+		ongoingContacts[contactId] = false;
+		return false;
+	}
+
+	float dist = std::sqrtf(dist2);
+	float penetration = rsum - dist;
+	glm::vec3 normal = dist > 1e-6f ? d / dist : glm::vec3(0, 1, 0);
+
+	if (out)
+	{
+		out->normal = normal;
+		out->penetration = penetration;
+		out->point = posB + normal * (colB.radius - penetration * 0.5f); // approx contact on B
+	}
+
+	return true;
+}
+
+void CollisionSolver::resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt)
+{
+	Body& bodyA = *colA.body;
+	Body& bodyB = *colB.body;
+
+	glm::vec3 reaction = contact.normal * contact.penetration * PENETRATION_MULT;
+
+	if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Static)
+	{
+		// First kinematic
+		applyForce(bodyA, reaction);
+	}
+	else if (bodyA.type == EBodyType::Static && bodyB.type == EBodyType::Kinematic)
+	{
+		// Second kinematic
+		applyForce(bodyB, -reaction);
+	}
+	else if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Kinematic)
+	{
+		// Both kinematic
+		applyForce(bodyA, reaction * 0.5f);
+		applyForce(bodyB, -reaction * 0.5f);
+	}
+
+	// Callbacks - On enter
+	int contactId = contactFromPair(bodyA.id, bodyB.id);
+
+	if (!ongoingContacts[contactId])
+	{
+		if (bodyA.onEnter)
+			bodyA.onEnter(bodyB);
+
+		if (bodyB.onEnter)
+			bodyB.onEnter(bodyA);
+
+		ongoingContacts[contactId] = true;
+	}
+}
+
+void CollisionSolver::setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies)
+{
+	ongoingContacts.clear();
+
+	int size = bodies.size();
+	bodiesCount = size;
+	ongoingContacts.reserve(size * (size - 1) / 2);
+
+	for (size_t a = 0; a < bodies.size(); a++)
+	{
+		for (size_t b = 0; b < bodies.size(); b++)
+		{
+			ongoingContacts.push_back(false);
+		}
+	}
+}
+
+int CollisionSolver::contactFromPair(int bodyIdA, int bodyIdB)
+{
+	int a = bodyIdA * (2 * bodiesCount - bodyIdA - 1) / 2;
+	int b = bodyIdB - bodyIdA - 1;
+	return a + b;
 }
