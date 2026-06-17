@@ -55,7 +55,7 @@ bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB
 
 	float dist = std::sqrtf(dist2);
 	float penetration = rsum - dist;
-	glm::vec3 normal = dist > 1e-6f ? d / dist : glm::vec3(0, 1, 0);
+	glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
 
 	if (out)
 	{
@@ -104,6 +104,49 @@ void CollisionSolver::resolveSphereCollision(Sphere& colA, Sphere& colB, Contact
 
 		ongoingContacts[contactId] = true;
 	}
+}
+
+bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* out)
+{
+	glm::vec3 posA = colA.body->transform[3];
+	glm::vec3 posB = colB.body->transform[3];
+
+	// X
+	float leftA = posA.x - colA.width * 0.5f;
+	float leftB = posB.x - colB.width * 0.5f;
+	float rightA = posA.x + colA.width * 0.5f;
+	float rightB = posB.x + colB.width * 0.5f;
+
+	// Y
+	float bottomA = posA.y - colA.height * 0.5f;
+	float bottomB = posB.y - colB.height * 0.5f;
+	float topA = posA.y + colA.height * 0.5f;
+	float topB = posB.y + colB.height * 0.5f;
+
+	// Z
+	float backA = posA.y - colA.depth * 0.5f;
+	float backB = posB.y - colB.depth * 0.5f;
+	float frontA = posA.y + colA.depth * 0.5f;
+	float frontB = posB.y + colB.depth * 0.5f;
+
+	// Compare
+	bool isColliding = (
+		leftA < rightB && leftB < rightA &&		// X
+		bottomA < topB && bottomB < topA &&		// Y
+		backA < frontB && backB < frontA		// Z
+		);
+
+	// Contact
+	if (out && isColliding)
+	{
+		/*
+		out->normal = normal;
+		out->penetration = penetration;
+		out->point = posB + normal * (colB.radius - penetration * 0.5f);
+		*/
+	}
+
+	return isColliding;
 }
 
 void CollisionSolver::setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies)

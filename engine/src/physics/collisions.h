@@ -10,6 +10,12 @@ struct Sphere
 	float radius;
 };
 
+struct Box
+{
+	Body* body;
+	float width, height, depth;
+};
+
 struct Contact
 {
 	glm::vec3 normal;
@@ -28,6 +34,7 @@ private:
 
 	const float targetDt = 1.0f / 60.0f;
 	const int SOLVER_ITERATIONS = 3;
+	const float MIN_DISTANCE = 1e-6f;
 
 public:
 	CollisionSolver();
@@ -57,6 +64,8 @@ public:
 
 	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 	void resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt);
+
+	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
 
 	void setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies);
 	int contactFromPair(int bodyIdA, int bodyIdB);
