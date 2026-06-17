@@ -1,5 +1,6 @@
 #include "physics.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 void applyForce(Body& body, const glm::vec3& force)
 {
@@ -53,6 +54,9 @@ void bodyFreezeRotation(Body& body, bool x, bool y, bool z)
 PhysicsSolver::PhysicsSolver()
 {
 	bodies.reserve(256);
+
+	tags.resize(8);
+	tags[0] = DEFAULT_TAG;
 }
 
 PhysicsSolver::~PhysicsSolver()
@@ -87,4 +91,16 @@ Body& PhysicsSolver::addBody(const glm::mat4& tranform)
 	collisionsSolver.setupOngoinContacts(bodies);
 
 	return *bodies[id];
+}
+
+int PhysicsSolver::findTagId(std::string tag)
+{
+	for (size_t i = 0; i < tags.size(); i++)
+	{
+		if (tags[i] == tag)
+			return i;
+	}
+
+	std::cout << "Tag '" << tag << "' is not used";
+	return -1;
 }

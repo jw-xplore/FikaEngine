@@ -44,6 +44,7 @@ void start()
     wall->getTransformComponent().translate(glm::vec3(2, 1, 0));
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
     wallRb->setBodyType(EBodyType::Trigger);
+    wallRb->setBodyTag(1);
 
     // Input mapping
     InputMapping::GetInstance();

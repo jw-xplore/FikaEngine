@@ -2,6 +2,7 @@
 #include "glm/glm.hpp"
 #include <vector>
 #include <memory>
+#include <string>
 #include "collisions.h"
 
 enum EBodyType
@@ -21,6 +22,7 @@ enum EAxes
 struct Body
 {
 	int id;
+	unsigned int tag;
 	EBodyType type = EBodyType::Kinematic;
 	glm::mat4 transform;
 	glm::vec3 velocity;
@@ -38,8 +40,11 @@ void bodyFreezeRotation(Body& body, bool x, bool y, bool z);
 class PhysicsSolver
 {
 private:
-	std::vector<std::unique_ptr<Body>> bodies;
 	CollisionSolver collisionsSolver;
+
+	std::vector<std::unique_ptr<Body>> bodies;
+	std::vector<std::string> tags;
+	const const char* DEFAULT_TAG = "Default";
 
 public:
 	PhysicsSolver();
@@ -50,4 +55,7 @@ public:
 	Body& addBody(const glm::mat4& tranform);
 
 	CollisionSolver& getCollisionSolver() { return collisionsSolver; }
+
+	int findTagId(std::string tag);
+	int setTag(int position, std::string tag) { tags[position] = tag; }
 };

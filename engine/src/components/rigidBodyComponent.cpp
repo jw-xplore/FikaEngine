@@ -28,17 +28,11 @@ void RigidbodyComponent::update(float dt)
 	*transform = body->transform;
 }
 
-void RigidbodyComponent::setVelocity(glm::vec3 velocity)
-{
-	body->velocity = velocity;
-}
-
-void RigidbodyComponent::setBodyType(EBodyType type)
-{
-	body->type = type;
-}
+void RigidbodyComponent::setVelocity(glm::vec3 velocity) { body->velocity = velocity; }
+void RigidbodyComponent::setBodyType(EBodyType type) { body->type = type; }
+void RigidbodyComponent::setBodyTag(int tag) { body->tag = tag; }
 
 void RigidbodyComponent::onEnter(Body& body)
 {
-	std::cout << "on enter: " << body.id << "\n";
+	std::cout << "on enter: " << body.id << ", tag: " << body.tag << "\n";
 }
