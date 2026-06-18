@@ -22,6 +22,7 @@ private:
 
 public:
 	glm::mat4* transform;
+	glm::vec3 customScale = glm::vec3(1.0);
 
 	MeshInstance();
 	MeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture, glm::mat4* transform);

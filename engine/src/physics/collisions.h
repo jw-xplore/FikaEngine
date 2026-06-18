@@ -62,6 +62,8 @@ public:
 		return nullptr;
 	}
 
+	void addDebugMesh(glm::mat4& transform, float radius = 1);
+
 	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 	void resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt);
 

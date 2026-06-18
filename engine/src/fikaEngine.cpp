@@ -6,6 +6,7 @@ namespace FikaEngine
     Input::Keyboard* keyboard;
 
     Renderer* renderer;
+    Renderer* debugRenderer;
     PhysicsSolver* physicsSolver;
 
     /**
@@ -16,14 +17,20 @@ namespace FikaEngine
         // Systems
         SystemsHolder* systemsHolder = SystemsHolder::getInstance();
         renderer = systemsHolder->getMainRenderer();
+        debugRenderer = systemsHolder->getDebugRenderer();
         physicsSolver = systemsHolder->getMainPhysicsSolver();
 
         // Setup and load basic resources
         GResourceManager::init();
 
+        // Meshes
         MeshResource* cubeMesh = GResourceManager::reserveMesh("cube");
         MeshBuilder().createCube(0.5).build(*cubeMesh);
 
+        MeshResource* sphereMesh = GResourceManager::reserveMesh("sphere");
+        MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);
+
+        // Shaders
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
 		GResourceManager::storeShader("basic", basicShader);
 
@@ -124,6 +131,11 @@ namespace FikaEngine
             GameObjectManager::update(dt);
             physicsSolver->update(dt);
             renderer->render(mainCamera->getProjection());
+
+            // Debug
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            debugRenderer->render(mainCamera->getProjection());
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             debugUI(window.getHandle());
 
             window.swap();

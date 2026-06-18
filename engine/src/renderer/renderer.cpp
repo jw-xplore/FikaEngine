@@ -4,23 +4,30 @@
 #include "resources/gResourceManager.h"
 #include "resources/meshBuilder.h"
 #include "resources/meshInstance.h"
-#include "../core/memory.h"
 #include <iostream>
 
-static PoolAllocator<MeshInstance> meshes(Renderer::MAX_MESHES);
+Renderer::Renderer()
+{
+	meshes = new PoolAllocator<MeshInstance>(MAX_MESHES);
+}
+
+Renderer::~Renderer()
+{
+
+}
 
 void Renderer::render(glm::mat4 mvp)
 {
-	for (size_t i = 0; i < meshes.used; i++)
+	for (size_t i = 0; i < meshes->used; i++)
 	{
-		MeshInstance mesh = meshes.at(i);
+		MeshInstance mesh = meshes->at(i);
 		mesh.draw(mvp);
 	}
 }
 
 MeshInstance* Renderer::addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 {
-	MeshInstance* mesh = meshes.allocate();
+	MeshInstance* mesh = meshes->allocate();
 	//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 	mesh->setMesh(&meshRes);
 	mesh->setTexture(texture);

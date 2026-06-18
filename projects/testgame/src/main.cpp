@@ -41,9 +41,9 @@ void start()
     // Setup dummy wall
     GameObject* wall = GameObjectManager::addGameObject();
     wall->addComponent<MeshInstanceComponent>()->setup(*cubeMesh, basicShader, nullptr);
-    wall->getTransformComponent().translate(glm::vec3(2, 1, 0));
+    wall->getTransformComponent().translate(glm::vec3(2, 0, 0));
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
-    wallRb->setBodyType(EBodyType::Trigger);
+    //wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
 
     // Input mapping

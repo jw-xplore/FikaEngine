@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
+#include <memory>
+#include "../core/memory.h"
 
 class MeshResource;
 class ShaderResource;
@@ -9,8 +11,14 @@ class TextureResource;
 
 class Renderer
 {
+private:
+	PoolAllocator<MeshInstance>* meshes;
+
 public:
-	static const int MAX_MESHES = 256;
+	const int MAX_MESHES = 256;
+
+	Renderer();
+	~Renderer();
 
 	/**
 	 * @brief Render all mesh instances in list withing given projection.

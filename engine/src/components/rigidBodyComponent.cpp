@@ -20,6 +20,8 @@ void RigidbodyComponent::start()
 	sphere->body = body;
 	sphere->radius = 2;
 
+	collisions.addDebugMesh(*transform, sphere->radius);
+
 	bodyFreezeMovement(*body, false, true, false);
 }
 

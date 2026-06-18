@@ -1,6 +1,7 @@
 #include "meshInstance.h"
 #include "gResourceManager.h"
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
 
 MeshInstance::MeshInstance()
 {
@@ -18,8 +19,11 @@ MeshInstance::MeshInstance(MeshResource& meshRes, ShaderResource& shader, Textur
 // Draw - Render
 void MeshInstance::draw(glm::mat4 mvp)
 {
+	glm::mat4 tr = glm::mat4(*transform);
+	tr = glm::scale(tr, customScale);
+
 	shader->use();
-	shader->setUniform("transform", *transform);
+	shader->setUniform("transform", tr);
 	shader->setUniform("MVP", mvp);
 
 	if (texture)

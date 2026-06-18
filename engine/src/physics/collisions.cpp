@@ -2,6 +2,10 @@
 #include "physics.h"
 #include "components/transform.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "core/systemsHolder.h"
+#include "renderer/renderer.h"
+#include "renderer/resources/gResourceManager.h"
+#include "renderer/resources/meshInstance.h"
 
 CollisionSolver::CollisionSolver()
 {
@@ -32,6 +36,17 @@ void CollisionSolver::update(float dt)
 			}
 		}
 	}
+}
+
+void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)
+{
+	SystemsHolder* systems = SystemsHolder::getInstance();
+
+	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("sphere"));
+	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+
+	MeshInstance* mesh = systems->getDebugRenderer()->addMeshInstance(&transform, cubeMesh, basicShader);
+	mesh->customScale = glm::vec3(radius * 0.5f);
 }
 
 bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
