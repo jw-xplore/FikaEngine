@@ -18,7 +18,7 @@ void RigidbodyComponent::start()
 	CollisionSolver& collisions = physics->getCollisionSolver();
 	Sphere* sphere = collisions.addCollider<Sphere>();
 	sphere->body = body;
-	sphere->radius = 2;
+	sphere->radius = 1;
 
 	collisions.addDebugMesh(*transform, sphere->radius);
 

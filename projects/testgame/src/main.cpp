@@ -43,7 +43,7 @@ void start()
     wall->addComponent<MeshInstanceComponent>()->setup(*cubeMesh, basicShader, nullptr);
     wall->getTransformComponent().translate(glm::vec3(2, 0, 0));
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
-    //wallRb->setBodyType(EBodyType::Trigger);
+    //wallRb->setBodyType(EBodyType::Static);
     wallRb->setBodyTag(1);
 
     // Input mapping

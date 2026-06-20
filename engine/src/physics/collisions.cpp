@@ -6,6 +6,7 @@
 #include "renderer/renderer.h"
 #include "renderer/resources/gResourceManager.h"
 #include "renderer/resources/meshInstance.h"
+#include <iostream>
 
 CollisionSolver::CollisionSolver()
 {
@@ -46,13 +47,16 @@ void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)
 	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
 	MeshInstance* mesh = systems->getDebugRenderer()->addMeshInstance(&transform, cubeMesh, basicShader);
-	mesh->customScale = glm::vec3(radius * 0.5f);
+	mesh->customScale = glm::vec3(radius);
 }
 
 bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
 {
 	glm::vec3 posA = colA.body->transform[3];
 	glm::vec3 posB = colB.body->transform[3];
+
+	//posA -= colA.body->velocity;
+	//posB -= colB.body->velocity;
 
 	glm::vec3 d = posA - posB;
 	float dist2 = glm::dot(d, d);
@@ -62,7 +66,7 @@ bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB
 	int contactId = contactFromPair(colA.body->id, colB.body->id);
 
 	// No collision
-	if (dist2 >= rsum)
+	if (dist2 >= rsum2)
 	{
 		ongoingContacts[contactId] = false;
 		return false;
@@ -87,7 +91,9 @@ void CollisionSolver::resolveSphereCollision(Sphere& colA, Sphere& colB, Contact
 	Body& bodyA = *colA.body;
 	Body& bodyB = *colB.body;
 
-	glm::vec3 reaction = contact.normal * contact.penetration * PENETRATION_MULT;
+	glm::vec3 velDiff = bodyA.velocity - bodyB.velocity;
+
+	glm::vec3 reaction = contact.normal * contact.penetration;
 
 	if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Static)
 	{
