@@ -13,11 +13,12 @@ void RigidbodyComponent::start()
 
 	// Callbacks
 	body->onEnter = std::bind(&RigidbodyComponent::onEnter, this, std::placeholders::_1);
+	body->onExit = std::bind(&RigidbodyComponent::onExit, this, std::placeholders::_1);
 
 	// Test collider add
 	CollisionSolver& collisions = physics->getCollisionSolver();
 	//collisions.addSphereCollider(*body, 0.5f);
-	collisions.addBoxCollider(*body, glm::vec3(2, 2, 1));
+	collisions.addBoxCollider(*body, glm::vec3(2, 1, 1));
 
 	bodyFreezeMovement(*body, false, true, false);
 }
@@ -34,4 +35,9 @@ void RigidbodyComponent::setBodyTag(int tag) { body->tag = tag; }
 void RigidbodyComponent::onEnter(Body& body)
 {
 	std::cout << "on enter: " << body.id << ", tag: " << body.tag << "\n";
+}
+
+void RigidbodyComponent::onExit(Body& body)
+{
+	std::cout << "on exit: " << body.id << ", tag: " << body.tag << "\n";
 }

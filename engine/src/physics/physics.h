@@ -31,6 +31,7 @@ struct Body
 
 	// Callbacks
 	std::function<void(Body&)> onEnter;
+	std::function<void(Body&)> onExit;
 };
 
 void applyForce(Body& body, const glm::vec3& force);

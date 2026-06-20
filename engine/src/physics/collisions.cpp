@@ -33,7 +33,7 @@ void CollisionSolver::update(float dt)
 
 			if (overlapSphereSphere(sphereA, sphereB, &contact))
 			{
-				resolveContact(*sphereA.body, *sphereB.body, contact, dt);
+				resolveContact(*sphereA.body, *sphereB.body, contact);
 			}
 		}
 	}
@@ -49,7 +49,7 @@ void CollisionSolver::update(float dt)
 
 			if (overlapBoxBox(boxA, boxB, &contact))
 			{
-				resolveContact(*boxA.body, *boxB.body, contact, dt);
+				resolveContact(*boxA.body, *boxB.body, contact);
 			}
 		}
 	}
@@ -102,7 +102,7 @@ void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)
 	
 }
 
-void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact, float dt)
+void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact)
 {
 	glm::vec3 reaction = contact.normal * contact.penetration;
 
@@ -138,6 +138,23 @@ void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact,
 	}
 }
 
+void CollisionSolver::checkCollsionExit(Body& bodyA, Body& bodyB)
+{
+	// On leave callback
+	int contactId = contactFromPair(bodyA.id, bodyB.id);
+
+	if (ongoingContacts[contactId])
+	{
+		if (bodyA.onExit)
+			bodyA.onExit(bodyB);
+
+		if (bodyB.onExit)
+			bodyB.onExit(bodyA);
+	}
+
+	ongoingContacts[contactId] = false;
+}
+
 bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
 {
 	glm::vec3 posA = colA.body->transform[3];
@@ -153,7 +170,7 @@ bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB
 	// No collision
 	if (dist2 >= rsum2)
 	{
-		ongoingContacts[contactId] = false;
+		checkCollsionExit(*colA.body, *colB.body);
 		return false;
 	}
 
@@ -189,10 +206,10 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 	float topB = posB.y + colB.volume.y * 0.5f;
 
 	// Z
-	float backA = posA.y - colA.volume.z * 0.5f;
-	float backB = posB.y - colB.volume.z * 0.5f;
-	float frontA = posA.y + colA.volume.z * 0.5f;
-	float frontB = posB.y + colB.volume.z * 0.5f;
+	float backA = posA.z - colA.volume.z * 0.5f;
+	float backB = posB.z - colB.volume.z * 0.5f;
+	float frontA = posA.z + colA.volume.z * 0.5f;
+	float frontB = posB.z + colB.volume.z * 0.5f;
 
 	// Compare
 	bool isColliding = (
@@ -201,8 +218,15 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 		backA < frontB && backB < frontA		// Z
 		);
 
+	// No collision
+	if (!isColliding)
+	{
+		checkCollsionExit(*colA.body, *colB.body);
+		return false;
+	}
+
 	// Contact
-	if (out && isColliding)
+	if (out)
 	{
 		glm::vec3 d = posA - posB;
 		float dist = sqrt(glm::dot(d, d));
@@ -237,7 +261,7 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 		//out->point = posB + normal * (colB.radius - penetration * 0.5f); // TODO
 	}
 
-	return isColliding;
+	return true;
 }
 
 void CollisionSolver::setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies)
@@ -250,7 +274,7 @@ void CollisionSolver::setupOngoinContacts(const std::vector<std::unique_ptr<Body
 
 	for (size_t a = 0; a < bodies.size(); a++)
 	{
-		for (size_t b = 0; b < bodies.size(); b++)
+		for (size_t b = a + 1; b < bodies.size(); b++)
 		{
 			ongoingContacts.push_back(false);
 		}

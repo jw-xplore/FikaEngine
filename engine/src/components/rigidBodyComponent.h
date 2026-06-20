@@ -23,4 +23,5 @@ public:
 	void setBodyTag(int tag);
 
 	void onEnter(Body& body);
+	void onExit(Body& body);
 };

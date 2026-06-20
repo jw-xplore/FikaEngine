@@ -48,7 +48,8 @@ public:
 
 	void addDebugMesh(glm::mat4& transform, float radius = 1);
 
-	void resolveContact(Body& bodyA, Body& bodyB, Contact& contact, float dt);
+	void resolveContact(Body& bodyA, Body& bodyB, Contact& contact);
+	void checkCollsionExit(Body& bodyA, Body& bodyB);
 
 	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
