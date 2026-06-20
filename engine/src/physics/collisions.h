@@ -53,6 +53,7 @@ public:
 
 	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
+	bool overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out = nullptr);
 
 	void setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies);
 	int contactFromPair(int bodyIdA, int bodyIdB);

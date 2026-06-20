@@ -36,7 +36,7 @@ void start()
     meshCmp->setup(*customMesh, basicShader, nullptr);
     meshCmp->setTexture(customTexture);
 
-    player->addComponent<RigidbodyComponent>();
+    player->addComponent<RigidbodyComponent>()->setCollider(EColliderShape::ShapeSphere);
     player->addComponent<PlayerComponent>();
 
     // Setup dummy wall
@@ -44,9 +44,10 @@ void start()
     wall->addComponent<MeshInstanceComponent>()->setup(*cubeMesh, basicShader, nullptr);
     wall->getTransformComponent().translate(glm::vec3(2, 0, 0));
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
-    //wallRb->setBodyType(EBodyType::Static);
-    wallRb->setBodyType(EBodyType::Trigger);
+    wallRb->setBodyType(EBodyType::Static);
+    //wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
+    wallRb->setCollider(EColliderShape::ShapeBox);
 
     // Input mapping
     InputMapping::GetInstance();

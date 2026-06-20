@@ -3,8 +3,8 @@
 ## TODO:
 - Use: Turn source code into library & decouple projects from engine
 - Publishing: Add use instructions & license
-- Collisions: Sphere to box collision
 - Physics comments: Standardize and comment physics and collisions code
+- Instantiate wall multiple times
 
 ## Backlog
 - Memory: Review pool allocator code and adjust with error handlig (pool overflow)

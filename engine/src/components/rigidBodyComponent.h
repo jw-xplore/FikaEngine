@@ -6,6 +6,12 @@ enum EBodyType;
 struct Body;
 class Tranform;
 
+enum EColliderShape
+{
+	ShapeSphere,
+	ShapeBox
+};
+
 class RigidbodyComponent : public Component
 {
 private:
@@ -21,6 +27,7 @@ public:
 	void setVelocity(glm::vec3 velocity);
 	void setBodyType(EBodyType type);
 	void setBodyTag(int tag);
+	void setCollider(EColliderShape shape);
 
 	void onEnter(Body& body);
 	void onExit(Body& body);

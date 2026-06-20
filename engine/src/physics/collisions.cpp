@@ -36,6 +36,18 @@ void CollisionSolver::update(float dt)
 				resolveContact(*sphereA.body, *sphereB.body, contact);
 			}
 		}
+
+		// Box
+		for (size_t b = 0; b < boxColliders.size(); b++)
+		{
+			Sphere& sphere = *sphereColliders[a].get();
+			Box& box = *boxColliders[b].get();
+
+			if (overlapSphereBox(sphere, box, &contact))
+			{
+				resolveContact(*sphere.body, *box.body, contact);
+			}
+		}
 	}
 
 	// Box checks
@@ -253,6 +265,57 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 
 		double volumeSuml = sqrt(volumeSum.x * volumeSum.x + volumeSum.y * volumeSum.y + volumeSum.z * volumeSum.z);
 		float penetration = volumeSuml - dist;
+		if (penetration < 0)
+			penetration = 0;
+
+		out->normal = normal;
+		out->penetration = penetration;
+		//out->point = posB + normal * (colB.radius - penetration * 0.5f); // TODO
+	}
+
+	return true;
+}
+
+bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out)
+{
+	glm::vec3 posA = colA.body->transform[3];
+	glm::vec3 posB = colB.body->transform[3];
+
+	// Box
+	float boxLeft = posB.x - colB.volume.x * 0.5f;
+	float boxRight = posB.x + colB.volume.x * 0.5f;
+	float boxBottom = posB.y - colB.volume.y * 0.5f;
+	float boxTop = posB.y + colB.volume.y * 0.5f;
+	float boxBack = posB.z - colB.volume.z * 0.5f;
+	float boxFront = posB.z + colB.volume.z * 0.5f;
+
+	// Distance
+	glm::vec3 d = posA - posB;
+	float dist2 = glm::dot(d, d);
+	float radius2 = colA.radius * colA.radius;
+	float cubeLongest2 = colB.volume.x * colB.volume.x + colB.volume.y * colB.volume.y + colB.volume.z * colB.volume.z;
+
+	// No collision
+	if (radius2 + cubeLongest2 < dist2)
+	{
+		checkCollsionExit(*colA.body, *colB.body);
+		return false;
+	}
+
+	// Contact
+	if (out)
+	{
+		float dist = sqrt(dist2);
+
+		// Set normal to allign with one of box sides
+		glm::vec3 normal = glm::normalize(glm::vec3(d));
+
+		// Penetration
+		glm::vec3 volumeSum = colB.volume * 0.5f;
+		volumeSum *= normal;
+
+		double volumeSuml = sqrt(volumeSum.x * volumeSum.x + volumeSum.y * volumeSum.y + volumeSum.z * volumeSum.z);
+		float penetration = (volumeSuml + colA.radius) - dist;
 		if (penetration < 0)
 			penetration = 0;
 

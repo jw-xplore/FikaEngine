@@ -18,7 +18,7 @@ void RigidbodyComponent::start()
 	// Test collider add
 	CollisionSolver& collisions = physics->getCollisionSolver();
 	//collisions.addSphereCollider(*body, 0.5f);
-	collisions.addBoxCollider(*body, glm::vec3(2, 1, 1));
+	//collisions.addBoxCollider(*body, glm::vec3(2, 1, 1));
 
 	bodyFreezeMovement(*body, false, true, false);
 }
@@ -31,6 +31,18 @@ void RigidbodyComponent::update(float dt)
 void RigidbodyComponent::setVelocity(glm::vec3 velocity) { body->velocity = velocity; }
 void RigidbodyComponent::setBodyType(EBodyType type) { body->type = type; }
 void RigidbodyComponent::setBodyTag(int tag) { body->tag = tag; }
+
+void RigidbodyComponent::setCollider(EColliderShape shape)
+{
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	CollisionSolver& collisions = physics->getCollisionSolver();
+
+	switch (shape)
+	{
+	case EColliderShape::ShapeSphere: collisions.addSphereCollider(*body, 1); break;
+	case EColliderShape::ShapeBox: collisions.addBoxCollider(*body, glm::vec3(1, 1, 1)); break;
+	}
+}
 
 void RigidbodyComponent::onEnter(Body& body)
 {
