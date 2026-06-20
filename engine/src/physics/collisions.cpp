@@ -33,66 +33,77 @@ void CollisionSolver::update(float dt)
 
 			if (overlapSphereSphere(sphereA, sphereB, &contact))
 			{
-				resolveSphereCollision(sphereA, sphereB, contact, dt);
+				resolveContact(*sphereA.body, *sphereB.body, contact, dt);
 			}
 		}
 	}
+
+	// Box checks
+	for (size_t a = 0; a < boxColliders.size(); a++)
+	{
+		// Box
+		for (size_t b = a + 1; b < boxColliders.size(); b++)
+		{
+			Box& boxA = *boxColliders[a].get();
+			Box& boxB = *boxColliders[b].get();
+
+			if (overlapBoxBox(boxA, boxB, &contact))
+			{
+				resolveContact(*boxA.body, *boxB.body, contact, dt);
+			}
+		}
+	}
+}
+
+Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
+{
+	// Collider
+	auto collider = std::make_unique<Sphere>();
+	collider.get()->body = &body;
+	collider.get()->radius = radius;
+
+	sphereColliders.push_back(std::move(collider));
+
+	// Debug
+	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("sphere"));
+	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+
+	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
+	mesh->customScale = glm::vec3(radius);
+
+	// Return
+	return sphereColliders[sphereColliders.size() - 1].get();
+}
+
+Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
+{
+	// Collider
+	auto collider = std::make_unique<Box>();
+	collider.get()->body = &body;
+	collider.get()->volume = volume;
+
+	boxColliders.push_back(std::move(collider));
+
+	// Debug
+	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
+	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+
+	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
+	mesh->customScale = glm::vec3(volume);
+
+	// Return
+	return boxColliders[boxColliders.size() - 1].get();
 }
 
 void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)
 {
 	SystemsHolder* systems = SystemsHolder::getInstance();
 
-	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("sphere"));
-	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
-
-	MeshInstance* mesh = systems->getDebugRenderer()->addMeshInstance(&transform, cubeMesh, basicShader);
-	mesh->customScale = glm::vec3(radius);
+	
 }
 
-bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
+void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact, float dt)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
-
-	//posA -= colA.body->velocity;
-	//posB -= colB.body->velocity;
-
-	glm::vec3 d = posA - posB;
-	float dist2 = glm::dot(d, d);
-	float rsum = colA.radius + colB.radius;
-	float rsum2 = rsum * rsum;
-
-	int contactId = contactFromPair(colA.body->id, colB.body->id);
-
-	// No collision
-	if (dist2 >= rsum2)
-	{
-		ongoingContacts[contactId] = false;
-		return false;
-	}
-
-	float dist = std::sqrtf(dist2);
-	float penetration = rsum - dist;
-	glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
-
-	if (out)
-	{
-		out->normal = normal;
-		out->penetration = penetration;
-		out->point = posB + normal * (colB.radius - penetration * 0.5f); // approx contact on B
-	}
-
-	return true;
-}
-
-void CollisionSolver::resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt)
-{
-	Body& bodyA = *colA.body;
-	Body& bodyB = *colB.body;
-
-	glm::vec3 velDiff = bodyA.velocity - bodyB.velocity;
-
 	glm::vec3 reaction = contact.normal * contact.penetration;
 
 	if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Static)
@@ -127,28 +138,61 @@ void CollisionSolver::resolveSphereCollision(Sphere& colA, Sphere& colB, Contact
 	}
 }
 
+bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
+{
+	glm::vec3 posA = colA.body->transform[3];
+	glm::vec3 posB = colB.body->transform[3];
+
+	glm::vec3 d = posA - posB;
+	float dist2 = glm::dot(d, d);
+	float rsum = colA.radius + colB.radius;
+	float rsum2 = rsum * rsum;
+
+	int contactId = contactFromPair(colA.body->id, colB.body->id);
+
+	// No collision
+	if (dist2 >= rsum2)
+	{
+		ongoingContacts[contactId] = false;
+		return false;
+	}
+
+	float dist = std::sqrtf(dist2);
+	float penetration = rsum - dist;
+	glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
+
+	if (out)
+	{
+		out->normal = normal;
+		out->penetration = penetration;
+		out->point = posB + normal * (colB.radius - penetration * 0.5f); // approx contact on B
+	}
+
+	return true;
+}
+
 bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* out)
 {
 	glm::vec3 posA = colA.body->transform[3];
 	glm::vec3 posB = colB.body->transform[3];
 
 	// X
-	float leftA = posA.x - colA.width * 0.5f;
-	float leftB = posB.x - colB.width * 0.5f;
-	float rightA = posA.x + colA.width * 0.5f;
-	float rightB = posB.x + colB.width * 0.5f;
+	float leftA = posA.x - colA.volume.x * 0.5f;
+	float leftB = posB.x - colB.volume.x * 0.5f;
+	float rightA = posA.x + colA.volume.x * 0.5f;
+	float rightB = posB.x + colB.volume.x * 0.5f;
 
 	// Y
-	float bottomA = posA.y - colA.height * 0.5f;
-	float bottomB = posB.y - colB.height * 0.5f;
-	float topA = posA.y + colA.height * 0.5f;
-	float topB = posB.y + colB.height * 0.5f;
+	float bottomA = posA.y - colA.volume.y * 0.5f;
+	float bottomB = posB.y - colB.volume.y * 0.5f;
+	float topA = posA.y + colA.volume.y * 0.5f;
+	float topB = posB.y + colB.volume.y * 0.5f;
 
 	// Z
-	float backA = posA.y - colA.depth * 0.5f;
-	float backB = posB.y - colB.depth * 0.5f;
-	float frontA = posA.y + colA.depth * 0.5f;
-	float frontB = posB.y + colB.depth * 0.5f;
+	float backA = posA.y - colA.volume.z * 0.5f;
+	float backB = posB.y - colB.volume.z * 0.5f;
+	float frontA = posA.y + colA.volume.z * 0.5f;
+	float frontB = posB.y + colB.volume.z * 0.5f;
 
 	// Compare
 	bool isColliding = (
@@ -160,11 +204,37 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 	// Contact
 	if (out && isColliding)
 	{
-		/*
+		glm::vec3 d = posA - posB;
+		float dist = sqrt(glm::dot(d, d));
+
+		// TODO: Smooth collision at box edges
+
+		// Set normal to allign with one of box sides
+		glm::vec3 normal = glm::vec3(d);
+
+		if (d == glm::vec3(0.0f)) {
+			normal = glm::vec3(0.0f);
+		}
+		else {
+			glm::vec3 a = glm::abs(d);
+
+			if (a.x >= a.y && a.x >= a.z)      normal = glm::vec3(glm::sign(d.x), 0.0f, 0.0f);
+			else if (a.y >= a.x && a.y >= a.z) normal = glm::vec3(0.0f, glm::sign(d.y), 0.0f);
+			else                                normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
+		}
+
+		// Penetration
+		glm::vec3 volumeSum = (colA.volume + colB.volume) * 0.5f;
+		volumeSum *= normal;
+
+		double volumeSuml = sqrt(volumeSum.x * volumeSum.x + volumeSum.y * volumeSum.y + volumeSum.z * volumeSum.z);
+		float penetration = volumeSuml - dist;
+		if (penetration < 0)
+			penetration = 0;
+
 		out->normal = normal;
 		out->penetration = penetration;
-		out->point = posB + normal * (colB.radius - penetration * 0.5f);
-		*/
+		//out->point = posB + normal * (colB.radius - penetration * 0.5f); // TODO
 	}
 
 	return isColliding;

@@ -25,7 +25,7 @@ namespace FikaEngine
 
         // Meshes
         MeshResource* cubeMesh = GResourceManager::reserveMesh("cube");
-        MeshBuilder().createCube(0.5).build(*cubeMesh);
+        MeshBuilder().createCube(1).build(*cubeMesh);
 
         MeshResource* sphereMesh = GResourceManager::reserveMesh("sphere");
         MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);

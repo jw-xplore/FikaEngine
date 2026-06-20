@@ -13,7 +13,7 @@ struct Sphere
 struct Box
 {
 	Body* body;
-	float width, height, depth;
+	glm::vec3 volume;
 };
 
 struct Contact
@@ -29,6 +29,7 @@ class CollisionSolver
 {
 private:
 	std::vector<std::unique_ptr<Sphere>> sphereColliders;
+	std::vector<std::unique_ptr<Box>> boxColliders;
 	int bodiesCount = 0; // TODO: Do safer implementation
 	std::vector<bool> ongoingContacts;
 
@@ -42,31 +43,14 @@ public:
 
 	void update(float dt);
 
-	/**
-	 * @brief Adds collider based on given shape type
-	 * @tparam T Needs to be a valid shape type from - TODO: Create unified space for collider shape types
-	 * @return 
-	 */
-	template<typename T>
-	T* addCollider()
-	{
-		if (std::is_same<T, Sphere>::value)
-		{
-			// Sphere
-			auto collider = std::make_unique<T>();
-			sphereColliders.push_back(std::move(collider));
-
-			return sphereColliders[sphereColliders.size() - 1].get();
-		}
-
-		return nullptr;
-	}
+	Sphere* addSphereCollider(Body& body, float radius);
+	Box* addBoxCollider(Body& body, glm::vec3 volume);
 
 	void addDebugMesh(glm::mat4& transform, float radius = 1);
 
-	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
-	void resolveSphereCollision(Sphere& colA, Sphere& colB, Contact& contact, float dt);
+	void resolveContact(Body& bodyA, Body& bodyB, Contact& contact, float dt);
 
+	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
 
 	void setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies);

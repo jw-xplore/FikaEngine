@@ -16,11 +16,8 @@ void RigidbodyComponent::start()
 
 	// Test collider add
 	CollisionSolver& collisions = physics->getCollisionSolver();
-	Sphere* sphere = collisions.addCollider<Sphere>();
-	sphere->body = body;
-	sphere->radius = 1;
-
-	collisions.addDebugMesh(*transform, sphere->radius);
+	//collisions.addSphereCollider(*body, 0.5f);
+	collisions.addBoxCollider(*body, glm::vec3(2, 2, 1));
 
 	bodyFreezeMovement(*body, false, true, false);
 }
