@@ -22,7 +22,6 @@ public:
 	GLuint VBO; // Vertex Buffer Object
 	GLuint EBO; // Element Buffer Object
 	int indicesCount;
-	TextureResource* textureRes;
 
 	MeshResource();
 	MeshResource(const MeshResource& meshRes);
@@ -114,7 +113,7 @@ public:
 namespace GResourceManager
 {
 	MeshResource* reserveMesh(std::string name);
-	TextureResource* reseveTexture(std::string name);
+	TextureResource& reseveTexture(std::string name);
 
 	int storeMesh(std::string name, MeshResource& mesh);
 	int storeTexture(std::string name, TextureResource& texture);

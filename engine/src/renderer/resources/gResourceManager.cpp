@@ -18,7 +18,6 @@ MeshResource::MeshResource(const MeshResource& meshRes)
 	VBO = meshRes.VBO;
 	EBO = meshRes.EBO;
 	indicesCount = meshRes.indicesCount;
-	textureRes = meshRes.textureRes;
 }
 
 MeshResource::~MeshResource()
@@ -31,7 +30,6 @@ void MeshResource::cleanup()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 	glDeleteVertexArrays(1, &VOA);
-	//delete textureRes;
 }
 
 //------------------------------------------------------------------------------
@@ -269,13 +267,13 @@ namespace GResourceManager
 		return &meshes[id];
 	}
 
-	TextureResource* reseveTexture(std::string name)
+	TextureResource& reseveTexture(std::string name)
 	{
 		textures.push_back(TextureResource());
 		int id = textures.size() - 1;
 		textureHandles[name] = id;
 
-		return &textures[id];
+		return textures[id];
 	}
 
 	int storeMesh(std::string name, MeshResource& mesh)

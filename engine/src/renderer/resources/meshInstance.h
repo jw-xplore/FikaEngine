@@ -16,9 +16,9 @@ class ShaderResource;
 class MeshInstance
 {
 private:
-	MeshResource* mesh;
-	TextureResource* texture;
-	ShaderResource* shader;
+	MeshResource* mesh = nullptr;
+	TextureResource* texture = nullptr;
+	ShaderResource* shader = nullptr;
 
 public:
 	glm::mat4* transform;

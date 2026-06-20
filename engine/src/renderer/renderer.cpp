@@ -30,7 +30,7 @@ MeshInstance* Renderer::addMeshInstance(glm::mat4* transform, MeshResource& mesh
 	MeshInstance* mesh = meshes->allocate();
 	//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 	mesh->setMesh(&meshRes);
-	mesh->setTexture(texture);
+	//mesh->setTexture(texture);
 	mesh->setShader(&shader);
 	mesh->setTransform(transform);
 

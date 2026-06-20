@@ -4,7 +4,6 @@
 - Use: Turn source code into library & decouple projects from engine
 - Publishing: Add use instructions & license
 - Collisions: Sphere to box collision
-- Rendering: Draw solid color for no texture
 - Physics comments: Standardize and comment physics and collisions code
 
 ## Backlog

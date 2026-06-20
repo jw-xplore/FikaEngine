@@ -6,7 +6,7 @@
 
 MeshBuilder::MeshBuilder()
 {
-	texturePath = "";
+
 }
 
 void MeshBuilder::build(MeshResource& resource)
@@ -25,13 +25,6 @@ void MeshBuilder::build(MeshResource& resource)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.EBO);
 	size = sizeof(int) * indices.size();
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices.data(), GL_STATIC_DRAW);
-
-	// Texture
-	if (texturePath && texturePath != "" && strlen(texturePath) != 0)
-	{
-		resource.textureRes = new TextureResource();
-		resource.textureRes->loadTexture(texturePath);
-	}
 
 	// Attributes
 	glEnableVertexAttribArray(0);
@@ -55,7 +48,6 @@ void MeshBuilder::build(MeshResource& resource)
 
 	vertexBuffer.clear();
 	indices.clear();
-	texturePath = "";
 }
 
 MeshBuilder& MeshBuilder::addVertices(glm::vec3 position, glm::vec4 color, glm::vec2 uv = glm::vec2(0, 0), glm::vec3 normal = glm::vec3(0, 0, 0))
@@ -87,12 +79,6 @@ MeshBuilder& MeshBuilder::addTriangles(unsigned int v0, unsigned int v1, unsigne
 	return *this;
 }
 
-MeshBuilder& MeshBuilder::setTexturePath(const char* path)
-{
-	texturePath = path;
-	return *this;
-}
-
 MeshBuilder& MeshBuilder::loadMesh(const char* path)
 {
 	OBJParser::readFile(path, *this);
@@ -105,8 +91,6 @@ MeshBuilder& MeshBuilder::createQuad(float width, float height)
 	addVertices({ width, -height,-1 }, { 0,1,0,1 });		// 1 - TR
 	addVertices({ width, height,-1 }, { 0,0,1,1 });	// 2 - BR
 	addVertices({ -width, height,-1 }, { 1,1,1,1 });		// 3 - BL
-
-	//resource->indexBuffer = new GLint[3 * 2];
 
 	addTriangles(0, 1, 2);
 	addTriangles(2, 3, 0);

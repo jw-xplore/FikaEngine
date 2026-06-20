@@ -26,12 +26,26 @@ void MeshInstance::draw(glm::mat4 mvp)
 	shader->setUniform("transform", tr);
 	shader->setUniform("MVP", mvp);
 
+	// VOA
+	glBindVertexArray(mesh->VOA);
+
+	// Texture
+	float useTexture = 0;
 	if (texture)
 	{
-		glBindTexture(GL_TEXTURE_2D, texture->texture);
+		useTexture = 1;
+
+		if (texture->texture)
+		{
+			glBindTexture(GL_TEXTURE_2D, texture->texture);
+		}
+
+		shader->setUniform("textureSampler", GL_TEXTURE_2D);
 	}
 
-	glBindVertexArray(mesh->VOA);
+	shader->setUniform("useTexture", useTexture);
+
 	glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
 }

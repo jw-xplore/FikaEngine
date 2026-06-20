@@ -15,4 +15,6 @@ public:
 	 * @param shader Shader reference.
 	 */
 	void setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture);
+
+	void setTexture(TextureResource& texture) { instance->setTexture(&texture); }
 };
