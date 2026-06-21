@@ -3,13 +3,17 @@
 #include <GLFW/glfw3.h>
 #include <fikaEngine.h>
 
+#include "contentManager.h"
 #include "playerComponent.h"
 
 MeshInstance cube0;
 MeshInstance cube1;
+ContentManager* contentManager;
 
 void start()
 {
+    contentManager = new ContentManager();
+
     MeshResource* cubeMesh = &GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
     ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
@@ -30,24 +34,19 @@ void start()
     // Setup camera
     CameraManager::getMainCamera()->move(glm::vec3(0, 2, -5), glm::vec3(0, 0, 1));
 
-    // Setup testing player game object
-    GameObject* player = GameObjectManager::addGameObject();
-    MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
-    meshCmp->setup(*customMesh, basicShader, nullptr);
-    meshCmp->setTexture(customTexture);
+    // Player
+    contentManager->createPlayer(glm::vec3(0));
 
-    player->addComponent<RigidbodyComponent>()->setCollider(EColliderShape::ShapeSphere);
-    player->addComponent<PlayerComponent>();
-
-    // Setup dummy wall
-    GameObject* wall = GameObjectManager::addGameObject();
-    wall->addComponent<MeshInstanceComponent>()->setup(*cubeMesh, basicShader, nullptr);
-    wall->getTransformComponent().translate(glm::vec3(2, 0, 0));
-    RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
-    wallRb->setBodyType(EBodyType::Static);
-    //wallRb->setBodyType(EBodyType::Trigger);
-    wallRb->setBodyTag(1);
-    wallRb->setCollider(EColliderShape::ShapeBox);
+    // Walls
+    contentManager->createWall(glm::vec3(2, 0.5f, 0));
+    contentManager->createWall(glm::vec3(2, 0.5f, 1));
+    contentManager->createWall(glm::vec3(2, 0.5f, 2));
+    contentManager->createWall(glm::vec3(2, 0.5f, 3));
+    contentManager->createWall(glm::vec3(2, 0.5f, 4));
+    contentManager->createWall(glm::vec3(2, 0.5f, 5));
+    contentManager->createWall(glm::vec3(1, 0.5f, 5));
+    contentManager->createWall(glm::vec3(0, 0.5f, 5));
+    contentManager->createWall(glm::vec3(-1, 0.5f, 5));
 
     // Input mapping
     InputMapping::GetInstance();

@@ -25,6 +25,7 @@ namespace GameObjectManager
 	 * @return Pointer to created GameObject.
 	 */
 	GameObject* addGameObject();
+	GameObject* addGameObject(GameObject& prefab);
 
 	/**
 	 * @brief Reserves GameObject for removal from list. Reserved GameObject is deleted after update of all objects.
