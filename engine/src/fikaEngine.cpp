@@ -8,6 +8,7 @@ namespace FikaEngine
     Renderer* renderer;
     Renderer* debugRenderer;
     PhysicsSolver* physicsSolver;
+    GameObjectManager* gameObjectManager;
 
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
@@ -19,6 +20,7 @@ namespace FikaEngine
         renderer = systemsHolder->getMainRenderer();
         debugRenderer = systemsHolder->getDebugRenderer();
         physicsSolver = systemsHolder->getMainPhysicsSolver();
+        gameObjectManager = systemsHolder->getGameObjectManager();
 
         // Setup and load basic resources
         GResourceManager::init();
@@ -128,7 +130,7 @@ namespace FikaEngine
                 CameraManager::getFreeCamera()->flycamUpdate(dt);
 
             // Base game update
-            GameObjectManager::update(dt);
+            gameObjectManager->update(dt);
             physicsSolver->update(dt);
             renderer->render(mainCamera->getProjection());
 
@@ -144,5 +146,7 @@ namespace FikaEngine
         window.destroy();
     }
 
-    static float getDeltaTime() { return deltaTime; }
+    float getDeltaTime() { return deltaTime; }
+
+    GameObject* addGameObject() { return gameObjectManager->addGameObject(); }
 }

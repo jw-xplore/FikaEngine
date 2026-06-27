@@ -3,14 +3,17 @@
 
 class Renderer;
 class PhysicsSolver;
+class GameObjectManager;
 
 class SystemsHolder
 {
 private:
 	static SystemsHolder* instance;
+
 	std::unique_ptr<Renderer> renderer;
 	std::unique_ptr<Renderer> debugRenderer; // Renders helper meshes
 	std::unique_ptr<PhysicsSolver> physicsSolver;
+	std::unique_ptr<GameObjectManager> gameObjectManager;
 
 public:
 	SystemsHolder();
@@ -19,6 +22,7 @@ public:
 	Renderer* getMainRenderer() { return renderer.get(); }
 	Renderer* getDebugRenderer() { return debugRenderer.get(); }
 	PhysicsSolver* getMainPhysicsSolver() { return physicsSolver.get(); }
+	GameObjectManager* getGameObjectManager() { return gameObjectManager.get(); }
 
 	static SystemsHolder* getInstance()
 	{

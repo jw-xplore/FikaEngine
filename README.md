@@ -1,10 +1,8 @@
 # Fika Engine
 
 ## TODO:
-- Use: Turn source code into library & decouple projects from engine
 - Publishing: Add use instructions & license
 - Physics comments: Standardize and comment physics and collisions code
-- Instantiate wall multiple times
 
 ## Backlog
 - Memory: Review pool allocator code and adjust with error handlig (pool overflow)
@@ -16,3 +14,4 @@
 - Multithreading: Physics on separated thread
 - Controls: Add controls contexts (so free cam controls can surpress player controls)
 - UI: Create more general purpouse utility for imgui
+- Use: Create setup for library style of use so engine with all externals can be reused inside other solutions

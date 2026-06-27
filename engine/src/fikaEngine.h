@@ -63,5 +63,10 @@ namespace FikaEngine
 	 */
 	void run(void (*startFnc)(), void (*updateFnc)(float));
 	
-	static float getDeltaTime();
+	float getDeltaTime();
+
+	/**
+	 * @brief Add game object to engines main game object manager.
+	 */
+	GameObject* addGameObject();
 }

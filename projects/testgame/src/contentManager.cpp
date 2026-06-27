@@ -27,7 +27,7 @@ void ContentManager::createPlayer(glm::vec3 position)
     TextureResource& customTexture = GResourceManager::getTexture(GResourceManager::textureHandle("customTex1"));
     ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
-    GameObject* player = GameObjectManager::addGameObject();
+    GameObject* player = FikaEngine::addGameObject();
     MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
     meshCmp->setup(customMesh, basicShader, nullptr);
     meshCmp->setTexture(customTexture);
@@ -40,7 +40,7 @@ void ContentManager::createPlayer(glm::vec3 position)
 
 void ContentManager::createWall(glm::vec3 position)
 {
-    GameObject* wall = GameObjectManager::addGameObject();
+    GameObject* wall = FikaEngine::addGameObject();
     wall->addComponent<MeshInstanceComponent>()->setup(*cubeMesh, *basicShader, nullptr);
     wall->getTransformComponent().translate(position);
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();

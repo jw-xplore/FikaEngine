@@ -7,12 +7,18 @@ class Component;
 
 struct GameObjectId;
 
-namespace GameObjectManager
+class GameObjectManager
 {
-	/**
-	 * @brief Call at start to setup game objects storage.
-	 */
-	void init();
+private:
+	// TODO: Use pool allocator
+	std::vector<std::unique_ptr<GameObject>> gameObjects;
+
+	std::vector<GameObject*> removeGOs;
+	int removeGOsCount = 0;
+
+public:
+	GameObjectManager();
+	~GameObjectManager();
 
 	/**
 	 * @brief Updates all game objects in list, including their components. Takes care of removing game objects.
@@ -25,7 +31,6 @@ namespace GameObjectManager
 	 * @return Pointer to created GameObject.
 	 */
 	GameObject* addGameObject();
-	GameObject* addGameObject(GameObject& prefab);
 
 	/**
 	 * @brief Reserves GameObject for removal from list. Reserved GameObject is deleted after update of all objects.
