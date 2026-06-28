@@ -14,25 +14,9 @@ void start()
 {
     contentManager = new ContentManager();
 
-    MeshResource* cubeMesh = &GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
-    ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
-
-    //Renderer::addMeshInstance(*cubeMesh, basicShader);
-    GResourceManager::debugPrint();
-    
-    // TODO: Fix storing and using of multiple mesh resources
-    MeshResource* customMesh = GResourceManager::reserveMesh("custom1");
-    GResourceManager::debugPrint();
-    MeshBuilder().loadMesh("assets/models/testcharacter.obj").build(*customMesh);
-
-    
-    TextureResource& customTexture = GResourceManager::reseveTexture("customTex1");
-    customTexture.loadTexture("assets/textures/testPlayer.jpg");
-    //Renderer::addMeshInstance(*customMesh, basicShader);
-    //Renderer::addMeshInstance(*cubeMesh, basicShader);
-
     // Setup camera
-    CameraManager::getMainCamera()->move(glm::vec3(0, 2, -5), glm::vec3(0, 0, 1));
+    SystemsHolder* systemsHolder = SystemsHolder::getInstance();
+    systemsHolder->getCameraManager()->getMainCamera()->move(glm::vec3(0, 2, -6), glm::vec3(0, 0, 1));
 
     // Player
     contentManager->createPlayer(glm::vec3(0));

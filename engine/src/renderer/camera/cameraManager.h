@@ -1,8 +1,20 @@
-class Camera;
+#include "camera.h"
+
 class Window;
 
-namespace CameraManager
+class CameraManager
 {
+private:
+	Camera mainCamera;
+	Camera freeCamera;
+
+	Camera* activeCamera;
+	bool usingFreeCamera = false;
+
+public:
+	CameraManager();
+	~CameraManager();
+
 	void init(Window& window);
 	Camera* getActiveCamera();
 	void useFreeCamera(bool use);
@@ -10,4 +22,4 @@ namespace CameraManager
 
 	Camera* getMainCamera();
 	Camera* getFreeCamera();
-}
+};

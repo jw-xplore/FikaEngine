@@ -9,6 +9,7 @@ namespace FikaEngine
     Renderer* debugRenderer;
     PhysicsSolver* physicsSolver;
     GameObjectManager* gameObjectManager;
+    CameraManager* cameraManager;
 
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
@@ -21,6 +22,7 @@ namespace FikaEngine
         debugRenderer = systemsHolder->getDebugRenderer();
         physicsSolver = systemsHolder->getMainPhysicsSolver();
         gameObjectManager = systemsHolder->getGameObjectManager();
+        cameraManager = systemsHolder->getCameraManager();
 
         // Setup and load basic resources
         GResourceManager::init();
@@ -85,9 +87,8 @@ namespace FikaEngine
         glEnable(GL_DEPTH_TEST);
 
         // Setup cameras
-        CameraManager::init(window);
-        Camera* mainCamera = CameraManager::getActiveCamera();
-        mainCamera->move(glm::vec3(0), glm::vec3(0, 0, 1));
+        cameraManager->init(window);
+        Camera* mainCamera = cameraManager->getMainCamera();
 
         // Custom user start and setup
         startFnc();
@@ -122,12 +123,12 @@ namespace FikaEngine
             // Free cam update
             if (keyboard->pressed[Input::Key::P])
             {
-                CameraManager::useFreeCamera(!CameraManager::isUsingFreeCamera());
-                mainCamera = CameraManager::getActiveCamera();
+                cameraManager->useFreeCamera(!cameraManager->isUsingFreeCamera());
+                mainCamera = cameraManager->getActiveCamera();
             }
 
-            if (CameraManager::isUsingFreeCamera())
-                CameraManager::getFreeCamera()->flycamUpdate(dt);
+            if (cameraManager->isUsingFreeCamera())
+                cameraManager->getFreeCamera()->flycamUpdate(dt);
 
             // Base game update
             gameObjectManager->update(dt);

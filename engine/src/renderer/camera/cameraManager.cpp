@@ -1,53 +1,53 @@
 #include "cameraManager.h"
-#include "camera.h"
-#include "../../platform/window.h";
+#include "platform/window.h";
 
-namespace CameraManager
+CameraManager::CameraManager()
 {
-	Camera mainCamera;
-	Camera freeCamera;
 
-	Camera* activeCamera;
-	bool usingFreeCamera = false;
+}
 
-	void init(Window& window)
+CameraManager::~CameraManager()
+{
+
+}
+
+void CameraManager::init(Window& window)
+{
+	mainCamera = Camera(window);
+	freeCamera = Camera(window);
+	useFreeCamera(false);
+}
+
+Camera* CameraManager::getActiveCamera()
+{
+	return activeCamera;
+}
+
+void CameraManager::useFreeCamera(bool use)
+{
+	usingFreeCamera = use;
+
+	if (use)
 	{
-		mainCamera = Camera(window);
-		freeCamera = Camera(window);
-		useFreeCamera(false);
+		activeCamera = &freeCamera;
 	}
-
-	Camera* getActiveCamera()
+	else
 	{
-		return activeCamera;
+		activeCamera = &mainCamera;
 	}
+}
 
-	void useFreeCamera(bool use)
-	{
-		usingFreeCamera = use;
+bool CameraManager::isUsingFreeCamera()
+{
+	return usingFreeCamera;
+}
 
-		if (use)
-		{
-			activeCamera = &freeCamera;
-		}
-		else
-		{
-			activeCamera = &mainCamera;
-		}
-	}
+Camera* CameraManager::getMainCamera()
+{
+	return &mainCamera;
+}
 
-	bool isUsingFreeCamera()
-	{
-		return usingFreeCamera;
-	}
-
-	Camera* getMainCamera()
-	{
-		return &mainCamera;
-	}
-
-	Camera* getFreeCamera()
-	{
-		return &freeCamera;
-	}
+Camera* CameraManager::getFreeCamera()
+{
+	return &freeCamera;
 }

@@ -2,6 +2,7 @@
 #include "renderer/renderer.h"
 #include "physics/physics.h"
 #include "core/gameobjectmanager.h"
+#include "renderer/camera/cameraManager.h"
 
 SystemsHolder* SystemsHolder::instance = new SystemsHolder();
 
@@ -11,6 +12,7 @@ SystemsHolder::SystemsHolder()
 	debugRenderer = std::unique_ptr<Renderer>(new Renderer());
 	physicsSolver = std::unique_ptr<PhysicsSolver>(new PhysicsSolver());
 	gameObjectManager = std::unique_ptr<GameObjectManager>(new GameObjectManager());
+	cameraManager = std::unique_ptr<CameraManager>(new CameraManager());
 }
 
 SystemsHolder::~SystemsHolder()
