@@ -15,5 +15,5 @@ public:
 	~ContentManager();
 
 	void createPlayer(glm::vec3 position);
-	void createWall(glm::vec3 position);
+	void createWall(glm::vec3 position, bool solid = true);
 };

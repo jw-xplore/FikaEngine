@@ -44,6 +44,14 @@ void RigidbodyComponent::setCollider(EColliderShape shape)
 	}
 }
 
+void RigidbodyComponent::setBoxCollider(glm::vec3 volume)
+{
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	CollisionSolver& collisions = physics->getCollisionSolver();
+
+	collisions.addBoxCollider(*body, volume);
+}
+
 void RigidbodyComponent::onEnter(Body& body)
 {
 	std::cout << "on enter: " << body.id << ", tag: " << body.tag << "\n";

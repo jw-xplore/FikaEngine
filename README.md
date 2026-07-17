@@ -1,5 +1,4 @@
 # Fika Engine
-![logo](doc/logo.png)
 
 ## Overview
 Fika Engine is a C++ game engine that serves mainly as a experimental and educational project. The goal is to expand authors knowledge about game engines development and share this knowleged with others.
