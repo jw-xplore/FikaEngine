@@ -5,25 +5,25 @@
 template <typename T>
 class PoolAllocator
 {
-public:
+private:
 	T* buffer;
-	
+
 	size_t elementSize;
-	size_t reserved;
+	size_t size;
 	size_t used = 0;
 	T** handles;
 
+public:
 	PoolAllocator(size_t count)
 	{
 		used = 0;
-		reserved = count;
+		size = count;
 		elementSize = sizeof(T);
 
-		//size = reserved * elementSize;
-		buffer = new T[reserved];
-		handles = new T * [reserved];
+		buffer = new T[size];
+		handles = new T * [size];
 
-		for (size_t i = 0; i < reserved; i++)
+		for (size_t i = 0; i < size; i++)
 		{
 			T* element = buffer + i;
 			handles[i] = element;
@@ -32,7 +32,7 @@ public:
 
 	T* allocate()
 	{
-		if (used >= reserved)
+		if (used >= size)
 			return nullptr;
 
 		T* pos = handles[used];
@@ -45,7 +45,7 @@ public:
 	{
 		// Find element
 		int pos = -1;
-		for (size_t i = 0; i < reserved; i++)
+		for (size_t i = 0; i < size; i++)
 		{
 			if (handles[i] == element)
 			{
@@ -68,13 +68,13 @@ public:
 		}
 	}
 
-	const T& operator[](std::size_t idx) const
-	{
-		return handles[idx];
-	}
-
-	T& at(size_t idx)
+	T& operator[](std::size_t idx)
 	{
 		return *handles[idx];
+	}
+
+	int getUsedAmount()
+	{
+		return used;
 	}
 };

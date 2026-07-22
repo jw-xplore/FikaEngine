@@ -101,6 +101,6 @@ int PhysicsSolver::findTagId(std::string tag)
 			return i;
 	}
 
-	std::cout << "Tag '" << tag << "' is not used";
+	//std::cout << "Tag '" << tag << "' is not used";
 	return -1;
 }

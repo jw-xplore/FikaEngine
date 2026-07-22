@@ -2,7 +2,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include <memory>
-#include "../core/memory.h"
+#include "core/memorymanagement.h"
 
 class MeshResource;
 class ShaderResource;

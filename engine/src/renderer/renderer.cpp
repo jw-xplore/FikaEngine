@@ -18,9 +18,9 @@ Renderer::~Renderer()
 
 void Renderer::render(glm::mat4 mvp)
 {
-	for (size_t i = 0; i < meshes->used; i++)
+	for (size_t i = 0; i < meshes->getUsedAmount(); i++)
 	{
-		MeshInstance mesh = meshes->at(i);
+		MeshInstance mesh = (*meshes)[i];
 		mesh.draw(mvp);
 	}
 }
