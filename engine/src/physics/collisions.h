@@ -31,7 +31,7 @@ private:
 	std::vector<std::unique_ptr<Sphere>> sphereColliders;
 	std::vector<std::unique_ptr<Box>> boxColliders;
 	int bodiesCount = 0; // TODO: Do safer implementation
-	std::vector<bool> ongoingContacts;
+	bool* ongoingContacts = nullptr;
 
 	const float targetDt = 1.0f / 60.0f;
 	const int SOLVER_ITERATIONS = 3;
@@ -55,6 +55,6 @@ public:
 	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
 	bool overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out = nullptr);
 
-	void setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies);
+	void setupOngoinContacts(const size_t size);
 	int contactFromPair(int bodyIdA, int bodyIdB);
 };

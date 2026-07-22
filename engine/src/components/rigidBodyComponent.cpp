@@ -28,7 +28,11 @@ void RigidbodyComponent::update(float dt)
 	*transform = body->transform;
 }
 
-void RigidbodyComponent::setVelocity(glm::vec3 velocity) { body->velocity = velocity; }
+void RigidbodyComponent::setVelocity(glm::vec3 velocity)
+{
+	body->velocity = velocity;
+}
+
 void RigidbodyComponent::setBodyType(EBodyType type) { body->type = type; }
 void RigidbodyComponent::setBodyTag(int tag) { body->tag = tag; }
 

@@ -53,7 +53,7 @@ void bodyFreezeRotation(Body& body, bool x, bool y, bool z)
 
 PhysicsSolver::PhysicsSolver()
 {
-	bodies.reserve(256);
+	bodies = new PoolAllocator<Body>(256);
 
 	tags.resize(8);
 	tags[0] = DEFAULT_TAG;
@@ -66,11 +66,10 @@ PhysicsSolver::~PhysicsSolver()
 
 void PhysicsSolver::update(float dt)
 {
-	// Apply physical forces 
-	for (auto& body : bodies)
+	for (size_t i = 0; i < bodies->getUsedAmount(); i++)
 	{
-		//body->transform = glm::translate(body->transform, body->velocity * dt);
-		applyForce(*body, body->velocity * dt);
+		Body& body = (*bodies)[i];
+		applyForce(body, body.velocity * dt);
 	}
 
 	// Collider calculations
@@ -79,18 +78,15 @@ void PhysicsSolver::update(float dt)
 
 Body& PhysicsSolver::addBody(const glm::mat4& tranform)
 {
-	std::unique_ptr<Body> body(new Body());
-	body.get()->transform = tranform;
-
-	int id = bodies.size();
+	Body* body = bodies->allocate();
+	int id = bodies->getUsedAmount();
 	body->id = id;
-
-	bodies.push_back(std::move(body));
+	body->transform = tranform;
 
 	// TODO: Make option to call this after all
-	collisionsSolver.setupOngoinContacts(bodies);
+	collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());
 
-	return *bodies[id];
+	return (*bodies)[id - 1];
 }
 
 int PhysicsSolver::findTagId(std::string tag)

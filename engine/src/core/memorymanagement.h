@@ -1,6 +1,7 @@
 //-------------------------------------------------------------------------
 // Memory pool allocator
 //-------------------------------------------------------------------------
+#pragma once
 
 template <typename T>
 class PoolAllocator
@@ -77,4 +78,6 @@ public:
 	{
 		return used;
 	}
+
+	//std::vector<> getElements
 };

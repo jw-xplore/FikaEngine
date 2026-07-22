@@ -85,6 +85,7 @@ namespace FikaEngine
 
         setup();
         glEnable(GL_DEPTH_TEST);
+        glfwSwapInterval(0); // Disable v-sync for testing
 
         // Setup cameras
         cameraManager->init(window);

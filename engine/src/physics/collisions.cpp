@@ -327,25 +327,32 @@ bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Cont
 	return true;
 }
 
-void CollisionSolver::setupOngoinContacts(const std::vector<std::unique_ptr<Body>>& bodies)
+void CollisionSolver::setupOngoinContacts(const size_t size)
 {
-	ongoingContacts.clear();
+	if (ongoingContacts)
+		delete ongoingContacts;
 
-	int size = bodies.size();
 	bodiesCount = size;
-	ongoingContacts.reserve(size * (size - 1) / 2);
+	ongoingContacts = new bool[size * (size - 1) / 2];
 
-	for (size_t a = 0; a < bodies.size(); a++)
+	int i = 0;
+
+	for (size_t a = 0; a < size; a++)
 	{
-		for (size_t b = a + 1; b < bodies.size(); b++)
+		for (size_t b = a + 1; b < size; b++)
 		{
-			ongoingContacts.push_back(false);
+			ongoingContacts[i] = false;
+			i++;
 		}
 	}
 }
 
 int CollisionSolver::contactFromPair(int bodyIdA, int bodyIdB)
 {
+	// TODO: Check id matching between bodies, gos and contacts
+	bodyIdA--;
+	bodyIdB--;
+
 	int a = bodyIdA * (2 * bodiesCount - bodyIdA - 1) / 2;
 	int b = bodyIdB - bodyIdA - 1;
 	return a + b;

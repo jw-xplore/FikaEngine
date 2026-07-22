@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include "collisions.h"
+#include "core/memorymanagement.h"
 
 enum EBodyType
 {
@@ -24,8 +25,8 @@ struct Body
 	int id;
 	unsigned int tag;
 	EBodyType type = EBodyType::Kinematic;
-	glm::mat4 transform;
-	glm::vec3 velocity;
+	glm::mat4 transform = glm::mat4(1.0);
+	glm::vec3 velocity = glm::vec3(0.0);
 	EAxes freezeMovement = (EAxes)0;
 	EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
 
@@ -43,7 +44,7 @@ class PhysicsSolver
 private:
 	CollisionSolver collisionsSolver;
 
-	std::vector<std::unique_ptr<Body>> bodies;
+	PoolAllocator<Body>* bodies;
 	std::vector<std::string> tags;
 	const const char* DEFAULT_TAG = "Default";
 
