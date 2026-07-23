@@ -63,6 +63,9 @@ public:
 	{
 		if (used >= size)
 		{
+			if (depth == 0)
+				used++;
+
 			// Allocate in next pool (recursively if overlowed)
 			return allocateInNextPool();
 		}
@@ -103,6 +106,14 @@ public:
 
 	T& operator[](std::size_t idx)
 	{
+		if (idx >= size * (depth + 1))
+		{
+			return (*nextPool)[idx];
+		}
+
+		idx -= size * depth;
+
+		// Standart search
 		return *handles[idx];
 	}
 

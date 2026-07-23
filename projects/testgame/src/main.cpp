@@ -16,7 +16,7 @@ void start()
 
     // Setup camera
     SystemsHolder* systemsHolder = SystemsHolder::getInstance();
-    systemsHolder->getCameraManager()->getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
+    systemsHolder->getCameraManager()->getMainCamera()->move(glm::vec3(0, 20, -40), glm::vec3(0, -0.3f, 1));
 
     // Player
     contentManager->createPlayer(glm::vec3(0));
@@ -26,14 +26,12 @@ void start()
     contentManager->createWall(glm::vec3(0, 0, 2), false);
     contentManager->createWall(glm::vec3(2, 0, 2));
 
-    /*
     for (int i = 0; i < 256; i++)
     {
         int x = rand() % 10;
         int z = rand() % 10;
         contentManager->createWall(glm::vec3(x, 0, z), false);
     }
-    */
 
     // Input mapping
     InputMapping::GetInstance();
