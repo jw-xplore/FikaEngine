@@ -10,7 +10,8 @@
 
 CollisionSolver::CollisionSolver()
 {
-	sphereColliders.reserve(256);
+	sphereColliders = new PoolAllocator<Sphere>("Sphere colliders", 256);
+	boxColliders = new PoolAllocator<Box>("Box colliders", 256);
 }
 
 CollisionSolver::~CollisionSolver()
@@ -23,13 +24,13 @@ void CollisionSolver::update(float dt)
 	Contact contact;
 
 	// Sphere checks
-	for (size_t a = 0; a < sphereColliders.size(); a++)
+	for (size_t a = 0; a < sphereColliders->getUsedAmount(); a++)
 	{
 		// Sphere
-		for (size_t b = a + 1; b < sphereColliders.size(); b++)
+		for (size_t b = a + 1; b < sphereColliders->getUsedAmount(); b++)
 		{
-			Sphere& sphereA = *sphereColliders[a].get();
-			Sphere& sphereB = *sphereColliders[b].get();
+			Sphere& sphereA = (*sphereColliders)[a];
+			Sphere& sphereB = (*sphereColliders)[b];
 
 			if (overlapSphereSphere(sphereA, sphereB, &contact))
 			{
@@ -38,10 +39,10 @@ void CollisionSolver::update(float dt)
 		}
 
 		// Box
-		for (size_t b = 0; b < boxColliders.size(); b++)
+		for (size_t b = 0; b < boxColliders->getUsedAmount(); b++)
 		{
-			Sphere& sphere = *sphereColliders[a].get();
-			Box& box = *boxColliders[b].get();
+			Sphere& sphere = (*sphereColliders)[a];
+			Box& box = (*boxColliders)[b];
 
 			if (overlapSphereBox(sphere, box, &contact))
 			{
@@ -51,13 +52,13 @@ void CollisionSolver::update(float dt)
 	}
 
 	// Box checks
-	for (size_t a = 0; a < boxColliders.size(); a++)
+	for (size_t a = 0; a < boxColliders->getUsedAmount(); a++)
 	{
 		// Box
-		for (size_t b = a + 1; b < boxColliders.size(); b++)
+		for (size_t b = a + 1; b < boxColliders->getUsedAmount(); b++)
 		{
-			Box& boxA = *boxColliders[a].get();
-			Box& boxB = *boxColliders[b].get();
+			Box& boxA = (*boxColliders)[a];
+			Box& boxB = (*boxColliders)[b];
 
 			if (overlapBoxBox(boxA, boxB, &contact))
 			{
@@ -70,11 +71,9 @@ void CollisionSolver::update(float dt)
 Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 {
 	// Collider
-	auto collider = std::make_unique<Sphere>();
-	collider.get()->body = &body;
-	collider.get()->radius = radius;
-
-	sphereColliders.push_back(std::move(collider));
+	Sphere* collider = sphereColliders->allocate();
+	collider->body = &body;
+	collider->radius = radius;
 
 	// Debug
 	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("sphere"));
@@ -84,17 +83,15 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	mesh->customScale = glm::vec3(radius);
 
 	// Return
-	return sphereColliders[sphereColliders.size() - 1].get();
+	return &(*sphereColliders)[sphereColliders->getUsedAmount() - 1];
 }
 
 Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 {
 	// Collider
-	auto collider = std::make_unique<Box>();
-	collider.get()->body = &body;
-	collider.get()->volume = volume;
-
-	boxColliders.push_back(std::move(collider));
+	Box* collider = boxColliders->allocate();
+	collider->body = &body;
+	collider->volume = volume;
 
 	// Debug
 	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
@@ -104,7 +101,7 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	mesh->customScale = glm::vec3(volume);
 
 	// Return
-	return boxColliders[boxColliders.size() - 1].get();
+	return &(*boxColliders)[boxColliders->getUsedAmount() - 1];
 }
 
 void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)

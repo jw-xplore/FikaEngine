@@ -1,6 +1,7 @@
 #pragma once
 #include "glm/glm.hpp"
 #include <memory>
+#include "core/memorymanagement.h"
 
 struct Body;
 
@@ -28,8 +29,8 @@ const float PENETRATION_MULT = 0.0166f; // TODO: Adjust this with proper behavio
 class CollisionSolver
 {
 private:
-	std::vector<std::unique_ptr<Sphere>> sphereColliders;
-	std::vector<std::unique_ptr<Box>> boxColliders;
+	PoolAllocator<Sphere>* sphereColliders;
+	PoolAllocator<Box>* boxColliders;
 	int bodiesCount = 0; // TODO: Do safer implementation
 	bool* ongoingContacts = nullptr;
 
