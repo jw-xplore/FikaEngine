@@ -8,7 +8,7 @@
 
 Renderer::Renderer()
 {
-	meshes = new PoolAllocator<MeshInstance>(MAX_MESHES);
+	meshes = new PoolAllocator<MeshInstance>("Meshes", MAX_MESHES);
 }
 
 Renderer::~Renderer()

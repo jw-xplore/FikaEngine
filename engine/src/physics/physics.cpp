@@ -53,7 +53,7 @@ void bodyFreezeRotation(Body& body, bool x, bool y, bool z)
 
 PhysicsSolver::PhysicsSolver()
 {
-	bodies = new PoolAllocator<Body>(256);
+	bodies = new PoolAllocator<Body>("Physics bodies", 256);
 
 	tags.resize(8);
 	tags[0] = DEFAULT_TAG;

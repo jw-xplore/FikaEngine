@@ -2,11 +2,14 @@
 // Memory pool allocator
 //-------------------------------------------------------------------------
 #pragma once
+#include <iostream>
 
 template <typename T>
 class PoolAllocator
 {
 private:
+	const char* name;
+	unsigned short depth = 0;
 	T* buffer;
 
 	size_t elementSize;
@@ -14,9 +17,31 @@ private:
 	size_t used = 0;
 	T** handles;
 
-public:
-	PoolAllocator(size_t count)
+	PoolAllocator<T>* nextPool = nullptr;
+
+	/**
+	 * @brief Recursively tries to allocate element in next free pool.
+	 * @return Pointer to recently allocated element in any of free pools.
+	 */
+	T* allocateInNextPool()
 	{
+		if (!nextPool)
+		{
+			nextPool = new PoolAllocator<T>(name, size);
+			nextPool->depth = depth + 1;
+			unsigned int recommendation = (depth + 2) * size;
+			std::cout << "Pool allocator overflow! Expanding pool '" << name << "'" << " by depth: " << nextPool->depth << ".";
+			std::cout << "Consider expanding pool size from " << size << " to " << recommendation << " to improve performance.\n";
+		}
+
+		return nextPool->allocate();
+	}
+
+public:
+
+	PoolAllocator(const char* name, size_t count)
+	{
+		this->name = name;
 		used = 0;
 		size = count;
 		elementSize = sizeof(T);
@@ -31,11 +56,18 @@ public:
 		}
 	}
 
+	/**
+	 * @return Pointer to recently allocated element.
+	 */
 	T* allocate()
 	{
 		if (used >= size)
-			return nullptr;
+		{
+			// Allocate in next pool (recursively if overlowed)
+			return allocateInNextPool();
+		}
 
+		// Allocate new place in standard way
 		T* pos = handles[used];
 		used++;
 
@@ -74,10 +106,11 @@ public:
 		return *handles[idx];
 	}
 
+	/**
+	 * @return How many elements in pool are actually allocated.
+	 */
 	int getUsedAmount()
 	{
 		return used;
 	}
-
-	//std::vector<> getElements
 };
