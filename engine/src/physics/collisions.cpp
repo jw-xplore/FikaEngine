@@ -238,7 +238,6 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 	if (out)
 	{
 		glm::vec3 d = posA - posB;
-		float dist = sqrt(glm::dot(d, d));
 
 		// TODO: Smooth collision at box edges
 
@@ -259,6 +258,9 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 		// Penetration
 		glm::vec3 volumeSum = (colA.volume + colB.volume) * 0.5f;
 		volumeSum *= normal;
+
+		glm::vec3 dNorm = d * normal;
+		float dist = sqrt(glm::dot(dNorm, dNorm));
 
 		double volumeSuml = sqrt(volumeSum.x * volumeSum.x + volumeSum.y * volumeSum.y + volumeSum.z * volumeSum.z);
 		float penetration = volumeSuml - dist;
