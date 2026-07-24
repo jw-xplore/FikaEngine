@@ -12,6 +12,7 @@ CollisionSolver::CollisionSolver()
 {
 	sphereColliders = new PoolAllocator<Sphere>("Sphere colliders", 256);
 	boxColliders = new PoolAllocator<Box>("Box colliders", 256);
+	capsuleColliders = new PoolAllocator<Capsule>("Capsule colliders", 256);
 }
 
 CollisionSolver::~CollisionSolver()
@@ -102,6 +103,24 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 
 	// Return
 	return &(*boxColliders)[boxColliders->getUsedAmount() - 1];
+}
+
+Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float height)
+{
+	// Collider
+	Capsule* collider = capsuleColliders->allocate();
+	collider->body = &body;
+	collider->radius = radius;
+	collider->height = height;
+
+	// Debug
+	MeshResource& debugMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cylinder"));
+	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+
+	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
+	mesh->customScale = glm::vec3(radius, height, radius);
+
+	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
 }
 
 void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)
@@ -324,6 +343,24 @@ bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Cont
 	}
 
 	return true;
+}
+
+bool CollisionSolver::overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out)
+{
+	// TODO
+	return false;
+}
+
+bool CollisionSolver::overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out)
+{
+	// TODO
+	return false;
+}
+
+bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out)
+{
+	// TODO
+	return false;
 }
 
 void CollisionSolver::setupOngoinContacts(const size_t size)

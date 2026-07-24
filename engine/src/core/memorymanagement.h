@@ -61,6 +61,9 @@ public:
 	 */
 	T* allocate()
 	{
+		if (size == 0)
+			assert("Pool was never defined!");
+
 		if (used >= size)
 		{
 			if (depth == 0)

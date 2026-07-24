@@ -45,6 +45,7 @@ void ContentManager::createPlayer(glm::vec3 position)
 
     RigidbodyComponent* rb = player->addComponent<RigidbodyComponent>();
     rb->setCollider(EColliderShape::ShapeSphere);
+    //rb->setCapsuleCollider(0.5, 0.5);
 
     player->addComponent<PlayerComponent>();
 }

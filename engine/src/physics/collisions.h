@@ -17,6 +17,13 @@ struct Box
 	glm::vec3 volume;
 };
 
+struct Capsule
+{
+	Body* body;
+	float radius;
+	float height;
+};
+
 struct Contact
 {
 	glm::vec3 normal;
@@ -31,6 +38,8 @@ class CollisionSolver
 private:
 	PoolAllocator<Sphere>* sphereColliders;
 	PoolAllocator<Box>* boxColliders;
+	PoolAllocator<Capsule>* capsuleColliders;
+
 	int bodiesCount = 0; // TODO: Do safer implementation
 	bool* ongoingContacts = nullptr;
 
@@ -46,6 +55,7 @@ public:
 
 	Sphere* addSphereCollider(Body& body, float radius);
 	Box* addBoxCollider(Body& body, glm::vec3 volume);
+	Capsule* addCapsuleCollider(Body& body, float radius, float height);
 
 	void addDebugMesh(glm::mat4& transform, float radius = 1);
 
@@ -53,8 +63,13 @@ public:
 	void checkCollsionExit(Body& bodyA, Body& bodyB);
 
 	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
+	// Box
 	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
 	bool overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out = nullptr);
+	// Capsule
+	bool overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out = nullptr);
+	bool overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out = nullptr);
+	bool overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out = nullptr);
 
 	void setupOngoinContacts(const size_t size);
 	int contactFromPair(int bodyIdA, int bodyIdB);

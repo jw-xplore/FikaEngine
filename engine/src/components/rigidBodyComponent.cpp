@@ -48,12 +48,25 @@ void RigidbodyComponent::setCollider(EColliderShape shape)
 	}
 }
 
+/*
+TODO: Be able to track which type and collider is used by this component
+	- also be able to remove or replace collider by different type
+*/
+
 void RigidbodyComponent::setBoxCollider(glm::vec3 volume)
 {
 	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
 	CollisionSolver& collisions = physics->getCollisionSolver();
 
 	collisions.addBoxCollider(*body, volume);
+}
+
+void RigidbodyComponent::setCapsuleCollider(float radius, float height)
+{
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	CollisionSolver& collisions = physics->getCollisionSolver();
+
+	collisions.addCapsuleCollider(*body, radius, height);
 }
 
 void RigidbodyComponent::onEnter(Body& body)

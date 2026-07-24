@@ -29,6 +29,7 @@ public:
 	void setBodyTag(int tag);
 	void setCollider(EColliderShape shape);
 	void setBoxCollider(glm::vec3 volume);
+	void setCapsuleCollider(float radius, float height);
 
 	void onEnter(Body& body);
 	void onExit(Body& body);

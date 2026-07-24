@@ -250,6 +250,7 @@ void TextureResource::activateTexture(unsigned int* texture)
 
 namespace GResourceManager
 {
+	// TODO: Change into pool allocators
 	std::vector<MeshResource> meshes;
 	std::vector<TextureResource> textures;
 	std::vector<ShaderResource> shaders;

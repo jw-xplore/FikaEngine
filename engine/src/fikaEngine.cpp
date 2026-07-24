@@ -34,6 +34,9 @@ namespace FikaEngine
         MeshResource* sphereMesh = GResourceManager::reserveMesh("sphere");
         MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);
 
+        MeshResource* cylinderMesh = GResourceManager::reserveMesh("cylinder");
+        MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
+
         // Shaders
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
 		GResourceManager::storeShader("basic", basicShader);
