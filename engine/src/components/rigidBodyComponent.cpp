@@ -71,10 +71,10 @@ void RigidbodyComponent::setCapsuleCollider(float radius, float height)
 
 void RigidbodyComponent::onEnter(Body& body)
 {
-	//std::cout << "on enter: " << body.id << ", tag: " << body.tag << "\n";
+	std::cout << "on enter: " << body.id << ", tag: " << body.tag << "\n";
 }
 
 void RigidbodyComponent::onExit(Body& body)
 {
-	//std::cout << "on exit: " << body.id << ", tag: " << body.tag << "\n";
+	std::cout << "on exit: " << body.id << ", tag: " << body.tag << "\n";
 }

@@ -39,13 +39,14 @@ void ContentManager::createPlayer(glm::vec3 position)
     ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
     GameObject* player = FikaEngine::addGameObject();
+    player->getTransformComponent().translate(position);
     MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
     meshCmp->setup(customMesh, basicShader, nullptr);
     meshCmp->setTexture(customTexture);
 
     RigidbodyComponent* rb = player->addComponent<RigidbodyComponent>();
-    rb->setCollider(EColliderShape::ShapeSphere);
-    //rb->setCapsuleCollider(0.5, 0.5);
+    //rb->setCollider(EColliderShape::ShapeSphere);
+    rb->setCapsuleCollider(0.5, 0.5);
 
     player->addComponent<PlayerComponent>();
 }
@@ -67,6 +68,6 @@ void ContentManager::createWall(glm::vec3 position, bool solid)
 
     //wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
-    //wallRb->setCollider(EColliderShape::ShapeBox);
-    wallRb->setBoxCollider(glm::vec3(2.0f));
+    wallRb->setCollider(EColliderShape::ShapeSphere);
+    //wallRb->setBoxCollider(glm::vec3(2.0f));
 }
