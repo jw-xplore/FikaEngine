@@ -23,7 +23,7 @@ void start()
 
     // Walls
     //contentManager->createWall(glm::vec3(-2, 0, 2), false);
-    contentManager->createWall(glm::vec3(0, 0, 2), false);
+    contentManager->createWall(glm::vec3(0, 0, 3), true);
     //contentManager->createWall(glm::vec3(2, 0, 2), false);
 
     /*

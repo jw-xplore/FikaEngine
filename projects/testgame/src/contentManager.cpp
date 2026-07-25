@@ -46,7 +46,7 @@ void ContentManager::createPlayer(glm::vec3 position)
 
     RigidbodyComponent* rb = player->addComponent<RigidbodyComponent>();
     //rb->setCollider(EColliderShape::ShapeSphere);
-    rb->setCapsuleCollider(0.5, 0.5);
+    rb->setCapsuleCollider(0.5, 1);
 
     player->addComponent<PlayerComponent>();
 }
@@ -68,6 +68,7 @@ void ContentManager::createWall(glm::vec3 position, bool solid)
 
     //wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
-    wallRb->setCollider(EColliderShape::ShapeSphere);
+    //wallRb->setCollider(EColliderShape::ShapeSphere);
     //wallRb->setBoxCollider(glm::vec3(2.0f));
+    wallRb->setBoxCollider(glm::vec3(2, 2, 2));
 }
