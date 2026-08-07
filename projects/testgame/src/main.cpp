@@ -22,9 +22,9 @@ void start()
     contentManager->createPlayer(glm::vec3(0, 0, 0));
 
     // Walls
-    //contentManager->createWall(glm::vec3(-2, 0, 2), false);
-    contentManager->createWall(glm::vec3(0, 0, 3), true);
-    //contentManager->createWall(glm::vec3(2, 0, 2), false);
+    //contentManager->createWall(glm::vec3(-2, 0, 2));
+    contentManager->createWall(glm::vec3(0, 0, 2));
+    //contentManager->createWall(glm::vec3(2, 0, 2));
 
     /*
     for (int i = 0; i < 1000; i++)

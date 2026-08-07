@@ -22,13 +22,19 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
+- Collisions: Finnish capsule to box collision
+- Collisions: Fix box collisions with uneven volume ratio
+- Collisions: Add capsule to capsule handling
+- Raycast: Spheres
+- Raycast: Boxes
+- Raycast: Capsules
 - Physics comments: Comment physics and collisions code
+- Resources: Change GResourceManager from namespace to class
+- Debug memory: Allocations-dealocations debug log
+- Debug: Implement way to turn on/off debug/log features 
 
 ## Backlog
-- Memory: Review pool allocator code and adjust with error handlig (pool overflow)
-- Debug memory - Allocations-dealocations debug log
 - Debug: Add custom debug console running inside game
-- Physics memory: Use pool allocator for bodies and colliders
 - Physics: Rotation freeze implementation
 - GO manager: Use pool allocator for game objects
 - Multithreading: Test separated update and render threads
@@ -39,3 +45,4 @@ Steps:
 - Guide: Add basic API use guide and examples
 - Example: Create proper example project
 - Window/camera: Add resizing support
+- Collisions: Predict and stop objects from moving in and back between collision point

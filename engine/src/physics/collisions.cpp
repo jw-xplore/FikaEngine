@@ -294,7 +294,7 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 
 			if (a.x >= a.y && a.x >= a.z)      normal = glm::vec3(glm::sign(d.x), 0.0f, 0.0f);
 			else if (a.y >= a.x && a.y >= a.z) normal = glm::vec3(0.0f, glm::sign(d.y), 0.0f);
-			else                                normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
+			else                               normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
 		}
 
 		// Penetration
@@ -330,68 +330,45 @@ bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Cont
 	float boxBack = posB.z - colB.volume.z * 0.5f;
 	float boxFront = posB.z + colB.volume.z * 0.5f;
 
-	// Distance
-	glm::vec3 d = posA - posB;
-	float dist2 = glm::dot(d, d);
-	float radius2 = colA.radius * colA.radius;
-	float cubeLongest2 = colB.volume.x * colB.volume.x + colB.volume.y * colB.volume.y + colB.volume.z * colB.volume.z;
+	// Find closest point
+	glm::vec3 closestPoint;
 
-	// No collision
-	if (radius2 + cubeLongest2 < dist2)
-	{
-		checkCollsionExit(*colA.body, *colB.body);
+	// x
+	if (posA.x > boxRight)		closestPoint.x = boxRight;
+	else if (posA.x < boxLeft)	closestPoint.x = boxLeft;
+	else						closestPoint.x = posA.x;
+
+	// y
+	if (posA.y > boxTop)		closestPoint.y = boxTop;
+	else if (posA.y < boxBottom)closestPoint.y = boxBottom;
+	else						closestPoint.y = posA.y;
+
+	// z
+	if (posA.z > boxFront)		closestPoint.z = boxFront;
+	else if (posA.z < boxBack)	closestPoint.z = boxBack;
+	else						closestPoint.z = posA.z;
+
+	// Check distance
+	glm::vec3 pd = posA - closestPoint;
+	float pDist2 = glm::dot(pd, pd);
+	float r2 = colA.radius * colA.radius;
+
+	if (pDist2 > r2)
 		return false;
-	}
 
-	// TODO: Fix normals at edges
-	// TODO: Fix uneven volume ratio collisions
-	// Contact
 	if (out)
 	{
-		float dist = sqrt(dist2);
+		glm::vec3 normal;
+		glm::vec3 a = glm::abs(pd);
 
-		// Set normal to allign with one of box sides
-		glm::vec3 normal = glm::normalize(glm::vec3(d));
+		if (a.x >= a.y && a.x >= a.z)		normal = glm::vec3(glm::sign(pd.x), 0.0f, 0.0f);
+		else if (a.y >= a.x && a.y >= a.z)	normal = glm::vec3(0.0f, glm::sign(pd.y), 0.0f);
+		else								normal = glm::vec3(0.0f, 0.0f, glm::sign(pd.z));
 
-		if (d == glm::vec3(0.0f)) {
-			normal = glm::vec3(0.0f);
-		}
-		else {
-			glm::vec3 a = glm::abs(d);
-
-			if (a.x >= a.y && a.x >= a.z)      normal = glm::vec3(glm::sign(d.x), 0.0f, 0.0f);
-			else if (a.y >= a.x && a.y >= a.z) normal = glm::vec3(0.0f, glm::sign(d.y), 0.0f);
-			else                                normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
-		}
-
-		// Sphere touching the wall?
-		if (normal.x != 0 && glm::abs(d.x) > colB.volume.x * 0.5f + colA.radius ||
-			normal.y != 0 && glm::abs(d.y) > colB.volume.y * 0.5f + colA.radius ||
-			normal.z != 0 && glm::abs(d.z) > colB.volume.z * 0.5f + colA.radius
-			)
-		{
-			checkCollsionExit(*colA.body, *colB.body);
-			return false;
-		}
-
-		// Penetration
-		glm::vec3 volumeSum = colB.volume * 0.5f;
-		volumeSum *= normal;
-
-		//double volumeSuml = sqrt(volumeSum.x * volumeSum.x + volumeSum.y * volumeSum.y + volumeSum.z * volumeSum.z);
-		float selectedVolume = colB.volume.x * 0.5f;
-		if (normal.y != 0)
-			selectedVolume = colB.volume.y * 0.5f;
-		else if (normal.z != 0)
-			selectedVolume = colB.volume.z * 0.5f;
-
-		float penetration = (selectedVolume + colA.radius) - dist;
-		if (penetration < 0)
-			penetration = 0;
-
+		out->point = closestPoint;
 		out->normal = normal;
-		out->penetration = penetration;
-		//out->point = posB + normal * (colB.radius - penetration * 0.5f); // TODO
+
+		out->penetration = r2 - pDist2;
 	}
 
 	return true;
