@@ -90,6 +90,23 @@ void CollisionSolver::update(float dt)
 			}
 		}
 	}
+
+	// Capsule checks
+	for (size_t a = 0; a < capsuleColliders->getUsedAmount(); a++)
+	{
+		Capsule& capsule = (*capsuleColliders)[a];
+
+		// Capsule
+		for (size_t b = a + 1; b < capsuleColliders->getUsedAmount(); b++)
+		{
+			Capsule& capsuleB = (*capsuleColliders)[b];
+
+			if (overlapCapsuleCapsule(capsule, capsuleB, &contact))
+			{
+				resolveContact(*capsule.body, *capsuleB.body, contact);
+			}
+		}
+	}
 }
 
 Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
@@ -141,7 +158,7 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
 
 	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
-	mesh->customScale = glm::vec3(radius, height, radius);
+	mesh->customScale = glm::vec3(radius, height + radius * 2, radius);
 
 	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
 }
@@ -376,8 +393,52 @@ bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Cont
 
 bool CollisionSolver::overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out)
 {
-	// TODO
-	return false;
+	glm::vec3 posA = colA.body->transform[3];
+	glm::vec3 posB = colB.body->transform[3];
+
+	// Height comparison
+	float aHalfHeight = colA.height * 0.5f + colA.radius;
+	float aTop = posA.y + aHalfHeight;
+	float aBottom = posA.y - aHalfHeight;
+
+	float bHalfHeight = colB.height * 0.5f + colB.radius;
+	float bTop = posB.y + bHalfHeight;
+	float bBottom = posB.y - bHalfHeight;
+
+	// No height collision?
+	if (aBottom > bTop || aTop < bBottom)
+	{
+		checkCollsionExit(*colA.body, *colB.body);
+		return false;
+	}
+
+	// Sphere distances check
+	glm::vec3 d = posA - posB;
+	d.y = 0;
+	float dist2 = glm::dot(d, d);
+	float rsum = colA.radius + colB.radius;
+
+	// No distance collision?
+	if (dist2 > rsum * rsum)
+	{
+		checkCollsionExit(*colA.body, *colB.body);
+		return false;
+	}
+
+	// Contact
+	if (out)
+	{
+		float dist = std::sqrtf(dist2);
+		glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
+
+		float penetration = rsum - dist;
+
+		out->normal = normal;
+		out->penetration = penetration;
+		out->point = posB + normal * (colB.radius - penetration * 0.5f); // approx contact on B
+	}
+
+	return true;
 }
 
 bool CollisionSolver::overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out)
@@ -458,21 +519,6 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 	glm::vec3 posA = colA.body->transform[3];
 	glm::vec3 posB = colB.body->transform[3];
 
-	// Distance
-	glm::vec3 d = posA - posB;
-	d.y = 0;
-	float dist2 = glm::dot(d, d);
-	float radius2 = colA.radius * colA.radius;
-	// NOTE: Cube longest is not correct
-	float cubeLongest2 = colB.volume.x * colB.volume.x + colB.volume.y * colB.volume.y + colB.volume.z * colB.volume.z;
-
-	// No distance collision?
-	if (radius2 + cubeLongest2 < dist2)
-	{
-		checkCollsionExit(*colA.body, *colB.body);
-		return false;
-	}
-
 	// Height comparison
 	float halfTotalHeight = colA.height * 0.5f + colA.radius;
 	float ctop = posA.y + halfTotalHeight;
@@ -493,53 +539,46 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 	float boxFront = posB.z + colB.volume.z * 0.5f;
 	float boxBack = posB.z - colB.volume.z * 0.5f;
 
-	// Contact
+	// Find closest point
+	glm::vec3 closestPoint;
+
+	// x
+	if (posA.x > boxRight)		closestPoint.x = boxRight;
+	else if (posA.x < boxLeft)	closestPoint.x = boxLeft;
+	else						closestPoint.x = posA.x;
+
+	// y
+	if (posA.y > boxTop)		closestPoint.y = boxTop;
+	else if (posA.y < boxBottom)closestPoint.y = boxBottom;
+	else						closestPoint.y = posA.y;
+
+	// z
+	if (posA.z > boxFront)		closestPoint.z = boxFront;
+	else if (posA.z < boxBack)	closestPoint.z = boxBack;
+	else						closestPoint.z = posA.z;
+
+	// Check distance
+	glm::vec3 pd = posA - closestPoint;
+	pd.y = 0;
+	float pDist2 = glm::dot(pd, pd);
+	float r2 = colA.radius * colA.radius;
+
+	if (pDist2 > r2)
+		return false;
+
 	if (out)
 	{
-		float dist = sqrt(dist2);
+		glm::vec3 normal;
+		glm::vec3 a = glm::abs(pd);
 
-		// Set normal to allign with one of box sides
-		glm::vec3 normal = glm::normalize(glm::vec3(d));
+		if (a.x >= a.y && a.x >= a.z)		normal = glm::vec3(glm::sign(pd.x), 0.0f, 0.0f);
+		else if (a.y >= a.x && a.y >= a.z)	normal = glm::vec3(0.0f, glm::sign(pd.y), 0.0f);
+		else								normal = glm::vec3(0.0f, 0.0f, glm::sign(pd.z));
 
-		if (d == glm::vec3(0.0f)) {
-			normal = glm::vec3(0.0f);
-		}
-		else {
-			glm::vec3 a = glm::abs(d);
-
-			if (a.x >= a.y && a.x >= a.z)      normal = glm::vec3(glm::sign(d.x), 0.0f, 0.0f);
-			else if (a.y >= a.x && a.y >= a.z) normal = glm::vec3(0.0f, glm::sign(d.y), 0.0f);
-			else                                normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
-		}
-
-		// Sphere touching the wall?
-		if (normal.x != 0 && glm::abs(d.x) > colB.volume.x * 0.5f + colA.radius ||
-			normal.y != 0 && glm::abs(d.y) > colB.volume.y * 0.5f + colA.radius ||
-			normal.z != 0 && glm::abs(d.z) > colB.volume.z * 0.5f + colA.radius
-			)
-		{
-			checkCollsionExit(*colA.body, *colB.body);
-			return false;
-		}
-
-		// Penetration
-		glm::vec3 volumeSum = colB.volume * 0.5f;
-		volumeSum *= normal;
-
-		//double volumeSuml = sqrt(volumeSum.x * volumeSum.x + volumeSum.y * volumeSum.y + volumeSum.z * volumeSum.z);
-		float selectedVolume = colB.volume.x * 0.5f;
-		if (normal.y != 0)
-			selectedVolume = colB.volume.y * 0.5f;
-		else if (normal.z != 0)
-			selectedVolume = colB.volume.z * 0.5f;
-
-		float penetration = (selectedVolume + colA.radius) - dist;
-		if (penetration < 0)
-			penetration = 0;
-
+		out->point = closestPoint;
 		out->normal = normal;
-		out->penetration = penetration;
-		//out->point = posB + normal * (colB.radius - penetration * 0.5f); // TODO
+
+		out->penetration = r2 - pDist2;
 	}
 
 	return true;
