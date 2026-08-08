@@ -22,9 +22,6 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
-- Collisions: Finnish capsule to box collision
-- Collisions: Fix box collisions with uneven volume ratio
-- Collisions: Add capsule to capsule handling
 - Raycast: Spheres
 - Raycast: Boxes
 - Raycast: Capsules

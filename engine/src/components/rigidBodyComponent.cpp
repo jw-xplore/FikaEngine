@@ -20,7 +20,7 @@ void RigidbodyComponent::start()
 	//collisions.addSphereCollider(*body, 0.5f);
 	//collisions.addBoxCollider(*body, glm::vec3(2, 1, 1));
 
-	bodyFreezeMovement(*body, false, true, false);
+	//bodyFreezeMovement(*body, false, true, false);
 }
 
 void RigidbodyComponent::update(float dt)

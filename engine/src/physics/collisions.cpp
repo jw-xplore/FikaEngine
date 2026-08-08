@@ -161,7 +161,7 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
 	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
-	mesh->customScale = glm::vec3(radius, height + radius * 2, radius);
+	mesh->customScale = glm::vec3(radius, height, radius);
 
 	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
 }
@@ -374,7 +374,10 @@ bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Cont
 	float r2 = colA.radius * colA.radius;
 
 	if (pDist2 > r2)
+	{
+		checkCollsionExit(*colA.body, *colB.body);
 		return false;
+	}
 
 	if (out)
 	{
@@ -433,6 +436,30 @@ bool CollisionSolver::overlapCapsuleCapsule(const Capsule& colA, const Capsule& 
 	{
 		float dist = std::sqrtf(dist2);
 		glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
+
+		// Hemispheres handling
+		float halfHeight = colA.height * 0.5f;
+		float yDist = posB.y - posA.y;
+
+		if (abs(yDist) > halfHeight)
+		{
+			float sphereYDist = abs(yDist) - halfHeight;
+			int sign = 1;
+			if (yDist < 0)
+				sign = -1;
+
+			d.y = sphereYDist * -sign;
+			dist = std::sqrtf(glm::dot(d, d));
+
+			// Sphere missing eachother
+			if (dist > rsum)
+			{
+				checkCollsionExit(*colA.body, *colB.body);
+				return false;
+			}
+
+			normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
+		}
 
 		float penetration = rsum - dist;
 
@@ -567,7 +594,10 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 	float r2 = colA.radius * colA.radius;
 
 	if (pDist2 > r2)
+	{
+		checkCollsionExit(*colA.body, *colB.body);
 		return false;
+	}
 
 	if (out)
 	{
@@ -578,10 +608,35 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 		else if (a.y >= a.x && a.y >= a.z)	normal = glm::vec3(0.0f, glm::sign(pd.y), 0.0f);
 		else								normal = glm::vec3(0.0f, 0.0f, glm::sign(pd.z));
 
-		out->point = closestPoint;
-		out->normal = normal;
+		// Hemispheres handling
+		float halfHeight = colA.height * 0.5f - colA.radius;
+		float yDist = closestPoint.y - posA.y;
 
 		out->penetration = r2 - pDist2;
+
+		if (abs(yDist) > halfHeight)
+		{
+			float sphereYDist = abs(yDist) - halfHeight;
+			int sign = 1;
+			if (yDist < 0)
+				sign = -1;
+
+			pd.y = sphereYDist * -sign;
+			float dist = std::sqrtf(glm::dot(pd, pd));
+
+			// Sphere missing eachother
+			if (dist > colA.radius)
+			{
+				checkCollsionExit(*colA.body, *colB.body);
+				return false;
+			}
+
+			normal = dist > MIN_DISTANCE ? pd / dist : glm::vec3(0, 1, 0);
+			out->penetration = colA.radius - dist;
+		}
+
+		out->point = closestPoint;
+		out->normal = normal;
 	}
 
 	return true;
