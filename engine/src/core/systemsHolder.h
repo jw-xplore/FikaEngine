@@ -5,6 +5,7 @@ class Renderer;
 class PhysicsSolver;
 class GameObjectManager;
 class CameraManager;
+class GResourceManager;
 
 class SystemsHolder
 {
@@ -16,6 +17,7 @@ private:
 	std::unique_ptr<PhysicsSolver> physicsSolver;
 	std::unique_ptr<GameObjectManager> gameObjectManager;
 	std::unique_ptr<CameraManager> cameraManager;
+	std::unique_ptr<GResourceManager> gResourceManager;
 
 public:
 	SystemsHolder();
@@ -26,6 +28,7 @@ public:
 	PhysicsSolver* getMainPhysicsSolver() { return physicsSolver.get(); }
 	GameObjectManager* getGameObjectManager() { return gameObjectManager.get(); }
 	CameraManager* getCameraManager() { return cameraManager.get(); }
+	GResourceManager* getGResourceManager() { return gResourceManager.get(); }
 
 	static SystemsHolder* getInstance()
 	{

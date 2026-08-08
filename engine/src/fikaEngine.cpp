@@ -10,6 +10,7 @@ namespace FikaEngine
     PhysicsSolver* physicsSolver;
     GameObjectManager* gameObjectManager;
     CameraManager* cameraManager;
+    GResourceManager* gResourceManager;
 
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
@@ -23,23 +24,24 @@ namespace FikaEngine
         physicsSolver = systemsHolder->getMainPhysicsSolver();
         gameObjectManager = systemsHolder->getGameObjectManager();
         cameraManager = systemsHolder->getCameraManager();
+        gResourceManager = systemsHolder->getGResourceManager();
 
         // Setup and load basic resources
-        GResourceManager::init();
+        gResourceManager->init();
 
         // Meshes
-        MeshResource* cubeMesh = GResourceManager::reserveMesh("cube");
+        MeshResource* cubeMesh = gResourceManager->reserveMesh("cube");
         MeshBuilder().createCube(1).build(*cubeMesh);
 
-        MeshResource* sphereMesh = GResourceManager::reserveMesh("sphere");
+        MeshResource* sphereMesh = gResourceManager->reserveMesh("sphere");
         MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);
 
-        MeshResource* cylinderMesh = GResourceManager::reserveMesh("cylinder");
+        MeshResource* cylinderMesh = gResourceManager->reserveMesh("cylinder");
         MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
 
         // Shaders
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
-		GResourceManager::storeShader("basic", basicShader);
+		gResourceManager->storeShader("basic", basicShader);
 
         // Keyboard
         keyboard = Input::getDefaultKeyboard();

@@ -248,119 +248,125 @@ void TextureResource::activateTexture(unsigned int* texture)
 // Resource manager
 //------------------------------------------------------------------------------
 
-namespace GResourceManager
+MeshResource* GResourceManager::reserveMesh(std::string name)
 {
-	// TODO: Change into pool allocators
-	std::vector<MeshResource> meshes;
-	std::vector<TextureResource> textures;
-	std::vector<ShaderResource> shaders;
+	meshes.push_back(MeshResource());
+	int id = meshes.size() - 1;
+	meshHandles[name] = id;
 
-	std::map<std::string, int> meshHandles;
-	std::map<std::string, int> textureHandles;
-	std::map<std::string, int> shaderHandles;
+	return &meshes[id];
+}
 
-	MeshResource* reserveMesh(std::string name)
+TextureResource& GResourceManager::reseveTexture(std::string name)
+{
+	textures.push_back(TextureResource());
+	int id = textures.size() - 1;
+	textureHandles[name] = id;
+
+	return textures[id];
+}
+
+int GResourceManager::storeMesh(std::string name, MeshResource& mesh)
+{
+	meshes.push_back(mesh);
+	int id = meshes.size() - 1;
+	meshHandles[name] = id;
+
+	return id;
+}
+
+int GResourceManager::storeTexture(std::string name, TextureResource& texture)
+{
+	textures.push_back(texture);
+	int id = textures.size() - 1;
+	textureHandles[name] = id;
+
+	return id;
+}
+
+int GResourceManager::storeShader(std::string name, ShaderResource& shader)
+{
+	shaders.push_back(shader);
+	int id = shaders.size() - 1;
+	shaderHandles[name] = id;
+
+	return id;
+}
+
+int GResourceManager::meshHandle(std::string name)
+{
+	if (!meshHandles.contains(name))
+		return -1;
+
+	return meshHandles[name];
+}
+
+int GResourceManager::textureHandle(std::string name)
+{
+	if (!textureHandles.contains(name))
+		return -1;
+
+	return textureHandles[name];
+}
+
+int GResourceManager::shaderHandle(std::string name)
+{
+	if (!shaderHandles.contains(name))
+		return -1;
+
+	return shaderHandles[name];
+}
+
+MeshResource& GResourceManager::getMesh(int handle)
+{
+	return meshes[handle];
+}
+
+MeshResource& GResourceManager::getMesh(std::string handle)
+{
+	int id = meshHandle(handle);
+	return meshes[id];
+}
+
+TextureResource& GResourceManager::getTexture(int handle)
+{
+	return textures[handle];
+}
+
+TextureResource& GResourceManager::getTexture(std::string handle)
+{
+	int id = textureHandle(handle);
+	return textures[id];
+}
+
+ShaderResource& GResourceManager::getShader(int handle)
+{
+	return shaders[handle];
+}
+
+ShaderResource& GResourceManager::getShader(std::string handle)
+{
+	int id = shaderHandle(handle);
+	return shaders[id];
+}
+
+void GResourceManager::init()
+{
+	// TODO: Add safety for resources changing address due to pushing over reserved count
+	meshes.reserve(128);
+	textures.reserve(128);
+	shaders.reserve(128);
+}
+
+void GResourceManager::reloadShaders()
+{
+	for (auto shader : shaders)
 	{
-		meshes.push_back(MeshResource());
-		int id = meshes.size() - 1;
-		meshHandles[name] = id;
-
-		return &meshes[id];
+		shader.reload();
 	}
+}
 
-	TextureResource& reseveTexture(std::string name)
-	{
-		textures.push_back(TextureResource());
-		int id = textures.size() - 1;
-		textureHandles[name] = id;
-
-		return textures[id];
-	}
-
-	int storeMesh(std::string name, MeshResource& mesh)
-	{
-		meshes.push_back(mesh);
-		int id = meshes.size() - 1;
-		meshHandles[name] = id;
-
-		return id;
-	}
-
-	int storeTexture(std::string name, TextureResource& texture)
-	{
-		textures.push_back(texture);
-		int id = textures.size() - 1;
-		textureHandles[name] = id;
-
-		return id;
-	}
-
-	int storeShader(std::string name, ShaderResource& shader)
-	{
-		shaders.push_back(shader);
-		int id = shaders.size() - 1;
-		shaderHandles[name] = id;
-
-		return id;
-	}
-
-	int meshHandle(std::string name)
-	{
-		if (!meshHandles.contains(name))
-			return -1;
-
-		return meshHandles[name];
-	}
-
-	int textureHandle(std::string name)
-	{
-		if (!textureHandles.contains(name))
-			return -1;
-
-		return textureHandles[name];
-	}
-
-	int shaderHandle(std::string name)
-	{
-		if (!shaderHandles.contains(name))
-			return -1;
-
-		return shaderHandles[name];
-	}
-
-	MeshResource& getMesh(int handle)
-	{
-		return meshes[handle];
-	}
-
-	TextureResource& getTexture(int handle)
-	{
-		return textures[handle];
-	}
-
-	ShaderResource& getShader(int handle)
-	{
-		return shaders[handle];
-	}
-
-	void init()
-	{
-		// TODO: Add safety for resources changing address due to pushing over reserved count
-		meshes.reserve(128);
-		textures.reserve(128);
-		shaders.reserve(128);
-	}
-
-	void reloadShaders()
-	{
-		for (auto shader : shaders)
-		{
-			shader.reload();
-		}
-	}
-
-	void debugPrint()
-	{
-		std::cout << "Meshes: " << &meshes[0] << "\n";
-	}
+void GResourceManager::debugPrint()
+{
+	std::cout << "Meshes: " << &meshes[0] << "\n";
 }

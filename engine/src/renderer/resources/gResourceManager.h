@@ -110,8 +110,19 @@ public:
 // Resource manager
 //------------------------------------------------------------------------------
 
-namespace GResourceManager
+class GResourceManager
 {
+private:
+	// TODO: Change into pool allocators
+	std::vector<MeshResource> meshes;
+	std::vector<TextureResource> textures;
+	std::vector<ShaderResource> shaders;
+
+	std::map<std::string, int> meshHandles;
+	std::map<std::string, int> textureHandles;
+	std::map<std::string, int> shaderHandles;
+
+public:
 	MeshResource* reserveMesh(std::string name);
 	TextureResource& reseveTexture(std::string name);
 
@@ -124,8 +135,11 @@ namespace GResourceManager
 	int shaderHandle(std::string name);
 
 	MeshResource& getMesh(int handle);
+	MeshResource& getMesh(std::string handle);
 	TextureResource& getTexture(int handle);
+	TextureResource& getTexture(std::string handle);
 	ShaderResource& getShader(int handle);
+	ShaderResource& getShader(std::string handle);
 
 	void init();
 	void reloadShaders();

@@ -117,8 +117,9 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	collider->radius = radius;
 
 	// Debug
-	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("sphere"));
-	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
+	MeshResource& cubeMesh = gResourceManager->getMesh("sphere");
+	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
 	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(radius);
@@ -135,8 +136,9 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	collider->volume = volume;
 
 	// Debug
-	MeshResource& cubeMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
-	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
+	MeshResource& cubeMesh = gResourceManager->getMesh("cube");
+	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
 	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(volume);
@@ -154,8 +156,9 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	collider->height = height;
 
 	// Debug
-	MeshResource& debugMesh = GResourceManager::getMesh(GResourceManager::meshHandle("cylinder"));
-	ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
+	MeshResource& debugMesh = gResourceManager->getMesh("cylinder");
+	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
 	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
 	mesh->customScale = glm::vec3(radius, height + radius * 2, radius);

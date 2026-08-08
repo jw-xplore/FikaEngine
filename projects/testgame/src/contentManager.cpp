@@ -3,28 +3,30 @@
 
 ContentManager::ContentManager()
 {
-    // Setup resources
-    cubeMesh = &GResourceManager::getMesh(GResourceManager::meshHandle("cube"));
-    basicShader = &GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+    gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
 
-    customMesh = GResourceManager::reserveMesh("custom1");
+    // Setup resources
+    cubeMesh = &gResourceManager->getMesh("cube");
+    basicShader = &gResourceManager->getShader("basic");
+
+    customMesh = gResourceManager->reserveMesh("custom1");
     MeshBuilder().loadMesh("assets/models/Sheep.obj").build(*customMesh);
 
     // Pawn
-    MeshResource* pawnMesh = GResourceManager::reserveMesh("pawn");
+    MeshResource* pawnMesh = gResourceManager->reserveMesh("pawn");
     MeshBuilder().loadMesh("assets/models/pawn.obj").build(*pawnMesh);
 
-    customTexture = &GResourceManager::reseveTexture("customTex1");
+    customTexture = &gResourceManager->reseveTexture("customTex1");
     customTexture->loadTexture("assets/textures/pawn.jpg");
 
     // Crate
-    MeshResource* crateMesh = GResourceManager::reserveMesh("crate");
+    MeshResource* crateMesh = gResourceManager->reserveMesh("crate");
     MeshBuilder().loadMesh("assets/models/crate.obj").build(*crateMesh);
 
-    TextureResource* crateTex = &GResourceManager::reseveTexture("crate");
+    TextureResource* crateTex = &gResourceManager->reseveTexture("crate");
     crateTex->loadTexture("assets/textures/crate.jpg");
 
-    GResourceManager::debugPrint();
+    gResourceManager->debugPrint();
 }
 
 ContentManager::~ContentManager()
@@ -34,9 +36,9 @@ ContentManager::~ContentManager()
 
 void ContentManager::createPlayer(glm::vec3 position)
 {
-    MeshResource& customMesh = GResourceManager::getMesh(GResourceManager::meshHandle("pawn"));
-    TextureResource& customTexture = GResourceManager::getTexture(GResourceManager::textureHandle("customTex1"));
-    ShaderResource& basicShader = GResourceManager::getShader(GResourceManager::shaderHandle("basic"));
+    MeshResource& customMesh = gResourceManager->getMesh("pawn");
+    TextureResource& customTexture = gResourceManager->getTexture("customTex1");
+    ShaderResource& basicShader = gResourceManager->getShader("basic");
 
     GameObject* player = FikaEngine::addGameObject();
     player->getTransformComponent().translate(position);
@@ -53,8 +55,8 @@ void ContentManager::createPlayer(glm::vec3 position)
 
 void ContentManager::createWall(glm::vec3 position, bool solid)
 {
-    MeshResource& customMesh = GResourceManager::getMesh(GResourceManager::meshHandle("crate"));
-    TextureResource& customTexture = GResourceManager::getTexture(GResourceManager::textureHandle("crate"));
+    MeshResource& customMesh = gResourceManager->getMesh("crate");
+    TextureResource& customTexture = gResourceManager->getTexture("crate");
 
     GameObject* wall = FikaEngine::addGameObject();
     MeshInstanceComponent* meshCmp = wall->addComponent<MeshInstanceComponent>();
@@ -71,6 +73,6 @@ void ContentManager::createWall(glm::vec3 position, bool solid)
     //wallRb->setCollider(EColliderShape::ShapeSphere);
     //wallRb->setBoxCollider(glm::vec3(2.0f));
     //wallRb->setBoxCollider(glm::vec3(2, 2, 2));
-    //wallRb->setBoxCollider(glm::vec3(10, 2, 2));
-    wallRb->setCapsuleCollider(0.5f, 1);
+    wallRb->setBoxCollider(glm::vec3(2, 2, 2));
+    //wallRb->setCapsuleCollider(0.5f, 1);
 }

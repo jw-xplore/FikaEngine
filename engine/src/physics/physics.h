@@ -23,7 +23,7 @@ enum EAxes
 struct Body
 {
 	int id;
-	unsigned int tag;
+	unsigned int tag = 0;
 	EBodyType type = EBodyType::Kinematic;
 	glm::mat4 transform = glm::mat4(1.0);
 	glm::vec3 velocity = glm::vec3(0.0);
@@ -60,4 +60,5 @@ public:
 
 	int findTagId(std::string tag);
 	int setTag(int position, std::string tag) { tags[position] = tag; }
+	std::string getTagName(int position) { return tags[position]; }
 };

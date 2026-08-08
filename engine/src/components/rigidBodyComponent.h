@@ -27,7 +27,9 @@ public:
 	void setVelocity(glm::vec3 velocity);
 	void setBodyType(EBodyType type);
 	void setBodyTag(int tag);
+
 	void setCollider(EColliderShape shape);
+	void setSphereCollider(float radius);
 	void setBoxCollider(glm::vec3 volume);
 	void setCapsuleCollider(float radius, float height);
 

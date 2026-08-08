@@ -5,6 +5,7 @@
 class ContentManager
 {
 private:
+	GResourceManager* gResourceManager;
 	MeshResource* cubeMesh;
 	ShaderResource* basicShader;
 	MeshResource* customMesh;

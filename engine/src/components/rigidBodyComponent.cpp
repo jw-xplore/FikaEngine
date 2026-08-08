@@ -36,22 +36,18 @@ void RigidbodyComponent::setVelocity(glm::vec3 velocity)
 void RigidbodyComponent::setBodyType(EBodyType type) { body->type = type; }
 void RigidbodyComponent::setBodyTag(int tag) { body->tag = tag; }
 
-void RigidbodyComponent::setCollider(EColliderShape shape)
-{
-	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
-	CollisionSolver& collisions = physics->getCollisionSolver();
-
-	switch (shape)
-	{
-	case EColliderShape::ShapeSphere: collisions.addSphereCollider(*body, 1); break;
-	case EColliderShape::ShapeBox: collisions.addBoxCollider(*body, glm::vec3(1, 1, 1)); break;
-	}
-}
-
 /*
 TODO: Be able to track which type and collider is used by this component
 	- also be able to remove or replace collider by different type
 */
+
+void RigidbodyComponent::setSphereCollider(float radius)
+{
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	CollisionSolver& collisions = physics->getCollisionSolver();
+
+	collisions.addSphereCollider(*body, radius);
+}
 
 void RigidbodyComponent::setBoxCollider(glm::vec3 volume)
 {

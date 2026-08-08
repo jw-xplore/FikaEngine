@@ -29,7 +29,6 @@ Steps:
 - Raycast: Boxes
 - Raycast: Capsules
 - Physics comments: Comment physics and collisions code
-- Resources: Change GResourceManager from namespace to class
 - Debug memory: Allocations-dealocations debug log
 - Debug: Implement way to turn on/off debug/log features 
 
