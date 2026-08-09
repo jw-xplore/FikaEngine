@@ -70,5 +70,6 @@ void ContentManager::createWall(glm::vec3 position, bool solid)
 
     //wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
-    wallRb->setBoxCollider(glm::vec3(2, 2, 2));
+    //wallRb->setBoxCollider(glm::vec3(2, 2, 2));
+    wallRb->setSphereCollider(1);
 }

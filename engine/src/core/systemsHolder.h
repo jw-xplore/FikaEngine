@@ -24,7 +24,6 @@ public:
 	~SystemsHolder();
 
 	Renderer* getMainRenderer() { return renderer.get(); }
-	PhysicsSolver* getMainPhysicsSolver() { return physicsSolver.get(); }
 	GameObjectManager* getGameObjectManager() { return gameObjectManager.get(); }
 	CameraManager* getCameraManager() { return cameraManager.get(); }
 	GResourceManager* getGResourceManager() { return gResourceManager.get(); }
@@ -38,4 +37,5 @@ public:
 	}
 
 	static Renderer* getDebugRenderer() { return SystemsHolder::getInstance()->debugRenderer.get();  }
+	static PhysicsSolver* getPhysicsSolver() { return SystemsHolder::getInstance()->physicsSolver.get(); }
 };

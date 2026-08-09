@@ -24,6 +24,18 @@ struct Capsule
 	float height;
 };
 
+struct Ray
+{
+	glm::vec3 start;
+	glm::vec3 direction;
+	float lenght;
+
+	Ray(glm::vec3 start, glm::vec3 direction, float lenght): start(start), direction(direction), lenght(lenght)
+	{
+		this->direction = glm::normalize(direction);
+	}
+};
+
 struct Contact
 {
 	glm::vec3 normal;
@@ -53,15 +65,19 @@ public:
 
 	void update(float dt);
 
+	void resolveContact(Body& bodyA, Body& bodyB, Contact& contact);
+	void checkCollsionExit(Body& bodyA, Body& bodyB);
+
+	// Adding colliders
 	Sphere* addSphereCollider(Body& body, float radius);
 	Box* addBoxCollider(Body& body, glm::vec3 volume);
 	Capsule* addCapsuleCollider(Body& body, float radius, float height);
 
-	void addDebugMesh(glm::mat4& transform, float radius = 1);
+	// Queries
+	Contact* rayQuery(glm::vec3 start, glm::vec3 direction, float lenght);
 
-	void resolveContact(Body& bodyA, Body& bodyB, Contact& contact);
-	void checkCollsionExit(Body& bodyA, Body& bodyB);
-
+	// Collisions
+	// Sphere
 	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
 	// Box
 	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
@@ -70,6 +86,9 @@ public:
 	bool overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out = nullptr);
 	bool overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out = nullptr);
 	bool overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out = nullptr);
+
+	// Ray check
+	bool overlapRaySphere(const Ray& ray, const Sphere sphere, Contact* out = nullptr);
 
 	void setupOngoinContacts(const size_t size);
 	int contactFromPair(int bodyIdA, int bodyIdB);

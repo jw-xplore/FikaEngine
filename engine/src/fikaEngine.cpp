@@ -21,7 +21,7 @@ namespace FikaEngine
         SystemsHolder* systemsHolder = SystemsHolder::getInstance();
         renderer = systemsHolder->getMainRenderer();
         debugRenderer = SystemsHolder::getDebugRenderer();
-        physicsSolver = systemsHolder->getMainPhysicsSolver();
+        physicsSolver = systemsHolder->getPhysicsSolver();
         gameObjectManager = systemsHolder->getGameObjectManager();
         cameraManager = systemsHolder->getCameraManager();
         gResourceManager = systemsHolder->getGResourceManager();

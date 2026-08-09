@@ -7,7 +7,7 @@
 
 void RigidbodyComponent::start()
 {
-	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getPhysicsSolver();
 	transform = &owner->getTransform();
 	body = &physics->addBody(*transform);
 
@@ -43,7 +43,7 @@ TODO: Be able to track which type and collider is used by this component
 
 void RigidbodyComponent::setSphereCollider(float radius)
 {
-	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getPhysicsSolver();
 	CollisionSolver& collisions = physics->getCollisionSolver();
 
 	collisions.addSphereCollider(*body, radius);
@@ -51,7 +51,7 @@ void RigidbodyComponent::setSphereCollider(float radius)
 
 void RigidbodyComponent::setBoxCollider(glm::vec3 volume)
 {
-	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getPhysicsSolver();
 	CollisionSolver& collisions = physics->getCollisionSolver();
 
 	collisions.addBoxCollider(*body, volume);
@@ -59,7 +59,7 @@ void RigidbodyComponent::setBoxCollider(glm::vec3 volume)
 
 void RigidbodyComponent::setCapsuleCollider(float radius, float height)
 {
-	PhysicsSolver* physics = SystemsHolder::getInstance()->getMainPhysicsSolver();
+	PhysicsSolver* physics = SystemsHolder::getInstance()->getPhysicsSolver();
 	CollisionSolver& collisions = physics->getCollisionSolver();
 
 	collisions.addCapsuleCollider(*body, radius, height);

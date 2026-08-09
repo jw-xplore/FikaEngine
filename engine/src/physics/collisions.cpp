@@ -166,13 +166,6 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
 }
 
-void CollisionSolver::addDebugMesh(glm::mat4& transform, float radius)
-{
-	SystemsHolder* systems = SystemsHolder::getInstance();
-
-	
-}
-
 void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact)
 {
 	glm::vec3 reaction = contact.normal * contact.penetration;
@@ -224,6 +217,27 @@ void CollisionSolver::checkCollsionExit(Body& bodyA, Body& bodyB)
 	}
 
 	ongoingContacts[contactId] = false;
+}
+
+Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float lenght)
+{
+	Contact out;
+	Ray ray = Ray(start, direction, lenght);
+
+	// Sphere checks
+	for (size_t a = 0; a < sphereColliders->getUsedAmount(); a++)
+	{
+		Sphere& sphere = (*sphereColliders)[a];
+		if (overlapRaySphere(ray, sphere, &out))
+			return &out;
+	}
+
+	// TODO
+	// Box
+	// Capsule
+
+	// No hit
+	return nullptr;
 }
 
 bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
@@ -637,6 +651,41 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 
 		out->point = closestPoint;
 		out->normal = normal;
+	}
+
+	return true;
+}
+
+bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Contact* out)
+{
+	glm::vec3 spherePos = sphere.body->transform[3];
+	float rightPointL = glm::dot(spherePos - ray.start, ray.direction);
+
+	glm::vec3 rightPoint = ray.start + ray.direction * rightPointL;
+	
+	glm::vec3 rcDist = spherePos - rightPoint; // rightPoint - sphereCenter distance
+	float rcDistL = glm::length(rcDist);
+
+	if (rcDistL > sphere.radius)
+		return false;
+
+	float closetsPointL = sqrt(sphere.radius * sphere.radius - rcDistL * rcDistL);
+	glm::vec3 closestPoint = rightPoint - ray.direction * closetsPointL;
+
+	glm::vec3 dist = closestPoint - ray.start;
+	float d = glm::dot(dist, dist);
+	float dsum = sphere.radius * sphere.radius + ray.lenght * ray.lenght;
+
+	if (d > dsum)
+		return false;
+
+	SystemsHolder::getDebugRenderer()->addLine(Line(closestPoint, closestPoint + glm::vec3(0, 4, 0), glm::vec3(1)));
+
+	if (out)
+	{
+		out->normal = glm::normalize(dist);
+		out->point = closestPoint;
+		out->penetration = ray.lenght - closetsPointL;
 	}
 
 	return true;
