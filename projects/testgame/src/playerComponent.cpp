@@ -13,4 +13,9 @@ void PlayerComponent::update(float dt)
 
     glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
     rb->setVelocity(velocity);
+
+    // Test line rendering
+    SystemsHolder::getDebugRenderer()->addLine(Line(owner->getPosition(), owner->getPosition() + glm::vec3(2, 0, 0), glm::vec3(1,0,0)));
+    SystemsHolder::getDebugRenderer()->addLine(Line(owner->getPosition(), owner->getPosition() + glm::vec3(0, 2, 0), glm::vec3(0,1,0)));
+    SystemsHolder::getDebugRenderer()->addLine(Line(owner->getPosition(), owner->getPosition() + glm::vec3(0, 0, 2), glm::vec3(0,0,1)));
 }

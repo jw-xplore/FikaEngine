@@ -80,6 +80,11 @@ public:
 		return pos;
 	}
 
+	void deallocate()
+	{
+		used = 0;
+	}
+
 	void remove(T* element)
 	{
 		// Find element
@@ -126,5 +131,10 @@ public:
 	int getUsedAmount()
 	{
 		return used;
+	}
+
+	int getSize()
+	{
+		return size;
 	}
 };

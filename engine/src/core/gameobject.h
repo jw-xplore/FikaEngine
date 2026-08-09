@@ -87,4 +87,9 @@ public:
 
 	inline TransformComponent& getTransformComponent() { return transformComponent; }
 	inline glm::mat4& getTransform() { return transformComponent.getTransform(); }
+	inline glm::vec3 getPosition()
+	{ 
+		glm::vec3 pos = transformComponent.getTransform()[3];
+		return glm::vec3(pos.x, pos.y, pos.z);
+	}
 };

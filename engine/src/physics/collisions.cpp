@@ -121,7 +121,7 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	MeshResource& cubeMesh = gResourceManager->getMesh("sphere");
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
+	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(radius);
 
 	// Return
@@ -140,7 +140,7 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	MeshResource& cubeMesh = gResourceManager->getMesh("cube");
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
+	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(volume);
 
 	// Return
@@ -160,7 +160,7 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	MeshResource& debugMesh = gResourceManager->getMesh("cylinder");
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getInstance()->getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
+	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
 	mesh->customScale = glm::vec3(radius, height, radius);
 
 	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];

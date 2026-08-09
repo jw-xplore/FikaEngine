@@ -20,7 +20,7 @@ namespace FikaEngine
         // Systems
         SystemsHolder* systemsHolder = SystemsHolder::getInstance();
         renderer = systemsHolder->getMainRenderer();
-        debugRenderer = systemsHolder->getDebugRenderer();
+        debugRenderer = SystemsHolder::getDebugRenderer();
         physicsSolver = systemsHolder->getMainPhysicsSolver();
         gameObjectManager = systemsHolder->getGameObjectManager();
         cameraManager = systemsHolder->getCameraManager();
@@ -28,6 +28,9 @@ namespace FikaEngine
 
         // Setup and load basic resources
         gResourceManager->init();
+
+        renderer->init();
+        debugRenderer->init();
 
         // Meshes
         MeshResource* cubeMesh = gResourceManager->reserveMesh("cube");
