@@ -7,6 +7,7 @@
 #include "renderer/resources/gResourceManager.h"
 #include "renderer/resources/meshInstance.h"
 #include <iostream>
+#include <limits>
 
 CollisionSolver::CollisionSolver()
 {
@@ -232,8 +233,15 @@ Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float l
 			return &out;
 	}
 
+	// Boxes
+	for (size_t a = 0; a < boxColliders->getUsedAmount(); a++)
+	{
+		Box& box = (*boxColliders)[a];
+		if (overlapRayBox(ray, box, &out))
+			return &out;
+	}
+
 	// TODO
-	// Box
 	// Capsule
 
 	// No hit
@@ -664,12 +672,13 @@ bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Cont
 	glm::vec3 rightPoint = ray.start + ray.direction * rightPointL;
 	
 	glm::vec3 rcDist = spherePos - rightPoint; // rightPoint - sphereCenter distance
-	float rcDistL = glm::length(rcDist);
+	float rcDistL = glm::dot(rcDist, rcDist);
+	float r2 = sphere.radius * sphere.radius;
 
-	if (rcDistL > sphere.radius)
+	if (rcDistL > r2)
 		return false;
 
-	float closetsPointL = sqrt(sphere.radius * sphere.radius - rcDistL * rcDistL);
+	float closetsPointL = sqrt(r2 - rcDistL);
 	glm::vec3 closestPoint = rightPoint - ray.direction * closetsPointL;
 
 	glm::vec3 dist = closestPoint - ray.start;
@@ -689,6 +698,89 @@ bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Cont
 	}
 
 	return true;
+}
+
+bool CollisionSolver::overlapRayBox(const Ray& ray, const Box box, Contact* out)
+{
+	glm::vec3 s = ray.start;
+	glm::vec3 e = ray.end();
+	glm::vec3 d = e - s;
+	glm::vec3 boxPos = box.body->transform[3];
+
+	float boxLeft = boxPos.x - box.volume.x * 0.5f;
+	float boxRight = boxPos.x + box.volume.x * 0.5f;
+	float boxTop = boxPos.y + box.volume.y * 0.5f;
+	float boxBottom = boxPos.y - box.volume.y * 0.5f;
+	float boxFront = boxPos.z + box.volume.z * 0.5f;
+	float boxBack = boxPos.z - box.volume.z * 0.5f;
+
+	// Point are 
+	/*
+	if (boxLeft <= s.x && s.x <= boxRight && boxBottom <= s.y && s.y <= boxTop && boxBack <= s.z && s.z <= boxFront)
+		return true;
+
+	if (boxLeft <= e.x && e.x <= boxRight && boxBottom <= e.y && e.y <= boxTop && boxBack <= e.z && e.z <= boxFront)
+		return true;
+	*/
+
+	glm::vec3 enterPoint = glm::vec3(-std::numeric_limits<float>::max());
+	glm::vec3 exitPoint = glm::vec3(std::numeric_limits<float>::max());
+
+	float tEnter = 0.0f;
+	float tExit = 1.0f;
+
+	// Slabs 
+	if (!updateAxis(s.x, d.x, boxLeft, boxRight, tEnter, tExit))
+		return false;
+
+	if (!updateAxis(s.y, d.y, boxBottom, boxTop, tEnter, tExit))
+		return false;
+
+	if (!updateAxis(s.z, d.z, boxBack, boxFront, tEnter, tExit))
+		return false;
+
+	// Hit check
+	bool hit =	(tEnter <= tExit) &&
+				(tExit >= 0.0) &&
+				(tEnter <= 1.0);
+
+	if (hit && out)
+	{
+		out->penetration = tEnter;
+		out->point = s + ray.direction * tEnter;
+
+		glm::vec3 a = glm::abs(d);
+		glm::vec3 normal;
+
+		if (a.x >= a.y && a.x >= a.z)      normal = glm::vec3(glm::sign(d.x), 0.0f, 0.0f);
+		else if (a.y >= a.x && a.y >= a.z) normal = glm::vec3(0.0f, glm::sign(d.y), 0.0f);
+		else                               normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
+
+		out->normal = normal;
+	}
+
+	return hit;
+}
+
+bool CollisionSolver::updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit)
+{
+	const float EPS = 1e-8f;
+
+	if (abs(dAxis) < EPS)
+	{
+		// Segment parallel to slab planes: must already be inside to intersect.
+		return (sAxis >= minAxis && sAxis <= maxAxis);
+	}
+	
+	float t1 = (minAxis - sAxis) / dAxis;
+	float t2 = (maxAxis - sAxis) / dAxis;
+	float a = fmin(t1, t2);
+	float b = fmax(t1, t2);
+
+	tEnter = fmax(tEnter, a);
+	tExit = fmin(tExit, b);
+
+	return tEnter <= tExit;
 }
 
 void CollisionSolver::setupOngoinContacts(const size_t size)

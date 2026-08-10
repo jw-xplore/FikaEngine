@@ -32,8 +32,11 @@ struct Ray
 
 	Ray(glm::vec3 start, glm::vec3 direction, float lenght): start(start), direction(direction), lenght(lenght)
 	{
-		this->direction = glm::normalize(direction);
+		if (direction != glm::vec3(0.0f))
+			this->direction = glm::normalize(direction);
 	}
+
+	inline glm::vec3 end() const { return start + direction * lenght; }
 };
 
 struct Contact
@@ -89,6 +92,8 @@ public:
 
 	// Ray check
 	bool overlapRaySphere(const Ray& ray, const Sphere sphere, Contact* out = nullptr);
+	bool overlapRayBox(const Ray& ray, const Box box, Contact* out = nullptr);
+	bool updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit);
 
 	void setupOngoinContacts(const size_t size);
 	int contactFromPair(int bodyIdA, int bodyIdB);
