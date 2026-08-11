@@ -29,6 +29,7 @@ struct Ray
 	glm::vec3 start;
 	glm::vec3 direction;
 	float lenght;
+	unsigned char interactiveLayers = 1;
 
 	Ray(glm::vec3 start, glm::vec3 direction, float lenght): start(start), direction(direction), lenght(lenght)
 	{
@@ -91,8 +92,9 @@ public:
 	bool overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out = nullptr);
 
 	// Ray check
-	bool overlapRaySphere(const Ray& ray, const Sphere sphere, Contact* out = nullptr);
-	bool overlapRayBox(const Ray& ray, const Box box, Contact* out = nullptr);
+	bool overlapRaySphere(const Ray& ray, const Sphere& sphere, Contact* out = nullptr);
+	bool overlapRayBox(const Ray& ray, const Box& box, Contact* out = nullptr);
+	bool overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out = nullptr);
 	bool updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit);
 
 	void setupOngoinContacts(const size_t size);

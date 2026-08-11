@@ -24,6 +24,8 @@ struct Body
 {
 	int id;
 	unsigned int tag = 0;
+	unsigned char layers = 1;
+	unsigned char interactiveLayers = 1; // Enables collisions with objects in matching layers
 	EBodyType type = EBodyType::Kinematic;
 	glm::mat4 transform = glm::mat4(1.0);
 	glm::vec3 velocity = glm::vec3(0.0);
@@ -46,7 +48,10 @@ private:
 
 	PoolAllocator<Body>* bodies;
 	std::vector<std::string> tags;
+	std::vector<std::string> layers;
 	const const char* DEFAULT_TAG = "Default";
+	const const char* DEFAULT_LAYER = "Default";
+	const const char* PLAYER_LAYER = "Player";
 
 public:
 	PhysicsSolver();
@@ -61,4 +66,5 @@ public:
 	int findTagId(std::string tag);
 	int setTag(int position, std::string tag) { tags[position] = tag; }
 	std::string getTagName(int position) { return tags[position]; }
+	static bool canCheckCollision(const Body& body, const Body& target);
 };

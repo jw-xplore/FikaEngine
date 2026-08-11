@@ -174,18 +174,23 @@ void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact)
 	if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Static)
 	{
 		// First kinematic
-		applyForce(bodyA, reaction);
+		if (PhysicsSolver::canCheckCollision(bodyB, bodyA))
+			applyForce(bodyA, reaction);
 	}
 	else if (bodyA.type == EBodyType::Static && bodyB.type == EBodyType::Kinematic)
 	{
 		// Second kinematic
-		applyForce(bodyB, -reaction);
+		if (PhysicsSolver::canCheckCollision(bodyA, bodyB))
+			applyForce(bodyB, -reaction);
 	}
 	else if (bodyA.type == EBodyType::Kinematic && bodyB.type == EBodyType::Kinematic)
 	{
 		// Both kinematic
-		applyForce(bodyA, reaction * 0.5f);
-		applyForce(bodyB, -reaction * 0.5f);
+		if (PhysicsSolver::canCheckCollision(bodyB, bodyA))
+			applyForce(bodyA, reaction * 0.5f);
+
+		if (PhysicsSolver::canCheckCollision(bodyA, bodyB))
+			applyForce(bodyB, -reaction * 0.5f);
 	}
 
 	// Callbacks - On enter
@@ -230,6 +235,10 @@ Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float l
 	for (size_t a = 0; a < sphereColliders->getUsedAmount(); a++)
 	{
 		Sphere& sphere = (*sphereColliders)[a];
+
+		if ((ray.interactiveLayers & sphere.body->layers) == 0)
+			continue;
+
 		Contact out;
 
 		if (overlapRaySphere(ray, sphere, &out))
@@ -248,6 +257,10 @@ Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float l
 	for (size_t a = 0; a < boxColliders->getUsedAmount(); a++)
 	{
 		Box& box = (*boxColliders)[a];
+
+		if ((ray.interactiveLayers & box.body->layers) == 0)
+			continue;
+
 		Contact out;
 
 		if (overlapRayBox(ray, box, &out))
@@ -262,8 +275,27 @@ Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float l
 		}
 	}
 
-	// TODO
 	// Capsule
+	for (size_t a = 0; a < capsuleColliders->getUsedAmount(); a++)
+	{
+		Capsule& capsule = (*capsuleColliders)[a];
+
+		if ((ray.interactiveLayers & capsule.body->layers) == 0)
+			continue;
+
+		Contact out;
+
+		if (overlapRayCapsule(ray, capsule, &out))
+		{
+			glm::vec3 d = out.point - start;
+			float dist2 = glm::dot(d, d);
+			if (dist2 < closestDist)
+			{
+				closestDist = dist2;
+				closestOut = out;
+			}
+		}
+	}
 
 	if (closestDist < std::numeric_limits<float>::max())
 	{
@@ -691,7 +723,7 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 	return true;
 }
 
-bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Contact* out)
+bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere& sphere, Contact* out)
 {
 	glm::vec3 spherePos = sphere.body->transform[3];
 
@@ -733,7 +765,7 @@ bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Cont
 	return true;
 }
 
-bool CollisionSolver::overlapRayBox(const Ray& ray, const Box box, Contact* out)
+bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out)
 {
 	glm::vec3 s = ray.start;
 	glm::vec3 e = ray.end();
@@ -793,6 +825,48 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box box, Contact* out)
 	}
 
 	return hit;
+}
+
+bool CollisionSolver::overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out)
+{
+	glm::vec3 capsulePos = capsule.body->transform[3];
+
+	// Aim check
+	glm::vec3 raySphereD = ray.start - capsulePos;
+	if (glm::dot(raySphereD, ray.direction) > 0)
+		return false;
+
+	float rightPointL = glm::dot(capsulePos - ray.start, ray.direction);
+
+	glm::vec3 rightPoint = ray.start + ray.direction * rightPointL;
+
+	glm::vec3 rcDist = capsulePos - rightPoint; // rightPoint - sphereCenter distance
+	float rcDistL = glm::dot(rcDist, rcDist);
+	float r2 = capsule.radius * capsule.radius;
+
+	if (rcDistL > r2)
+		return false;
+
+	float closetsPointL = sqrt(r2 - rcDistL);
+	glm::vec3 closestPoint = rightPoint - ray.direction * closetsPointL;
+
+	glm::vec3 dist = closestPoint - ray.start;
+	float d = glm::dot(dist, dist);
+	float dsum = capsule.radius * capsule.radius + ray.lenght * ray.lenght;
+
+	if (d > dsum)
+		return false;
+
+	//SystemsHolder::getDebugRenderer()->addLine(Line(closestPoint, closestPoint + glm::vec3(0, 4, 0), glm::vec3(1)));
+
+	if (out)
+	{
+		out->normal = glm::normalize(dist);
+		out->point = closestPoint;
+		out->penetration = ray.lenght - closetsPointL;
+	}
+
+	return true;
 }
 
 bool CollisionSolver::updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit)

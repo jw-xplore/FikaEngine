@@ -22,8 +22,6 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
-- Raycast: Spheres
-- Raycast: Boxes
 - Raycast: Capsules
 - Physics comments: Comment physics and collisions code
 - Debug memory: Allocations-dealocations debug log
@@ -31,6 +29,8 @@ Steps:
 
 ## Backlog
 - Debug: Add custom debug console running inside game
+- Collisions: Check layers interaction match before collision testing
+- Collisions: Match layers mask and layer names
 - Physics: Rotation freeze implementation
 - GO manager: Use pool allocator for game objects
 - Multithreading: Test separated update and render threads

@@ -55,8 +55,12 @@ PhysicsSolver::PhysicsSolver()
 {
 	bodies = new PoolAllocator<Body>("Physics bodies", 256);
 
-	tags.resize(8);
+	tags.resize(16);
 	tags[0] = DEFAULT_TAG;
+
+	layers.resize(16);
+	layers[0] = DEFAULT_LAYER;
+	layers[1] = PLAYER_LAYER;
 }
 
 PhysicsSolver::~PhysicsSolver()
@@ -99,4 +103,9 @@ int PhysicsSolver::findTagId(std::string tag)
 
 	//std::cout << "Tag '" << tag << "' is not used";
 	return -1;
+}
+
+bool PhysicsSolver::canCheckCollision(const Body& body, const Body& target)
+{
+	return (body.interactiveLayers & target.layers) != 0;
 }

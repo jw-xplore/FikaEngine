@@ -24,10 +24,14 @@ public:
 	void start() override;
 	void update(float dt) override;
 
+	// Body API
 	void setVelocity(glm::vec3 velocity);
 	void setBodyType(EBodyType type);
 	void setBodyTag(int tag);
+	void setLayers(unsigned char layers);
+	void setInteractiveLayers(unsigned char layers);
 
+	// Colliders
 	void setCollider(EColliderShape shape);
 	void setSphereCollider(float radius);
 	void setBoxCollider(glm::vec3 volume);

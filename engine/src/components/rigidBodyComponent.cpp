@@ -35,6 +35,8 @@ void RigidbodyComponent::setVelocity(glm::vec3 velocity)
 
 void RigidbodyComponent::setBodyType(EBodyType type) { body->type = type; }
 void RigidbodyComponent::setBodyTag(int tag) { body->tag = tag; }
+void RigidbodyComponent::setLayers(unsigned char layers) { body->layers = layers; }
+void RigidbodyComponent::setInteractiveLayers(unsigned char layers) { body->interactiveLayers = layers; }
 
 /*
 TODO: Be able to track which type and collider is used by this component
