@@ -25,10 +25,12 @@ void PlayerComponent::update(float dt)
     */
 
     // Test raycast
+    const float l = 4.0f;
+
     glm::vec3 rayColor = glm::vec3(1, 0, 0);
-    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().rayQuery(owner->getPosition(), lastDirection, 2);
+    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().rayQuery(owner->getPosition(), lastDirection, l);
     if (hit)
         rayColor = glm::vec3(0, 1, 0);
 
-    SystemsHolder::getDebugRenderer()->addLine(Line(owner->getPosition(), owner->getPosition() + lastDirection * 1.4f, rayColor));
+    SystemsHolder::getDebugRenderer()->addLine(Line(owner->getPosition(), owner->getPosition() + lastDirection * l * glm::length(lastDirection), rayColor));
 }

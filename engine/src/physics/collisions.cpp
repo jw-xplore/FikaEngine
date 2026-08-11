@@ -222,27 +222,54 @@ void CollisionSolver::checkCollsionExit(Body& bodyA, Body& bodyB)
 
 Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float lenght)
 {
-	Contact out;
+	Contact closestOut;
+	float closestDist = std::numeric_limits<float>::max();
 	Ray ray = Ray(start, direction, lenght);
 
 	// Sphere checks
 	for (size_t a = 0; a < sphereColliders->getUsedAmount(); a++)
 	{
 		Sphere& sphere = (*sphereColliders)[a];
+		Contact out;
+
 		if (overlapRaySphere(ray, sphere, &out))
-			return &out;
+		{
+			glm::vec3 d = out.point - start;
+			float dist2 = glm::dot(d, d);
+			if (dist2 < closestDist)
+			{
+				closestDist = dist2;
+				closestOut = out;
+			}
+		}
 	}
 
 	// Boxes
 	for (size_t a = 0; a < boxColliders->getUsedAmount(); a++)
 	{
 		Box& box = (*boxColliders)[a];
+		Contact out;
+
 		if (overlapRayBox(ray, box, &out))
-			return &out;
+		{
+			glm::vec3 d = out.point - start;
+			float dist2 = glm::dot(d, d);
+			if (dist2 < closestDist)
+			{
+				closestDist = dist2;
+				closestOut = out;
+			}
+		}
 	}
 
 	// TODO
 	// Capsule
+
+	if (closestDist < std::numeric_limits<float>::max())
+	{
+		SystemsHolder::getDebugRenderer()->addLine(Line(closestOut.point, closestOut.point + glm::vec3(0, 4, 0), glm::vec3(1)));
+		return &closestOut;
+	}
 
 	// No hit
 	return nullptr;
@@ -667,6 +694,12 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Contact* out)
 {
 	glm::vec3 spherePos = sphere.body->transform[3];
+
+	// Aim check
+	glm::vec3 raySphereD = ray.start - spherePos;
+	if (glm::dot(raySphereD, ray.direction) > 0)
+		return false;
+
 	float rightPointL = glm::dot(spherePos - ray.start, ray.direction);
 
 	glm::vec3 rightPoint = ray.start + ray.direction * rightPointL;
@@ -688,7 +721,7 @@ bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere sphere, Cont
 	if (d > dsum)
 		return false;
 
-	SystemsHolder::getDebugRenderer()->addLine(Line(closestPoint, closestPoint + glm::vec3(0, 4, 0), glm::vec3(1)));
+	//SystemsHolder::getDebugRenderer()->addLine(Line(closestPoint, closestPoint + glm::vec3(0, 4, 0), glm::vec3(1)));
 
 	if (out)
 	{
@@ -747,7 +780,7 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box box, Contact* out)
 	if (hit && out)
 	{
 		out->penetration = tEnter;
-		out->point = s + ray.direction * tEnter;
+		out->point = s + ray.direction * tEnter * ray.lenght;
 
 		glm::vec3 a = glm::abs(d);
 		glm::vec3 normal;
