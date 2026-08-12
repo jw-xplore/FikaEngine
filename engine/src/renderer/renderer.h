@@ -31,6 +31,14 @@ struct Line
 		a.color = color;
 		b.color = color;
 	}
+
+	Line(glm::vec3 posA, glm::vec3 posB, glm::vec3 colorA, glm::vec3 colorB)
+	{
+		a.position = posA;
+		b.position = posB;
+		a.color = colorA;
+		b.color = colorB;
+	}
 };
 
 struct LinesRenderData

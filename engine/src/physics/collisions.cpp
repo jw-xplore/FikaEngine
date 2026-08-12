@@ -297,9 +297,10 @@ Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float l
 		}
 	}
 
+	// Hit
 	if (closestDist < std::numeric_limits<float>::max())
 	{
-		SystemsHolder::getDebugRenderer()->addLine(Line(closestOut.point, closestOut.point + glm::vec3(0, 4, 0), glm::vec3(1)));
+		SystemsHolder::getDebugRenderer()->addLine(Line(closestOut.point, closestOut.point + closestOut.normal * 2.0f, glm::vec3(1), glm::vec3(0, 0, 1)));
 		return &closestOut;
 	}
 
@@ -757,7 +758,7 @@ bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere& sphere, Con
 
 	if (out)
 	{
-		out->normal = glm::normalize(dist);
+		out->normal = glm::normalize(closestPoint - spherePos);
 		out->point = closestPoint;
 		out->penetration = ray.lenght - closetsPointL;
 	}
@@ -788,9 +789,6 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out
 		return true;
 	*/
 
-	glm::vec3 enterPoint = glm::vec3(-std::numeric_limits<float>::max());
-	glm::vec3 exitPoint = glm::vec3(std::numeric_limits<float>::max());
-
 	float tEnter = 0.0f;
 	float tExit = 1.0f;
 
@@ -814,14 +812,14 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out
 		out->penetration = tEnter;
 		out->point = s + ray.direction * tEnter * ray.lenght;
 
-		glm::vec3 a = glm::abs(d);
+		glm::vec3 a = glm::abs((out->point - boxPos));
 		glm::vec3 normal;
 
 		if (a.x >= a.y && a.x >= a.z)      normal = glm::vec3(glm::sign(d.x), 0.0f, 0.0f);
 		else if (a.y >= a.x && a.y >= a.z) normal = glm::vec3(0.0f, glm::sign(d.y), 0.0f);
 		else                               normal = glm::vec3(0.0f, 0.0f, glm::sign(d.z));
 
-		out->normal = normal;
+		out->normal = -normal;
 	}
 
 	return hit;
@@ -829,11 +827,21 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out
 
 bool CollisionSolver::overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out)
 {
+	// TODO: Rewrite to work properly
+
 	glm::vec3 capsulePos = capsule.body->transform[3];
 
 	// Aim check
 	glm::vec3 raySphereD = ray.start - capsulePos;
 	if (glm::dot(raySphereD, ray.direction) > 0)
+		return false;
+
+	// Height check
+	float halfTotalHeight = capsule.height * 0.5f + capsule.radius;
+	float ctop = capsulePos.y + halfTotalHeight;
+	float cbottom = capsulePos.y - halfTotalHeight;
+
+	if (ray.start.y > ctop || ray.end().y < cbottom)
 		return false;
 
 	float rightPointL = glm::dot(capsulePos - ray.start, ray.direction);
@@ -861,7 +869,10 @@ bool CollisionSolver::overlapRayCapsule(const Ray& ray, const Capsule& capsule, 
 
 	if (out)
 	{
-		out->normal = glm::normalize(dist);
+		glm::vec3 normal = closestPoint - capsulePos;
+		normal.y = 0;
+
+		out->normal = glm::normalize(normal);
 		out->point = closestPoint;
 		out->penetration = ray.lenght - closetsPointL;
 	}

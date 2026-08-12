@@ -66,7 +66,7 @@ void Renderer::renderLines(glm::mat4 mvp)
 	{
 		Line& line = (*linesData.lines)[i];
 		linesData.vertices.push_back({ line.a.position, line.a.color });
-		linesData.vertices.push_back({ line.b.position, line.a.color });
+		linesData.vertices.push_back({ line.b.position, line.b.color });
 	}
 
 	// upload only used vertices
