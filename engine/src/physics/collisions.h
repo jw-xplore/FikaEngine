@@ -95,6 +95,8 @@ public:
 	bool overlapRaySphere(const Ray& ray, const Sphere& sphere, Contact* out = nullptr);
 	bool overlapRayBox(const Ray& ray, const Box& box, Contact* out = nullptr);
 	bool overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out = nullptr);
+
+	bool rayCircleCheck(glm::vec2 start, glm::vec2 end, glm::vec2 circlePos, float radius);
 	bool updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit);
 
 	void setupOngoinContacts(const size_t size);

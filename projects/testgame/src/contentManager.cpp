@@ -75,5 +75,5 @@ void ContentManager::createWall(glm::vec3 position, bool solid)
 
     //wallRb->setSphereCollider(1);
     //wallRb->setBoxCollider(glm::vec3(2, 2, 2));
-    wallRb->setCapsuleCollider(1, 2);
+    wallRb->setCapsuleCollider(0.5, 2);
 }
