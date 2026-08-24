@@ -15,7 +15,8 @@ void PlayerComponent::update(float dt)
         lastDirection = glm::vec3(right, 0, forward);
 
     glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
-    rb->setVelocity(velocity);
+    //rb->setVelocity(velocity);
+    owner->getTransformComponent().translate(velocity * dt);
 
     // Test line rendering
     /*

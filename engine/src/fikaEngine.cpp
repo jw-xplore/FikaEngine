@@ -119,6 +119,9 @@ namespace FikaEngine
             // Display current FPS in window title
             float now = glfwGetTime();
             float dt = now - lastTime;
+            if (dt > 1.0)
+                dt = deltaTime;
+
             deltaTime = dt;
             lastTime = now;
 

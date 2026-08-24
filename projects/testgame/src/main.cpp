@@ -19,11 +19,15 @@ void start()
     systemsHolder->getCameraManager()->getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
 
     // Player
-    contentManager->createPlayer(glm::vec3(2, 0, 2));
+    GameObject& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
+
+    GameObject& wall = contentManager->createWall(glm::vec3(0, 0, 0), true);
+    
+    player.getTransformComponent().addChild(wall.getTransformComponent());
 
     // Walls
     //contentManager->createWall(glm::vec3(-4, 0, 2), false);
-    contentManager->createWall(glm::vec3(0, 0, 2), true);
+    //contentManager->createWall(glm::vec3(0, 0, 2), true);
     //contentManager->createWall(glm::vec3(4, 0, 2), false);
 
     /*

@@ -34,7 +34,7 @@ ContentManager::~ContentManager()
 
 }
 
-void ContentManager::createPlayer(glm::vec3 position)
+GameObject& ContentManager::createPlayer(glm::vec3 position)
 {
     MeshResource& customMesh = gResourceManager->getMesh("pawn");
     TextureResource& customTexture = gResourceManager->getTexture("customTex1");
@@ -46,15 +46,19 @@ void ContentManager::createPlayer(glm::vec3 position)
     meshCmp->setup(customMesh, basicShader, nullptr);
     meshCmp->setTexture(customTexture);
 
+    /*
     RigidbodyComponent* rb = player->addComponent<RigidbodyComponent>();
     //rb->setCollider(EColliderShape::ShapeSphere);
     rb->setCapsuleCollider(0.5f, 2);
     rb->setLayers(2);
+    */
 
     player->addComponent<PlayerComponent>();
+    
+    return *player;
 }
 
-void ContentManager::createWall(glm::vec3 position, bool solid)
+GameObject& ContentManager::createWall(glm::vec3 position, bool solid)
 {
     MeshResource& customMesh = gResourceManager->getMesh("crate");
     TextureResource& customTexture = gResourceManager->getTexture("crate");
@@ -64,16 +68,21 @@ void ContentManager::createWall(glm::vec3 position, bool solid)
     meshCmp->setup(customMesh, *basicShader, nullptr);
     meshCmp->setTexture(customTexture);
     wall->getTransformComponent().translate(position);
+
+    /*
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
 
     if (solid)
         wallRb->setBodyType(EBodyType::Static);
 
-    //wallRb->setBodyType(EBodyType::Trigger);
+    wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
     wallRb->setInteractiveLayers(3);
 
     //wallRb->setSphereCollider(1);
     wallRb->setBoxCollider(glm::vec3(2, 2, 2));
     //wallRb->setCapsuleCollider(0.5, 2);
+    */
+
+    return *wall;
 }
