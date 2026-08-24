@@ -78,7 +78,7 @@ public:
 	Capsule* addCapsuleCollider(Body& body, float radius, float height);
 
 	// Queries
-	Contact* rayQuery(glm::vec3 start, glm::vec3 direction, float lenght);
+	Contact* raycast(glm::vec3 start, glm::vec3 direction, float lenght);
 
 	// Collisions
 	// Sphere

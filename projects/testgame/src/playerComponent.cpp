@@ -28,7 +28,7 @@ void PlayerComponent::update(float dt)
     const float l = 2.0f;
 
     glm::vec3 rayColor = glm::vec3(1, 0, 0);
-    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().rayQuery(owner->getPosition(), lastDirection, l);
+    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().raycast(owner->getPosition(), lastDirection, l);
     if (hit)
         rayColor = glm::vec3(0, 1, 0);
 

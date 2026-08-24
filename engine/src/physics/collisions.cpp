@@ -225,7 +225,7 @@ void CollisionSolver::checkCollsionExit(Body& bodyA, Body& bodyB)
 	ongoingContacts[contactId] = false;
 }
 
-Contact* CollisionSolver::rayQuery(glm::vec3 start, glm::vec3 direction, float lenght)
+Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float lenght)
 {
 	Contact closestOut;
 	float closestDist = std::numeric_limits<float>::max();
