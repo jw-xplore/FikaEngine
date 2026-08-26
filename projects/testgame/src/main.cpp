@@ -44,7 +44,7 @@ void start()
     {
         int x = rand() % 10;
         int z = rand() % 10;
-        contentManager->createWall(glm::vec3(x, 0, z), false);
+        GameObject* go = &contentManager->createWall(glm::vec3(x, 0, z), false);
     }
     */
 
@@ -62,7 +62,7 @@ void update(float dt)
     pos = sin(dt * 100);
     //player->getTransformComponent().setRotation(glm::vec3(0, rot, 0));
     //wall->getTransformComponent().setRotation(glm::vec3(rot, 0, 0));
-    wall->getTransformComponent().setPosition(glm::vec3(1, 0, 0));
+    wall->getTransformComponent().setLocalRotation(glm::vec3(0, rot, 0));
     return;
 }
 

@@ -94,11 +94,11 @@ void TransformComponent::setPosition(const glm::vec3& position)
     else
     {
         Transform tran = localTransform;
-        tran.position = position;
         transformMatrix = tran.transformToMatrix();
+        glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
-        //localTransform.position = position - matrixToPosition(parent->getTransformMatrix());
-        setTransformMatrix(transformMatrix - parent->getTransformMatrix());
+        tran.position = position;
+        localTransform.position = matrixToPosition(inv) + position;
     }
 
     applyToChildren();
@@ -114,10 +114,11 @@ void TransformComponent::setRotation(const glm::vec3& rotation)
     else
     {
         Transform tran = localTransform;
-        tran.rotation = rotation;
         transformMatrix = tran.transformToMatrix();
+        glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
-        localTransform.rotation = matrixToRotation(parent->getTransformMatrix() / transformMatrix);
+        tran.rotation = rotation;
+        localTransform.rotation = matrixToRotation(inv) + rotation;
     }
 
     applyToChildren();
@@ -133,10 +134,11 @@ void TransformComponent::setScale(const glm::vec3& scale)
     else
     {
         Transform tran = localTransform;
-        tran.scale = scale;
         transformMatrix = tran.transformToMatrix();
+        glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
-        localTransform.scale = matrixToScale(transformMatrix / parent->getTransformMatrix());
+        tran.scale = scale;
+        localTransform.scale = matrixToPosition(inv) + scale;
     }
 
     applyToChildren();
@@ -144,7 +146,6 @@ void TransformComponent::setScale(const glm::vec3& scale)
 
 void TransformComponent::translate(const glm::vec3& translation)
 {
-    //transform = glm::translate(transform, translation);
     setPosition(localTransform.position + translation);
 }
 
