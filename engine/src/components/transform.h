@@ -24,8 +24,6 @@ private:
 public:
 	TransformComponent();
 
-	inline void applyToChildren();
-
 	// Local
 	glm::vec3 getLocalPosition() { return localTransform.position; }
 	void setLocalPosition(const glm::vec3& position);

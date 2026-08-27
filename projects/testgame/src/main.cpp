@@ -22,17 +22,19 @@ void start()
     systemsHolder->getCameraManager()->getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
 
     // Player
-    player = &contentManager->createPlayer(glm::vec3(5, 0, 0));
+    player = &contentManager->createPlayer(glm::vec3(2, 0, 0));
 
     wall = &contentManager->createWall(glm::vec3(0, 0, 0), true);
+    //contentManager->createWall(glm::vec3(1, 0, 0), true);
+    //contentManager->createWall(glm::vec3(2, 0, 0), true);
     
     player->getTransformComponent().addChild(wall->getTransformComponent());
 
-    wall->getTransformComponent().setLocalPosition(glm::vec3(2, 0, 0));
+    //wall->getTransformComponent().setLocalPosition(glm::vec3(2, 0, 0));
     //wall->getTransformComponent().setScale(glm::vec3(0.2));
     //player->getTransformComponent().setScale(glm::vec3(2));
 
-    player->getTransformComponent().setRotation(glm::vec3(0, 20, 0));
+    //player->getTransformComponent().setRotation(glm::vec3(0, 20, 0));
 
     // Walls
     //contentManager->createWall(glm::vec3(-4, 0, 2), false);
@@ -62,7 +64,7 @@ void update(float dt)
     pos = sin(dt * 100);
     //player->getTransformComponent().setRotation(glm::vec3(0, rot, 0));
     //wall->getTransformComponent().setRotation(glm::vec3(rot, 0, 0));
-    wall->getTransformComponent().setLocalRotation(glm::vec3(0, rot, 0));
+    //wall->getTransformComponent().setLocalRotation(glm::vec3(0, rot, 0));
     return;
 }
 

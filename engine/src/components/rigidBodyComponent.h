@@ -4,7 +4,7 @@
 
 enum EBodyType;
 struct Body;
-class Tranform;
+class TransformComponent;
 
 enum EColliderShape
 {
@@ -16,7 +16,8 @@ class RigidbodyComponent : public Component
 {
 private:
 	Body* body;
-	glm::mat4* transform;
+	//glm::mat4* transform;
+	TransformComponent* transform;
 
 public:
 	RigidbodyComponent() {}
@@ -37,6 +38,7 @@ public:
 	void setBoxCollider(glm::vec3 volume);
 	void setCapsuleCollider(float radius, float height);
 
+	void onTransformUpdate(glm::mat4 transformMat);
 	void onEnter(Body& body);
 	void onExit(Body& body);
 };

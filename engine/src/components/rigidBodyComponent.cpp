@@ -3,13 +3,14 @@
 #include "core/systemsHolder.h"
 #include "core/gameobject.h"
 #include "physics/collisions.h"
+#include "components/transform.h"
 #include <iostream>
 
 void RigidbodyComponent::start()
 {
 	PhysicsSolver* physics = SystemsHolder::getInstance()->getPhysicsSolver();
-	transform = &owner->getTransform();
-	body = &physics->addBody(*transform);
+	transform = &owner->getTransformComponent();
+	body = &physics->addBody(transform->getTransformMatrix());
 
 	// Callbacks
 	body->onEnter = std::bind(&RigidbodyComponent::onEnter, this, std::placeholders::_1);
@@ -25,7 +26,8 @@ void RigidbodyComponent::start()
 
 void RigidbodyComponent::update(float dt)
 {
-	*transform = body->transform;
+	//*transform = body->transform;
+	transform->setTransformMatrix(body->transform);
 }
 
 void RigidbodyComponent::setVelocity(glm::vec3 velocity)

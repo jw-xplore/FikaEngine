@@ -15,8 +15,8 @@ void PlayerComponent::update(float dt)
         lastDirection = glm::vec3(right, 0, forward);
 
     glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
-    //rb->setVelocity(velocity);
-    owner->getTransformComponent().translate(velocity * dt);
+    rb->setVelocity(velocity);
+    //owner->getTransformComponent().translate(velocity * dt);
 
     // Test raycast
     const float l = 2.0f;

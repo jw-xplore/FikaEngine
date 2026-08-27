@@ -41,17 +41,15 @@ GameObject& ContentManager::createPlayer(glm::vec3 position)
     ShaderResource& basicShader = gResourceManager->getShader("basic");
 
     GameObject* player = FikaEngine::addGameObject();
-    player->getTransformComponent().translate(position);
+    player->getTransformComponent().setPosition(position);
     MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
     meshCmp->setup(customMesh, basicShader, nullptr);
     meshCmp->setTexture(customTexture);
 
-    /*
     RigidbodyComponent* rb = player->addComponent<RigidbodyComponent>();
     //rb->setCollider(EColliderShape::ShapeSphere);
     rb->setCapsuleCollider(0.5f, 2);
     rb->setLayers(2);
-    */
 
     player->addComponent<PlayerComponent>();
     
@@ -67,22 +65,19 @@ GameObject& ContentManager::createWall(glm::vec3 position, bool solid)
     MeshInstanceComponent* meshCmp = wall->addComponent<MeshInstanceComponent>();
     meshCmp->setup(customMesh, *basicShader, nullptr);
     meshCmp->setTexture(customTexture);
-    wall->getTransformComponent().translate(position);
+    wall->getTransformComponent().setPosition(position);
 
-    /*
     RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
 
     if (solid)
         wallRb->setBodyType(EBodyType::Static);
 
-    wallRb->setBodyType(EBodyType::Trigger);
     wallRb->setBodyTag(1);
     wallRb->setInteractiveLayers(3);
 
     //wallRb->setSphereCollider(1);
     wallRb->setBoxCollider(glm::vec3(2, 2, 2));
     //wallRb->setCapsuleCollider(0.5, 2);
-    */
 
     return *wall;
 }

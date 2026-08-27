@@ -27,29 +27,18 @@ TransformComponent::TransformComponent()
     //
 }
 
-inline void TransformComponent::applyToChildren()
-{
-    for (auto& child : children)
-    {
-        child->setTransformMatrix(transformMatrix);
-        child->applyToChildren();
-    }
-}
-
 void TransformComponent::setLocalPosition(const glm::vec3& position)
 {
     localTransform.position = position;
     
     if (!parent)
     {
-        transformMatrix = localTransform.transformToMatrix();
+        setTransformMatrix(localTransform.transformToMatrix());
     }
     else
     {
-        transformMatrix = parent->getTransformMatrix() * localTransform.transformToMatrix();
+        setTransformMatrix(parent->getTransformMatrix() * localTransform.transformToMatrix());
     }
-
-    applyToChildren();
 }
 
 void TransformComponent::setLocalRotation(const glm::vec3& rotation)
@@ -58,14 +47,12 @@ void TransformComponent::setLocalRotation(const glm::vec3& rotation)
 
     if (!parent)
     {
-        transformMatrix = localTransform.transformToMatrix();
+        setTransformMatrix(localTransform.transformToMatrix());
     }
     else
     {
-        transformMatrix = parent->getTransformMatrix() * localTransform.transformToMatrix();
+        setTransformMatrix(parent->getTransformMatrix() * localTransform.transformToMatrix());
     }
-
-    applyToChildren();
 }
 
 void TransformComponent::setLocalScale(const glm::vec3& scale)
@@ -74,14 +61,12 @@ void TransformComponent::setLocalScale(const glm::vec3& scale)
 
     if (!parent)
     {
-        transformMatrix = localTransform.transformToMatrix();
+        setTransformMatrix(localTransform.transformToMatrix());
     }
     else
     {
-        transformMatrix = parent->getTransformMatrix() * localTransform.transformToMatrix();
+        setTransformMatrix(parent->getTransformMatrix() * localTransform.transformToMatrix());
     }
-
-    applyToChildren();
 }
 
 void TransformComponent::setPosition(const glm::vec3& position)
@@ -89,19 +74,17 @@ void TransformComponent::setPosition(const glm::vec3& position)
     if (!parent)
     {
         localTransform.position = position;
-        transformMatrix = localTransform.transformToMatrix();
+        setTransformMatrix(localTransform.transformToMatrix());
     }
     else
     {
         Transform tran = localTransform;
-        transformMatrix = tran.transformToMatrix();
         glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
         tran.position = position;
         localTransform.position = matrixToPosition(inv) + position;
+        setTransformMatrix(tran.transformToMatrix());
     }
-
-    applyToChildren();
 }
 
 void TransformComponent::setRotation(const glm::vec3& rotation)
@@ -109,19 +92,17 @@ void TransformComponent::setRotation(const glm::vec3& rotation)
     if (!parent)
     {
         localTransform.rotation = rotation;
-        transformMatrix = localTransform.transformToMatrix();
+        setTransformMatrix(localTransform.transformToMatrix());
     }
     else
     {
         Transform tran = localTransform;
-        transformMatrix = tran.transformToMatrix();
         glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
         tran.rotation = rotation;
         localTransform.rotation = matrixToRotation(inv) + rotation;
+        setTransformMatrix(tran.transformToMatrix());
     }
-
-    applyToChildren();
 }
 
 void TransformComponent::setScale(const glm::vec3& scale)
@@ -129,19 +110,17 @@ void TransformComponent::setScale(const glm::vec3& scale)
     if (!parent)
     {
         localTransform.scale = scale;
-        transformMatrix = localTransform.transformToMatrix();
+        setTransformMatrix(localTransform.transformToMatrix());
     }
     else
     {
         Transform tran = localTransform;
-        transformMatrix = tran.transformToMatrix();
         glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
         tran.scale = scale;
         localTransform.scale = matrixToPosition(inv) + scale;
+        setTransformMatrix(tran.transformToMatrix());
     }
-
-    applyToChildren();
 }
 
 void TransformComponent::translate(const glm::vec3& translation)
@@ -151,7 +130,15 @@ void TransformComponent::translate(const glm::vec3& translation)
 
 inline void TransformComponent::setTransformMatrix(const glm::mat4& mat)
 {
-    transformMatrix = mat * localTransform.transformToMatrix();
+    if (parent)
+        transformMatrix = mat * localTransform.transformToMatrix();
+    else
+        transformMatrix = mat;
+
+    for (auto& child : children)
+    {
+        child->setTransformMatrix(transformMatrix);
+    }
 }
 
 void TransformComponent::addChild(TransformComponent& child)
