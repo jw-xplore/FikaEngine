@@ -10,7 +10,7 @@ void RigidbodyComponent::start()
 {
 	PhysicsSolver* physics = SystemsHolder::getInstance()->getPhysicsSolver();
 	transform = &owner->getTransformComponent();
-	body = &physics->addBody(transform->getTransformMatrix());
+	body = &physics->addBody(*transform);
 
 	// Callbacks
 	body->onEnter = std::bind(&RigidbodyComponent::onEnter, this, std::placeholders::_1);

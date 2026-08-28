@@ -6,6 +6,8 @@
 #include "collisions.h"
 #include "core/memorymanagement.h"
 
+class TransformComponent;
+
 enum EBodyType
 {
 	Static,
@@ -35,6 +37,8 @@ struct Body
 	// Callbacks
 	std::function<void(Body&)> onEnter;
 	std::function<void(Body&)> onExit;
+
+	void onParentTransformUpdate(glm::mat4& transform);
 };
 
 void applyForce(Body& body, const glm::vec3& force);
@@ -59,7 +63,7 @@ public:
 
 	void update(float dt);
 
-	Body& addBody(const glm::mat4& tranform);
+	Body& addBody(TransformComponent& tranform);
 
 	CollisionSolver& getCollisionSolver() { return collisionsSolver; }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
+#include <functional>
 
 struct Transform
 {
@@ -25,6 +26,7 @@ public:
 	TransformComponent();
 
 	// Local
+	Transform& getLocalTransform() { return localTransform; }
 	glm::vec3 getLocalPosition() { return localTransform.position; }
 	void setLocalPosition(const glm::vec3& position);
 	void setLocalRotation(const glm::vec3& rotation);
@@ -38,6 +40,7 @@ public:
 
 	//glm::mat4& getTransform() { return transform; }
 	inline void setTransformMatrix(const glm::mat4& mat);
+	inline void setLocalTransform(const Transform& transform);
 	glm::mat4& getTransformMatrix() { return transformMatrix; }
 
 	void addChild(TransformComponent& child);
@@ -45,4 +48,6 @@ public:
 	static glm::vec3 matrixToPosition(const glm::mat4& mat);
 	static glm::vec3 matrixToRotation(const glm::mat4& mat);
 	static glm::vec3 matrixToScale(const glm::mat4& mat);
+
+	std::function<void(glm::mat4&)> onParentUpdate;
 };

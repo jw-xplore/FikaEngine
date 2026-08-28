@@ -138,7 +138,16 @@ inline void TransformComponent::setTransformMatrix(const glm::mat4& mat)
     for (auto& child : children)
     {
         child->setTransformMatrix(transformMatrix);
+
+        if (child->onParentUpdate != nullptr)
+            child->onParentUpdate(transformMatrix);
     }
+}
+
+inline void TransformComponent::setLocalTransform(const Transform& transform)
+{
+    localTransform = transform;
+    setTransformMatrix(transformMatrix * localTransform.transformToMatrix());
 }
 
 void TransformComponent::addChild(TransformComponent& child)

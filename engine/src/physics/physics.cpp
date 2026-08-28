@@ -1,6 +1,13 @@
 #include "physics.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include "components/transform.h"
+
+
+void Body::onParentTransformUpdate(glm::mat4& transform)
+{
+	this->transform = transform;
+}
 
 void applyForce(Body& body, const glm::vec3& force)
 {
@@ -80,12 +87,13 @@ void PhysicsSolver::update(float dt)
 	collisionsSolver.update(dt);
 }
 
-Body& PhysicsSolver::addBody(const glm::mat4& tranform)
+Body& PhysicsSolver::addBody(TransformComponent& tranform)
 {
 	Body* body = bodies->allocate();
 	int id = bodies->getUsedAmount();
 	body->id = id;
-	body->transform = tranform;
+	body->transform = tranform.getTransformMatrix();
+	tranform.onParentUpdate = std::bind(&Body::onParentTransformUpdate, body, std::placeholders::_1);
 
 	// TODO: Make option to call this after all
 	collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());

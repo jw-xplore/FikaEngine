@@ -24,13 +24,13 @@ void start()
     // Player
     player = &contentManager->createPlayer(glm::vec3(2, 0, 0));
 
-    wall = &contentManager->createWall(glm::vec3(0, 0, 0), true);
-    //contentManager->createWall(glm::vec3(1, 0, 0), true);
+    wall = &contentManager->createWall(glm::vec3(0, 0, 0), false);
+    contentManager->createWall(glm::vec3(0, 0, 2), false);
     //contentManager->createWall(glm::vec3(2, 0, 0), true);
     
     player->getTransformComponent().addChild(wall->getTransformComponent());
 
-    //wall->getTransformComponent().setLocalPosition(glm::vec3(2, 0, 0));
+    //wall->getTransformComponent().setPosition(glm::vec3(-2, 0, 0));
     //wall->getTransformComponent().setScale(glm::vec3(0.2));
     //player->getTransformComponent().setScale(glm::vec3(2));
 
