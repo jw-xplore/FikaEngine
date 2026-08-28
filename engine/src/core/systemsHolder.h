@@ -23,11 +23,6 @@ public:
 	SystemsHolder();
 	~SystemsHolder();
 
-	Renderer* getMainRenderer() { return renderer.get(); }
-	GameObjectManager* getGameObjectManager() { return gameObjectManager.get(); }
-	CameraManager* getCameraManager() { return cameraManager.get(); }
-	GResourceManager* getGResourceManager() { return gResourceManager.get(); }
-
 	static SystemsHolder* getInstance()
 	{
 		if (!instance)
@@ -36,6 +31,10 @@ public:
 		return instance;
 	}
 
-	static Renderer* getDebugRenderer() { return SystemsHolder::getInstance()->debugRenderer.get();  }
+	static GameObjectManager* getGameObjectManager() { return SystemsHolder::getInstance()->gameObjectManager.get(); }
+	static Renderer* getMainRenderer() { return SystemsHolder::getInstance()->renderer.get(); }
+	static Renderer* getDebugRenderer() { return SystemsHolder::getInstance()->debugRenderer.get(); }
+	static CameraManager* getCameraManager() { return SystemsHolder::getInstance()->cameraManager.get(); }
+	static GResourceManager* getGResourceManager() { return SystemsHolder::getInstance()->gResourceManager.get(); }
 	static PhysicsSolver* getPhysicsSolver() { return SystemsHolder::getInstance()->physicsSolver.get(); }
 };

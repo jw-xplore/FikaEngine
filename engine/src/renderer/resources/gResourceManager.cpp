@@ -1,6 +1,7 @@
 #include "gResourceManager.h"
 #include <iostream>
 #include <fstream>
+#include <windows.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -231,7 +232,12 @@ void TextureResource::loadTexture(const char* path)
 	}
 	else
 	{
-		std::cout << "Texuture not found: " << path << "\n";
+		char pBuf[256];
+		size_t len = sizeof(pBuf);
+		GetCurrentDirectoryA(len, pBuf);
+
+		std::cout << "Texture not loaded: " << pBuf << " + /" << path << "\n";
+		std::cout << "Reason: " << stbi_failure_reason() << "\n";
 	}
 
 	// Cleanup

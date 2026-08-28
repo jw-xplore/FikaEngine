@@ -43,6 +43,9 @@ target_link_libraries(imgui PUBLIC OpenGL::GL)
 # Engine
 add_subdirectory(engine)
 
+# Editor
+add_subdirectory(editor)
+
 # Projects
 file(GLOB PROJECT_DIRS RELATIVE ${CMAKE_SOURCE_DIR} projects/*)
 
