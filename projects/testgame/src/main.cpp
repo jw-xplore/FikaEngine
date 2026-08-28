@@ -25,12 +25,12 @@ void start()
     player = &contentManager->createPlayer(glm::vec3(2, 0, 0));
 
     wall = &contentManager->createWall(glm::vec3(0, 0, 0), false);
-    contentManager->createWall(glm::vec3(0, 0, 2), false);
+    GameObject& wall2 = contentManager->createWall(glm::vec3(0, 0, 2), false);
     //contentManager->createWall(glm::vec3(2, 0, 0), true);
     
     player->getTransformComponent().addChild(wall->getTransformComponent());
+    wall->getTransformComponent().addChild(wall2.getTransformComponent());
 
-    //wall->getTransformComponent().setPosition(glm::vec3(-2, 0, 0));
     //wall->getTransformComponent().setScale(glm::vec3(0.2));
     //player->getTransformComponent().setScale(glm::vec3(2));
 
@@ -64,7 +64,7 @@ void update(float dt)
     pos = sin(dt * 100);
     //player->getTransformComponent().setRotation(glm::vec3(0, rot, 0));
     //wall->getTransformComponent().setRotation(glm::vec3(rot, 0, 0));
-    //wall->getTransformComponent().setLocalRotation(glm::vec3(0, rot, 0));
+    wall->getTransformComponent().setLocalRotation(glm::vec3(0, rot, 0));
     return;
 }
 

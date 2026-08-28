@@ -36,6 +36,7 @@ public:
 	void setPosition(const glm::vec3& position);
 	void setRotation(const glm::vec3& rotation);
 	void setScale(const glm::vec3& scale);
+	void setFullTransform(const Transform& transform);
 	void translate(const glm::vec3& translation);
 
 	//glm::mat4& getTransform() { return transform; }
@@ -44,6 +45,7 @@ public:
 	glm::mat4& getTransformMatrix() { return transformMatrix; }
 
 	void addChild(TransformComponent& child);
+	bool hasParent() { return parent; }
 
 	static glm::vec3 matrixToPosition(const glm::mat4& mat);
 	static glm::vec3 matrixToRotation(const glm::mat4& mat);

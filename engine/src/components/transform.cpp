@@ -118,8 +118,33 @@ void TransformComponent::setScale(const glm::vec3& scale)
         glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
 
         tran.scale = scale;
-        localTransform.scale = matrixToPosition(inv) + scale;
+        localTransform.scale = matrixToScale(inv) * scale;
         setTransformMatrix(tran.transformToMatrix());
+    }
+}
+
+void TransformComponent::setFullTransform(const Transform& transform)
+{
+    if (!parent)
+    {
+        localTransform.position = transform.position;
+        localTransform.rotation = transform.rotation;
+        localTransform.scale = transform.scale;
+        setTransformMatrix(localTransform.transformToMatrix());
+    }
+    else
+    {
+        Transform tran = localTransform;
+        glm::mat4 inv = glm::inverse(parent->getTransformMatrix());
+
+        tran.position = transform.position;
+        tran.rotation = transform.rotation;
+        tran.scale = transform.scale;
+
+        localTransform.position = matrixToPosition(inv) + transform.position;
+        localTransform.rotation = matrixToRotation(inv) + transform.rotation;
+        localTransform.scale = matrixToScale(inv) * transform.scale;
+        //setTransformMatrix(tran.transformToMatrix());
     }
 }
 
@@ -131,16 +156,20 @@ void TransformComponent::translate(const glm::vec3& translation)
 inline void TransformComponent::setTransformMatrix(const glm::mat4& mat)
 {
     if (parent)
+    {
         transformMatrix = mat * localTransform.transformToMatrix();
+
+        if (onParentUpdate != nullptr)
+            onParentUpdate(transformMatrix);
+    }
     else
+    {
         transformMatrix = mat;
+    }
 
     for (auto& child : children)
     {
         child->setTransformMatrix(transformMatrix);
-
-        if (child->onParentUpdate != nullptr)
-            child->onParentUpdate(transformMatrix);
     }
 }
 
@@ -154,6 +183,20 @@ void TransformComponent::addChild(TransformComponent& child)
 {
     child.parent = this;
     children.push_back(&child);
+
+    glm::mat4 startTran = child.getTransformMatrix();
+    Transform target;
+    target.position = matrixToPosition(startTran);
+    target.rotation = matrixToRotation(startTran);
+    target.scale = matrixToScale(startTran);
+    //child.setPosition(matrixToPosition(startTran));
+    //child.setRotation(matrixToRotation(startTran));
+    //child.setScale(matrixToScale(startTran));
+
+    child.setFullTransform(target);
+
+    if (child.onParentUpdate != nullptr)
+        child.onParentUpdate(child.transformMatrix);
 }
 
 glm::vec3 TransformComponent::matrixToPosition(const glm::mat4& mat)

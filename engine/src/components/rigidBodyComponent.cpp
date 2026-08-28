@@ -27,7 +27,8 @@ void RigidbodyComponent::start()
 void RigidbodyComponent::update(float dt)
 {
 	//*transform = body->transform;
-	transform->setTransformMatrix(body->transform);
+	if (!transform->hasParent())
+		transform->setTransformMatrix(body->transform);
 }
 
 void RigidbodyComponent::setVelocity(glm::vec3 velocity)
