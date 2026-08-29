@@ -1,6 +1,8 @@
 #include "gameobjectmanager.h"
 #include "gameobject.h"
 #include "component.h"
+#include "core/filemanagement/json.h"
+#include <fstream>
 
 GameObjectManager::GameObjectManager()
 {
@@ -67,4 +69,34 @@ GameObject* GameObjectManager::findById(GameObjectId id)
 	}
 
 	return nullptr;
+}
+
+void GameObjectManager::serialize(const char* filePath)
+{
+	// Serialize
+	nlohmann::json j;
+	nlohmann::json levelJson = nlohmann::json::array();
+
+	for (auto& go : gameObjects)
+	{
+		nlohmann::json goJson = go.get()->serialize();
+		levelJson.push_back(goJson);
+	}
+
+	j["level"] = levelJson;
+
+	// Save
+	std::ofstream file(filePath);
+
+	if (!file.is_open())
+	{
+		std::cout << "Can't serialize game objects as levels folder/file is not found \n";
+		return;
+	}
+	
+	file << std::setw(4) << j;
+	file.close();
+
+	std::cout << "Level saved: \n";
+	std::cout << j << "\n";
 }

@@ -44,4 +44,6 @@ public:
 	 * @return GameObject pointer of matching id. 
 	 */
 	GameObject* findById(GameObjectId id);
+
+	void serialize(const char* filePath);
 };

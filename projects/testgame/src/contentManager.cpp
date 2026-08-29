@@ -52,6 +52,17 @@ GameObject& ContentManager::createPlayer(glm::vec3 position)
     rb->setLayers(2);
 
     player->addComponent<PlayerComponent>();
+
+    // Test print components
+    //player->addComponent< 1722347611666756057>
+
+    for (auto& comp : player->getComponents())
+    {
+        std::cout << "comp: " << typeid(*comp.get()).name() << ", code: " << comp.get()->componentID() << "\n";
+        comp.get()->Deserialize((void*)&comp);
+    }
+
+    //player->Serialize();
     
     return *player;
 }

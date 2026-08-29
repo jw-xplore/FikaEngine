@@ -4,6 +4,7 @@
 #include "component.h"
 #include <glm/glm.hpp>
 #include "components/transform.h"
+#include "core/filemanagement/json.h"
 
 class Component;
 
@@ -92,4 +93,6 @@ public:
 		glm::vec3 pos = transformComponent.getTransformMatrix()[3];
 		return glm::vec3(pos.x, pos.y, pos.z);
 	}
+
+	nlohmann::json serialize();
 };

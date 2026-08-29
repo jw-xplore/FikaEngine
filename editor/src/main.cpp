@@ -16,10 +16,13 @@ void start()
 {
     CameraManager* cameraManager = SystemsHolder::getCameraManager();
     //cameraManager->useFreeCamera(true);
+    cameraManager->getMainCamera()->move(glm::vec3(0, 2, 6), glm::vec3(0,0,-1));
 
     //cameraManager->getFreeCamera()->lookAt(glm::vec3(0, 0, 1));
     //editor.loadProject();
 	//editor.runGame();
+
+    //editor.placeObject(glm::vec3(0, 0, 0));
 }
 
 void update(float dt)

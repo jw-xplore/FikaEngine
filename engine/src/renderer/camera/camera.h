@@ -43,8 +43,8 @@ public:
     void flycamUpdate(float dt);
 
     glm::mat4 getProjection() { return projection; }
-
-	glm::vec3 position{ 0, 0, -5 };
+    glm::vec3 getPosition() { return position; }
+    glm::vec3 getDirection() { return direction; }
 
 private:
     Window* window;
@@ -64,6 +64,7 @@ private:
     float nearPlane = 0.1f;
     float farPlane = 100.0f;
 
+    glm::vec3 position{ 0, 0, -5 };
     glm::vec3 direction = { 0, 0, 1};
     glm::vec3 front{ 0,0,-1 };
     glm::vec3 rightVec{ 1,0,0 };

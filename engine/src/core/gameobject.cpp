@@ -18,3 +18,18 @@ void GameObject::removeComponent(Component* component)
         components.end()
     );
 }
+
+nlohmann::json GameObject::serialize()
+{
+    nlohmann::json goJson = nlohmann::json::object();
+
+    glm::vec3 pos = TransformComponent::matrixToPosition(transformComponent.getTransformMatrix());
+    nlohmann::json posJson;
+    posJson.push_back({ "x", pos.x });
+    posJson.push_back({ "y", pos.y });
+    posJson.push_back({ "z", pos.z });
+
+    goJson.push_back({ "position", posJson });
+
+    return goJson;
+}

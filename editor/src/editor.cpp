@@ -6,6 +6,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
+#include "fikaEngine.h"
+
 namespace FikaEditor
 {
     void Editor::debugUI(GLFWwindow* window)
@@ -35,9 +37,18 @@ namespace FikaEditor
         ImGui::InputText("Directory", workingDirectory, 256);
         ImGui::InputText("Executable", executable, 256);
 
+        // Run game
         if (ImGui::Button("Run"))
         {
             runGame();
+        }
+
+        // Save level
+        ImGui::InputText("Level path", levelPath, 256);
+
+        if (ImGui::Button("Save"))
+        {
+            SystemsHolder::getGameObjectManager()->serialize(levelPath);
         }
 
         ImGui::End();
@@ -48,7 +59,20 @@ namespace FikaEditor
 
     void Editor::update()
     {
+        // UI
         debugUI(glfwGetCurrentContext());
+
+        // Placing
+        Input::Mouse* mouse = Input::getDefaultMouse();
+
+        if (mouse->pressed[Input::Mouse::RightButton])
+        {
+            glm::vec3 pos = positionFromScreenSpace(glm::vec2(0,0));
+            if (pos == glm::vec3(-1))
+                return;
+
+            placeObject(pos);
+        }
     }
 
     bool Editor::loadProject()
@@ -110,4 +134,31 @@ namespace FikaEditor
         CloseHandle(processInfo.hThread);
         CloseHandle(processInfo.hProcess);
 	}
+
+    glm::vec3 Editor::positionFromScreenSpace(glm::vec2 position)
+    {
+        CameraManager* cameraManager = SystemsHolder::getCameraManager();
+        Camera* cam = cameraManager->getActiveCamera();
+
+        glm::vec3 pos = cam->getPosition();
+        glm::vec3 dir = cam->getDirection();
+
+        float t = -pos.y / dir.y;
+        if (t < 0)
+            return glm::vec3(-1);
+
+        return pos + t * dir;
+    }
+
+    void Editor::placeObject(glm::vec3 position)
+    {
+        GResourceManager* gResourceManager = SystemsHolder::getGResourceManager();
+        ShaderResource* basicShader = &gResourceManager->getShader("basic");
+        MeshResource& customMesh = gResourceManager->getMesh("cube");
+
+        GameObject* wall = FikaEngine::addGameObject();
+        MeshInstanceComponent* meshCmp = wall->addComponent<MeshInstanceComponent>();
+        meshCmp->setup(customMesh, *basicShader, nullptr);
+        wall->getTransformComponent().setPosition(position);
+    }
 }
