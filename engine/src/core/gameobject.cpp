@@ -25,11 +25,11 @@ nlohmann::json GameObject::serialize()
 
     glm::vec3 pos = TransformComponent::matrixToPosition(transformComponent.getTransformMatrix());
     nlohmann::json posJson;
-    posJson.push_back({ "x", pos.x });
-    posJson.push_back({ "y", pos.y });
-    posJson.push_back({ "z", pos.z });
+    posJson["x"] = pos.x;
+    posJson["y"] = pos.y;
+    posJson["z"] = pos.z;
 
-    goJson.push_back({ "position", posJson });
+    goJson["position"] = posJson;
 
     return goJson;
 }

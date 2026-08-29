@@ -1,5 +1,7 @@
 #include "contentManager.h"
 #include "playerComponent.h"
+#include <fstream>
+#include <iostream>
 
 ContentManager::ContentManager()
 {
@@ -91,4 +93,31 @@ GameObject& ContentManager::createWall(glm::vec3 position, bool solid)
     //wallRb->setCapsuleCollider(0.5, 2);
 
     return *wall;
+}
+
+void ContentManager::loadWalls(const char* filePath)
+{
+    // Read json
+    std::ifstream file(filePath);
+    if (!file.is_open())
+    {
+        std::cout << "Failed to load level \n";
+        return;
+    }
+
+    // Parse data
+    nlohmann::ordered_json jsonRes = nlohmann::ordered_json::parse(file);
+    file.close();
+
+    nlohmann::json level = jsonRes["level"];
+    for (auto& item : level.items())
+    {
+        nlohmann::json position = item.value()["position"];
+
+        float x = position["x"];
+        float y = position["y"];
+        float z = position["z"];
+
+        createWall(glm::vec3(x, y, z));
+    }
 }
