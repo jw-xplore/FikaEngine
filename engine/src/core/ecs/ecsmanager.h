@@ -1,19 +1,22 @@
+#pragma once
 #include <vector>
 #include <memory>
 #include <map>
+#include "ecssystembase.h"
 
 namespace FikaECS
 {
-	class SystemBase;
+	//class SystemBase;
 	class Entity;
-	class Component;
+	class ECSComponent;
+	class ComponentUpdater;
 
 	class ECSManager
 	{
 	private:
-		std::vector<SystemBase*> systems;
+		std::vector<ComponentUpdater*> systems;
 		// Tracks which systems is used for component based on matching id
-		std::map<unsigned int, SystemBase*> componetIdSystems;
+		std::map<unsigned int, ComponentUpdater*> componetIdSystems;
 		// Entity-Component relation: entity id + component ids list
 		std::map<unsigned int, std::vector<unsigned int>> entityComponets;
 
@@ -26,8 +29,10 @@ namespace FikaECS
 		void init();
 		void update(float dt);
 
-		Component* addComponent(Entity& entity, unsigned int componentId);
+		int registerSystem(ComponentUpdater* system);
+		ECSComponent* addComponent(Entity& entity, unsigned int componentId);
 
+		/*
 		template <typename T>
 		T* addSystem()
 		{
@@ -41,5 +46,6 @@ namespace FikaECS
 
 			return rawPtr;
 		}
+		*/
 	};
 }

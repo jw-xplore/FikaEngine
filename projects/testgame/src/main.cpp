@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include <fikaEngine.h>
 
+#include "core/ecs/test/testComponent.h"
 #include "contentManager.h"
 #include "playerComponent.h"
 
@@ -12,6 +13,8 @@ ContentManager* contentManager;
 
 GameObject* player;
 GameObject* wall;
+
+TestSystem ECSTestSystem;
 
 void start()
 {
@@ -59,6 +62,20 @@ void start()
     entity.setId(1);
     systemsHolder->getECSManager()->addComponent(entity, 1);
     */
+
+    // Test ECS
+    //int i = TestComponent::componentId;
+
+    FikaECS::Entity entity;
+    entity.setId(1);
+    /*
+    SystemsHolder::getECSManager()->init();
+    SystemsHolder::getECSManager()->addSystem(TestComponent::componentId);
+    SystemsHolder::getECSManager()->addComponent(entity, TestComponent::componentId);
+    */
+
+    ECSTestSystem.init();
+    SystemsHolder::getECSManager()->addComponent(entity, ECSTestSystem.getTargetComponentId());
 }
 
 float rot = 0;

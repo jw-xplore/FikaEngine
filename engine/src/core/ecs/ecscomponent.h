@@ -1,19 +1,15 @@
+#pragma once
 #include <iostream>
 #include <string>
 #include <memory>
 
 namespace FikaECS
 {
-	class SystemBase;
-
-	class Component
+	class ECSComponent
 	{
-	private:
-		static SystemBase* managerSystem;
-
 	public:
-		Component() {}
-		virtual ~Component() {}
+		ECSComponent() {}
+		virtual ~ECSComponent() {}
 
 		/**
 		 * @brief Called when Component is added.
@@ -26,6 +22,6 @@ namespace FikaECS
 		 */
 		virtual void update(float dt) {}
 
-		virtual size_t componentID() const { return 0; }
+		virtual unsigned int getComponentId() const { return 0; }
 	};
 }

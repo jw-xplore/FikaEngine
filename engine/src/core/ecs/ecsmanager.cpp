@@ -1,8 +1,8 @@
 #include "ecsmanager.h"
-#include "ecssystembase.h"
 #include "ecscomponent.h"
 #include "ecsentity.h"
 #include <cassert>
+#include "ecscomponentupdater.h"
 
 namespace FikaECS
 {
@@ -19,7 +19,17 @@ namespace FikaECS
 		}
 	}
 
-	Component* ECSManager::addComponent(Entity& entity, unsigned int componentId)
+	int ECSManager::registerSystem(ComponentUpdater* system)
+	{
+		int pos = systems.size();
+		systems.push_back(system);
+
+		componetIdSystems[system->getTargetComponentId()] = system;
+
+		return pos;
+	}
+
+	ECSComponent* ECSManager::addComponent(Entity& entity, unsigned int componentId)
 	{
 		bool systemExist = componetIdSystems.find(componentId) != componetIdSystems.end();
 		if (!systemExist)
@@ -30,18 +40,12 @@ namespace FikaECS
 		}
 
 		// Add component to system
-		Component* comp = componetIdSystems[componentId]->addComponent();
+		//ECSComponent* comp = componetIdSystems[componentId]->addComponent();
+		componetIdSystems[componentId]->addComponent();
 
 		// Store relation
 		entityComponets[entity.getId()].push_back(componentId);
 
-		return comp;
-	}
-
-	void ECSManager::addComponentIdSystem(SystemBase* system)
-	{
-		unsigned int id = system->componentID();
-		componetIdSystems[system->componentID()] = system;
-		std::cout << "Added system id: " << id << "\n";
+		return nullptr;
 	}
 }

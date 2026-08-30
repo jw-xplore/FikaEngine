@@ -1,19 +1,24 @@
+#pragma once
 #include <memory>
 #include "core/memorymanagement.h"
 
 namespace FikaECS
 {
-	class Component;
+	class ECSComponent;
 
 	class SystemBase
 	{
 	private:
-		std::unique_ptr<PoolAllocator<Component>> components;
+		unsigned int targetComponentId = 0;
+		//std::unique_ptr<ECSComponent> components;
 
 	public:
-		void update(float dt);
-		Component* addComponent();
+		SystemBase() {}
+		SystemBase(unsigned int componentId);
 
-		virtual size_t componentID() const { return 0; }
+		void update(float dt);
+		ECSComponent* addComponent();
+
+		unsigned int getTargetComponentId() const { return targetComponentId; }
 	};
 }

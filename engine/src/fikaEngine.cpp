@@ -144,6 +144,7 @@ namespace FikaEngine
 
             // Base game update
             gameObjectManager->update(dt);
+            SystemsHolder::getECSManager()->update(dt);
             physicsSolver->update(dt);
             renderer->render(mainCamera->getProjection());
 

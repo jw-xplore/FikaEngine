@@ -20,6 +20,7 @@ Includes
 #include "core/ecs/ecssystembase.h"
 #include "core/ecs/ecscomponent.h"
 #include "core/ecs/ecsentity.h"
+#include "core/ecs/ecscomponentupdater.h"
 
 // Render
 #include "renderer/renderer.h"
