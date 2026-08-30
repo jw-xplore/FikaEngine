@@ -4,6 +4,7 @@
 #include "core/gameobjectmanager.h"
 #include "renderer/camera/cameraManager.h"
 #include "renderer/resources/gResourceManager.h"
+#include "core/ecs/ecsmanager.h"
 
 SystemsHolder* SystemsHolder::instance = new SystemsHolder();
 
@@ -15,6 +16,8 @@ SystemsHolder::SystemsHolder()
 	gameObjectManager = std::unique_ptr<GameObjectManager>(new GameObjectManager());
 	cameraManager = std::unique_ptr<CameraManager>(new CameraManager());
 	gResourceManager = std::unique_ptr<GResourceManager>(new GResourceManager());
+
+	ecsManager = std::unique_ptr<FikaECS::ECSManager>(new FikaECS::ECSManager());
 }
 
 SystemsHolder::~SystemsHolder()

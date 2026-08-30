@@ -53,6 +53,12 @@ void start()
 
     // Input mapping
     InputMapping::GetInstance();
+
+    /*
+    FikaECS::Entity entity;
+    entity.setId(1);
+    systemsHolder->getECSManager()->addComponent(entity, 1);
+    */
 }
 
 float rot = 0;

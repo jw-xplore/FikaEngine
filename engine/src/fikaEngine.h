@@ -15,6 +15,12 @@ Includes
 #include "core/gameobjectmanager.h"
 #include "core/systemsHolder.h"
 
+// ECS
+#include "core/ecs/ecsmanager.h"
+#include "core/ecs/ecssystembase.h"
+#include "core/ecs/ecscomponent.h"
+#include "core/ecs/ecsentity.h"
+
 // Render
 #include "renderer/renderer.h"
 #include "renderer/resources/gResourceManager.h"
