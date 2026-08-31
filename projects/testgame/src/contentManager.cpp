@@ -36,6 +36,7 @@ ContentManager::~ContentManager()
 
 }
 
+/*
 GameObject& ContentManager::createPlayer(glm::vec3 position)
 {
     MeshResource& customMesh = gResourceManager->getMesh("pawn");
@@ -94,6 +95,7 @@ GameObject& ContentManager::createWall(glm::vec3 position, bool solid)
 
     return *wall;
 }
+*/
 
 void ContentManager::loadWalls(const char* filePath)
 {
@@ -118,6 +120,6 @@ void ContentManager::loadWalls(const char* filePath)
         float y = position["y"];
         float z = position["z"];
 
-        createWall(glm::vec3(x, y, z));
+        //createWall(glm::vec3(x, y, z));
     }
 }

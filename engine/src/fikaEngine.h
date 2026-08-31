@@ -10,10 +10,8 @@ Includes
 */
 
 // Core
-#include "core/gameobject.h"
-#include "core/component.h"
-#include "core/gameobjectmanager.h"
 #include "core/systemsHolder.h"
+#include "core/filemanagement/json.h"
 
 // ECS
 #include "core/ecs/ecsmanager.h"
@@ -49,9 +47,6 @@ Includes
 #include <GLFW/glfw3.h>
 
 // Components
-#include "components/transform.h"
-#include "components/meshInstanceComponent.h"
-#include "components/rigidBodyComponent.h"
 
 /*
 Engine
@@ -70,9 +65,4 @@ namespace FikaEngine
 	void run(void (*startFnc)(), void (*updateFnc)(float));
 	
 	float getDeltaTime();
-
-	/**
-	 * @brief Add game object to engines main game object manager.
-	 */
-	GameObject* addGameObject();
 }

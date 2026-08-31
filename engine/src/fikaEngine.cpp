@@ -8,7 +8,6 @@ namespace FikaEngine
     Renderer* renderer;
     Renderer* debugRenderer;
     PhysicsSolver* physicsSolver;
-    GameObjectManager* gameObjectManager;
     CameraManager* cameraManager;
     GResourceManager* gResourceManager;
 
@@ -22,7 +21,6 @@ namespace FikaEngine
         renderer = systemsHolder->getMainRenderer();
         debugRenderer = SystemsHolder::getDebugRenderer();
         physicsSolver = systemsHolder->getPhysicsSolver();
-        gameObjectManager = systemsHolder->getGameObjectManager();
         cameraManager = systemsHolder->getCameraManager();
         gResourceManager = systemsHolder->getGResourceManager();
 
@@ -143,7 +141,6 @@ namespace FikaEngine
                 cameraManager->getFreeCamera()->flycamUpdate(dt);
 
             // Base game update
-            gameObjectManager->update(dt);
             SystemsHolder::getECSManager()->update(dt);
             physicsSolver->update(dt);
             renderer->render(mainCamera->getProjection());
@@ -161,6 +158,4 @@ namespace FikaEngine
     }
 
     float getDeltaTime() { return deltaTime; }
-
-    GameObject* addGameObject() { return gameObjectManager->addGameObject(); }
 }

@@ -1,7 +1,6 @@
 #include "systemsHolder.h"
 #include "renderer/renderer.h"
 #include "physics/physics.h"
-#include "core/gameobjectmanager.h"
 #include "renderer/camera/cameraManager.h"
 #include "renderer/resources/gResourceManager.h"
 #include "core/ecs/ecsmanager.h"
@@ -13,7 +12,6 @@ SystemsHolder::SystemsHolder()
 	renderer = std::unique_ptr<Renderer>(new Renderer());
 	debugRenderer = std::unique_ptr<Renderer>(new Renderer());
 	physicsSolver = std::unique_ptr<PhysicsSolver>(new PhysicsSolver());
-	gameObjectManager = std::unique_ptr<GameObjectManager>(new GameObjectManager());
 	cameraManager = std::unique_ptr<CameraManager>(new CameraManager());
 	gResourceManager = std::unique_ptr<GResourceManager>(new GResourceManager());
 
