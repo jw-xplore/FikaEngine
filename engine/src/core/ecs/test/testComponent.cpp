@@ -1,7 +1,7 @@
 #include "testComponent.h"
-#include <iostream>
 #include "core/systemsHolder.h"
 #include "core/ecs/ecsmanager.h"
+#include <iostream>
 
 /*
 Component
@@ -22,19 +22,19 @@ void TestComponent::update(float dt)
 System
 */
 
-TestSystem::TestSystem()
+TestCmpUpdater::TestCmpUpdater()
 {
 }
 
-void TestSystem::init()
+void TestCmpUpdater::init()
 {
 	components = new PoolAllocator<TestComponent>("TestCmp", 256);
 	targetComponentId = TestComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerSystem(this);
+	SystemsHolder::getECSManager()->registerUpdaters(this);
 }
 
-void TestSystem::update(float dt)
+void TestCmpUpdater::update(float dt)
 {
 	int size = components->getUsedAmount();
 
@@ -44,7 +44,7 @@ void TestSystem::update(float dt)
 	}
 }
 
-void TestSystem::addComponent()
+void TestCmpUpdater::addComponent()
 {
 	components->allocate();
 }

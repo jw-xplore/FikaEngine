@@ -20,13 +20,13 @@ public:
 };
 
 // System
-class TestSystem : public FikaECS::ComponentUpdater
+class TestCmpUpdater : public FikaECS::ComponentUpdater
 {
 private:
 	PoolAllocator<TestComponent>* components;
 
 public:
-	TestSystem();
+	TestCmpUpdater();
 	void init() override;
 	void update(float dt) override;
 	void addComponent() override;

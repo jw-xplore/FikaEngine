@@ -8,30 +8,30 @@ namespace FikaECS
 {
 	void ECSManager::init()
 	{
-		systems.reserve(64);
+		updaters.reserve(64);
 	}
 
 	void ECSManager::update(float dt)
 	{
-		for (auto& system : systems)
+		for (auto& system : updaters)
 		{
 			system->update(dt);
 		}
 	}
 
-	int ECSManager::registerSystem(ComponentUpdater* system)
+	int ECSManager::registerUpdaters(ComponentUpdater* system)
 	{
-		int pos = systems.size();
-		systems.push_back(system);
+		int pos = updaters.size();
+		updaters.push_back(system);
 
-		componetIdSystems[system->getTargetComponentId()] = system;
+		componetIdUpdaters[system->getTargetComponentId()] = system;
 
 		return pos;
 	}
 
 	ECSComponent* ECSManager::addComponent(Entity& entity, unsigned int componentId)
 	{
-		bool systemExist = componetIdSystems.find(componentId) != componetIdSystems.end();
+		bool systemExist = componetIdUpdaters.find(componentId) != componetIdUpdaters.end();
 		if (!systemExist)
 		{
 			std::cout << "Fail to add component. System for id: " << componentId << " was never registered \n";
@@ -40,8 +40,8 @@ namespace FikaECS
 		}
 
 		// Add component to system
-		//ECSComponent* comp = componetIdSystems[componentId]->addComponent();
-		componetIdSystems[componentId]->addComponent();
+		//ECSComponent* comp = componetIdUpdaters[componentId]->addComponent();
+		componetIdUpdaters[componentId]->addComponent();
 
 		// Store relation
 		entityComponets[entity.getId()].push_back(componentId);

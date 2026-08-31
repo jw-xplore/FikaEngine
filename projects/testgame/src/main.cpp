@@ -14,7 +14,7 @@ ContentManager* contentManager;
 GameObject* player;
 GameObject* wall;
 
-TestSystem ECSTestSystem;
+TestCmpUpdater ECSTestSystem;
 
 void start()
 {
