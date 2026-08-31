@@ -27,7 +27,7 @@ private:
 
 public:
 	TestCmpUpdater();
-	void init() override;
+	static void init();
 	void update(float dt) override;
 	void addComponent() override;
 };

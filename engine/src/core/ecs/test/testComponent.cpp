@@ -28,10 +28,11 @@ TestCmpUpdater::TestCmpUpdater()
 
 void TestCmpUpdater::init()
 {
-	components = new PoolAllocator<TestComponent>("TestCmp", 256);
-	targetComponentId = TestComponent::componentId;
+	TestCmpUpdater* updater = new TestCmpUpdater();
+	updater->components = new PoolAllocator<TestComponent>("TestCmp");
+	updater->targetComponentId = TestComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(this);
+	SystemsHolder::getECSManager()->registerUpdaters(updater);
 }
 
 void TestCmpUpdater::update(float dt)

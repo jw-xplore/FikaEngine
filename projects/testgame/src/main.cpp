@@ -3,9 +3,11 @@
 #include <GLFW/glfw3.h>
 #include <fikaEngine.h>
 
-#include "core/ecs/test/testComponent.h"
 #include "contentManager.h"
 #include "playerComponent.h"
+
+// Testing ECS components
+#include "core/ecs/test/testComponent.h"
 
 MeshInstance cube0;
 MeshInstance cube1;
@@ -14,7 +16,7 @@ ContentManager* contentManager;
 GameObject* player;
 GameObject* wall;
 
-TestCmpUpdater ECSTestSystem;
+//TestCmpUpdater ECSTestSystem;
 
 void start()
 {
@@ -68,14 +70,14 @@ void start()
 
     FikaECS::Entity entity;
     entity.setId(1);
-    /*
-    SystemsHolder::getECSManager()->init();
-    SystemsHolder::getECSManager()->addSystem(TestComponent::componentId);
-    SystemsHolder::getECSManager()->addComponent(entity, TestComponent::componentId);
-    */
 
-    ECSTestSystem.init();
-    SystemsHolder::getECSManager()->addComponent(entity, ECSTestSystem.getTargetComponentId());
+    /*
+    SpamComponentUpdater::init();
+    TestCmpUpdater::init();
+    SystemsHolder::getECSManager()->addComponent(entity, TestComponent::componentId);
+    SystemsHolder::getECSManager()->addComponent(entity, SpamComponent::componentId);
+    SystemsHolder::getECSManager()->addComponent(entity, SpamComponent::componentId);
+    */
 }
 
 float rot = 0;

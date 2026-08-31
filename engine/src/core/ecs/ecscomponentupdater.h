@@ -21,7 +21,6 @@ namespace FikaECS
 		ComponentUpdater() {}
 		virtual ~ComponentUpdater() {}
 
-		virtual void init() {}
 		virtual void update(float dt) {}
 		virtual void addComponent() { }
 

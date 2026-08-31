@@ -2,9 +2,9 @@
 #include "core/systemsHolder.h"
 #include "core/ecs/ecsmanager.h"
 
-/*
-Component
-*/
+//-------------------------------------------------------
+// Component
+//-------------------------------------------------------
 
 void {{NAME}}Component::start()
 {
@@ -17,23 +17,24 @@ void {{NAME}}Component::update(float dt)
 }
 
 
-/*
-System
-*/
+//-------------------------------------------------------
+// System
+//-------------------------------------------------------
 
-{{NAME}}CmpUpdater::{{NAME}}CmpUpdater()
+{{NAME}}ComponentUpdater::{{NAME}}ComponentUpdater()
 {
 }
 
-void {{NAME}}CmpUpdater::init()
+void {{NAME}}ComponentUpdater::init()
 {
-	components = new PoolAllocator<{{NAME}}Component>("{{NAME}}Cmp", 256);
-	targetComponentId = {{NAME}}Component::componentId;
+	{{NAME}}ComponentUpdater* updater = new {{NAME}}ComponentUpdater();
+	updater->components = new PoolAllocator<{{NAME}}Component>("TestCmp");
+	updater->targetComponentId = {{NAME}}Component::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(this);
+	SystemsHolder::getECSManager()->registerUpdaters(updater);
 }
 
-void {{NAME}}CmpUpdater::update(float dt)
+void {{NAME}}ComponentUpdater::update(float dt)
 {
 	int size = components->getUsedAmount();
 
@@ -43,7 +44,7 @@ void {{NAME}}CmpUpdater::update(float dt)
 	}
 }
 
-void {{NAME}}CmpUpdater::addComponent()
+void {{NAME}}ComponentUpdater::addComponent()
 {
 	components->allocate();
 }

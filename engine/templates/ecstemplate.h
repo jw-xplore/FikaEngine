@@ -3,7 +3,13 @@
 #include "core/ecs/ecscomponentupdater.h"
 #include "core/memorymanagement.h"
 
+//-------------------------------------------------------
 // Component
+//-------------------------------------------------------
+
+/**
+ * @brief 
+ */
 class {{NAME}}Component : public FikaECS::ECSComponent
 {
 public:
@@ -14,15 +20,26 @@ public:
 	void update(float dt) override;
 };
 
+//-------------------------------------------------------
 // System
-class {{NAME}}CmpUpdater : public FikaECS::ComponentUpdater
+//-------------------------------------------------------
+
+/**
+ * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ */
+class {{NAME}}ComponentUpdater : public FikaECS::ComponentUpdater
 {
 private:
 	PoolAllocator<{{NAME}}Component>* components;
 
 public:
-	{{NAME}}CmpUpdater();
-	void init() override;
+	{{NAME}}ComponentUpdater();
+
+	/**
+	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * Order of init call reflects in which order will updaters be processed.
+	 */
+	static void init();
 	void update(float dt) override;
 	void addComponent() override;
 };

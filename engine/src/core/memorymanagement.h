@@ -38,8 +38,9 @@ private:
 	}
 
 public:
+	static const size_t defaultSize = 256;
 
-	PoolAllocator(const char* name, size_t count)
+	PoolAllocator(const char* name, size_t count = defaultSize)
 	{
 		this->name = name;
 		used = 0;
