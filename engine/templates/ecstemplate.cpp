@@ -28,7 +28,7 @@ void {{NAME}}Component::update(float dt)
 void {{NAME}}ComponentUpdater::init()
 {
 	{{NAME}}ComponentUpdater* updater = new {{NAME}}ComponentUpdater();
-	updater->components = new PoolAllocator<{{NAME}}Component>("TestCmp");
+	updater->components = new PoolAllocator<{{NAME}}Component>("{{NAME}} Components");
 	updater->targetComponentId = {{NAME}}Component::componentId;
 
 	SystemsHolder::getECSManager()->registerUpdaters(updater);

@@ -22,7 +22,7 @@ namespace FikaECS
 		virtual ~ComponentUpdater() {}
 
 		virtual void update(float dt) {}
-		virtual void addComponent() { }
+		virtual ECSComponent* addComponent() { return nullptr; }
 
 		unsigned int getTargetComponentId() { return targetComponentId; }
 	};

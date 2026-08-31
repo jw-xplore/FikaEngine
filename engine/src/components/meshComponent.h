@@ -2,21 +2,23 @@
 #include "core/ecs/ecscomponent.h"
 #include "core/ecs/ecscomponentupdater.h"
 #include "core/memorymanagement.h"
+#include "renderer/resources/meshInstance.h"
 
 //-------------------------------------------------------
 // Component
 //-------------------------------------------------------
 
 /**
- * @brief 
+ * @brief Connects entity to renderer mesh instance
  */
-class {{NAME}}Component : public FikaECS::ECSComponent
+class MeshComponent : public FikaECS::ECSComponent
 {
 private:
+	MeshInstance* instance;
 
 public:
-	{{NAME}}Component() {}
-	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
+	MeshComponent() {}
+	static const unsigned int componentId = 8974; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
@@ -27,21 +29,21 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ * @brief Holds pool of MeshComponent and run updates on them through ECS manager
  */
-class {{NAME}}ComponentUpdater : public FikaECS::ComponentUpdater
+class MeshComponentUpdater : public FikaECS::ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component>* components;
+	PoolAllocator<MeshComponent>* components;
 
 public:
-	{{NAME}}ComponentUpdater();
+	MeshComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * @brief Call once at start to enable MeshComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init();
 	void update(float dt) override;
-	void addComponent() override;
+	FikaECS::ECSComponent* addComponent() override;
 };

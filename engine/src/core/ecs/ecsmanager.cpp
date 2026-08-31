@@ -40,8 +40,7 @@ namespace FikaECS
 		}
 
 		// Add component to system
-		//ECSComponent* comp = componetIdUpdaters[componentId]->addComponent();
-		componetIdUpdaters[componentId]->addComponent();
+		ECSComponent* comp = componetIdUpdaters[componentId]->addComponent();
 
 		// Store relation
 		entityComponets[entity.getId()].push_back(componentId);

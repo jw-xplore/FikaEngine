@@ -23,9 +23,15 @@ set PROJECT=%~1
 set NAME=%~2
 
 set TEMPLATE_DIR=engine\templates
-set OUTPUT_DIR=projects\%PROJECT%\src
+set OUTPUT_DIR=projects\%PROJECT%\src\components
 
 set /a CMP_ID=%RANDOM% * (32768 - 10000) / 32768 + 10000
+
+if %PROJECT%==0 (
+    set OUTPUT_DIR=engine\src\components
+    set /a CMP_ID=%RANDOM% * 10000 / 32768 + 1
+)
+
 set FILE_NAME=%NAME%Component
 
 for /f "delims=" %%A in ('powershell -NoProfile -Command ^
@@ -34,11 +40,11 @@ for /f "delims=" %%A in ('powershell -NoProfile -Command ^
 )
 
 :: Ensure output directory exists
-if not exist "%OUTPUT_DIR%" (echo Target folder "src\" does not exist & exit /b)
+if not exist "%OUTPUT_DIR%" (echo Target folder "%OUTPUT_DIR%" does not exist & exit /b)
 
 if %FORCE_OVERRIDE%=="0" (
-    if exist "%OUTPUT_DIR%\%FILE_NAME%.h" (echo File already exists: src\%FILE_NAME%.h & exit /b)
-    if exist "%OUTPUT_DIR%\%FILE_NAME%.cpp" (echo File already exists: src\%FILE_NAME%.cpp & exit /b)
+    if exist "%OUTPUT_DIR%\%FILE_NAME%.h" (echo File already exists: %OUTPUT_DIR%\%FILE_NAME%.h & exit /b)
+    if exist "%OUTPUT_DIR%\%FILE_NAME%.cpp" (echo File already exists: %OUTPUT_DIR%\%FILE_NAME%.cpp & exit /b)
 )
 
 :: Generate header

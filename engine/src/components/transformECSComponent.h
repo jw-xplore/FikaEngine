@@ -10,13 +10,13 @@
 /**
  * @brief 
  */
-class {{NAME}}Component : public FikaECS::ECSComponent
+class TransformECSComponent : public FikaECS::ECSComponent
 {
 private:
 
 public:
-	{{NAME}}Component() {}
-	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
+	TransformECSComponent() {}
+	static const unsigned int componentId = 7013; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
@@ -27,21 +27,21 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ * @brief Holds pool of TransformECSComponent and run updates on them through ECS manager
  */
-class {{NAME}}ComponentUpdater : public FikaECS::ComponentUpdater
+class TransformECSComponentUpdater : public FikaECS::ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component>* components;
+	PoolAllocator<TransformECSComponent>* components;
 
 public:
-	{{NAME}}ComponentUpdater();
+	TransformECSComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * @brief Call once at start to enable TransformECSComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init();
 	void update(float dt) override;
-	void addComponent() override;
+	FikaECS::ECSComponent* addComponent() override;
 };

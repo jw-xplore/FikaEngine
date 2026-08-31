@@ -45,7 +45,7 @@ void TestCmpUpdater::update(float dt)
 	}
 }
 
-void TestCmpUpdater::addComponent()
+FikaECS::ECSComponent* TestCmpUpdater::addComponent()
 {
-	components->allocate();
+	return components->allocate();
 }

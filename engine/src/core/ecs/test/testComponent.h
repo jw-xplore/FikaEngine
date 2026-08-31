@@ -29,5 +29,5 @@ public:
 	TestCmpUpdater();
 	static void init();
 	void update(float dt) override;
-	void addComponent() override;
+	FikaECS::ECSComponent* addComponent() override;
 };

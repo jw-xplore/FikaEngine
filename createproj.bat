@@ -10,6 +10,7 @@ set PROJECT=%~1
 set TEMPLATE_DIR=engine\templates\projectTemplate
 set SRC=src
 set ASSETS=assets
+set COMPONENTS=components
 
 set OUTPUT_DIR=projects\%PROJECT%
 
@@ -19,6 +20,7 @@ if exist "%OUTPUT_DIR%" (echo Project '%PROJECT%' already exists & exit /b)
 :: Create directories
 mkdir %OUTPUT_DIR%
 mkdir %OUTPUT_DIR%\%SRC%
+mkdir %OUTPUT_DIR%\%SRC%\%COMPONENTS%
 mkdir %OUTPUT_DIR%\%ASSETS%
 
 :: Generate cmake
