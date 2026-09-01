@@ -1,3 +1,4 @@
+/*
 #pragma once
 #include "glm/glm.hpp"
 #include <memory>
@@ -102,3 +103,4 @@ public:
 	void setupOngoinContacts(const size_t size);
 	int contactFromPair(int bodyIdA, int bodyIdB);
 };
+*/

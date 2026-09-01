@@ -2,7 +2,7 @@
 #include <memory>
 
 class Renderer;
-class PhysicsSolver;
+//class PhysicsSolver;
 class GameObjectManager;
 class CameraManager;
 class GResourceManager;
@@ -19,7 +19,7 @@ private:
 
 	std::unique_ptr<Renderer> renderer;
 	std::unique_ptr<Renderer> debugRenderer; // Renders helper meshes
-	std::unique_ptr<PhysicsSolver> physicsSolver;
+	//std::unique_ptr<PhysicsSolver> physicsSolver;
 	std::unique_ptr<CameraManager> cameraManager;
 	std::unique_ptr<GResourceManager> gResourceManager;
 
@@ -41,6 +41,6 @@ public:
 	static Renderer* getDebugRenderer() { return SystemsHolder::getInstance()->debugRenderer.get(); }
 	static CameraManager* getCameraManager() { return SystemsHolder::getInstance()->cameraManager.get(); }
 	static GResourceManager* getGResourceManager() { return SystemsHolder::getInstance()->gResourceManager.get(); }
-	static PhysicsSolver* getPhysicsSolver() { return SystemsHolder::getInstance()->physicsSolver.get(); }
+	//static PhysicsSolver* getPhysicsSolver() { return SystemsHolder::getInstance()->physicsSolver.get(); }
 	static FikaECS::ECSManager* getECSManager() { return SystemsHolder::getInstance()->ecsManager.get(); }
 };

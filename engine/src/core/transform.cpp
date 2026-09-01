@@ -1,7 +1,7 @@
 #include "transform.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-inline glm::mat4 Transform::localToMatrix()
+glm::mat4 Transform::localToMatrix()
 {
     const glm::mat4 transformX = glm::rotate(glm::mat4(1.0f),
         glm::radians(localRotation.x),
@@ -22,7 +22,7 @@ inline glm::mat4 Transform::localToMatrix()
             glm::scale(glm::mat4(1.0f), localScale);
 }
 
-inline void Transform::localUpdate()
+void Transform::localUpdate()
 {
     if (!parent)
     {
@@ -34,25 +34,25 @@ inline void Transform::localUpdate()
     }
 }
 
-inline void Transform::setLocalPosition(const glm::vec3& position)
+void Transform::setLocalPosition(const glm::vec3& position)
 {
     localPosition = position;
     localUpdate();
 }
 
-inline void Transform::setLocalRotation(const glm::vec3& rotation)
+void Transform::setLocalRotation(const glm::vec3& rotation)
 {
     localRotation = rotation;
     localUpdate();
 }
 
-inline void Transform::setLocalScale(const glm::vec3& scale)
+void Transform::setLocalScale(const glm::vec3& scale)
 {
     localScale = scale;
     localUpdate();
 }
 
-inline void Transform::setPosition(const glm::vec3& position)
+void Transform::setPosition(const glm::vec3& position)
 {
     if (!parent)
     {
@@ -71,7 +71,7 @@ inline void Transform::setPosition(const glm::vec3& position)
     }
 }
 
-inline void Transform::setRotation(const glm::vec3& rotation)
+void Transform::setRotation(const glm::vec3& rotation)
 {
     if (!parent)
     {
@@ -90,7 +90,7 @@ inline void Transform::setRotation(const glm::vec3& rotation)
     }
 }
 
-inline void Transform::setScale(const glm::vec3& scale)
+void Transform::setScale(const glm::vec3& scale)
 {
     if (!parent)
     {
@@ -109,7 +109,12 @@ inline void Transform::setScale(const glm::vec3& scale)
     }
 }
 
-inline void Transform::setGlobalTransform(const glm::mat4& mat)
+void Transform::translate(const glm::vec3& translation)
+{
+    setLocalPosition(localPosition + translation);
+}
+
+void Transform::setGlobalTransform(const glm::mat4& mat)
 {
     if (!parent)
     {

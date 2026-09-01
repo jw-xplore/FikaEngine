@@ -2,6 +2,7 @@
 #include "core/ecs/ecscomponent.h"
 #include "core/ecs/ecscomponentupdater.h"
 #include "core/memorymanagement.h"
+#include "core/transform.h"
 
 //-------------------------------------------------------
 // Component
@@ -10,16 +11,20 @@
 /**
  * @brief 
  */
-class {{NAME}}Component : public FikaECS::ECSComponent
+class TransformComponent : public FikaECS::ECSComponent
 {
 private:
+	Transform transform;
 
 public:
-	{{NAME}}Component() {}
-	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
+	TransformComponent() {}
+	static const unsigned int componentId = 2058; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
+
+	TransformComponent(const glm::vec3& startPos);
+	Transform* getTransform() { return &transform; }
 };
 
 //-------------------------------------------------------
@@ -27,18 +32,18 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ * @brief Holds pool of TransformComponent and run updates on them through ECS manager
  */
-class {{NAME}}ComponentUpdater : public FikaECS::ComponentUpdater
+class TransformComponentUpdater : public FikaECS::ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component>* components;
+	PoolAllocator<TransformComponent>* components;
 
 public:
-	{{NAME}}ComponentUpdater();
+	TransformComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * @brief Call once at start to enable TransformComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init();

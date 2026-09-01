@@ -3,6 +3,12 @@
 
 namespace FikaECS
 {
+	Entity::Entity()
+	{
+		lastEntityId++;
+		setId(lastEntityId);
+	}
+
 	void Entity::setId(unsigned int id)
 	{
 		if (id == 0)

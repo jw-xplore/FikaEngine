@@ -4,6 +4,8 @@
 #include "core/memorymanagement.h"
 #include "renderer/resources/meshInstance.h"
 
+class Transform;
+
 //-------------------------------------------------------
 // Component
 //-------------------------------------------------------
@@ -15,6 +17,7 @@ class MeshComponent : public FikaECS::ECSComponent
 {
 private:
 	MeshInstance* instance;
+	Transform* transform;
 
 public:
 	MeshComponent() {}
@@ -22,6 +25,8 @@ public:
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
+
+	void setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture);
 };
 
 //-------------------------------------------------------

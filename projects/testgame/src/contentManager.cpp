@@ -1,5 +1,5 @@
 #include "contentManager.h"
-#include "playerComponent.h"
+//#include "playerComponent.h"
 #include <fstream>
 #include <iostream>
 
@@ -96,6 +96,19 @@ GameObject& ContentManager::createWall(glm::vec3 position, bool solid)
     return *wall;
 }
 */
+
+void ContentManager::createTestEntity()
+{
+    GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
+    MeshResource& customMesh = gResourceManager->getMesh("pawn");
+    TextureResource& customTexture = gResourceManager->getTexture("customTex1");
+    ShaderResource& basicShader = gResourceManager->getShader("basic");
+
+    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
+    TransformComponent* tranCmp = dynamic_cast<TransformComponent*>(SystemsHolder::getECSManager()->addComponent(entity, TransformComponent::componentId));
+    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(SystemsHolder::getECSManager()->addComponent(entity, MeshComponent::componentId));
+    meshCmp->setup(customMesh, basicShader, &customTexture);
+}
 
 void ContentManager::loadWalls(const char* filePath)
 {

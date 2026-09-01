@@ -1,6 +1,9 @@
 #include "MeshComponent.h"
 #include "core/systemsHolder.h"
 #include "core/ecs/ecsmanager.h"
+#include "core/ecs/ecsentity.h"
+#include "core/transform.h"
+#include "renderer/renderer.h"
 
 //-------------------------------------------------------
 // Component
@@ -8,7 +11,7 @@
 
 void MeshComponent::start()
 {
-	//instance = SystemsHolder::getInstance()->getMainRenderer()->addMeshInstance(&owner->getTransform(), meshRes, shader, texture);
+	transform = SystemsHolder::getECSManager()->findEntityTransform(*owner);
 }
 
 void MeshComponent::update(float dt)
@@ -16,6 +19,10 @@ void MeshComponent::update(float dt)
 
 }
 
+void MeshComponent::setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
+{
+	instance = SystemsHolder::getInstance()->getMainRenderer()->addMeshInstance(&transform->getGlobalTransform(), meshRes, shader, texture);
+}
 
 //-------------------------------------------------------
 // System

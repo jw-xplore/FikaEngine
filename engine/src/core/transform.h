@@ -15,13 +15,13 @@ private:
 	void localUpdate();
 
 public:
-	Transform();
+	Transform() {}
 
 	// Local
 	glm::mat4 localToMatrix();
 	inline glm::vec3 getLocalPosition() { return localPosition; }
-	inline glm::vec3 getLocalPosition() { return localRotation; }
-	inline glm::vec3 getLocalPosition() { return localScale; }
+	inline glm::vec3 getLocalRotation() { return localRotation; }
+	inline glm::vec3 getLocalScale() { return localScale; }
 	void setLocalPosition(const glm::vec3& position);
 	void setLocalRotation(const glm::vec3& rotation);
 	void setLocalScale(const glm::vec3& scale);

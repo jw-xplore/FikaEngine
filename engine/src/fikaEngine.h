@@ -47,6 +47,8 @@ Includes
 #include <GLFW/glfw3.h>
 
 // Components
+#include "components/transformComponent.h"
+#include "components/meshComponent.h"
 
 /*
 Engine

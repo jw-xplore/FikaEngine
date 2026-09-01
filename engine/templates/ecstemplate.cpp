@@ -1,6 +1,7 @@
 #include "{{NAME}}Component.h"
 #include "core/systemsHolder.h"
 #include "core/ecs/ecsmanager.h"
+#include "core/ecs/ecsentity.h"
 
 //-------------------------------------------------------
 // Component
@@ -44,7 +45,7 @@ void {{NAME}}ComponentUpdater::update(float dt)
 	}
 }
 
-void {{NAME}}ComponentUpdater::addComponent()
+FikaECS::ECSComponent* {{NAME}}ComponentUpdater::addComponent()
 {
-	components->allocate();
+	return components->allocate();
 }

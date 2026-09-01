@@ -3,11 +3,14 @@
 #include "ecsentity.h"
 #include <cassert>
 #include "ecscomponentupdater.h"
+#include "core/transform.h"
+#include "components/transformComponent.h"
 
 namespace FikaECS
 {
 	void ECSManager::init()
 	{
+		entities = new PoolAllocator<Entity>("entities");
 		updaters.reserve(64);
 	}
 
@@ -29,7 +32,12 @@ namespace FikaECS
 		return pos;
 	}
 
-	ECSComponent* ECSManager::addComponent(Entity& entity, unsigned int componentId)
+	Entity* ECSManager::addEntity()
+	{
+		return entities->allocate();
+	}
+
+	ECSComponent* ECSManager::addComponent(Entity* entity, unsigned int componentId)
 	{
 		bool systemExist = componetIdUpdaters.find(componentId) != componetIdUpdaters.end();
 		if (!systemExist)
@@ -40,11 +48,34 @@ namespace FikaECS
 		}
 
 		// Add component to system
-		ECSComponent* comp = componetIdUpdaters[componentId]->addComponent();
+		ComponentUpdater* updater = componetIdUpdaters[componentId];
+		ECSComponent* comp = updater->addComponent();
+		updater->storeOwner(entity, comp);
+		
+		comp->setOwnerEntity(entity);
+		comp->start();
 
 		// Store relation
-		entityComponets[entity.getId()].push_back(componentId);
+		entityComponets[entity->getId()].push_back(componentId);
 
+		return comp;
+	}
+
+	ECSComponent* ECSManager::findComponent(Entity& entity, unsigned int componentId)
+	{
+		return componetIdUpdaters[componentId]->getComponent(entity);
+	}
+
+	Transform* ECSManager::findEntityTransform(Entity& entity)
+	{
+		// Transform component
+		ECSComponent* cmp = componetIdUpdaters[TransformComponent::componentId]->getComponent(entity);
+		TransformComponent* transformCmp = static_cast<TransformComponent*>(cmp);
+		if (transformCmp)
+			return transformCmp->getTransform();
+
+		// TODO: Rigidbody
+		
 		return nullptr;
 	}
 }

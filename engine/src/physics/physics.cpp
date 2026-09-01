@@ -1,3 +1,4 @@
+/*
 #include "physics.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -117,3 +118,4 @@ bool PhysicsSolver::canCheckCollision(const Body& body, const Body& target)
 {
 	return (body.interactiveLayers & target.layers) != 0;
 }
+*/

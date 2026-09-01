@@ -1,3 +1,4 @@
+/*
 #include "collisions.h"
 #include "physics.h"
 #include s"components/transform.h"
@@ -780,15 +781,6 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out
 	float boxFront = boxPos.z + box.volume.z * 0.5f;
 	float boxBack = boxPos.z - box.volume.z * 0.5f;
 
-	// Point are 
-	/*
-	if (boxLeft <= s.x && s.x <= boxRight && boxBottom <= s.y && s.y <= boxTop && boxBack <= s.z && s.z <= boxFront)
-		return true;
-
-	if (boxLeft <= e.x && e.x <= boxRight && boxBottom <= e.y && e.y <= boxTop && boxBack <= e.z && e.z <= boxFront)
-		return true;
-	*/
-
 	float tEnter = 0.0f;
 	float tExit = 1.0f;
 
@@ -977,3 +969,4 @@ int CollisionSolver::contactFromPair(int bodyIdA, int bodyIdB)
 	int b = bodyIdB - bodyIdA - 1;
 	return a + b;
 }
+*/

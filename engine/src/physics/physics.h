@@ -1,3 +1,4 @@
+/*
 #pragma once
 #include "glm/glm.hpp"
 #include <vector>
@@ -72,3 +73,5 @@ public:
 	std::string getTagName(int position) { return tags[position]; }
 	static bool canCheckCollision(const Body& body, const Body& target);
 };
+
+*/

@@ -2,6 +2,9 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include "core/memorymanagement.h"
+
+class Transform;
 
 namespace FikaECS
 {
@@ -13,6 +16,7 @@ namespace FikaECS
 	class ECSManager
 	{
 	private:
+		PoolAllocator<Entity>* entities;
 		std::vector<ComponentUpdater*> updaters;
 		// Tracks which systems is used for component based on matching id
 		std::map<unsigned int, ComponentUpdater*> componetIdUpdaters;
@@ -27,6 +31,9 @@ namespace FikaECS
 		void update(float dt);
 
 		int registerUpdaters(ComponentUpdater* system);
-		ECSComponent* addComponent(Entity& entity, unsigned int componentId);
+		Entity* addEntity();
+		ECSComponent* addComponent(Entity* entity, unsigned int componentId);
+		ECSComponent* findComponent(Entity& entity, unsigned int componentId);
+		Transform* findEntityTransform(Entity& entity);
 	};
 }

@@ -5,8 +5,13 @@
 
 namespace FikaECS
 {
+	class Entity;
+
 	class ECSComponent
 	{
+	protected:
+		Entity* owner;
+
 	public:
 		ECSComponent() {}
 		virtual ~ECSComponent() {}
@@ -23,5 +28,8 @@ namespace FikaECS
 		virtual void update(float dt) {}
 
 		virtual unsigned int getComponentId() const { return 0; }
+
+		void setOwnerEntity(Entity* entity) { owner = entity; }
+		Entity* getOwnerEntity() { return owner; }
 	};
 }
