@@ -49,6 +49,7 @@ Includes
 // Components
 #include "components/transformComponent.h"
 #include "components/meshComponent.h"
+#include "components/rigidBodyComponent.h"
 
 /*
 Engine

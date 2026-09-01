@@ -1,0 +1,64 @@
+#include "RigidBodyComponent.h"
+#include "core/systemsHolder.h"
+#include "core/ecs/ecsmanager.h"
+#include "core/ecs/ecsentity.h"
+#include "physics/physics.h"
+#include "core/transform.h"
+
+//-------------------------------------------------------
+// Component
+//-------------------------------------------------------
+
+void RigidBodyComponent::start()
+{
+	PhysicsSolver* physics = SystemsHolder::getPhysicsSolver();
+	body = &physics->addBody();
+
+	/*
+	// Callbacks
+	body->onEnter = std::bind(&RigidbodyComponent::onEnter, this, std::placeholders::_1);
+	body->onExit = std::bind(&RigidbodyComponent::onExit, this, std::placeholders::_1);
+	*/
+}
+
+void RigidBodyComponent::update(float dt)
+{
+
+}
+
+Transform* RigidBodyComponent::getTransform()
+{
+	return &body->transform;
+}
+
+//-------------------------------------------------------
+// System
+//-------------------------------------------------------
+
+RigidBodyComponentUpdater::RigidBodyComponentUpdater()
+{
+}
+
+void RigidBodyComponentUpdater::init()
+{
+	RigidBodyComponentUpdater* updater = new RigidBodyComponentUpdater();
+	updater->components = new PoolAllocator<RigidBodyComponent>("RigidBody Components");
+	updater->targetComponentId = RigidBodyComponent::componentId;
+
+	SystemsHolder::getECSManager()->registerUpdaters(updater);
+}
+
+void RigidBodyComponentUpdater::update(float dt)
+{
+	int size = components->getUsedAmount();
+
+	for (size_t i = 0; i < size; i++)
+	{
+		(*components)[i].update(dt);
+	}
+}
+
+FikaECS::ECSComponent* RigidBodyComponentUpdater::addComponent()
+{
+	return components->allocate();
+}

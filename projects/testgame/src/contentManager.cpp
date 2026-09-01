@@ -2,10 +2,12 @@
 //#include "playerComponent.h"
 #include <fstream>
 #include <iostream>
+#include "components/playerComponent.h"
 
 ContentManager::ContentManager()
 {
-    gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
+    gResourceManager = SystemsHolder::getGResourceManager();
+    ecsManager = SystemsHolder::getECSManager();
 
     // Setup resources
     cubeMesh = &gResourceManager->getMesh("cube");
@@ -105,9 +107,11 @@ void ContentManager::createTestEntity()
     ShaderResource& basicShader = gResourceManager->getShader("basic");
 
     FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
-    TransformComponent* tranCmp = dynamic_cast<TransformComponent*>(SystemsHolder::getECSManager()->addComponent(entity, TransformComponent::componentId));
-    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(SystemsHolder::getECSManager()->addComponent(entity, MeshComponent::componentId));
+    ecsManager->addComponent(entity, RigidBodyComponent::componentId);
+    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, &customTexture);
+
+    ecsManager->addComponent(entity, PlayerComponent::componentId);
 }
 
 void ContentManager::loadWalls(const char* filePath)

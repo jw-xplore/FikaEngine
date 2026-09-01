@@ -19,7 +19,7 @@ namespace FikaECS
 		PoolAllocator<Entity>* entities;
 		std::vector<ComponentUpdater*> updaters;
 		// Tracks which systems is used for component based on matching id
-		std::map<unsigned int, ComponentUpdater*> componetIdUpdaters;
+		std::map<unsigned int, ComponentUpdater*> componentIdUpdaters;
 		// Entity-Component relation: entity id + component ids list
 		std::map<unsigned int, std::vector<unsigned int>> entityComponets;
 

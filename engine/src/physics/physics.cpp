@@ -1,14 +1,6 @@
-/*
 #include "physics.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-#include "components/transform.h"
-
-
-void Body::onParentTransformUpdate(glm::mat4& transform)
-{
-	this->transform = transform;
-}
 
 void applyForce(Body& body, const glm::vec3& force)
 {
@@ -32,7 +24,8 @@ void applyForce(Body& body, const glm::vec3& force)
 
 	glm::vec3 newForce = glm::vec3(x, y, z);
 
-	body.transform = glm::translate(body.transform, newForce);
+	//body.transform = glm::translate(body.transform, newForce);
+	body.transform.translate(newForce);
 }
 
 void bodyFreezeMovement(Body& body, bool x, bool y, bool z)
@@ -85,19 +78,17 @@ void PhysicsSolver::update(float dt)
 	}
 
 	// Collider calculations
-	collisionsSolver.update(dt);
+	//collisionsSolver.update(dt);
 }
 
-Body& PhysicsSolver::addBody(TransformComponent& tranform)
+Body& PhysicsSolver::addBody()
 {
 	Body* body = bodies->allocate();
 	int id = bodies->getUsedAmount();
 	body->id = id;
-	body->transform = tranform.getTransformMatrix();
-	tranform.onParentUpdate = std::bind(&Body::onParentTransformUpdate, body, std::placeholders::_1);
 
 	// TODO: Make option to call this after all
-	collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());
+	//collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());
 
 	return (*bodies)[id - 1];
 }
@@ -118,4 +109,3 @@ bool PhysicsSolver::canCheckCollision(const Body& body, const Body& target)
 {
 	return (body.interactiveLayers & target.layers) != 0;
 }
-*/

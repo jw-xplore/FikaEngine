@@ -4,6 +4,7 @@
 #include "core/ecs/ecsentity.h"
 #include "core/transform.h"
 #include "renderer/renderer.h"
+#include <cassert>
 
 //-------------------------------------------------------
 // Component
@@ -12,6 +13,7 @@
 void MeshComponent::start()
 {
 	transform = SystemsHolder::getECSManager()->findEntityTransform(*owner);
+	assert(transform);
 }
 
 void MeshComponent::update(float dt)

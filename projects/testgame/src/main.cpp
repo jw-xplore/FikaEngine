@@ -4,6 +4,7 @@
 #include <fikaEngine.h>
 
 #include "contentManager.h"
+#include "components/playerComponent.h"
 
 ContentManager* contentManager;
 
@@ -18,7 +19,9 @@ void start()
 
     // Component updators inits
     TransformComponentUpdater::init();
+    RigidBodyComponentUpdater::init();
     MeshComponentUpdater::init();
+    PlayerComponentUpdater::init();
    
     // Test entity cmp setup
     contentManager = new ContentManager();

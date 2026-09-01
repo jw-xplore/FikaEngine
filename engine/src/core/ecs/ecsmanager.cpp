@@ -5,6 +5,7 @@
 #include "ecscomponentupdater.h"
 #include "core/transform.h"
 #include "components/transformComponent.h"
+#include "components/rigidBodyComponent.h"
 
 namespace FikaECS
 {
@@ -27,7 +28,7 @@ namespace FikaECS
 		int pos = updaters.size();
 		updaters.push_back(system);
 
-		componetIdUpdaters[system->getTargetComponentId()] = system;
+		componentIdUpdaters[system->getTargetComponentId()] = system;
 
 		return pos;
 	}
@@ -39,7 +40,7 @@ namespace FikaECS
 
 	ECSComponent* ECSManager::addComponent(Entity* entity, unsigned int componentId)
 	{
-		bool systemExist = componetIdUpdaters.find(componentId) != componetIdUpdaters.end();
+		bool systemExist = componentIdUpdaters.find(componentId) != componentIdUpdaters.end();
 		if (!systemExist)
 		{
 			std::cout << "Fail to add component. System for id: " << componentId << " was never registered \n";
@@ -48,7 +49,7 @@ namespace FikaECS
 		}
 
 		// Add component to system
-		ComponentUpdater* updater = componetIdUpdaters[componentId];
+		ComponentUpdater* updater = componentIdUpdaters[componentId];
 		ECSComponent* comp = updater->addComponent();
 		updater->storeOwner(entity, comp);
 		
@@ -63,18 +64,22 @@ namespace FikaECS
 
 	ECSComponent* ECSManager::findComponent(Entity& entity, unsigned int componentId)
 	{
-		return componetIdUpdaters[componentId]->getComponent(entity);
+		return componentIdUpdaters[componentId]->getComponent(entity);
 	}
 
 	Transform* ECSManager::findEntityTransform(Entity& entity)
 	{
 		// Transform component
-		ECSComponent* cmp = componetIdUpdaters[TransformComponent::componentId]->getComponent(entity);
+		ECSComponent* cmp = componentIdUpdaters[TransformComponent::componentId]->getComponent(entity);
 		TransformComponent* transformCmp = static_cast<TransformComponent*>(cmp);
 		if (transformCmp)
 			return transformCmp->getTransform();
 
-		// TODO: Rigidbody
+		// Rigidbody component
+		cmp = componentIdUpdaters[RigidBodyComponent::componentId]->getComponent(entity);
+		RigidBodyComponent* rbCmp = static_cast<RigidBodyComponent*>(cmp);
+		if (rbCmp)
+			return rbCmp->getTransform();
 		
 		return nullptr;
 	}

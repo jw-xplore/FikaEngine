@@ -7,7 +7,7 @@ namespace FikaEngine
 
     Renderer* renderer;
     Renderer* debugRenderer;
-    //PhysicsSolver* physicsSolver;
+    PhysicsSolver* physicsSolver;
     CameraManager* cameraManager;
     GResourceManager* gResourceManager;
 
@@ -20,7 +20,7 @@ namespace FikaEngine
         SystemsHolder* systemsHolder = SystemsHolder::getInstance();
         renderer = systemsHolder->getMainRenderer();
         debugRenderer = SystemsHolder::getDebugRenderer();
-        //physicsSolver = systemsHolder->getPhysicsSolver();
+        physicsSolver = systemsHolder->getPhysicsSolver();
         cameraManager = systemsHolder->getCameraManager();
         gResourceManager = systemsHolder->getGResourceManager();
 
@@ -142,7 +142,7 @@ namespace FikaEngine
 
             // Base game update
             SystemsHolder::getECSManager()->update(dt);
-            //physicsSolver->update(dt);
+            physicsSolver->update(dt);
             renderer->render(mainCamera->getProjection());
 
             // Debug

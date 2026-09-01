@@ -6,6 +6,7 @@ class ContentManager
 {
 private:
 	GResourceManager* gResourceManager;
+	FikaECS::ECSManager* ecsManager;
 	MeshResource* cubeMesh;
 	ShaderResource* basicShader;
 	MeshResource* customMesh;

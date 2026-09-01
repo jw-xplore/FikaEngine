@@ -11,7 +11,7 @@ SystemsHolder::SystemsHolder()
 {
 	renderer = std::unique_ptr<Renderer>(new Renderer());
 	debugRenderer = std::unique_ptr<Renderer>(new Renderer());
-	//physicsSolver = std::unique_ptr<PhysicsSolver>(new PhysicsSolver());
+	physicsSolver = std::unique_ptr<PhysicsSolver>(new PhysicsSolver());
 	cameraManager = std::unique_ptr<CameraManager>(new CameraManager());
 	gResourceManager = std::unique_ptr<GResourceManager>(new GResourceManager());
 

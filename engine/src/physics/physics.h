@@ -1,4 +1,3 @@
-/*
 #pragma once
 #include "glm/glm.hpp"
 #include <vector>
@@ -6,8 +5,7 @@
 #include <string>
 #include "collisions.h"
 #include "core/memorymanagement.h"
-
-class TransformComponent;
+#include "core/transform.h"
 
 enum EBodyType
 {
@@ -30,7 +28,7 @@ struct Body
 	unsigned char layers = 1;
 	unsigned char interactiveLayers = 1; // Enables collisions with objects in matching layers
 	EBodyType type = EBodyType::Kinematic;
-	glm::mat4 transform = glm::mat4(1.0);
+	Transform transform;
 	glm::vec3 velocity = glm::vec3(0.0);
 	EAxes freezeMovement = (EAxes)0;
 	EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
@@ -38,8 +36,6 @@ struct Body
 	// Callbacks
 	std::function<void(Body&)> onEnter;
 	std::function<void(Body&)> onExit;
-
-	void onParentTransformUpdate(glm::mat4& transform);
 };
 
 void applyForce(Body& body, const glm::vec3& force);
@@ -49,7 +45,7 @@ void bodyFreezeRotation(Body& body, bool x, bool y, bool z);
 class PhysicsSolver
 {
 private:
-	CollisionSolver collisionsSolver;
+	//CollisionSolver collisionsSolver;
 
 	PoolAllocator<Body>* bodies;
 	std::vector<std::string> tags;
@@ -64,14 +60,12 @@ public:
 
 	void update(float dt);
 
-	Body& addBody(TransformComponent& tranform);
+	Body& addBody();
 
-	CollisionSolver& getCollisionSolver() { return collisionsSolver; }
+	//CollisionSolver& getCollisionSolver() { return collisionsSolver; }
 
 	int findTagId(std::string tag);
 	int setTag(int position, std::string tag) { tags[position] = tag; }
 	std::string getTagName(int position) { return tags[position]; }
 	static bool canCheckCollision(const Body& body, const Body& target);
 };
-
-*/
