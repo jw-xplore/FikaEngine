@@ -48,7 +48,7 @@ namespace FikaEditor
 
         if (ImGui::Button("Save"))
         {
-            SystemsHolder::getGameObjectManager()->serialize(levelPath);
+            //SystemsHolder::getGameObjectManager()->serialize(levelPath);
         }
 
         ImGui::End();
@@ -152,6 +152,7 @@ namespace FikaEditor
 
     void Editor::placeObject(glm::vec3 position)
     {
+        /*
         GResourceManager* gResourceManager = SystemsHolder::getGResourceManager();
         ShaderResource* basicShader = &gResourceManager->getShader("basic");
         MeshResource& customMesh = gResourceManager->getMesh("cube");
@@ -160,5 +161,6 @@ namespace FikaEditor
         MeshInstanceComponent* meshCmp = wall->addComponent<MeshInstanceComponent>();
         meshCmp->setup(customMesh, *basicShader, nullptr);
         wall->getTransformComponent().setPosition(position);
+        */
     }
 }

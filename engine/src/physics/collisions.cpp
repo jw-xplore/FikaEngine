@@ -1,4 +1,3 @@
-/*
 #include "collisions.h"
 #include "physics.h"
 #include "core/transform.h"
@@ -123,7 +122,7 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	MeshResource& cubeMesh = gResourceManager->getMesh("sphere");
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
+	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(radius);
 
 	// Return
@@ -142,7 +141,7 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	MeshResource& cubeMesh = gResourceManager->getMesh("cube");
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform, cubeMesh, basicShader);
+	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(volume);
 
 	// Return
@@ -162,7 +161,7 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	MeshResource& debugMesh = gResourceManager->getMesh("cylinder");
 	ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform, debugMesh, basicShader);
+	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform.getGlobalTransform(), debugMesh, basicShader);
 	mesh->customScale = glm::vec3(radius, height, radius);
 
 	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
@@ -311,8 +310,8 @@ Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float le
 
 bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
+	glm::vec3 posA = colA.body->transform.getLocalPosition();
+	glm::vec3 posB = colB.body->transform.getLocalPosition();
 
 	glm::vec3 d = posA - posB;
 	float dist2 = glm::dot(d, d);
@@ -344,8 +343,8 @@ bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB
 
 bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* out)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
+	glm::vec3 posA = colA.body->transform.getLocalPosition();
+	glm::vec3 posB = colB.body->transform.getLocalPosition();
 
 	// X
 	float leftA = posA.x - colA.volume.x * 0.5f;
@@ -422,8 +421,8 @@ bool CollisionSolver::overlapBoxBox(const Box& colA, const Box& colB, Contact* o
 
 bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
+	glm::vec3 posA = colA.body->transform.getLocalPosition();
+	glm::vec3 posB = colB.body->transform.getLocalPosition();
 
 	// Box
 	float boxLeft = posB.x - colB.volume.x * 0.5f;
@@ -482,8 +481,8 @@ bool CollisionSolver::overlapSphereBox(const Sphere& colA, const Box& colB, Cont
 
 bool CollisionSolver::overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
+	glm::vec3 posA = colA.body->transform.getLocalPosition();
+	glm::vec3 posB = colB.body->transform.getLocalPosition();
 
 	// Height comparison
 	float aHalfHeight = colA.height * 0.5f + colA.radius;
@@ -556,8 +555,8 @@ bool CollisionSolver::overlapCapsuleCapsule(const Capsule& colA, const Capsule& 
 
 bool CollisionSolver::overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
+	glm::vec3 posA = colA.body->transform.getLocalPosition();
+	glm::vec3 posB = colB.body->transform.getLocalPosition();
 
 	// Sphere distances check
 	glm::vec3 d = posA - posB;
@@ -629,8 +628,8 @@ bool CollisionSolver::overlapCapsuleSphere(const Capsule& colA, const Sphere& co
 
 bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out)
 {
-	glm::vec3 posA = colA.body->transform[3];
-	glm::vec3 posB = colB.body->transform[3];
+	glm::vec3 posA = colA.body->transform.getLocalPosition();
+	glm::vec3 posB = colB.body->transform.getLocalPosition();
 
 	// Height comparison
 	float halfTotalHeight = colA.height * 0.5f + colA.radius;
@@ -727,7 +726,7 @@ bool CollisionSolver::overlapCapsuleBox(const Capsule& colA, const Box& colB, Co
 
 bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere& sphere, Contact* out)
 {
-	glm::vec3 spherePos = sphere.body->transform[3];
+	glm::vec3 spherePos = sphere.body->transform.getLocalPosition();
 
 	// Aim check
 	glm::vec3 raySphereD = ray.start - spherePos;
@@ -772,7 +771,7 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out
 	glm::vec3 s = ray.start;
 	glm::vec3 e = ray.end();
 	glm::vec3 d = e - s;
-	glm::vec3 boxPos = box.body->transform[3];
+	glm::vec3 boxPos = box.body->transform.getLocalPosition();
 
 	float boxLeft = boxPos.x - box.volume.x * 0.5f;
 	float boxRight = boxPos.x + box.volume.x * 0.5f;
@@ -820,7 +819,7 @@ bool CollisionSolver::overlapRayBox(const Ray& ray, const Box& box, Contact* out
 bool CollisionSolver::overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out)
 {
 	glm::vec3 end = ray.end();
-	glm::vec3 cPos = capsule.body->transform[3];
+	glm::vec3 cPos = capsule.body->transform.getLocalPosition();
 
 	// Infinite cylinder check
 	glm::vec2 startXZ = glm::vec2(ray.start.x, ray.start.z);
@@ -969,4 +968,3 @@ int CollisionSolver::contactFromPair(int bodyIdA, int bodyIdB)
 	int b = bodyIdB - bodyIdA - 1;
 	return a + b;
 }
-*/

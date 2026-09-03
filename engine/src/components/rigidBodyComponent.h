@@ -28,6 +28,8 @@ public:
 
 	Body* getBody() { return body; }
 	Transform* getTransform();
+	void setSphereCollider(float radius);
+	void setType(EBodyType type);
 };
 
 //-------------------------------------------------------

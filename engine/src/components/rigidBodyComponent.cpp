@@ -3,6 +3,7 @@
 #include "core/ecs/ecsmanager.h"
 #include "core/ecs/ecsentity.h"
 #include "physics/physics.h"
+#include "physics/collisions.h"
 #include "core/transform.h"
 
 //-------------------------------------------------------
@@ -29,6 +30,16 @@ void RigidBodyComponent::update(float dt)
 Transform* RigidBodyComponent::getTransform()
 {
 	return &body->transform;
+}
+
+void RigidBodyComponent::setSphereCollider(float radius)
+{
+	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addSphereCollider(*body, radius);
+}
+
+void RigidBodyComponent::setType(EBodyType type)
+{
+	body->type = type;
 }
 
 //-------------------------------------------------------

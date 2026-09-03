@@ -21,6 +21,7 @@ public:
 	GameObject& createWall(glm::vec3 position, bool solid = true);
 	*/
 	void createTestEntity();
+	void createTestWall(glm::vec3 pos);
 
 	void loadWalls(const char* filePath);
 };

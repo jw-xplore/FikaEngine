@@ -78,7 +78,7 @@ void PhysicsSolver::update(float dt)
 	}
 
 	// Collider calculations
-	//collisionsSolver.update(dt);
+	collisionsSolver.update(dt);
 }
 
 Body& PhysicsSolver::addBody()
@@ -88,7 +88,7 @@ Body& PhysicsSolver::addBody()
 	body->id = id;
 
 	// TODO: Make option to call this after all
-	//collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());
+	collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());
 
 	return (*bodies)[id - 1];
 }

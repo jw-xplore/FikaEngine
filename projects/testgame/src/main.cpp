@@ -26,6 +26,7 @@ void start()
     // Test entity cmp setup
     contentManager = new ContentManager();
     contentManager->createTestEntity();
+    contentManager->createTestWall(glm::vec3(2,0,0));
 
     /*
     FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();

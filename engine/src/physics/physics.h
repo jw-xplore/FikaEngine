@@ -45,7 +45,7 @@ void bodyFreezeRotation(Body& body, bool x, bool y, bool z);
 class PhysicsSolver
 {
 private:
-	//CollisionSolver collisionsSolver;
+	CollisionSolver collisionsSolver;
 
 	PoolAllocator<Body>* bodies;
 	std::vector<std::string> tags;
@@ -62,7 +62,7 @@ public:
 
 	Body& addBody();
 
-	//CollisionSolver& getCollisionSolver() { return collisionsSolver; }
+	CollisionSolver& getCollisionSolver() { return collisionsSolver; }
 
 	int findTagId(std::string tag);
 	int setTag(int position, std::string tag) { tags[position] = tag; }
