@@ -35,6 +35,8 @@ Transform* RigidBodyComponent::getTransform()
 void RigidBodyComponent::setSphereCollider(float radius)
 {
 	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addSphereCollider(*body, radius);
+	//SystemsHolder::getPhysicsSolver()->getCollisionSolver().addBoxCollider(*body, glm::vec3(radius * 2));
+	//SystemsHolder::getPhysicsSolver()->getCollisionSolver().addCapsuleCollider(*body, 0.5, 1);
 }
 
 void RigidBodyComponent::setType(EBodyType type)

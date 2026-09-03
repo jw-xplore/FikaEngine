@@ -152,15 +152,16 @@ namespace FikaEditor
 
     void Editor::placeObject(glm::vec3 position)
     {
-        /*
         GResourceManager* gResourceManager = SystemsHolder::getGResourceManager();
-        ShaderResource* basicShader = &gResourceManager->getShader("basic");
+        ShaderResource& basicShader = gResourceManager->getShader("basic");
         MeshResource& customMesh = gResourceManager->getMesh("cube");
 
-        GameObject* wall = FikaEngine::addGameObject();
-        MeshInstanceComponent* meshCmp = wall->addComponent<MeshInstanceComponent>();
-        meshCmp->setup(customMesh, *basicShader, nullptr);
-        wall->getTransformComponent().setPosition(position);
-        */
+        FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
+
+        TransformComponent* transform = dynamic_cast<TransformComponent*>(SystemsHolder::getECSManager()->addComponent(entity, TransformComponent::componentId));
+        transform->getTransform()->setPosition(position);
+
+        MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(SystemsHolder::getECSManager()->addComponent(entity, MeshComponent::componentId));
+        meshCmp->setup(customMesh, basicShader, nullptr);
     }
 }

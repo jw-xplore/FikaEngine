@@ -38,68 +38,7 @@ ContentManager::~ContentManager()
 
 }
 
-/*
-GameObject& ContentManager::createPlayer(glm::vec3 position)
-{
-    MeshResource& customMesh = gResourceManager->getMesh("pawn");
-    TextureResource& customTexture = gResourceManager->getTexture("customTex1");
-    ShaderResource& basicShader = gResourceManager->getShader("basic");
-
-    GameObject* player = FikaEngine::addGameObject();
-    player->getTransformComponent().setPosition(position);
-    MeshInstanceComponent* meshCmp = player->addComponent<MeshInstanceComponent>();
-    meshCmp->setup(customMesh, basicShader, nullptr);
-    meshCmp->setTexture(customTexture);
-
-    RigidbodyComponent* rb = player->addComponent<RigidbodyComponent>();
-    //rb->setCollider(EColliderShape::ShapeSphere);
-    rb->setCapsuleCollider(0.5f, 2);
-    rb->setLayers(2);
-
-    player->addComponent<PlayerComponent>();
-
-    // Test print components
-    //player->addComponent< 1722347611666756057>
-
-    for (auto& comp : player->getComponents())
-    {
-        std::cout << "comp: " << typeid(*comp.get()).name() << ", code: " << comp.get()->componentID() << "\n";
-        comp.get()->Deserialize((void*)&comp);
-    }
-
-    //player->Serialize();
-    
-    return *player;
-}
-
-GameObject& ContentManager::createWall(glm::vec3 position, bool solid)
-{
-    MeshResource& customMesh = gResourceManager->getMesh("crate");
-    TextureResource& customTexture = gResourceManager->getTexture("crate");
-
-    GameObject* wall = FikaEngine::addGameObject();
-    MeshInstanceComponent* meshCmp = wall->addComponent<MeshInstanceComponent>();
-    meshCmp->setup(customMesh, *basicShader, nullptr);
-    meshCmp->setTexture(customTexture);
-    wall->getTransformComponent().setPosition(position);
-
-    RigidbodyComponent* wallRb = wall->addComponent<RigidbodyComponent>();
-
-    if (solid)
-        wallRb->setBodyType(EBodyType::Static);
-
-    wallRb->setBodyTag(1);
-    wallRb->setInteractiveLayers(3);
-
-    //wallRb->setSphereCollider(1);
-    wallRb->setBoxCollider(glm::vec3(2, 2, 2));
-    //wallRb->setCapsuleCollider(0.5, 2);
-
-    return *wall;
-}
-*/
-
-void ContentManager::createTestEntity()
+FikaECS::Entity& ContentManager::createPlayer(glm::vec3 position)
 {
     GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
     MeshResource& customMesh = gResourceManager->getMesh("pawn");
@@ -111,20 +50,24 @@ void ContentManager::createTestEntity()
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
     rb->setSphereCollider(1);
+    rb->getTransform()->setPosition(position);
 
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, &customTexture);
+    meshCmp->setTexture(customTexture);
 
     // Player
     ecsManager->addComponent(entity, PlayerComponent::componentId);
+    
+    return *entity;
 }
 
-void ContentManager::createTestWall(glm::vec3 pos)
+FikaECS::Entity& ContentManager::createWall(glm::vec3 position, bool solid)
 {
     GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
-    MeshResource& customMesh = gResourceManager->getMesh("cube");
-    TextureResource& customTexture = gResourceManager->getTexture("customTex1");
+    MeshResource& customMesh = gResourceManager->getMesh("crate");
+    TextureResource& customTexture = gResourceManager->getTexture("crate");
     ShaderResource& basicShader = gResourceManager->getShader("basic");
 
     FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
@@ -133,11 +76,16 @@ void ContentManager::createTestWall(glm::vec3 pos)
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
     rb->setSphereCollider(1);
     rb->setType(EBodyType::Static);
-    rb->getTransform()->setPosition(pos);
+    if (!solid)
+        rb->setType(EBodyType::Kinematic);
+    rb->getTransform()->setPosition(position);
 
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, &customTexture);
+    meshCmp->setTexture(customTexture);
+
+    return *entity;
 }
 
 void ContentManager::loadWalls(const char* filePath)

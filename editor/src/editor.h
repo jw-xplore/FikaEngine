@@ -12,8 +12,6 @@ namespace FikaEditor
 		char executable[256] = "testgame.exe";
 		char levelPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/levels/testLevel.json";
 
-		//std::string projectPath = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/";
-		//std::string gameName = "testgame.exe";
 		void debugUI(GLFWwindow* window);
 	public:
 		void update();

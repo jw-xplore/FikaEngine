@@ -27,17 +27,17 @@ void PlayerComponent::update(float dt)
     //transform->translate(velocity * dt);
     body->velocity = velocity * dt;
 
-    /*
     // Test raycast
     const float l = 2.0f;
 
+    glm::vec3 pos = body->transform.getLocalPosition();
+
     glm::vec3 rayColor = glm::vec3(1, 0, 0);
-    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().raycast(owner->getPosition(), lastDirection, l);
+    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().raycast(pos, lastDirection, l);
     if (hit)
         rayColor = glm::vec3(0, 1, 0);
 
-    SystemsHolder::getDebugRenderer()->addLine(Line(owner->getPosition(), owner->getPosition() + lastDirection * l * glm::length(lastDirection), rayColor));
-    */
+    SystemsHolder::getDebugRenderer()->addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
 }
 
 

@@ -23,6 +23,11 @@ void start()
 	//editor.runGame();
 
     //editor.placeObject(glm::vec3(0, 0, 0));
+
+    // TODO: Have engine components initilized at engine
+    TransformComponentUpdater::init();
+    RigidBodyComponentUpdater::init();
+    MeshComponentUpdater::init();
 }
 
 void update(float dt)

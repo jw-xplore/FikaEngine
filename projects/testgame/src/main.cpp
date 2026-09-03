@@ -25,14 +25,16 @@ void start()
    
     // Test entity cmp setup
     contentManager = new ContentManager();
-    contentManager->createTestEntity();
-    contentManager->createTestWall(glm::vec3(2,0,0));
+    contentManager->createPlayer(glm::vec3(0, 0, 0));
+    contentManager->createWall(glm::vec3(2,0,0), false);
 
     /*
-    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
-    TransformComponent* tranCmp = dynamic_cast<TransformComponent*>(SystemsHolder::getECSManager()->addComponent(entity, TransformComponent::componentId));
-    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(SystemsHolder::getECSManager()->addComponent(entity, MeshComponent::componentId));
-    meshCmp->setup(customMesh, basicShader, &customTexture);
+    for (int i = 0; i < 1000; i++)
+    {
+        int x = rand() % 10;
+        int z = rand() % 10;
+        contentManager->createWall(glm::vec3(x, 0, z), false);
+    }
     */
 
 }
