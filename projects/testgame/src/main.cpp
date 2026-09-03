@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <fikaEngine.h>
+#include <fstream>
 
 #include "contentManager.h"
 #include "components/playerComponent.h"
@@ -26,7 +27,8 @@ void start()
     // Test entity cmp setup
     contentManager = new ContentManager();
     contentManager->createPlayer(glm::vec3(0, 0, 0));
-    contentManager->createWall(glm::vec3(2,0,0), false);
+    //contentManager->createWall(glm::vec3(2,0,0), false);
+    //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
     /*
     for (int i = 0; i < 1000; i++)
@@ -37,6 +39,19 @@ void start()
     }
     */
 
+    // Test saving
+    nlohmann::json entitiesJson = SystemsHolder::getECSManager()->serializeEntities();
+
+    std::ofstream file("entitiesTest.json");
+
+    if (!file.is_open())
+    {
+        std::cout << "Can't serialize game objects as levels folder/file is not found \n";
+        return;
+    }
+
+    file << std::setw(4) << entitiesJson;
+    file.close();
 }
 
 void update(float dt)

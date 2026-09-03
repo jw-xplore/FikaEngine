@@ -6,6 +6,7 @@
 #include "core/transform.h"
 #include "components/transformComponent.h"
 #include "components/rigidBodyComponent.h"
+#include <fstream>
 
 namespace FikaECS
 {
@@ -57,7 +58,7 @@ namespace FikaECS
 		comp->start();
 
 		// Store relation
-		entityComponets[entity->getId()].push_back(componentId);
+		entityComponets[entity->getId()].push_back(comp);
 
 		return comp;
 	}
@@ -82,5 +83,53 @@ namespace FikaECS
 			return rbCmp->getTransform();
 		
 		return nullptr;
+	}
+
+	nlohmann::json ECSManager::serializeEntities()
+	{
+		size_t size = entities->getUsedAmount();
+		nlohmann::json js = nlohmann::json::object();
+
+		nlohmann::json jsonEntities = nlohmann::json::array();
+
+		for (size_t i = 0; i < size; i++)
+		{
+			Entity entity = (*entities)[i];
+			std::vector<ECSComponent*>& components = entityComponets[entity.getId()];
+
+			nlohmann::json jsonEntity = nlohmann::json::object();
+			nlohmann::json jsonComponents = nlohmann::json::array();
+
+			for (ECSComponent*& comp : components)
+			{
+				nlohmann::json jsonCmp = comp->serialize();
+				jsonComponents.push_back(jsonCmp);
+			}
+
+			jsonEntity["components"] = jsonComponents;
+			jsonEntities.push_back(jsonEntity);
+		}
+
+		js["entities"] = jsonEntities;
+
+		return js;
+	}
+
+	void ECSManager::loadEntities(const char* filePath)
+	{
+		// Read json
+		std::ifstream file(filePath);
+		if (!file.is_open())
+		{
+			std::cout << "Failed to load level \n";
+			return;
+		}
+
+		// Parse data
+		nlohmann::ordered_json jsonRes = nlohmann::ordered_json::parse(file);
+		file.close();
+
+		// TODO
+
 	}
 }

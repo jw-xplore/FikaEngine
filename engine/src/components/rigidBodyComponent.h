@@ -25,6 +25,8 @@ public:
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
+	nlohmann::json serialize() override;
+	void deserialize(nlohmann::json js) override;
 
 	Body* getBody() { return body; }
 	Transform* getTransform();

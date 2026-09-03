@@ -3,6 +3,7 @@
 #include <memory>
 #include <map>
 #include "core/memorymanagement.h"
+#include "core/filemanagement/json.h"
 
 class Transform;
 
@@ -21,7 +22,7 @@ namespace FikaECS
 		// Tracks which systems is used for component based on matching id
 		std::map<unsigned int, ComponentUpdater*> componentIdUpdaters;
 		// Entity-Component relation: entity id + component ids list
-		std::map<unsigned int, std::vector<unsigned int>> entityComponets;
+		std::map<unsigned int, std::vector<ECSComponent*>> entityComponets;
 
 	public:
 		ECSManager() {}
@@ -35,5 +36,8 @@ namespace FikaECS
 		ECSComponent* addComponent(Entity* entity, unsigned int componentId);
 		ECSComponent* findComponent(Entity& entity, unsigned int componentId);
 		Transform* findEntityTransform(Entity& entity);
+
+		nlohmann::json serializeEntities();
+		void loadEntities(const char* filePath);
 	};
 }

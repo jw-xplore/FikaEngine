@@ -27,6 +27,33 @@ void RigidBodyComponent::update(float dt)
 
 }
 
+nlohmann::json RigidBodyComponent::serialize()
+{
+	nlohmann::json js = nlohmann::json::object();
+	js["id"] = componentId;
+	
+	glm::vec3 pos = body->transform.getLocalPosition();
+	nlohmann::json jsonPos = nlohmann::json::object();;
+	jsonPos["x"] = pos.x;
+	jsonPos["y"] = pos.y;
+	jsonPos["z"] = pos.z;
+
+	js["position"] = jsonPos;
+
+	return js;
+}
+
+void RigidBodyComponent::deserialize(nlohmann::json js)
+{
+	nlohmann::json jsonPos = js["position"];
+	glm::vec3 pos = glm::vec3(0);
+	pos.x = jsonPos["x"];
+	pos.y = jsonPos["y"];
+	pos.z = jsonPos["z"];
+
+	body->transform.setLocalPosition(pos);
+}
+
 Transform* RigidBodyComponent::getTransform()
 {
 	return &body->transform;

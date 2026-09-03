@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <memory>
+#include "core/filemanagement/json.h"
 
 namespace FikaECS
 {
@@ -28,6 +29,8 @@ namespace FikaECS
 		virtual void update(float dt) {}
 
 		virtual unsigned int getComponentId() const { return 0; }
+		virtual nlohmann::json serialize() { return nullptr; }
+		virtual void deserialize(nlohmann::json js) {}
 
 		void setOwnerEntity(Entity* entity) { owner = entity; }
 		Entity* getOwnerEntity() { return owner; }
