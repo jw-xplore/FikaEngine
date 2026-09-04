@@ -31,14 +31,7 @@ nlohmann::json RigidBodyComponent::serialize()
 {
 	nlohmann::json js = nlohmann::json::object();
 	js["id"] = componentId;
-	
-	glm::vec3 pos = body->transform.getLocalPosition();
-	nlohmann::json jsonPos = nlohmann::json::object();;
-	jsonPos["x"] = pos.x;
-	jsonPos["y"] = pos.y;
-	jsonPos["z"] = pos.z;
-
-	js["position"] = jsonPos;
+	js["transform"] = body->transform.serialize();
 
 	return js;
 }

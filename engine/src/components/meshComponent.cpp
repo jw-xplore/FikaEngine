@@ -21,6 +21,22 @@ void MeshComponent::update(float dt)
 
 }
 
+nlohmann::json MeshComponent::serialize()
+{
+	nlohmann::json js = nlohmann::json::object();
+	js["id"] = componentId;
+	js["mesh"];
+	js["texture"];
+	js["shader"];
+
+	return js;
+}
+
+void MeshComponent::deserialize(nlohmann::json js)
+{
+
+}
+
 void MeshComponent::setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 {
 	instance = SystemsHolder::getInstance()->getMainRenderer()->addMeshInstance(&transform->getGlobalTransform(), meshRes, shader, texture);

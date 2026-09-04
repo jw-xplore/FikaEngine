@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "core/filemanagement/json.h"
 
 class Transform
 {
@@ -39,4 +40,7 @@ public:
 	static glm::vec3 matrixToPosition(const glm::mat4& mat);
 	static glm::vec3 matrixToRotation(const glm::mat4& mat);
 	static glm::vec3 matrixToScale(const glm::mat4& mat);
+
+	nlohmann::json serialize();
+	void deserialize(nlohmann::json);
 };

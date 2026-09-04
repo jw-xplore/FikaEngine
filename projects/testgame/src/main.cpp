@@ -27,7 +27,7 @@ void start()
     // Test entity cmp setup
     contentManager = new ContentManager();
     contentManager->createPlayer(glm::vec3(0, 0, 0));
-    //contentManager->createWall(glm::vec3(2,0,0), false);
+    contentManager->createWall(glm::vec3(2,0,0), false);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
     /*

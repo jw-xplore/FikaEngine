@@ -17,6 +17,18 @@ void {{NAME}}Component::update(float dt)
 
 }
 
+nlohmann::json {{NAME}}Component::serialize()
+{
+	nlohmann::json js = nlohmann::json::object();
+	js["id"] = componentId;
+
+	return js;
+}
+
+void {{NAME}}Component::deserialize(nlohmann::json js)
+{
+
+}
 
 //-------------------------------------------------------
 // System
