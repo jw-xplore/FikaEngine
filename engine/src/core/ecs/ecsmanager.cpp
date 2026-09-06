@@ -34,9 +34,11 @@ namespace FikaECS
 		return pos;
 	}
 
-	Entity* ECSManager::addEntity()
+	Entity* ECSManager::addEntity(std::string name)
 	{
-		return entities->allocate();
+		Entity* entity = entities->allocate();
+		entity->setName(name);
+		return entity;
 	}
 
 	ECSComponent* ECSManager::addComponent(Entity* entity, unsigned int componentId)
@@ -85,6 +87,44 @@ namespace FikaECS
 		return nullptr;
 	}
 
+	nlohmann::json ECSManager::serializeEntity(Entity& entity)
+	{
+		nlohmann::json js = nlohmann::json::object();
+
+		std::vector<ECSComponent*>& components = entityComponets[entity.getId()];
+
+		nlohmann::json jsonEntity = nlohmann::json::object();
+		nlohmann::json jsonComponents = nlohmann::json::array();
+
+		for (ECSComponent*& comp : components)
+		{
+			nlohmann::json jsonCmp = comp->serialize();
+			jsonComponents.push_back(jsonCmp);
+		}
+
+		jsonEntity["name"] = entity.getName();
+		jsonEntity["components"] = jsonComponents;
+
+		js["entity"] = jsonEntity;
+		return js;
+	}
+
+	void ECSManager::addEntityFromJson(nlohmann::json js)
+	{
+		Entity* entity = addEntity();
+
+		// Components
+		nlohmann::json jsonEntity = js["entity"];
+		nlohmann::json jsonComponents = jsonEntity["components"];
+
+		for (auto& jsComp : jsonComponents.items())
+		{
+			unsigned int id = jsComp.value()["id"];
+			ECSComponent* component = addComponent(entity, id);
+			component->deserialize(jsComp.value());
+		}
+	}
+
 	nlohmann::json ECSManager::serializeEntities()
 	{
 		size_t size = entities->getUsedAmount();
@@ -94,19 +134,8 @@ namespace FikaECS
 
 		for (size_t i = 0; i < size; i++)
 		{
-			Entity entity = (*entities)[i];
-			std::vector<ECSComponent*>& components = entityComponets[entity.getId()];
-
-			nlohmann::json jsonEntity = nlohmann::json::object();
-			nlohmann::json jsonComponents = nlohmann::json::array();
-
-			for (ECSComponent*& comp : components)
-			{
-				nlohmann::json jsonCmp = comp->serialize();
-				jsonComponents.push_back(jsonCmp);
-			}
-
-			jsonEntity["components"] = jsonComponents;
+			Entity& entity = (*entities)[i];
+			nlohmann::json jsonEntity = serializeEntity(entity);
 			jsonEntities.push_back(jsonEntity);
 		}
 
@@ -133,17 +162,23 @@ namespace FikaECS
 		nlohmann::json jsonEntities = jsonRes["entities"];
 		for (auto& jsEnt : jsonEntities.items())
 		{
-			Entity* entity = addEntity();
-
-			// Components
-			nlohmann::json jsonComponents = jsEnt.value()["components"];
-
-			for (auto& jsComp : jsonComponents.items())
-			{
-				unsigned int id = jsComp.value()["id"];
-				ECSComponent* component = addComponent(entity, id);
-				component->deserialize(jsComp.value());
-			}
+			addEntityFromJson(jsEnt.value());
 		}
+	}
+
+	void ECSManager::makePrefab(Entity& entity, const char* path)
+	{
+		nlohmann::json entitiesJson = serializeEntity(entity);
+
+		std::ofstream file(path);
+
+		if (!file.is_open())
+		{
+			std::cout << "Can't serialize game objects as levels folder/file is not found \n";
+			return;
+		}
+
+		file << std::setw(4) << entitiesJson;
+		file.close();
 	}
 }

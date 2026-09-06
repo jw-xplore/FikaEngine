@@ -32,12 +32,16 @@ namespace FikaECS
 		void update(float dt);
 
 		int registerUpdaters(ComponentUpdater* system);
-		Entity* addEntity();
+		Entity* addEntity(std::string name = "");
 		ECSComponent* addComponent(Entity* entity, unsigned int componentId);
 		ECSComponent* findComponent(Entity& entity, unsigned int componentId);
 		Transform* findEntityTransform(Entity& entity);
 
+		nlohmann::json serializeEntity(Entity& entity);
+		void addEntityFromJson(nlohmann::json js);
 		nlohmann::json serializeEntities();
 		void loadEntities(const char* filePath);
+
+		void makePrefab(Entity& entity, const char* path);
 	};
 }

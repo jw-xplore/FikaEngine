@@ -6,6 +6,7 @@ class PhysicsSolver;
 class GameObjectManager;
 class CameraManager;
 class GResourceManager;
+class GameResourceManager;
 
 namespace FikaECS
 {
@@ -22,6 +23,7 @@ private:
 	std::unique_ptr<PhysicsSolver> physicsSolver;
 	std::unique_ptr<CameraManager> cameraManager;
 	std::unique_ptr<GResourceManager> gResourceManager;
+	std::unique_ptr< GameResourceManager> gameResourceManager;
 
 	std::unique_ptr<FikaECS::ECSManager> ecsManager;
 
@@ -37,10 +39,13 @@ public:
 		return instance;
 	}
 
+	void init();
+
 	static Renderer* getMainRenderer() { return SystemsHolder::getInstance()->renderer.get(); }
 	static Renderer* getDebugRenderer() { return SystemsHolder::getInstance()->debugRenderer.get(); }
 	static CameraManager* getCameraManager() { return SystemsHolder::getInstance()->cameraManager.get(); }
 	static GResourceManager* getGResourceManager() { return SystemsHolder::getInstance()->gResourceManager.get(); }
 	static PhysicsSolver* getPhysicsSolver() { return SystemsHolder::getInstance()->physicsSolver.get(); }
 	static FikaECS::ECSManager* getECSManager() { return SystemsHolder::getInstance()->ecsManager.get(); }
+	static GameResourceManager* getGameResourceManager() { return SystemsHolder::getInstance()->gameResourceManager.get(); }
 };

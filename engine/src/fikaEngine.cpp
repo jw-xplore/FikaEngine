@@ -18,6 +18,8 @@ namespace FikaEngine
 	{
         // Systems
         SystemsHolder* systemsHolder = SystemsHolder::getInstance();
+        systemsHolder->init();
+
         renderer = systemsHolder->getMainRenderer();
         debugRenderer = SystemsHolder::getDebugRenderer();
         physicsSolver = systemsHolder->getPhysicsSolver();

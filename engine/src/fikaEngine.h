@@ -12,6 +12,7 @@ Includes
 // Core
 #include "core/systemsHolder.h"
 #include "core/filemanagement/json.h"
+#include "core/gameresoucemanager.h"
 
 // ECS
 #include "core/ecs/ecsmanager.h"

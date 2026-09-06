@@ -9,6 +9,13 @@ namespace FikaECS
 		setId(lastEntityId);
 	}
 
+	Entity::Entity(std::string name)
+	{
+		lastEntityId++;
+		setId(lastEntityId);
+		this->name = name;
+	}
+
 	void Entity::setId(unsigned int id)
 	{
 		if (id == 0)

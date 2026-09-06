@@ -26,11 +26,17 @@ void start()
    
     // Test entity cmp setup
     contentManager = new ContentManager();
-    //contentManager->createPlayer(glm::vec3(0, 0, 0));
-    //contentManager->createWall(glm::vec3(2,0,0), false);
+    //FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
+    //FikaECS::Entity& wall = contentManager->createWall(glm::vec3(0,0,0), false);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
-    SystemsHolder::getECSManager()->loadEntities("entitiesTest.json");
+    //SystemsHolder::getECSManager()->makePrefab(player, "assets/prefabs/player.json");
+    //SystemsHolder::getECSManager()->makePrefab(wall, "assets/prefabs/wall.json");
+
+    // SystemsHolder::getECSManager()->loadEntities("entitiesTest.json");
+    Prefab playerPref;
+    SystemsHolder::getGameResourceManager()->loadPrefab("assets/prefabs/player.json", playerPref);
+    SystemsHolder::getECSManager()->addEntityFromJson(playerPref.data);
 
     /*
     for (int i = 0; i < 1000; i++)
@@ -42,7 +48,6 @@ void start()
     */
 
     // Test saving
-    /*
     nlohmann::json entitiesJson = SystemsHolder::getECSManager()->serializeEntities();
 
     std::ofstream file("entitiesTest.json");
@@ -55,7 +60,6 @@ void start()
 
     file << std::setw(4) << entitiesJson;
     file.close();
-    */
 }
 
 void update(float dt)

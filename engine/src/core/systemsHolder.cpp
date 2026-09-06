@@ -3,11 +3,22 @@
 #include "physics/physics.h"
 #include "renderer/camera/cameraManager.h"
 #include "renderer/resources/gResourceManager.h"
+#include "core/gameresoucemanager.h"
 #include "core/ecs/ecsmanager.h"
 
 SystemsHolder* SystemsHolder::instance = new SystemsHolder();
 
 SystemsHolder::SystemsHolder()
+{
+
+}
+
+SystemsHolder::~SystemsHolder()
+{
+
+}
+
+void SystemsHolder::init()
 {
 	renderer = std::unique_ptr<Renderer>(new Renderer());
 	debugRenderer = std::unique_ptr<Renderer>(new Renderer());
@@ -17,9 +28,7 @@ SystemsHolder::SystemsHolder()
 
 	ecsManager = std::unique_ptr<FikaECS::ECSManager>(new FikaECS::ECSManager());
 	ecsManager->init();
-}
 
-SystemsHolder::~SystemsHolder()
-{
-
+	gameResourceManager = std::unique_ptr<GameResourceManager>(new GameResourceManager());
+	gameResourceManager->init();
 }

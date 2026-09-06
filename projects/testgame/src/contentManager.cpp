@@ -45,7 +45,7 @@ FikaECS::Entity& ContentManager::createPlayer(glm::vec3 position)
     TextureResource& customTexture = gResourceManager->getTexture("customTex1");
     ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
+    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity("player");
 
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
@@ -70,7 +70,7 @@ FikaECS::Entity& ContentManager::createWall(glm::vec3 position, bool solid)
     TextureResource& customTexture = gResourceManager->getTexture("crate");
     ShaderResource& basicShader = gResourceManager->getShader("basic");
 
-    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
+    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity("wall");
 
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
