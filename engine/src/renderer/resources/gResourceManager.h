@@ -18,6 +18,7 @@ class ShaderResource;
 class MeshResource
 {
 public:
+	std::string tag;
 	GLuint VOA; // Vertex object array
 	GLuint VBO; // Vertex Buffer Object
 	GLuint EBO; // Element Buffer Object
@@ -37,6 +38,7 @@ public:
 class ShaderResource
 {
 public:
+	std::string tag;
 	GLchar* vertexBuffer;
 	GLchar* fragmentBuffer;
 
@@ -97,6 +99,7 @@ public:
 class TextureResource
 {
 public:
+	std::string tag;
 	unsigned int texture;
 
 	TextureResource();
@@ -125,9 +128,6 @@ private:
 public:
 	MeshResource* reserveMesh(std::string name);
 	TextureResource& reseveTexture(std::string name);
-
-	int storeMesh(std::string name, MeshResource& mesh);
-	int storeTexture(std::string name, TextureResource& texture);
 	int storeShader(std::string name, ShaderResource& shader);
 
 	int meshHandle(std::string name);

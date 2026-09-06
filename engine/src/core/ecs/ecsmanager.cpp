@@ -129,7 +129,21 @@ namespace FikaECS
 		nlohmann::ordered_json jsonRes = nlohmann::ordered_json::parse(file);
 		file.close();
 
-		// TODO
+		// Create entities
+		nlohmann::json jsonEntities = jsonRes["entities"];
+		for (auto& jsEnt : jsonEntities.items())
+		{
+			Entity* entity = addEntity();
 
+			// Components
+			nlohmann::json jsonComponents = jsEnt.value()["components"];
+
+			for (auto& jsComp : jsonComponents.items())
+			{
+				unsigned int id = jsComp.value()["id"];
+				ECSComponent* component = addComponent(entity, id);
+				component->deserialize(jsComp.value());
+			}
+		}
 	}
 }

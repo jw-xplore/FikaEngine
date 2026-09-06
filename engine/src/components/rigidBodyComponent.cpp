@@ -32,19 +32,15 @@ nlohmann::json RigidBodyComponent::serialize()
 	nlohmann::json js = nlohmann::json::object();
 	js["id"] = componentId;
 	js["transform"] = body->transform.serialize();
+	js["type"] = body->type;
 
 	return js;
 }
 
 void RigidBodyComponent::deserialize(nlohmann::json js)
 {
-	nlohmann::json jsonPos = js["position"];
-	glm::vec3 pos = glm::vec3(0);
-	pos.x = jsonPos["x"];
-	pos.y = jsonPos["y"];
-	pos.z = jsonPos["z"];
-
-	body->transform.setLocalPosition(pos);
+	body->type = js["type"];
+	body->transform.deserialize(js["transform"]);
 }
 
 Transform* RigidBodyComponent::getTransform()

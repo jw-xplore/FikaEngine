@@ -42,5 +42,5 @@ public:
 	static glm::vec3 matrixToScale(const glm::mat4& mat);
 
 	nlohmann::json serialize();
-	void deserialize(nlohmann::json);
+	void deserialize(nlohmann::json js);
 };

@@ -259,6 +259,7 @@ MeshResource* GResourceManager::reserveMesh(std::string name)
 	meshes.push_back(MeshResource());
 	int id = meshes.size() - 1;
 	meshHandles[name] = id;
+	meshes[id].tag = name;
 
 	return &meshes[id];
 }
@@ -268,26 +269,9 @@ TextureResource& GResourceManager::reseveTexture(std::string name)
 	textures.push_back(TextureResource());
 	int id = textures.size() - 1;
 	textureHandles[name] = id;
+	textures[id].tag = name;
 
 	return textures[id];
-}
-
-int GResourceManager::storeMesh(std::string name, MeshResource& mesh)
-{
-	meshes.push_back(mesh);
-	int id = meshes.size() - 1;
-	meshHandles[name] = id;
-
-	return id;
-}
-
-int GResourceManager::storeTexture(std::string name, TextureResource& texture)
-{
-	textures.push_back(texture);
-	int id = textures.size() - 1;
-	textureHandles[name] = id;
-
-	return id;
 }
 
 int GResourceManager::storeShader(std::string name, ShaderResource& shader)
@@ -295,6 +279,7 @@ int GResourceManager::storeShader(std::string name, ShaderResource& shader)
 	shaders.push_back(shader);
 	int id = shaders.size() - 1;
 	shaderHandles[name] = id;
+	shaders[id].tag = name;
 
 	return id;
 }

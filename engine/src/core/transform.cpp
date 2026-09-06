@@ -199,7 +199,29 @@ nlohmann::json Transform::serialize()
     return jsonMat;
 }
 
-void Transform::deserialize(nlohmann::json)
+void Transform::deserialize(nlohmann::json js)
 {
+    glm::mat4 mat;
+    mat[0][0] = js[0];
+    mat[0][1] = js[1];
+    mat[0][2] = js[2];
+    mat[0][3] = js[3];
+    mat[1][0] = js[4];
+    mat[1][1] = js[5];
+    mat[1][2] = js[6];
+    mat[1][3] = js[7];
+    mat[2][0] = js[8];
+    mat[2][1] = js[9];
+    mat[2][2] = js[10];
+    mat[2][3] = js[11];
+    mat[3][0] = js[12];
+    mat[3][1] = js[13];
+    mat[3][2] = js[14];
+    mat[3][3] = js[15];
 
+    localPosition = matrixToPosition(mat);
+    localRotation = matrixToRotation(mat);
+    localScale = matrixToScale(mat);
+
+    setGlobalTransform(mat);
 }

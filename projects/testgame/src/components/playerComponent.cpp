@@ -40,6 +40,18 @@ void PlayerComponent::update(float dt)
     SystemsHolder::getDebugRenderer()->addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
 }
 
+nlohmann::json PlayerComponent::serialize()
+{
+    nlohmann::json js = nlohmann::json::object();
+    js["id"] = componentId;
+
+    return js;
+}
+
+void PlayerComponent::deserialize(nlohmann::json js)
+{
+
+}
 
 //-------------------------------------------------------
 // System

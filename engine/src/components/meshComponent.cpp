@@ -5,6 +5,7 @@
 #include "core/transform.h"
 #include "renderer/renderer.h"
 #include <cassert>
+#include "renderer/resources/gResourceManager.h"
 
 //-------------------------------------------------------
 // Component
@@ -25,16 +26,24 @@ nlohmann::json MeshComponent::serialize()
 {
 	nlohmann::json js = nlohmann::json::object();
 	js["id"] = componentId;
-	js["mesh"];
-	js["texture"];
-	js["shader"];
+	js["mesh"] = instance->getMesh()->tag;
+	js["texture"] = instance->getTexture()->tag;
+	js["shader"] = instance->gettShader()->tag;
 
 	return js;
 }
 
 void MeshComponent::deserialize(nlohmann::json js)
 {
+	std::string meshStr = js["mesh"];
+	MeshResource& mesh = SystemsHolder::getGResourceManager()->getMesh(meshStr);
+	std::string texStr = js["texture"];
+	TextureResource& texture = SystemsHolder::getGResourceManager()->getTexture(texStr);
+	std::string shaderStr = js["shader"];
+	ShaderResource& shader = SystemsHolder::getGResourceManager()->getShader(shaderStr);
 
+	setup(mesh, shader, &texture);
+	setTexture(texture);
 }
 
 void MeshComponent::setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
