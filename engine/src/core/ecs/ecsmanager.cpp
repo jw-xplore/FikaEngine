@@ -165,20 +165,4 @@ namespace FikaECS
 			addEntityFromJson(jsEnt.value());
 		}
 	}
-
-	void ECSManager::makePrefab(Entity& entity, const char* path)
-	{
-		nlohmann::json entitiesJson = serializeEntity(entity);
-
-		std::ofstream file(path);
-
-		if (!file.is_open())
-		{
-			std::cout << "Can't serialize game objects as levels folder/file is not found \n";
-			return;
-		}
-
-		file << std::setw(4) << entitiesJson;
-		file.close();
-	}
 }

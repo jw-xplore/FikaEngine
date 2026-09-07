@@ -41,7 +41,5 @@ namespace FikaECS
 		void addEntityFromJson(nlohmann::json js);
 		nlohmann::json serializeEntities();
 		void loadEntities(const char* filePath);
-
-		void makePrefab(Entity& entity, const char* path);
 	};
 }

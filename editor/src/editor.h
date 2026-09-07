@@ -3,6 +3,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+struct Prefab;
+
 namespace FikaEditor
 {
 	class Editor
@@ -11,12 +13,15 @@ namespace FikaEditor
 		char workingDirectory[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/";
 		char executable[256] = "testgame.exe";
 		char levelPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/levels/testLevel.json";
+		char activePrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/wall.json";
+		Prefab* activePrefab;
 
 		void debugUI(GLFWwindow* window);
 	public:
 		void update();
 
 		bool loadProject();
+		void loadActivePrefab();
 		void runGame();
 
 		glm::vec3 positionFromScreenSpace(glm::vec2 position);

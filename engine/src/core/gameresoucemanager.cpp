@@ -41,7 +41,7 @@ void GameResourceManager::loadPrefab(const char* path, Prefab& out)
 	std::ifstream file(path);
 	if (!file.is_open())
 	{
-		std::cout << "Failed to load level \n";
+		std::cout << "Failed to load prefab: " << path << "\n";
 		return;
 	}
 
@@ -51,5 +51,18 @@ void GameResourceManager::loadPrefab(const char* path, Prefab& out)
 
 	nlohmann::json jsEntity = js["entity"];
 	out.name = jsEntity["name"];
+	out.path = path;
 	out.data = js;
+}
+
+void GameResourceManager::loadFolderPrefabs(const char* path)
+{
+	for (const auto& entry : std::filesystem::directory_iterator(path))
+	{
+		Prefab pref;
+		std::string prefPath = entry.path().string();
+		loadPrefab(prefPath.c_str(), pref);
+
+		loadedPrefabs[path] = pref;
+	}
 }

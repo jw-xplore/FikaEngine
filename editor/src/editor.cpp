@@ -5,6 +5,8 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "core/systemsHolder.h"
+#include "core/gameresoucemanager.h"
 
 #include "fikaEngine.h"
 
@@ -36,6 +38,7 @@ namespace FikaEditor
         ImGui::Begin("Fika Editor");
         ImGui::InputText("Directory", workingDirectory, 256);
         ImGui::InputText("Executable", executable, 256);
+        ImGui::InputText("Prefab", activePrefabPath, 256);
 
         // Run game
         if (ImGui::Button("Run"))
@@ -91,7 +94,13 @@ namespace FikaEditor
             return false;
         }
 
+        loadActivePrefab();
         return true;
+    }
+
+    void Editor::loadActivePrefab()
+    {
+        SystemsHolder::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
     }
 
 	void Editor::runGame()
