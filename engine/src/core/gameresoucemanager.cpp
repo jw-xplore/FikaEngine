@@ -31,7 +31,7 @@ void GameResourceManager::makePrefab(FikaECS::Entity& entity, const char* path)
 		return;
 	}
 
-	file << std::setw(4) << js;
+	file << std::setw(2) << js;
 	file.close();
 }
 

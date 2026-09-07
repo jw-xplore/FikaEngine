@@ -26,17 +26,17 @@ void start()
    
     // Test entity cmp setup
     contentManager = new ContentManager();
-    //FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
+    FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
     //FikaECS::Entity& wall = contentManager->createWall(glm::vec3(0,0,0), false);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
-    //SystemsHolder::getECSManager()->makePrefab(player, "assets/prefabs/player.json");
-    //SystemsHolder::getECSManager()->makePrefab(wall, "assets/prefabs/wall.json");
+    SystemsHolder::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");
+    //SystemsHolder::getGameResourceManager()->makePrefab(wall, "assets/prefabs/wall.json");
 
     // SystemsHolder::getECSManager()->loadEntities("entitiesTest.json");
     Prefab playerPref;
-    SystemsHolder::getGameResourceManager()->loadPrefab("assets/prefabs/player.json", playerPref);
-    SystemsHolder::getECSManager()->addEntityFromJson(playerPref.data);
+    //SystemsHolder::getGameResourceManager()->loadPrefab("assets/prefabs/player.json", playerPref);
+    //SystemsHolder::getECSManager()->addEntityFromJson(playerPref.data);
 
     /*
     for (int i = 0; i < 1000; i++)

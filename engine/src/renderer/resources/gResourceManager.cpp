@@ -4,6 +4,7 @@
 #include <windows.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include "renderer/resources/meshBuilder.h"
 
 //------------------------------------------------------------------------------
 // Mesh resource
@@ -253,6 +254,48 @@ void TextureResource::activateTexture(unsigned int* texture)
 //------------------------------------------------------------------------------
 // Resource manager
 //------------------------------------------------------------------------------
+
+MeshResource* GResourceManager::loadMesh(const char* path, const char* tag)
+{
+	if (loadedMeshes.find(path) != loadedMeshes.end())
+	{
+		return loadedMeshes[path];
+	}
+
+	meshes.push_back(MeshResource());
+	int id = meshes.size() - 1;
+	MeshResource& mesh = meshes[id];
+
+	// Load
+	MeshBuilder().loadMesh(path).build(mesh);
+	loadedMeshes[path] = &mesh;
+	meshHandles[tag] = id;
+	mesh.sourcePath = path;
+	mesh.tag = tag;
+
+	return &mesh;
+}
+
+TextureResource* GResourceManager::loadTexture(const char* path, const char* tag)
+{
+	if (loadedTextures.find(path) != loadedTextures.end())
+	{
+		return loadedTextures[path];
+	}
+
+	textures.push_back(TextureResource());
+	int id = textures.size() - 1;
+	TextureResource& texture = textures[id];
+
+	// Load
+	texture.loadTexture(path);
+	loadedTextures[path] = &texture;
+	textureHandles[tag] = id;
+	texture.sourcePath = path;
+	texture.tag = tag;
+
+	return &texture;
+}
 
 MeshResource* GResourceManager::reserveMesh(std::string name)
 {

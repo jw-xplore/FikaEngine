@@ -26,20 +26,24 @@ nlohmann::json MeshComponent::serialize()
 {
 	nlohmann::json js = nlohmann::json::object();
 	js["id"] = componentId;
-	js["mesh"] = instance->getMesh()->tag;
-	js["texture"] = instance->getTexture()->tag;
-	js["shader"] = instance->gettShader()->tag;
+	js["meshTag"] = instance->getMesh()->tag;
+	js["meshPath"] = instance->getMesh()->sourcePath;
+	js["textureTag"] = instance->getTexture()->tag;
+	js["texturePath"] = instance->getTexture()->sourcePath;
+	js["shaderTag"] = instance->gettShader()->tag;
+	js["shaderVPath"] = instance->gettShader()->lastVpath;
+	js["shaderFPath"] = instance->gettShader()->lastFpath;
 
 	return js;
 }
 
 void MeshComponent::deserialize(nlohmann::json js)
 {
-	std::string meshStr = js["mesh"];
+	std::string meshStr = js["meshTag"];
 	MeshResource& mesh = SystemsHolder::getGResourceManager()->getMesh(meshStr);
-	std::string texStr = js["texture"];
+	std::string texStr = js["textureTag"];
 	TextureResource& texture = SystemsHolder::getGResourceManager()->getTexture(texStr);
-	std::string shaderStr = js["shader"];
+	std::string shaderStr = js["shaderTag"];
 	ShaderResource& shader = SystemsHolder::getGResourceManager()->getShader(shaderStr);
 
 	setup(mesh, shader, &texture);

@@ -18,6 +18,7 @@ class ShaderResource;
 class MeshResource
 {
 public:
+	std::string sourcePath;
 	std::string tag;
 	GLuint VOA; // Vertex object array
 	GLuint VBO; // Vertex Buffer Object
@@ -99,6 +100,7 @@ public:
 class TextureResource
 {
 public:
+	std::string sourcePath;
 	std::string tag;
 	unsigned int texture;
 
@@ -125,7 +127,14 @@ private:
 	std::map<std::string, int> textureHandles;
 	std::map<std::string, int> shaderHandles;
 
+	std::map<std::string, MeshResource*> loadedMeshes;
+	std::map<std::string, TextureResource*> loadedTextures;
+	std::map<std::string, ShaderResource*> loadedShaders;
+
 public:
+	MeshResource* loadMesh(const char* path, const char* tag);
+	TextureResource* loadTexture(const char* path, const char* tag);
+
 	MeshResource* reserveMesh(std::string name);
 	TextureResource& reseveTexture(std::string name);
 	int storeShader(std::string name, ShaderResource& shader);
