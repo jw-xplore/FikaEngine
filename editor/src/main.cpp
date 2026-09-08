@@ -28,6 +28,8 @@ void start()
     TransformComponentUpdater::init();
     RigidBodyComponentUpdater::init();
     MeshComponentUpdater::init();
+
+    editor.loadProject();
 }
 
 void update(float dt)

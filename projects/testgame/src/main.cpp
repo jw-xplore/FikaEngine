@@ -30,8 +30,10 @@ void start()
     //FikaECS::Entity& wall = contentManager->createWall(glm::vec3(0,0,0), false);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
-    SystemsHolder::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");
+    //SystemsHolder::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");
     //SystemsHolder::getGameResourceManager()->makePrefab(wall, "assets/prefabs/wall.json");
+
+    SystemsHolder::getECSManager()->loadEntities("assets/levels/testLevel.json");
 
     // SystemsHolder::getECSManager()->loadEntities("entitiesTest.json");
     Prefab playerPref;
@@ -48,6 +50,7 @@ void start()
     */
 
     // Test saving
+    /*
     nlohmann::json entitiesJson = SystemsHolder::getECSManager()->serializeEntities();
 
     std::ofstream file("entitiesTest.json");
@@ -60,6 +63,7 @@ void start()
 
     file << std::setw(4) << entitiesJson;
     file.close();
+    */
 }
 
 void update(float dt)

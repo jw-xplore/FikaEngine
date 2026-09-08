@@ -2,6 +2,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <glm/glm.hpp>
 #include "core/memorymanagement.h"
 #include "core/filemanagement/json.h"
 
@@ -40,6 +41,8 @@ namespace FikaECS
 		nlohmann::json serializeEntity(Entity& entity);
 		void addEntityFromJson(nlohmann::json js);
 		nlohmann::json serializeEntities();
+		nlohmann::json serializeEditorEntities();
+		void overrideJsonEntityTransform(nlohmann::json& jsonEntity, glm::mat4& transform);
 		void loadEntities(const char* filePath);
 	};
 }

@@ -7,6 +7,7 @@
 #include "components/transformComponent.h"
 #include "components/rigidBodyComponent.h"
 #include <fstream>
+#include "core/gameresoucemanager.h"
 
 namespace FikaECS
 {
@@ -142,6 +143,44 @@ namespace FikaECS
 		js["entities"] = jsonEntities;
 
 		return js;
+	}
+
+	nlohmann::json ECSManager::serializeEditorEntities()
+	{
+		size_t size = entities->getUsedAmount();
+		nlohmann::json js = nlohmann::json::object();
+
+		nlohmann::json jsonEntities = nlohmann::json::array();
+
+		for (size_t i = 0; i < size; i++)
+		{
+			Entity& entity = (*entities)[i];
+			Transform* transform = findEntityTransform(entity);
+
+			nlohmann::json jsonEntity = entity.getSourcePrefab()->data;
+			overrideJsonEntityTransform(jsonEntity, transform->getGlobalTransform());
+			jsonEntities.push_back(jsonEntity);
+		}
+
+		js["entities"] = jsonEntities;
+
+		return js;
+	}
+
+	void ECSManager::overrideJsonEntityTransform(nlohmann::json& jsonEntity, glm::mat4& transform)
+	{
+		nlohmann::json& jsonComponent = jsonEntity["entity"]["components"];
+
+		for (auto& jsComp : jsonComponent.items())
+		{
+			unsigned int id = jsComp.value()["id"];
+			if (id == TransformComponent::componentId || id == RigidBodyComponent::componentId)
+			{
+				// Override
+				jsComp.value()["transform"] = Transform::serializeMatrix(transform);
+				return;
+			}
+		}
 	}
 
 	void ECSManager::loadEntities(const char* filePath)

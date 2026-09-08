@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include "core/filemanagement/json.h"
 
 struct Prefab;
 
@@ -22,9 +23,11 @@ namespace FikaEditor
 
 		bool loadProject();
 		void loadActivePrefab();
+		void saveLevel(const char* path);
 		void runGame();
 
 		glm::vec3 positionFromScreenSpace(glm::vec2 position);
 		void placeObject(glm::vec3 position);
+		nlohmann::json meshJsonFromPrefab(Prefab& prefab);
 	};
 }

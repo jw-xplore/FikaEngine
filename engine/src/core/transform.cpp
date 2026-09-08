@@ -175,6 +175,30 @@ glm::vec3 Transform::matrixToScale(const glm::mat4& mat)
     return scale;
 }
 
+nlohmann::json Transform::serializeMatrix(const glm::mat4& mat)
+{
+    nlohmann::json jsonMat = nlohmann::json::array();
+
+    jsonMat.push_back(mat[0][0]);
+    jsonMat.push_back(mat[0][1]);
+    jsonMat.push_back(mat[0][2]);
+    jsonMat.push_back(mat[0][3]);
+    jsonMat.push_back(mat[1][0]);
+    jsonMat.push_back(mat[1][1]);
+    jsonMat.push_back(mat[1][2]);
+    jsonMat.push_back(mat[1][3]);
+    jsonMat.push_back(mat[2][0]);
+    jsonMat.push_back(mat[2][1]);
+    jsonMat.push_back(mat[2][2]);
+    jsonMat.push_back(mat[2][3]);
+    jsonMat.push_back(mat[3][0]);
+    jsonMat.push_back(mat[3][1]);
+    jsonMat.push_back(mat[3][2]);
+    jsonMat.push_back(mat[3][3]);
+
+    return jsonMat;
+}
+
 nlohmann::json Transform::serialize()
 {
     nlohmann::json jsonMat = nlohmann::json::array();

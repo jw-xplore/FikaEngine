@@ -17,20 +17,12 @@ ContentManager::ContentManager()
     MeshBuilder().loadMesh("assets/models/Sheep.obj").build(*customMesh);
 
     // Pawn
-    //MeshResource* pawnMesh = gResourceManager->reserveMesh("pawn");
-    //MeshBuilder().loadMesh("assets/models/pawn.obj").build(*pawnMesh);
     MeshResource* pawnMesh = gResourceManager->loadMesh("assets/models/pawn.obj", "pawn");
-
-    //customTexture = &gResourceManager->reseveTexture("customTex1");
-    //customTexture->loadTexture("assets/textures/pawn.jpg");
     customTexture = gResourceManager->loadTexture("assets/textures/pawn.jpg", "customTex1");
 
     // Crate
-    MeshResource* crateMesh = gResourceManager->reserveMesh("crate");
-    MeshBuilder().loadMesh("assets/models/crate.obj").build(*crateMesh);
-
-    TextureResource* crateTex = &gResourceManager->reseveTexture("crate");
-    crateTex->loadTexture("assets/textures/crate.jpg");
+    gResourceManager->loadMesh("assets/models/crate.obj", "crate");
+    gResourceManager->loadTexture("assets/textures/crate.jpg", "crate");
 
     gResourceManager->debugPrint();
 }

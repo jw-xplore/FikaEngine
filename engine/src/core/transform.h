@@ -40,6 +40,7 @@ public:
 	static glm::vec3 matrixToPosition(const glm::mat4& mat);
 	static glm::vec3 matrixToRotation(const glm::mat4& mat);
 	static glm::vec3 matrixToScale(const glm::mat4& mat);
+	static nlohmann::json serializeMatrix(const glm::mat4& mat);
 
 	nlohmann::json serialize();
 	void deserialize(nlohmann::json js);

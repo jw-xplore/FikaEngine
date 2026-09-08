@@ -51,7 +51,9 @@ namespace FikaEditor
 
         if (ImGui::Button("Save"))
         {
+            saveLevel(levelPath);
             //SystemsHolder::getGameObjectManager()->serialize(levelPath);
+            //nlohmann::json level = SystemsHolder::getECSManager()->serializeEditorEntities();
         }
 
         ImGui::End();
@@ -80,27 +82,33 @@ namespace FikaEditor
 
     bool Editor::loadProject()
     {
-        std::string path = workingDirectory;
-        path += "assets/textures/pawn.jpg";
-
-        // Read file
-        try
-        {
-            std::cout << "File found: " << path << "\n";
-        }
-        catch (std::ifstream::failure e)
-        {
-            std::cout << "Failed to load: " << path << "\n";
-            return false;
-        }
-
         loadActivePrefab();
+
         return true;
     }
 
     void Editor::loadActivePrefab()
     {
+        if (!activePrefab)
+            activePrefab = new Prefab();
+
         SystemsHolder::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
+    }
+
+    void Editor::saveLevel(const char* path)
+    {
+        nlohmann::json level = SystemsHolder::getECSManager()->serializeEditorEntities();
+
+        std::ofstream file(path);
+
+        if (!file.is_open())
+        {
+            std::cout << "Can't serialize game objects as levels folder/file is not found \n";
+            return;
+        }
+
+        file << std::setw(4) << level;
+        file.close();
     }
 
 	void Editor::runGame()
@@ -163,14 +171,44 @@ namespace FikaEditor
     {
         GResourceManager* gResourceManager = SystemsHolder::getGResourceManager();
         ShaderResource& basicShader = gResourceManager->getShader("basic");
-        MeshResource& customMesh = gResourceManager->getMesh("cube");
+        //MeshResource& customMesh = gResourceManager->getMesh("cube");
 
         FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
+        entity->setSourcePrefab(activePrefab);
 
         TransformComponent* transform = dynamic_cast<TransformComponent*>(SystemsHolder::getECSManager()->addComponent(entity, TransformComponent::componentId));
         transform->getTransform()->setPosition(position);
 
+        // Translate mesh instance 
+        nlohmann::json meshCmpJson = meshJsonFromPrefab(*activePrefab);
+
+        std::string meshPath = meshCmpJson["meshPath"];
+        assert(meshPath != "");
+        meshPath = workingDirectory + meshPath;
+        MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
+
+        std::string texturePath = meshCmpJson["texturePath"];
+        assert(texturePath != "");
+        texturePath = workingDirectory + texturePath;
+        TextureResource* textureRes = gResourceManager->loadTexture(texturePath.c_str(), activePrefab->name.c_str());
+
         MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(SystemsHolder::getECSManager()->addComponent(entity, MeshComponent::componentId));
-        meshCmp->setup(customMesh, basicShader, nullptr);
+        meshCmp->setup(*meshRes, basicShader, nullptr);
+        meshCmp->setTexture(*textureRes);
+    }
+
+    nlohmann::json Editor::meshJsonFromPrefab(Prefab& prefab)
+    {
+        nlohmann::json entityJson = activePrefab->data["entity"];
+        nlohmann::json componentJson = entityJson["components"];
+
+        for (auto& jsComp : componentJson.items())
+        {
+            unsigned int id = jsComp.value()["id"];
+            if (id == MeshComponent::componentId)
+                return jsComp.value();
+        }
+
+        return "";
     }
 }
