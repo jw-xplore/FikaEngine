@@ -20,8 +20,11 @@ namespace FikaEditor
 		char projectPrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/";
 		std::vector<Prefab*> projectPrefabs;
 
+		glm::mat4 placingTransform = glm::mat4(1.95);;
+
 		void debugUI(GLFWwindow* window);
 	public:
+		Editor();
 		void update();
 
 		bool loadProject();

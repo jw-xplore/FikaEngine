@@ -14,6 +14,11 @@
 
 namespace FikaEditor
 {
+    Editor::Editor()
+    {
+
+    }
+
     void Editor::debugUI(GLFWwindow* window)
     {
         // TODO: Cleanup and make into general purpose
@@ -70,12 +75,15 @@ namespace FikaEditor
         selectPrefab();
         debugUI(glfwGetCurrentContext());
 
+        glm::vec3 pos = positionFromScreenSpace(glm::vec2(0, 0));
+        placingTransform[3] = glm::vec4(pos.x, pos.y, pos.z, 1);
+        //glm::translate(placingTransform, pos);
+
         // Placing
         Input::Mouse* mouse = Input::getDefaultMouse();
 
         if (mouse->pressed[Input::Mouse::RightButton])
         {
-            glm::vec3 pos = positionFromScreenSpace(glm::vec2(0,0));
             if (pos == glm::vec3(-1))
                 return;
 
@@ -85,6 +93,9 @@ namespace FikaEditor
 
     bool Editor::loadProject()
     {
+        GResourceManager* gResMgnr = SystemsHolder::getGResourceManager();
+        SystemsHolder::getMainRenderer()->addMeshInstance(&placingTransform, gResMgnr->getMesh("cube"), gResMgnr->getShader("basic"));
+
         loadActivePrefab();
 
         return true;
@@ -173,7 +184,13 @@ namespace FikaEditor
         if (t < 0)
             return glm::vec3(-1);
 
-        return pos + t * dir;
+        // Target rounding
+        glm::vec3 target = pos + t * dir;
+        target.x = roundf(target.x * 2) / 2;
+        target.y = roundf(target.y * 2) / 2;
+        target.z = roundf(target.z * 2) / 2;
+
+        return target;
     }
 
     void Editor::placeObject(glm::vec3 position)
@@ -194,7 +211,9 @@ namespace FikaEditor
         std::string meshPath = meshCmpJson["meshPath"];
         assert(meshPath != "");
         meshPath = workingDirectory + meshPath;
-        MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
+        MeshResource* meshRes = gResourceManager->reserveMesh(activePrefab->name.c_str());
+        MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
+        //MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
 
         std::string texturePath = meshCmpJson["texturePath"];
         assert(texturePath != "");

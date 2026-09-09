@@ -264,16 +264,16 @@ MeshResource* GResourceManager::loadMesh(const char* path, const char* tag)
 
 	meshes.push_back(MeshResource());
 	int id = meshes.size() - 1;
-	MeshResource& mesh = meshes[id];
+	MeshResource* mesh = &meshes[id];
 
 	// Load
-	MeshBuilder().loadMesh(path).build(mesh);
-	loadedMeshes[path] = &mesh;
+	MeshBuilder().loadMesh(path).build(*mesh);
+	loadedMeshes[path] = mesh;
 	meshHandles[tag] = id;
-	mesh.sourcePath = path;
-	mesh.tag = tag;
+	mesh->sourcePath = path;
+	mesh->tag = tag;
 
-	return &mesh;
+	return mesh;
 }
 
 TextureResource* GResourceManager::loadTexture(const char* path, const char* tag)
