@@ -2,26 +2,41 @@
 #include "glm/glm.hpp"
 #include <memory>
 #include "core/memorymanagement.h"
+#include "core/filemanagement/json.h"
 
 struct Body;
 
-struct Sphere
+enum EColliderShapes
+{
+	None = 0,
+	ColliderShapeSphere,
+	ColliderShapeBox,
+	ColliderShapeCapsule
+};
+
+struct ColliderShape
 {
 	Body* body;
+	virtual nlohmann::json serialize();
+};
+
+struct Sphere : public ColliderShape
+{
 	float radius;
+	nlohmann::json serialize() override;
 };
 
-struct Box
+struct Box : public ColliderShape
 {
-	Body* body;
 	glm::vec3 volume;
+	nlohmann::json serialize() override;
 };
 
-struct Capsule
+struct Capsule : public ColliderShape
 {
-	Body* body;
 	float radius;
 	float height;
+	nlohmann::json serialize() override;
 };
 
 struct Ray

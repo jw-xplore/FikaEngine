@@ -43,8 +43,10 @@ FikaECS::Entity& ContentManager::createPlayer(glm::vec3 position)
 
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
-    rb->setSphereCollider(1);
+    //rb->setSphereCollider(1);
+    rb->setCapsuleCollider(0.5, 2);
     rb->getTransform()->setPosition(position);
+    rb->setLayers(2);
 
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
@@ -68,11 +70,12 @@ FikaECS::Entity& ContentManager::createWall(glm::vec3 position, bool solid)
 
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
-    rb->setSphereCollider(1);
+    rb->setBoxCollider(glm::vec3(2));
     rb->setType(EBodyType::Static);
     if (!solid)
         rb->setType(EBodyType::Kinematic);
     rb->getTransform()->setPosition(position);
+    rb->setInteractiveLayers(3);
 
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));

@@ -7,6 +7,8 @@
 #include "core/memorymanagement.h"
 #include "core/transform.h"
 
+struct ColliderShape;
+
 enum EBodyType
 {
 	Static,
@@ -32,6 +34,7 @@ struct Body
 	glm::vec3 velocity = glm::vec3(0.0);
 	EAxes freezeMovement = (EAxes)0;
 	EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
+	ColliderShape* shape;
 
 	// Callbacks
 	std::function<void(Body&)> onEnter;

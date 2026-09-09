@@ -27,7 +27,7 @@ void start()
     // Test entity cmp setup
     contentManager = new ContentManager();
     //FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
-    //FikaECS::Entity& wall = contentManager->createWall(glm::vec3(0,0,0), false);
+    //FikaECS::Entity& wall = contentManager->createWall(glm::vec3(0,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
     //SystemsHolder::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");

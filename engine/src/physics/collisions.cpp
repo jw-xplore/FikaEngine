@@ -9,6 +9,38 @@
 #include <iostream>
 #include <limits>
 
+nlohmann::json ColliderShape::serialize()
+{
+	return nullptr;
+}
+
+nlohmann::json Sphere::serialize()
+{
+	nlohmann::json js = nlohmann::json::object();
+	js["type"] = EColliderShapes::ColliderShapeSphere;
+	js["radius"] = radius;
+	return js;
+}
+
+nlohmann::json Box::serialize()
+{
+	nlohmann::json js = nlohmann::json::object();
+	js["type"] = EColliderShapes::ColliderShapeBox;
+	js["x"] = volume.x;
+	js["y"] = volume.y;
+	js["z"] = volume.z;
+	return js;
+}
+
+nlohmann::json Capsule::serialize()
+{
+	nlohmann::json js = nlohmann::json::object();
+	js["type"] = EColliderShapes::ColliderShapeCapsule;
+	js["radius"] = radius;
+	js["height"] = height;
+	return js;
+}
+
 CollisionSolver::CollisionSolver()
 {
 	sphereColliders = new PoolAllocator<Sphere>("Sphere colliders", 256);
@@ -117,6 +149,8 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	collider->body = &body;
 	collider->radius = radius;
 
+	body.shape = collider;
+
 	// Debug
 	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
 	MeshResource& cubeMesh = gResourceManager->getMesh("sphere");
@@ -135,6 +169,8 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	Box* collider = boxColliders->allocate();
 	collider->body = &body;
 	collider->volume = volume;
+
+	body.shape = collider;
 
 	// Debug
 	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
@@ -155,6 +191,8 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	collider->body = &body;
 	collider->radius = radius;
 	collider->height = height;
+
+	body.shape = collider;
 
 	// Debug
 	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();

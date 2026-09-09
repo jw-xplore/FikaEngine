@@ -33,6 +33,10 @@ nlohmann::json RigidBodyComponent::serialize()
 	js["id"] = componentId;
 	js["transform"] = body->transform.serialize();
 	js["type"] = body->type;
+	js["shape"] = body->shape->serialize();
+	js["tag"] = body->tag;
+	js["layers"] = body->layers;
+	js["interactiveLayers"] = body->interactiveLayers;
 
 	return js;
 }
@@ -41,6 +45,21 @@ void RigidBodyComponent::deserialize(nlohmann::json js)
 {
 	body->type = js["type"];
 	body->transform.deserialize(js["transform"]);
+	body->tag = js["tag"];
+	body->layers = js["layers"];
+	body->interactiveLayers = js["interactiveLayers"];
+
+	int shapeType = js["shape"]["type"];
+	nlohmann::json shapeJson = js["shape"];
+
+	CollisionSolver& collisions = SystemsHolder::getPhysicsSolver()->getCollisionSolver();
+
+	switch (shapeType)
+	{
+	case EColliderShapes::ColliderShapeSphere: collisions.addSphereCollider(*body, shapeJson["radius"]); break;
+	case EColliderShapes::ColliderShapeBox: collisions.addBoxCollider(*body, glm::vec3(shapeJson["x"], shapeJson["y"], shapeJson["z"])); break;
+	case EColliderShapes::ColliderShapeCapsule: collisions.addCapsuleCollider(*body, shapeJson["radius"], shapeJson["height"]); break;
+	}
 }
 
 Transform* RigidBodyComponent::getTransform()
@@ -55,9 +74,29 @@ void RigidBodyComponent::setSphereCollider(float radius)
 	//SystemsHolder::getPhysicsSolver()->getCollisionSolver().addCapsuleCollider(*body, 0.5, 1);
 }
 
+void RigidBodyComponent::setBoxCollider(glm::vec3 volume)
+{
+	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addBoxCollider(*body, volume);
+}
+
+void RigidBodyComponent::setCapsuleCollider(float radius, float height)
+{
+	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addCapsuleCollider(*body, radius, height);
+}
+
 void RigidBodyComponent::setType(EBodyType type)
 {
 	body->type = type;
+}
+
+void RigidBodyComponent::setLayers(unsigned int layers)
+{
+	body->layers = layers;
+}
+
+void RigidBodyComponent::setInteractiveLayers(unsigned int layers)
+{
+	body->interactiveLayers = layers;
 }
 
 //-------------------------------------------------------

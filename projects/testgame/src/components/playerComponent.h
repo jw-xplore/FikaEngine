@@ -17,7 +17,7 @@ class PlayerComponent : public FikaECS::ECSComponent
 {
 private:
 	Body* body;
-	float speed = 200;
+	float speed = 500;
 	glm::vec3 lastDirection = glm::vec3(-1, 0, 0);
 
 public:

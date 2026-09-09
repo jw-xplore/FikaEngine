@@ -1,4 +1,5 @@
 #pragma once
+#include <glm/glm.hpp>
 #include "core/ecs/ecscomponent.h"
 #include "core/ecs/ecscomponentupdater.h"
 #include "core/memorymanagement.h"
@@ -31,7 +32,11 @@ public:
 	Body* getBody() { return body; }
 	Transform* getTransform();
 	void setSphereCollider(float radius);
+	void setBoxCollider(glm::vec3 volume);
+	void setCapsuleCollider(float radius, float height);
 	void setType(EBodyType type);
+	void setLayers(unsigned int layers);
+	void setInteractiveLayers(unsigned int layers);
 };
 
 //-------------------------------------------------------
