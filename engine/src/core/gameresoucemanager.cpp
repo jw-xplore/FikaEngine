@@ -55,6 +55,27 @@ void GameResourceManager::loadPrefab(const char* path, Prefab& out)
 	out.data = js;
 }
 
+Prefab* GameResourceManager::getLoadedPrefab(std::string path)
+{
+	if (loadedPrefabs.find(path) == loadedPrefabs.end())
+		return nullptr;
+
+	return &loadedPrefabs[path];
+}
+
+std::vector<Prefab*> GameResourceManager::getLoadedPrefabsList()
+{
+	std::vector<Prefab*> prefabs;
+	std::map<std::string, Prefab>::iterator it;
+
+	for (it = loadedPrefabs.begin(); it != loadedPrefabs.end(); it++)
+	{
+		prefabs.push_back(&it->second);
+	}
+
+	return prefabs;
+}
+
 void GameResourceManager::loadFolderPrefabs(const char* path)
 {
 	for (const auto& entry : std::filesystem::directory_iterator(path))
@@ -63,6 +84,6 @@ void GameResourceManager::loadFolderPrefabs(const char* path)
 		std::string prefPath = entry.path().string();
 		loadPrefab(prefPath.c_str(), pref);
 
-		loadedPrefabs[path] = pref;
+		loadedPrefabs[prefPath] = pref;
 	}
 }

@@ -14,8 +14,11 @@ namespace FikaEditor
 		char workingDirectory[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/";
 		char executable[256] = "testgame.exe";
 		char levelPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/levels/testLevel.json";
-		char activePrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/wall.json";
+		//char activePrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/wall.json";
+
 		Prefab* activePrefab;
+		char projectPrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/";
+		std::vector<Prefab*> projectPrefabs;
 
 		void debugUI(GLFWwindow* window);
 	public:
@@ -29,5 +32,7 @@ namespace FikaEditor
 		glm::vec3 positionFromScreenSpace(glm::vec2 position);
 		void placeObject(glm::vec3 position);
 		nlohmann::json meshJsonFromPrefab(Prefab& prefab);
+
+		void selectPrefab();
 	};
 }

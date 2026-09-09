@@ -30,5 +30,7 @@ public:
 	void init();
 	void makePrefab(FikaECS::Entity& entity, const char* path);
 	void loadPrefab(const char* path, Prefab& out);
+	Prefab* getLoadedPrefab(std::string path);
+	std::vector<Prefab*> getLoadedPrefabsList();
 	void loadFolderPrefabs(const char* path);
 };

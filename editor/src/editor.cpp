@@ -7,6 +7,8 @@
 #include "imgui_impl_opengl3.h"
 #include "core/systemsHolder.h"
 #include "core/gameresoucemanager.h"
+#include "platform/inputs/inputdevices.h"
+#include "platform/inputs/inputhandler.h"
 
 #include "fikaEngine.h"
 
@@ -38,7 +40,7 @@ namespace FikaEditor
         ImGui::Begin("Fika Editor");
         ImGui::InputText("Directory", workingDirectory, 256);
         ImGui::InputText("Executable", executable, 256);
-        ImGui::InputText("Prefab", activePrefabPath, 256);
+        ImGui::InputText("Prefabs", projectPrefabPath, 256);
 
         // Run game
         if (ImGui::Button("Run"))
@@ -65,6 +67,7 @@ namespace FikaEditor
     void Editor::update()
     {
         // UI
+        selectPrefab();
         debugUI(glfwGetCurrentContext());
 
         // Placing
@@ -92,7 +95,13 @@ namespace FikaEditor
         if (!activePrefab)
             activePrefab = new Prefab();
 
-        SystemsHolder::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
+        //SystemsHolder::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
+
+        // Load prefabs
+        SystemsHolder::getGameResourceManager()->loadFolderPrefabs(projectPrefabPath);
+        projectPrefabs = SystemsHolder::getGameResourceManager()->getLoadedPrefabsList();
+
+        activePrefab = projectPrefabs[0];
     }
 
     void Editor::saveLevel(const char* path)
@@ -210,5 +219,15 @@ namespace FikaEditor
         }
 
         return "";
+    }
+
+    void Editor::selectPrefab()
+    {
+        Input::Keyboard* keyboard = Input::getDefaultKeyboard();
+
+        if (keyboard->held[Input::Key::Key1])
+            activePrefab = projectPrefabs[0];
+        if (keyboard->held[Input::Key::Key2])
+            activePrefab = projectPrefabs[1];
     }
 }
