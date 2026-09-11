@@ -1,4 +1,4 @@
-#include "fikaEngine.h"
+#include "fika_engine.h"
 #include <fstream>
 #include <string>
 #include <iostream>
@@ -14,7 +14,7 @@ FikaEditor::Editor editor;
 
 void start()
 {
-    CameraManager* cameraManager = SystemsHolder::getCameraManager();
+    CameraManager* cameraManager = FikaServers::getCameraManager();
     //cameraManager->useFreeCamera(true);
     cameraManager->getMainCamera()->move(glm::vec3(0, 2, 6), glm::vec3(0,0,-1));
 
@@ -34,7 +34,7 @@ void start()
 
 void update(float dt)
 {
-    Renderer* debugRender = SystemsHolder::getDebugRenderer();
+    Renderer* debugRender = FikaServers::getDebugRenderer();
     glm::vec3 start = glm::vec3(0);
 
     debugRender->addLine(Line(start, start + glm::vec3(1, 0, 0), glm::vec3(1, 0, 0)));

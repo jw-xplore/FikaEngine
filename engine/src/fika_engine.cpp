@@ -1,56 +1,41 @@
-#include "fikaEngine.h"
+#include "fika_engine.h"
 
 namespace FikaEngine
 {
-    float deltaTime = 1;
-    Input::Keyboard* keyboard;
-
-    Renderer* renderer;
-    Renderer* debugRenderer;
-    PhysicsSolver* physicsSolver;
-    CameraManager* cameraManager;
-    GResourceManager* gResourceManager;
-
     /**
      * @brief Load in all default resources like cube meshes, basic shaders, engine data, etc. 
      */
-    void setup()
+    void Game::setup()
 	{
         // Systems
-        SystemsHolder* systemsHolder = SystemsHolder::getInstance();
+        FikaServers* systemsHolder = FikaServers::getInstance();
         systemsHolder->init();
 
-        renderer = systemsHolder->getMainRenderer();
-        debugRenderer = SystemsHolder::getDebugRenderer();
-        physicsSolver = systemsHolder->getPhysicsSolver();
-        cameraManager = systemsHolder->getCameraManager();
-        gResourceManager = systemsHolder->getGResourceManager();
-
         // Setup and load basic resources
-        gResourceManager->init();
+        FikaServers::getGResourceManager().init();
 
-        renderer->init();
-        debugRenderer->init();
+        FikaServers::getMainRenderer().init();
+        FikaServers::getDebugRenderer().init();
 
         // Meshes
-        MeshResource* cubeMesh = gResourceManager->reserveMesh("cube");
+        MeshResource* cubeMesh = FikaServers::getGResourceManager().reserveMesh("cube");
         MeshBuilder().createCube(1).build(*cubeMesh);
 
-        MeshResource* sphereMesh = gResourceManager->reserveMesh("sphere");
+        MeshResource* sphereMesh = FikaServers::getGResourceManager().reserveMesh("sphere");
         MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);
 
-        MeshResource* cylinderMesh = gResourceManager->reserveMesh("cylinder");
+        MeshResource* cylinderMesh = FikaServers::getGResourceManager().reserveMesh("cylinder");
         MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
 
         // Shaders
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
-		gResourceManager->storeShader("basic", basicShader);
+        FikaServers::getGResourceManager().storeShader("basic", basicShader);
 
         // Keyboard
-        keyboard = Input::getDefaultKeyboard();
+        m_Keyboard = Input::getDefaultKeyboard();
 	}
 
-    void debugUI(GLFWwindow* window)
+    void Game::debugUI(GLFWwindow* window)
     {
         // TODO: Cleanup and make into general purpose
         ImGuiIO& io = ImGui::GetIO();
@@ -74,16 +59,17 @@ namespace FikaEngine
         ImGui::NewFrame();
         
         ImGui::Begin("Debug");
-        int fps = 1.0f / deltaTime;
+        int fps = 1.0f / m_DeltaTime;
         std::string strFps = "FPS: " + std::to_string(fps);
         ImGui::Text(strFps.c_str());
+        ImGui::Checkbox("V-Sync", &m_EnableVSync);
         ImGui::End();
         
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void run(void (*startFnc)(), void (*updateFnc)(float))
+    void Game::run(void (*startFnc)(), void (*updateFnc)(float))
     {
         Window window;
         float lastTime = 0;
@@ -93,11 +79,10 @@ namespace FikaEngine
 
         setup();
         glEnable(GL_DEPTH_TEST);
-        //glfwSwapInterval(0); // Disable v-sync for testing
 
         // Setup cameras
-        cameraManager->init(window);
-        Camera* mainCamera = cameraManager->getMainCamera();
+        FikaServers::getCameraManager().init(window);
+        Camera* mainCamera = FikaServers::getCameraManager().getMainCamera();
 
         // Custom user start and setup
         startFnc();
@@ -120,10 +105,13 @@ namespace FikaEngine
             float now = glfwGetTime();
             float dt = now - lastTime;
             if (dt > 1.0)
-                dt = deltaTime;
+                dt = m_DeltaTime;
 
-            deltaTime = dt;
+            m_DeltaTime = dt;
             lastTime = now;
+
+            // V-Sync
+            glfwSwapInterval(m_EnableVSync);
 
             // Poll and clear
             window.poll();
@@ -133,25 +121,25 @@ namespace FikaEngine
             updateFnc(dt);
 
             // Free cam update
-            if (keyboard->pressed[Input::Key::P])
+            if (m_Keyboard->pressed[Input::Key::P])
             {
-                cameraManager->useFreeCamera(!cameraManager->isUsingFreeCamera());
-                mainCamera = cameraManager->getActiveCamera();
+                FikaServers::getCameraManager().useFreeCamera(!FikaServers::getCameraManager().isUsingFreeCamera());
+                mainCamera = FikaServers::getCameraManager().getActiveCamera();
             }
 
-            if (cameraManager->isUsingFreeCamera())
-                cameraManager->getFreeCamera()->flycamUpdate(dt);
+            if (FikaServers::getCameraManager().isUsingFreeCamera())
+                FikaServers::getCameraManager().getFreeCamera()->flycamUpdate(dt);
 
             // Base game update
-            SystemsHolder::getECSManager()->update(dt);
-            physicsSolver->update(dt);
-            renderer->render(mainCamera->getProjection());
+            FikaServers::getECSManager().update(dt);
+            FikaServers::getPhysicsSolver().update(dt);
+            FikaServers::getMainRenderer().render(mainCamera->getProjection());
 
             // Debug
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            debugRenderer->render(mainCamera->getProjection());
+            FikaServers::getDebugRenderer().render(mainCamera->getProjection());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            //debugUI(window.getHandle());
+            debugUI(window.getHandle());
 
             window.swap();
         }
@@ -159,5 +147,5 @@ namespace FikaEngine
         window.destroy();
     }
 
-    float getDeltaTime() { return deltaTime; }
+    float Game::getDeltaTime() { return m_DeltaTime; }
 }

@@ -1,5 +1,5 @@
 #include "PlayerComponent.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/ecs/ecsmanager.h"
 #include "core/ecs/ecsentity.h"
 
@@ -9,8 +9,8 @@
 
 void PlayerComponent::start()
 {
-	//transform = SystemsHolder::getECSManager()->findEntityTransform(*owner);
-    RigidBodyComponent* rbCmp = static_cast<RigidBodyComponent*>(SystemsHolder::getECSManager()->findComponent(*owner, RigidBodyComponent::componentId));
+	//transform = FikaServers::getECSManager().findEntityTransform(*owner);
+    RigidBodyComponent* rbCmp = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
     body = rbCmp->getBody();
 }
 
@@ -33,11 +33,11 @@ void PlayerComponent::update(float dt)
     glm::vec3 pos = body->transform.getLocalPosition();
 
     glm::vec3 rayColor = glm::vec3(1, 0, 0);
-    bool hit = SystemsHolder::getPhysicsSolver()->getCollisionSolver().raycast(pos, lastDirection, l);
+    bool hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(pos, lastDirection, l);
     if (hit)
         rayColor = glm::vec3(0, 1, 0);
 
-    SystemsHolder::getDebugRenderer()->addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
+    FikaServers::getDebugRenderer().addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
 }
 
 nlohmann::json PlayerComponent::serialize()
@@ -67,7 +67,7 @@ void PlayerComponentUpdater::init()
 	updater->components = new PoolAllocator<PlayerComponent>("Player Components");
 	updater->targetComponentId = PlayerComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(updater);
+	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
 void PlayerComponentUpdater::update(float dt)

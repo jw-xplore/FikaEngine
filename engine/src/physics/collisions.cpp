@@ -2,7 +2,7 @@
 #include "physics.h"
 #include "core/transform.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "renderer/renderer.h"
 #include "renderer/resources/gResourceManager.h"
 #include "renderer/resources/meshInstance.h"
@@ -152,11 +152,11 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	body.shape = collider;
 
 	// Debug
-	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
-	MeshResource& cubeMesh = gResourceManager->getMesh("sphere");
-	ShaderResource& basicShader = gResourceManager->getShader("basic");
+	GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+	MeshResource& cubeMesh = gResourceManager.getMesh("sphere");
+	ShaderResource& basicShader = gResourceManager.getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
+	MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(radius);
 
 	// Return
@@ -173,11 +173,11 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	body.shape = collider;
 
 	// Debug
-	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
-	MeshResource& cubeMesh = gResourceManager->getMesh("cube");
-	ShaderResource& basicShader = gResourceManager->getShader("basic");
+	GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+	MeshResource& cubeMesh = gResourceManager.getMesh("cube");
+	ShaderResource& basicShader = gResourceManager.getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
+	MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
 	mesh->customScale = glm::vec3(volume);
 
 	// Return
@@ -195,11 +195,11 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	body.shape = collider;
 
 	// Debug
-	GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
-	MeshResource& debugMesh = gResourceManager->getMesh("cylinder");
-	ShaderResource& basicShader = gResourceManager->getShader("basic");
+	GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+	MeshResource& debugMesh = gResourceManager.getMesh("cylinder");
+	ShaderResource& basicShader = gResourceManager.getShader("basic");
 
-	MeshInstance* mesh = SystemsHolder::getDebugRenderer()->addMeshInstance(&body.transform.getGlobalTransform(), debugMesh, basicShader);
+	MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), debugMesh, basicShader);
 	mesh->customScale = glm::vec3(radius, height, radius);
 
 	return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
@@ -338,7 +338,7 @@ Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float le
 	// Hit
 	if (closestDist < std::numeric_limits<float>::max())
 	{
-		SystemsHolder::getDebugRenderer()->addLine(Line(closestOut.point, closestOut.point + closestOut.normal * 2.0f, glm::vec3(1), glm::vec3(0, 0, 1)));
+		FikaServers::getDebugRenderer().addLine(Line(closestOut.point, closestOut.point + closestOut.normal * 2.0f, glm::vec3(1), glm::vec3(0, 0, 1)));
 		return &closestOut;
 	}
 
@@ -792,7 +792,7 @@ bool CollisionSolver::overlapRaySphere(const Ray& ray, const Sphere& sphere, Con
 	if (d > dsum)
 		return false;
 
-	//SystemsHolder::getDebugRenderer()->addLine(Line(closestPoint, closestPoint + glm::vec3(0, 4, 0), glm::vec3(1)));
+	//FikaServers::getDebugRenderer().addLine(Line(closestPoint, closestPoint + glm::vec3(0, 4, 0), glm::vec3(1)));
 
 	if (out)
 	{

@@ -2,7 +2,7 @@
 #include "core/ecs/ecscomponent.h"
 #include "core/ecs/ecscomponentupdater.h"
 #include "core/memorymanagement.h"
-#include"fikaEngine.h"
+#include"fika_engine.h"
 
 struct Body;
 

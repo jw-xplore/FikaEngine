@@ -1,5 +1,5 @@
 #include "SpamComponent.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/ecs/ecsmanager.h"
 
 //-------------------------------------------------------
@@ -31,7 +31,7 @@ void SpamComponentUpdater::init()
 	updater->components = new PoolAllocator<SpamComponent>("TestCmp");
 	updater->targetComponentId = SpamComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(updater);
+	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
 void SpamComponentUpdater::update(float dt)

@@ -1,5 +1,5 @@
 #include "RigidBodyComponent.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/ecs/ecsmanager.h"
 #include "core/ecs/ecsentity.h"
 #include "physics/physics.h"
@@ -12,8 +12,8 @@
 
 void RigidBodyComponent::start()
 {
-	PhysicsSolver* physics = SystemsHolder::getPhysicsSolver();
-	body = &physics->addBody();
+	PhysicsSolver& physics = FikaServers::getPhysicsSolver();
+	body = &physics.addBody();
 
 	/*
 	// Callbacks
@@ -52,7 +52,7 @@ void RigidBodyComponent::deserialize(nlohmann::json js)
 	int shapeType = js["shape"]["type"];
 	nlohmann::json shapeJson = js["shape"];
 
-	CollisionSolver& collisions = SystemsHolder::getPhysicsSolver()->getCollisionSolver();
+	CollisionSolver& collisions = FikaServers::getPhysicsSolver().getCollisionSolver();
 
 	switch (shapeType)
 	{
@@ -69,19 +69,19 @@ Transform* RigidBodyComponent::getTransform()
 
 void RigidBodyComponent::setSphereCollider(float radius)
 {
-	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addSphereCollider(*body, radius);
-	//SystemsHolder::getPhysicsSolver()->getCollisionSolver().addBoxCollider(*body, glm::vec3(radius * 2));
-	//SystemsHolder::getPhysicsSolver()->getCollisionSolver().addCapsuleCollider(*body, 0.5, 1);
+	FikaServers::getPhysicsSolver().getCollisionSolver().addSphereCollider(*body, radius);
+	//FikaServers::getPhysicsSolver().getCollisionSolver().addBoxCollider(*body, glm::vec3(radius * 2));
+	//FikaServers::getPhysicsSolver().getCollisionSolver().addCapsuleCollider(*body, 0.5, 1);
 }
 
 void RigidBodyComponent::setBoxCollider(glm::vec3 volume)
 {
-	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addBoxCollider(*body, volume);
+	FikaServers::getPhysicsSolver().getCollisionSolver().addBoxCollider(*body, volume);
 }
 
 void RigidBodyComponent::setCapsuleCollider(float radius, float height)
 {
-	SystemsHolder::getPhysicsSolver()->getCollisionSolver().addCapsuleCollider(*body, radius, height);
+	FikaServers::getPhysicsSolver().getCollisionSolver().addCapsuleCollider(*body, radius, height);
 }
 
 void RigidBodyComponent::setType(EBodyType type)
@@ -113,7 +113,7 @@ void RigidBodyComponentUpdater::init()
 	updater->components = new PoolAllocator<RigidBodyComponent>("RigidBody Components");
 	updater->targetComponentId = RigidBodyComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(updater);
+	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
 void RigidBodyComponentUpdater::update(float dt)

@@ -5,12 +5,12 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/gameresoucemanager.h"
 #include "platform/inputs/inputdevices.h"
 #include "platform/inputs/inputhandler.h"
 
-#include "fikaEngine.h"
+#include "fika_engine.h"
 
 namespace FikaEditor
 {
@@ -59,8 +59,8 @@ namespace FikaEditor
         if (ImGui::Button("Save"))
         {
             saveLevel(levelPath);
-            //SystemsHolder::getGameObjectManager()->serialize(levelPath);
-            //nlohmann::json level = SystemsHolder::getECSManager()->serializeEditorEntities();
+            //FikaServers::getGameObjectManager()->serialize(levelPath);
+            //nlohmann::json level = FikaServers::getECSManager().serializeEditorEntities();
         }
 
         ImGui::End();
@@ -93,8 +93,8 @@ namespace FikaEditor
 
     bool Editor::loadProject()
     {
-        GResourceManager* gResMgnr = SystemsHolder::getGResourceManager();
-        SystemsHolder::getMainRenderer()->addMeshInstance(&placingTransform, gResMgnr->getMesh("cube"), gResMgnr->getShader("basic"));
+        GResourceManager* gResMgnr = FikaServers::getGResourceManager();
+        FikaServers::getMainRenderer()->addMeshInstance(&placingTransform, gResMgnr->getMesh("cube"), gResMgnr->getShader("basic"));
 
         loadActivePrefab();
 
@@ -106,18 +106,18 @@ namespace FikaEditor
         if (!activePrefab)
             activePrefab = new Prefab();
 
-        //SystemsHolder::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
+        //FikaServers::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
 
         // Load prefabs
-        SystemsHolder::getGameResourceManager()->loadFolderPrefabs(projectPrefabPath);
-        projectPrefabs = SystemsHolder::getGameResourceManager()->getLoadedPrefabsList();
+        FikaServers::getGameResourceManager()->loadFolderPrefabs(projectPrefabPath);
+        projectPrefabs = FikaServers::getGameResourceManager()->getLoadedPrefabsList();
 
         activePrefab = projectPrefabs[0];
     }
 
     void Editor::saveLevel(const char* path)
     {
-        nlohmann::json level = SystemsHolder::getECSManager()->serializeEditorEntities();
+        nlohmann::json level = FikaServers::getECSManager().serializeEditorEntities();
 
         std::ofstream file(path);
 
@@ -174,7 +174,7 @@ namespace FikaEditor
 
     glm::vec3 Editor::positionFromScreenSpace(glm::vec2 position)
     {
-        CameraManager* cameraManager = SystemsHolder::getCameraManager();
+        CameraManager* cameraManager = FikaServers::getCameraManager();
         Camera* cam = cameraManager->getActiveCamera();
 
         glm::vec3 pos = cam->getPosition();
@@ -195,14 +195,14 @@ namespace FikaEditor
 
     void Editor::placeObject(glm::vec3 position)
     {
-        GResourceManager* gResourceManager = SystemsHolder::getGResourceManager();
+        GResourceManager* gResourceManager = FikaServers::getGResourceManager();
         ShaderResource& basicShader = gResourceManager->getShader("basic");
         //MeshResource& customMesh = gResourceManager->getMesh("cube");
 
-        FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity();
+        FikaECS::Entity* entity = FikaServers::getECSManager().addEntity();
         entity->setSourcePrefab(activePrefab);
 
-        TransformComponent* transform = dynamic_cast<TransformComponent*>(SystemsHolder::getECSManager()->addComponent(entity, TransformComponent::componentId));
+        TransformComponent* transform = dynamic_cast<TransformComponent*>(FikaServers::getECSManager().addComponent(entity, TransformComponent::componentId));
         transform->getTransform()->setPosition(position);
 
         // Translate mesh instance 
@@ -220,7 +220,7 @@ namespace FikaEditor
         texturePath = workingDirectory + texturePath;
         TextureResource* textureRes = gResourceManager->loadTexture(texturePath.c_str(), activePrefab->name.c_str());
 
-        MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(SystemsHolder::getECSManager()->addComponent(entity, MeshComponent::componentId));
+        MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(FikaServers::getECSManager().addComponent(entity, MeshComponent::componentId));
         meshCmp->setup(*meshRes, basicShader, nullptr);
         meshCmp->setTexture(*textureRes);
     }

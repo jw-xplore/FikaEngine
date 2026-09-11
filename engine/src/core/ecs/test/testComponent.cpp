@@ -1,5 +1,5 @@
 #include "testComponent.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/ecs/ecsmanager.h"
 #include <iostream>
 
@@ -32,7 +32,7 @@ void TestCmpUpdater::init()
 	updater->components = new PoolAllocator<TestComponent>("TestCmp");
 	updater->targetComponentId = TestComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(updater);
+	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
 void TestCmpUpdater::update(float dt)

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <fikaEngine.h>
+#include <fika_engine.h>
 #include <fstream>
 
 #include "contentManager.h"
@@ -12,8 +12,7 @@ ContentManager* contentManager;
 void start()
 {
     // Setup camera
-    SystemsHolder* systemsHolder = SystemsHolder::getInstance();
-    systemsHolder->getCameraManager()->getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
+    FikaServers::getCameraManager().getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
 
     // Input mapping
     InputMapping::GetInstance();
@@ -26,32 +25,30 @@ void start()
    
     // Test entity cmp setup
     contentManager = new ContentManager();
-    //FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
-    //FikaECS::Entity& wall = contentManager->createWall(glm::vec3(0,0,0), true);
+    FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
+    FikaECS::Entity& wall = contentManager->createWall(glm::vec3(2,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
-    //SystemsHolder::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");
-    //SystemsHolder::getGameResourceManager()->makePrefab(wall, "assets/prefabs/wall.json");
+    //FikaServers::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");
+    //FikaServers::getGameResourceManager()->makePrefab(wall, "assets/prefabs/wall.json");
 
-    SystemsHolder::getECSManager()->loadEntities("assets/levels/testLevel.json");
+    //FikaServers::getECSManager().loadEntities("assets/levels/testLevel.json");
 
-    // SystemsHolder::getECSManager()->loadEntities("entitiesTest.json");
+    // FikaServers::getECSManager().loadEntities("entitiesTest.json");
     Prefab playerPref;
-    //SystemsHolder::getGameResourceManager()->loadPrefab("assets/prefabs/player.json", playerPref);
-    //SystemsHolder::getECSManager()->addEntityFromJson(playerPref.data);
+    //FikaServers::getGameResourceManager()->loadPrefab("assets/prefabs/player.json", playerPref);
+    //FikaServers::getECSManager().addEntityFromJson(playerPref.data);
 
-    /*
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 100; i++)
     {
         int x = rand() % 10;
         int z = rand() % 10;
         contentManager->createWall(glm::vec3(x, 0, z), false);
     }
-    */
 
     // Test saving
     /*
-    nlohmann::json entitiesJson = SystemsHolder::getECSManager()->serializeEntities();
+    nlohmann::json entitiesJson = FikaServers::getECSManager().serializeEntities();
 
     std::ofstream file("entitiesTest.json");
 
@@ -73,5 +70,6 @@ void update(float dt)
 
 int main()
 {
-    FikaEngine::run(start, update);
+    FikaEngine::Game game;
+    game.run(start, update);
 }

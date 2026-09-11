@@ -1,5 +1,5 @@
 #include "TransformComponent.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/ecs/ecsmanager.h"
 
 //-------------------------------------------------------
@@ -36,7 +36,7 @@ void TransformComponentUpdater::init()
 	updater->components = new PoolAllocator<TransformComponent>("Transform Components");
 	updater->targetComponentId = TransformComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(updater);
+	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
 void TransformComponentUpdater::update(float dt)

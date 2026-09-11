@@ -6,8 +6,8 @@
 
 ContentManager::ContentManager()
 {
-    gResourceManager = SystemsHolder::getGResourceManager();
-    ecsManager = SystemsHolder::getECSManager();
+    gResourceManager = &FikaServers::getGResourceManager();
+    ecsManager = &FikaServers::getECSManager();
 
     // Setup resources
     cubeMesh = &gResourceManager->getMesh("cube");
@@ -34,12 +34,12 @@ ContentManager::~ContentManager()
 
 FikaECS::Entity& ContentManager::createPlayer(glm::vec3 position)
 {
-    GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
-    MeshResource& customMesh = gResourceManager->getMesh("pawn");
-    TextureResource& customTexture = gResourceManager->getTexture("customTex1");
-    ShaderResource& basicShader = gResourceManager->getShader("basic");
+    GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+    MeshResource& customMesh = gResourceManager.getMesh("pawn");
+    TextureResource& customTexture = gResourceManager.getTexture("customTex1");
+    ShaderResource& basicShader = gResourceManager.getShader("basic");
 
-    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity("player");
+    FikaECS::Entity* entity = FikaServers::getECSManager().addEntity("player");
 
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
@@ -61,12 +61,12 @@ FikaECS::Entity& ContentManager::createPlayer(glm::vec3 position)
 
 FikaECS::Entity& ContentManager::createWall(glm::vec3 position, bool solid)
 {
-    GResourceManager* gResourceManager = SystemsHolder::getInstance()->getGResourceManager();
-    MeshResource& customMesh = gResourceManager->getMesh("crate");
-    TextureResource& customTexture = gResourceManager->getTexture("crate");
-    ShaderResource& basicShader = gResourceManager->getShader("basic");
+    GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+    MeshResource& customMesh = gResourceManager.getMesh("crate");
+    TextureResource& customTexture = gResourceManager.getTexture("crate");
+    ShaderResource& basicShader = gResourceManager.getShader("basic");
 
-    FikaECS::Entity* entity = SystemsHolder::getECSManager()->addEntity("wall");
+    FikaECS::Entity* entity = FikaServers::getECSManager().addEntity("wall");
 
     // RB
     RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));

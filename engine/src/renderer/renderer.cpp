@@ -1,5 +1,5 @@
 #include "renderer.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "resources/gResourceManager.h"
 #include "resources/meshBuilder.h"
 #include "resources/meshInstance.h"
@@ -18,12 +18,12 @@ Renderer::~Renderer()
 void Renderer::init()
 {
 	// Lines shader
-	SystemsHolder* systems = SystemsHolder::getInstance();
-	GResourceManager* gResMngr = systems->getGResourceManager();
+	FikaServers* systems = FikaServers::getInstance();
+	GResourceManager& gResMngr = systems->getGResourceManager();
 	ShaderResource shader = ShaderResource("assets/common/shaders/line.vert", "assets/common/shaders/line.frag");
-	int shaderID = gResMngr->storeShader("Line", shader);
+	int shaderID = gResMngr.storeShader("Line", shader);
 
-	linesData.shader = &gResMngr->getShader(shaderID);
+	linesData.shader = &gResMngr.getShader(shaderID);
 
 	// Setup lines buffer
 	linesData.lines = new PoolAllocator<Line>("Lines", MAX_MESHES);

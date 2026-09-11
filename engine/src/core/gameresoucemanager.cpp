@@ -1,7 +1,7 @@
 #include "gameresoucemanager.h"
 #include <fstream>
 #include "ecs/ecsmanager.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include <iostream>
 
 GameResourceManager::GameResourceManager()
@@ -16,7 +16,7 @@ GameResourceManager::~GameResourceManager()
 
 void GameResourceManager::init()
 {
-	ecsManager = SystemsHolder::getECSManager();
+	ecsManager = &FikaServers::getECSManager();
 }
 
 void GameResourceManager::makePrefab(FikaECS::Entity& entity, const char* path)

@@ -1,5 +1,5 @@
 #include "MeshComponent.h"
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/ecs/ecsmanager.h"
 #include "core/ecs/ecsentity.h"
 #include "core/transform.h"
@@ -13,7 +13,7 @@
 
 void MeshComponent::start()
 {
-	transform = SystemsHolder::getECSManager()->findEntityTransform(*owner);
+	transform = FikaServers::getECSManager().findEntityTransform(*owner);
 	assert(transform);
 }
 
@@ -40,11 +40,11 @@ nlohmann::json MeshComponent::serialize()
 void MeshComponent::deserialize(nlohmann::json js)
 {
 	std::string meshStr = js["meshTag"];
-	MeshResource& mesh = SystemsHolder::getGResourceManager()->getMesh(meshStr);
+	MeshResource& mesh = FikaServers::getGResourceManager().getMesh(meshStr);
 	std::string texStr = js["textureTag"];
-	TextureResource& texture = SystemsHolder::getGResourceManager()->getTexture(texStr);
+	TextureResource& texture = FikaServers::getGResourceManager().getTexture(texStr);
 	std::string shaderStr = js["shaderTag"];
-	ShaderResource& shader = SystemsHolder::getGResourceManager()->getShader(shaderStr);
+	ShaderResource& shader = FikaServers::getGResourceManager().getShader(shaderStr);
 
 	setup(mesh, shader, &texture);
 	setTexture(texture);
@@ -52,7 +52,7 @@ void MeshComponent::deserialize(nlohmann::json js)
 
 void MeshComponent::setup(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 {
-	instance = SystemsHolder::getInstance()->getMainRenderer()->addMeshInstance(&transform->getGlobalTransform(), meshRes, shader, texture);
+	instance = FikaServers::getMainRenderer().addMeshInstance(&transform->getGlobalTransform(), meshRes, shader, texture);
 }
 
 //-------------------------------------------------------
@@ -69,7 +69,7 @@ void MeshComponentUpdater::init()
 	updater->components = new PoolAllocator<MeshComponent>("Mesh Components");
 	updater->targetComponentId = MeshComponent::componentId;
 
-	SystemsHolder::getECSManager()->registerUpdaters(updater);
+	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
 void MeshComponentUpdater::update(float dt)

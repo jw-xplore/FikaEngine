@@ -10,7 +10,7 @@ Includes
 */
 
 // Core
-#include "core/systemsHolder.h"
+#include "core/fika_servers.h"
 #include "core/filemanagement/json.h"
 #include "core/gameresoucemanager.h"
 
@@ -61,12 +61,25 @@ Engine
  */
 namespace FikaEngine
 {
-	/**
-	 * @brief Create window, initialize engine and run game loop.
-	 * @param startFnc Function for setting up custom project. Is called right before first game loop update.
-	 * @param updateFnc Function for custom update. Is called every frame before render.
-	 */
-	void run(void (*startFnc)(), void (*updateFnc)(float));
-	
-	float getDeltaTime();
+	class Game
+	{
+	public:
+		/**
+		 * @brief Create window, initialize engine and run game loop.
+		 * @param startFnc Function for setting up custom project. Is called right before first game loop update.
+		 * @param updateFnc Function for custom update. Is called every frame before render.
+		 */
+		void run(void (*startFnc)(), void (*updateFnc)(float));
+		float getDeltaTime();
+
+	private:
+		float m_DeltaTime = 1;
+		Input::Keyboard* m_Keyboard = nullptr;
+
+		// Settings
+		bool m_EnableVSync = true;
+
+		void setup();
+		void debugUI(GLFWwindow* window);
+	};
 }
