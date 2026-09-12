@@ -2,6 +2,9 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
+#include"fika_engine.h"
+
+struct Body;
 
 //-------------------------------------------------------
 // Component
@@ -10,13 +13,16 @@
 /**
  * @brief 
  */
-class {{NAME}}Component : public FikaECS::ECSComponent
+class PlayerComponent : public ECSComponent
 {
 private:
+	Body* body;
+	float speed = 500;
+	glm::vec3 lastDirection = glm::vec3(-1, 0, 0);
 
 public:
-	{{NAME}}Component() {}
-	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
+	PlayerComponent() {}
+	static const unsigned int componentId = 11740; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
@@ -29,21 +35,21 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ * @brief Holds pool of PlayerComponent and run updates on them through ECS manager
  */
-class {{NAME}}ComponentUpdater : public FikaECS::ComponentUpdater
+class PlayerComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component>* components;
+	PoolAllocator<PlayerComponent>* components;
 
 public:
-	{{NAME}}ComponentUpdater();
+	PlayerComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * @brief Call once at start to enable PlayerComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init();
 	void update(float dt) override;
-	FikaECS::ECSComponent* addComponent() override;
+	ECSComponent* addComponent() override;
 };

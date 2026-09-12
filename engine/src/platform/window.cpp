@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "inputs/inputhandler.h"
+#include "inputs/input_handler.h"
 
 bool Window::create(int width, int height, const char* title)
 {

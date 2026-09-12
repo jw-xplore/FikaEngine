@@ -12,8 +12,16 @@ FikaServers::~FikaServers()
 
 }
 
+FikaServers* FikaServers::getInstance()
+{
+	if (!instance)
+		instance = new FikaServers();
+
+	return instance;
+}
+
 void FikaServers::init()
 {
-	ecsManager.init();
-	gameResourceManager.init();
+	m_EcsManager.init();
+	m_GameResourceManager.init();
 }

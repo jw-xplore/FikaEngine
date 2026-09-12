@@ -1,8 +1,8 @@
 #include "renderer.h"
 #include "core/fika_servers.h"
-#include "resources/gResourceManager.h"
-#include "resources/meshBuilder.h"
-#include "resources/meshInstance.h"
+#include "resources/gpu_resource_manager.h"
+#include "resources/mesh_builder.h"
+#include "resources/mesh_instance.h"
 #include <iostream>
 
 Renderer::Renderer()

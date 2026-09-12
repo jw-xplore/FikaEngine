@@ -32,7 +32,7 @@ if %PROJECT%==0 (
     set /a CMP_ID=%RANDOM% * 10000 / 32768 + 1
 )
 
-set FILE_NAME=%NAME%Component
+set FILE_NAME=%NAME%_component
 
 for /f "delims=" %%A in ('powershell -NoProfile -Command ^
     "$n = $env:name; if ($n) { $n.Substring(0,1).ToUpper() + $n.Substring(1) }"') do (

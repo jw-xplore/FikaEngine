@@ -4,8 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "core/fika_servers.h"
 #include "renderer/renderer.h"
-#include "renderer/resources/gResourceManager.h"
-#include "renderer/resources/meshInstance.h"
+#include "renderer/resources/gpu_resource_manager.h"
+#include "renderer/resources/mesh_instance.h"
 #include <iostream>
 #include <limits>
 

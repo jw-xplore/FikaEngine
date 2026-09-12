@@ -12,20 +12,20 @@ Includes
 // Core
 #include "core/fika_servers.h"
 #include "core/filemanagement/json.h"
-#include "core/gameresoucemanager.h"
+#include "core/game_resource_manager.h"
 
 // ECS
-#include "core/ecs/ecsmanager.h"
-#include "core/ecs/ecscomponent.h"
-#include "core/ecs/ecsentity.h"
-#include "core/ecs/ecscomponentupdater.h"
+#include "core/ecs/ecs_manager.h"
+#include "core/ecs/component.h"
+#include "core/ecs/entity.h"
+#include "core/ecs/component_updater.h"
 
 // Render
 #include "renderer/renderer.h"
-#include "renderer/resources/gResourceManager.h"
-#include "renderer/resources/meshInstance.h"
-#include "renderer/resources/meshBuilder.h"
-#include "renderer/camera/cameraManager.h"
+#include "renderer/resources/gpu_resource_manager.h"
+#include "renderer/resources/mesh_instance.h"
+#include "renderer/resources/mesh_builder.h"
+#include "renderer/camera/camera_manager.h"
 #include "renderer/camera/camera.h"
 
 // Physics
@@ -34,9 +34,9 @@ Includes
 
 // Plaftorm
 #include "platform/window.h"
-#include "platform/inputs/inputdevices.h"
-#include "platform/inputs/inputhandler.h"
-#include "platform/inputs/inputmapping.h"
+#include "platform/inputs/input_devices.h"
+#include "platform/inputs/input_handler.h"
+#include "platform/inputs/input_mapping.h"
 
 // External
 #include <glm/glm.hpp>
@@ -48,9 +48,9 @@ Includes
 #include <GLFW/glfw3.h>
 
 // Components
-#include "components/transformComponent.h"
-#include "components/meshComponent.h"
-#include "components/rigidBodyComponent.h"
+#include "components/transform_component.h"
+#include "components/mesh_component.h"
+#include "components/rigidbody_component.h"
 
 /*
 Engine

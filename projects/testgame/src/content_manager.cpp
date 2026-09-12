@@ -1,0 +1,113 @@
+#include "content_manager.h"
+//#include "playerComponent.h"
+#include <fstream>
+#include <iostream>
+#include "components/player_component.h"
+
+ContentManager::ContentManager()
+{
+    gResourceManager = &FikaServers::getGResourceManager();
+    ecsManager = &FikaServers::getECSManager();
+
+    // Setup resources
+    cubeMesh = &gResourceManager->getMesh("cube");
+    basicShader = &gResourceManager->getShader("basic");
+
+    customMesh = gResourceManager->reserveMesh("custom1");
+    MeshBuilder().loadMesh("assets/models/Sheep.obj").build(*customMesh);
+
+    // Pawn
+    MeshResource* pawnMesh = gResourceManager->loadMesh("assets/models/pawn.obj", "pawn");
+    customTexture = gResourceManager->loadTexture("assets/textures/pawn.jpg", "customTex1");
+
+    // Crate
+    gResourceManager->loadMesh("assets/models/crate.obj", "crate");
+    gResourceManager->loadTexture("assets/textures/crate.jpg", "crate");
+
+    gResourceManager->debugPrint();
+}
+
+ContentManager::~ContentManager()
+{
+
+}
+
+Entity& ContentManager::createPlayer(glm::vec3 position)
+{
+    GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+    MeshResource& customMesh = gResourceManager.getMesh("pawn");
+    TextureResource& customTexture = gResourceManager.getTexture("customTex1");
+    ShaderResource& basicShader = gResourceManager.getShader("basic");
+
+    Entity* entity = FikaServers::getECSManager().addEntity("player");
+
+    // RB
+    RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
+    //rb->setSphereCollider(1);
+    rb->setCapsuleCollider(0.5, 2);
+    rb->getTransform()->setPosition(position);
+    rb->setLayers(2);
+
+    // Mesh
+    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
+    meshCmp->setup(customMesh, basicShader, &customTexture);
+    meshCmp->setTexture(customTexture);
+
+    // Player
+    ecsManager->addComponent(entity, PlayerComponent::componentId);
+    
+    return *entity;
+}
+
+Entity& ContentManager::createWall(glm::vec3 position, bool solid)
+{
+    GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+    MeshResource& customMesh = gResourceManager.getMesh("crate");
+    TextureResource& customTexture = gResourceManager.getTexture("crate");
+    ShaderResource& basicShader = gResourceManager.getShader("basic");
+
+    Entity* entity = FikaServers::getECSManager().addEntity("wall");
+
+    // RB
+    RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
+    rb->setBoxCollider(glm::vec3(2));
+    rb->setType(EBodyType::Static);
+    if (!solid)
+        rb->setType(EBodyType::Kinematic);
+    rb->getTransform()->setPosition(position);
+    rb->setInteractiveLayers(3);
+
+    // Mesh
+    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
+    meshCmp->setup(customMesh, basicShader, &customTexture);
+    meshCmp->setTexture(customTexture);
+
+    return *entity;
+}
+
+void ContentManager::loadWalls(const char* filePath)
+{
+    // Read json
+    std::ifstream file(filePath);
+    if (!file.is_open())
+    {
+        std::cout << "Failed to load level \n";
+        return;
+    }
+
+    // Parse data
+    nlohmann::ordered_json jsonRes = nlohmann::ordered_json::parse(file);
+    file.close();
+
+    nlohmann::json level = jsonRes["level"];
+    for (auto& item : level.items())
+    {
+        nlohmann::json position = item.value()["position"];
+
+        float x = position["x"];
+        float y = position["y"];
+        float z = position["z"];
+
+        //createWall(glm::vec3(x, y, z));
+    }
+}

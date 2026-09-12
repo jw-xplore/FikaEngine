@@ -14,9 +14,9 @@ FikaEditor::Editor editor;
 
 void start()
 {
-    CameraManager* cameraManager = FikaServers::getCameraManager();
+    CameraManager& cameraManager = FikaServers::getCameraManager();
     //cameraManager->useFreeCamera(true);
-    cameraManager->getMainCamera()->move(glm::vec3(0, 2, 6), glm::vec3(0,0,-1));
+    cameraManager.getMainCamera()->move(glm::vec3(0, 2, 6), glm::vec3(0,0,-1));
 
     //cameraManager->getFreeCamera()->lookAt(glm::vec3(0, 0, 1));
     //editor.loadProject();
@@ -34,17 +34,18 @@ void start()
 
 void update(float dt)
 {
-    Renderer* debugRender = FikaServers::getDebugRenderer();
+    Renderer& debugRender = FikaServers::getDebugRenderer();
     glm::vec3 start = glm::vec3(0);
 
-    debugRender->addLine(Line(start, start + glm::vec3(1, 0, 0), glm::vec3(1, 0, 0)));
-    debugRender->addLine(Line(start, start + glm::vec3(0, 1, 0), glm::vec3(0, 1, 0)));
-    debugRender->addLine(Line(start, start + glm::vec3(0, 0, 1), glm::vec3(0, 0, 1)));
+    debugRender.addLine(Line(start, start + glm::vec3(1, 0, 0), glm::vec3(1, 0, 0)));
+    debugRender.addLine(Line(start, start + glm::vec3(0, 1, 0), glm::vec3(0, 1, 0)));
+    debugRender.addLine(Line(start, start + glm::vec3(0, 0, 1), glm::vec3(0, 0, 1)));
 
     editor.update();
 }
 
 int main()
 {
-    FikaEngine::run(start, update);
+    FikaEngine::Game game;
+    game.run(start, update);
 }

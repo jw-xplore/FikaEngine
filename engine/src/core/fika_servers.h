@@ -3,48 +3,37 @@
 
 #include "renderer/renderer.h"
 #include "physics/physics.h"
-#include "renderer/camera/cameraManager.h"
-#include "renderer/resources/gResourceManager.h"
-#include "core/gameresoucemanager.h"
-#include "core/ecs/ecsmanager.h"
-
-namespace FikaECS
-{
-	class ECSManager;
-}
+#include "renderer/camera/camera_manager.h"
+#include "renderer/resources/gpu_resource_manager.h"
+#include "core/game_resource_manager.h"
+#include "core/ecs/ecs_manager.h"
 
 class FikaServers
 {
 private:
 	static FikaServers* instance;
 
-	Renderer renderer;
-	Renderer debugRenderer; // Renders helper meshes
-	FikaECS::ECSManager ecsManager;
-	PhysicsSolver physicsSolver;
-	CameraManager cameraManager;
-	GResourceManager gResourceManager;
-	GameResourceManager gameResourceManager;
+	Renderer m_Renderer;
+	Renderer m_DebugRenderer; // Renders helper meshes
+	ECSManager m_EcsManager;
+	PhysicsSolver m_PhysicsSolver;
+	CameraManager m_CameraManager;
+	GResourceManager m_GResourceManager;
+	GameResourceManager m_GameResourceManager;
 
 public:
 	FikaServers();
 	~FikaServers();
 
-	static FikaServers* getInstance()
-	{
-		if (!instance)
-			instance = new FikaServers();
-
-		return instance;
-	}
-
+	static FikaServers* getInstance();
 	void init();
 
-	static Renderer& getMainRenderer() { return FikaServers::getInstance()->renderer; }
-	static Renderer& getDebugRenderer() { return FikaServers::getInstance()->debugRenderer; }
-	static CameraManager& getCameraManager() { return FikaServers::getInstance()->cameraManager; }
-	static GResourceManager& getGResourceManager() { return FikaServers::getInstance()->gResourceManager; }
-	static PhysicsSolver& getPhysicsSolver() { return FikaServers::getInstance()->physicsSolver; }
-	static FikaECS::ECSManager& getECSManager() { return FikaServers::getInstance()->ecsManager; }
-	static GameResourceManager& getGameResourceManager() { return FikaServers::getInstance()->gameResourceManager; }
+	// Servers getters
+	static Renderer& getMainRenderer()						{ return FikaServers::getInstance()->m_Renderer; }
+	static Renderer& getDebugRenderer()						{ return FikaServers::getInstance()->m_DebugRenderer; }
+	static CameraManager& getCameraManager()				{ return FikaServers::getInstance()->m_CameraManager; }
+	static GResourceManager& getGResourceManager()			{ return FikaServers::getInstance()->m_GResourceManager; }
+	static PhysicsSolver& getPhysicsSolver()				{ return FikaServers::getInstance()->m_PhysicsSolver; }
+	static ECSManager& getECSManager()				{ return FikaServers::getInstance()->m_EcsManager; }
+	static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->m_GameResourceManager; }
 };

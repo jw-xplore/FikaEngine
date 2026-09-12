@@ -4,8 +4,8 @@
 #include <fika_engine.h>
 #include <fstream>
 
-#include "contentManager.h"
-#include "components/playerComponent.h"
+#include "content_manager.h"
+#include "components/player_component.h"
 
 ContentManager* contentManager;
 
@@ -25,8 +25,8 @@ void start()
    
     // Test entity cmp setup
     contentManager = new ContentManager();
-    FikaECS::Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
-    FikaECS::Entity& wall = contentManager->createWall(glm::vec3(2,0,0), true);
+    Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
+    Entity& wall = contentManager->createWall(glm::vec3(2,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
     //FikaServers::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");

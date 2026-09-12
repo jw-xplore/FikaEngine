@@ -6,9 +6,9 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "core/fika_servers.h"
-#include "core/gameresoucemanager.h"
-#include "platform/inputs/inputdevices.h"
-#include "platform/inputs/inputhandler.h"
+#include "core/game_resource_manager.h"
+#include "platform/inputs/input_devices.h"
+#include "platform/inputs/input_handler.h"
 
 #include "fika_engine.h"
 
@@ -93,8 +93,8 @@ namespace FikaEditor
 
     bool Editor::loadProject()
     {
-        GResourceManager* gResMgnr = FikaServers::getGResourceManager();
-        FikaServers::getMainRenderer()->addMeshInstance(&placingTransform, gResMgnr->getMesh("cube"), gResMgnr->getShader("basic"));
+        GResourceManager& gResMgnr = FikaServers::getGResourceManager();
+        FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
 
         loadActivePrefab();
 
@@ -109,8 +109,8 @@ namespace FikaEditor
         //FikaServers::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
 
         // Load prefabs
-        FikaServers::getGameResourceManager()->loadFolderPrefabs(projectPrefabPath);
-        projectPrefabs = FikaServers::getGameResourceManager()->getLoadedPrefabsList();
+        FikaServers::getGameResourceManager().loadFolderPrefabs(projectPrefabPath);
+        projectPrefabs = FikaServers::getGameResourceManager().getLoadedPrefabsList();
 
         activePrefab = projectPrefabs[0];
     }
@@ -174,8 +174,8 @@ namespace FikaEditor
 
     glm::vec3 Editor::positionFromScreenSpace(glm::vec2 position)
     {
-        CameraManager* cameraManager = FikaServers::getCameraManager();
-        Camera* cam = cameraManager->getActiveCamera();
+        CameraManager& cameraManager = FikaServers::getCameraManager();
+        Camera* cam = cameraManager.getActiveCamera();
 
         glm::vec3 pos = cam->getPosition();
         glm::vec3 dir = cam->getDirection();
@@ -195,11 +195,11 @@ namespace FikaEditor
 
     void Editor::placeObject(glm::vec3 position)
     {
-        GResourceManager* gResourceManager = FikaServers::getGResourceManager();
-        ShaderResource& basicShader = gResourceManager->getShader("basic");
+        GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+        ShaderResource& basicShader = gResourceManager.getShader("basic");
         //MeshResource& customMesh = gResourceManager->getMesh("cube");
 
-        FikaECS::Entity* entity = FikaServers::getECSManager().addEntity();
+        Entity* entity = FikaServers::getECSManager().addEntity();
         entity->setSourcePrefab(activePrefab);
 
         TransformComponent* transform = dynamic_cast<TransformComponent*>(FikaServers::getECSManager().addComponent(entity, TransformComponent::componentId));
@@ -211,14 +211,14 @@ namespace FikaEditor
         std::string meshPath = meshCmpJson["meshPath"];
         assert(meshPath != "");
         meshPath = workingDirectory + meshPath;
-        MeshResource* meshRes = gResourceManager->reserveMesh(activePrefab->name.c_str());
+        MeshResource* meshRes = gResourceManager.reserveMesh(activePrefab->name.c_str());
         MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
         //MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
 
         std::string texturePath = meshCmpJson["texturePath"];
         assert(texturePath != "");
         texturePath = workingDirectory + texturePath;
-        TextureResource* textureRes = gResourceManager->loadTexture(texturePath.c_str(), activePrefab->name.c_str());
+        TextureResource* textureRes = gResourceManager.loadTexture(texturePath.c_str(), activePrefab->name.c_str());
 
         MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(FikaServers::getECSManager().addComponent(entity, MeshComponent::componentId));
         meshCmp->setup(*meshRes, basicShader, nullptr);

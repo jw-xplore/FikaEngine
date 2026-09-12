@@ -1,7 +1,7 @@
 #include "{{NAME}}Component.h"
-#include "core/systemsHolder.h"
-#include "core/ecs/ecsmanager.h"
-#include "core/ecs/ecsentity.h"
+#include "core/fika_servers.h"
+#include "core/ecs/ecs_manager.h"
+#include "core/ecs/entity.h"
 
 //-------------------------------------------------------
 // Component
