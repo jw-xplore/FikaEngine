@@ -32,7 +32,7 @@ namespace FikaEngine
         FikaServers::getGResourceManager().storeShader("basic", basicShader);
 
         // Keyboard
-        keyboard = Input::getDefaultKeyboard();
+        //keyboard = Input::getDefaultKeyboard();
 	}
 
     void Game::debugUI(GLFWwindow* window)
@@ -77,6 +77,7 @@ namespace FikaEngine
         if (!window.create(1280, 720, "Fika Engine"))
             return;
 
+        FikaServers::getInputManager().init(window.getHandle());
         setup();
         glEnable(GL_DEPTH_TEST);
 
@@ -98,7 +99,8 @@ namespace FikaEngine
         // Game loop
         while (!window.shouldClose())
         {
-            Input::InputHandler::beginFrame();
+            //Input::InputHandler::beginFrame();
+            FikaServers::getInputManager().beginFrame();
 
             // TODO: Create proper debug UI
             // Display current FPS in window title
@@ -121,8 +123,9 @@ namespace FikaEngine
             updateFnc(dt);
 
             // Free cam update
-            if (keyboard->pressed[Input::Key::P])
+            if (FikaServers::getInputManager().isKeyPressed(Key::P))
             {
+                std::cout << "P press\n";
                 FikaServers::getCameraManager().useFreeCamera(!FikaServers::getCameraManager().isUsingFreeCamera());
                 mainCamera = FikaServers::getCameraManager().getActiveCamera();
             }

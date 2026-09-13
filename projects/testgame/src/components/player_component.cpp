@@ -16,9 +16,17 @@ void PlayerComponent::start()
 
 void PlayerComponent::update(float dt)
 {
-    InputMapping* input = InputMapping::GetInstance();
-    float forward = input->getAction("Vertical")->inputAxis();
-    float right = input->getAction("Horizontal")->inputAxis();
+    //InputMapping* input = InputMapping::GetInstance();
+    //float forward = input->getAction("Vertical")->inputAxis();
+    //float right = input->getAction("Horizontal")->inputAxis();
+
+    float fp = FikaServers::getInputManager().isKeyHeld(Key::W);
+    float fn = FikaServers::getInputManager().isKeyHeld(Key::S) * -1;
+    float forward = fp + fn;
+
+    float rp = FikaServers::getInputManager().isKeyHeld(Key::D) * -1;
+    float rn = FikaServers::getInputManager().isKeyHeld(Key::A);
+    float right = rp + rn;
 
     if (forward != 0 || right != 0)
         lastDirection = glm::vec3(right, 0, forward);

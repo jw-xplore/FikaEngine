@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "inputs/input_handler.h"
+//#include "inputs/input_handler.h"
 
 bool Window::create(int width, int height, const char* title)
 {
@@ -32,7 +32,7 @@ bool Window::create(int width, int height, const char* title)
     glfwSwapInterval(1);
 
     glfwSetWindowUserPointer(handle, this);
-    Input::InputHandler::init(handle);
+    //Input::InputHandler::init(handle);
 
     return true;
 }
@@ -40,7 +40,7 @@ bool Window::create(int width, int height, const char* title)
 void Window::poll()
 {
     glfwPollEvents();
-    glfwSetKeyCallback(handle, Input::InputHandler::onGLKeyCallback);
+    //glfwSetKeyCallback(handle, Input::InputHandler::onGLKeyCallback);
 }
 
 void Window::swap()

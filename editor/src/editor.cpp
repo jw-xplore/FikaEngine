@@ -80,6 +80,7 @@ namespace FikaEditor
         //glm::translate(placingTransform, pos);
 
         // Placing
+        /*
         Input::Mouse* mouse = Input::getDefaultMouse();
 
         if (mouse->pressed[Input::Mouse::RightButton])
@@ -89,6 +90,7 @@ namespace FikaEditor
 
             placeObject(pos);
         }
+        */
     }
 
     bool Editor::loadProject()
@@ -242,11 +244,13 @@ namespace FikaEditor
 
     void Editor::selectPrefab()
     {
+        /*
         Input::Keyboard* keyboard = Input::getDefaultKeyboard();
 
         if (keyboard->held[Input::Key::Key1])
             activePrefab = projectPrefabs[0];
         if (keyboard->held[Input::Key::Key2])
             activePrefab = projectPrefabs[1];
+        */
     }
 }

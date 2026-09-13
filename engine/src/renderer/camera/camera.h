@@ -5,15 +5,18 @@
 
 class Window;
 
+/*
 namespace Input
 {
     struct Keyboard;
     struct Mouse;
 }
+*/
 
 class Camera
 {
 private:
+    // TODO: Remove these
     void processMouse(float dt);
     void processKeyboard(float dt);
 
@@ -48,8 +51,9 @@ public:
 
 private:
     Window* window;
-    Input::Keyboard* keyboard;
-    Input::Mouse* mouse;
+    // NOTE: Camera should not know about input devices
+    //Input::Keyboard* keyboard;
+    //Input::Mouse* mouse;
 
     float yaw = 90;
     float pitch = 0;

@@ -7,6 +7,7 @@
 #include "renderer/resources/gpu_resource_manager.h"
 #include "core/game_resource_manager.h"
 #include "core/ecs/ecs_manager.h"
+#include "platform/inputs/input_manager.h"
 
 class FikaServers
 {
@@ -20,6 +21,7 @@ private:
 	CameraManager cameraManager;
 	GPUResourceManager gpuResourceManager;
 	GameResourceManager gameResourceManager;
+	InputManager inputManager;
 
 public:
 	FikaServers();
@@ -32,8 +34,9 @@ public:
 	static Renderer& getMainRenderer()						{ return FikaServers::getInstance()->renderer; }
 	static Renderer& getDebugRenderer()						{ return FikaServers::getInstance()->debugRenderer; }
 	static CameraManager& getCameraManager()				{ return FikaServers::getInstance()->cameraManager; }
-	static GPUResourceManager& getGResourceManager()			{ return FikaServers::getInstance()->gpuResourceManager; }
+	static GPUResourceManager& getGResourceManager()		{ return FikaServers::getInstance()->gpuResourceManager; }
 	static PhysicsSolver& getPhysicsSolver()				{ return FikaServers::getInstance()->physicsSolver; }
-	static ECSManager& getECSManager()				{ return FikaServers::getInstance()->ecsManager; }
+	static ECSManager& getECSManager()						{ return FikaServers::getInstance()->ecsManager; }
 	static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->gameResourceManager; }
+	static InputManager& getInputManager()					{ return FikaServers::getInstance()->inputManager; }
 };

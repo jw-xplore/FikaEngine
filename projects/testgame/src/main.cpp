@@ -15,7 +15,7 @@ void start()
     FikaServers::getCameraManager().getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
 
     // Input mapping
-    InputMapping::GetInstance();
+    //InputMapping::GetInstance();
 
     // Component updators inits
     TransformComponentUpdater::init();

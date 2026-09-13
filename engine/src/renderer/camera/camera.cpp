@@ -2,16 +2,16 @@
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
 #include "platform/window.h";
-#include "platform/inputs/input_devices.h"
-#include "platform/inputs/input_handler.h"
+//#include "platform/inputs/input_devices.h"
+//#include "platform/inputs/input_handler.h"
 
 Camera::Camera(Window& window)
 {
     this->window = &window;
     glfwSetCursorPos(window.getHandle(), window.getWidth() * 0.5f, window.getHeight() * 0.5f);
 
-    keyboard = Input::getDefaultKeyboard();
-    mouse = Input::getDefaultMouse();
+    //keyboard = Input::getDefaultKeyboard();
+    //mouse = Input::getDefaultMouse();
 }
 
 void Camera::lookAt(glm::vec3 target)
@@ -56,6 +56,7 @@ void Camera::updateVectors()
 
 void Camera::processMouse(float dt)
 {
+    /*
     double centerX = window->getWidth() * 0.5f, centerY = window->getHeight() * 0.5f;
     double xpos, ypos;
     glfwGetCursorPos(window->getHandle(), &xpos, &ypos);
@@ -72,10 +73,12 @@ void Camera::processMouse(float dt)
     if (pitch < -89.0f) pitch = -89.0f;
 
     glfwSetCursorPos(window->getHandle(), centerX, centerY);
+    */
 }
 
 void Camera::processKeyboard(float dt)
 {
+    /*
     // Adjust speed
     if (mouse->currentYScroll > 0 && speed < maxSpeed)
         speed += speedChange;
@@ -112,4 +115,5 @@ void Camera::processKeyboard(float dt)
     position += front * forward * velocity;
     position += rightVec * right * velocity;
     position.y += up * velocity;
+    */
 }

@@ -35,8 +35,8 @@ Includes
 // Plaftorm
 #include "platform/window.h"
 #include "platform/inputs/input_devices.h"
-#include "platform/inputs/input_handler.h"
-#include "platform/inputs/input_mapping.h"
+#include "platform/inputs/input_manager.h"
+//#include "platform/inputs/input_mapping.h"
 
 // External
 #include <glm/glm.hpp>
@@ -74,7 +74,6 @@ namespace FikaEngine
 
 	private:
 		float deltaTime = 1;
-		Input::Keyboard* keyboard = nullptr;
 
 		// Settings
 		bool enableVSync = true;
