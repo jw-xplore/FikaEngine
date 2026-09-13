@@ -152,7 +152,7 @@ Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	body.shape = collider;
 
 	// Debug
-	GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+	GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
 	MeshResource& cubeMesh = gResourceManager.getMesh("sphere");
 	ShaderResource& basicShader = gResourceManager.getShader("basic");
 
@@ -173,7 +173,7 @@ Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	body.shape = collider;
 
 	// Debug
-	GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+	GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
 	MeshResource& cubeMesh = gResourceManager.getMesh("cube");
 	ShaderResource& basicShader = gResourceManager.getShader("basic");
 
@@ -195,7 +195,7 @@ Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float hei
 	body.shape = collider;
 
 	// Debug
-	GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+	GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
 	MeshResource& debugMesh = gResourceManager.getMesh("cylinder");
 	ShaderResource& basicShader = gResourceManager.getShader("basic");
 

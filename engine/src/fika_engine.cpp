@@ -32,7 +32,7 @@ namespace FikaEngine
         FikaServers::getGResourceManager().storeShader("basic", basicShader);
 
         // Keyboard
-        m_Keyboard = Input::getDefaultKeyboard();
+        keyboard = Input::getDefaultKeyboard();
 	}
 
     void Game::debugUI(GLFWwindow* window)
@@ -59,10 +59,10 @@ namespace FikaEngine
         ImGui::NewFrame();
         
         ImGui::Begin("Debug");
-        int fps = 1.0f / m_DeltaTime;
+        int fps = 1.0f / deltaTime;
         std::string strFps = "FPS: " + std::to_string(fps);
         ImGui::Text(strFps.c_str());
-        ImGui::Checkbox("V-Sync", &m_EnableVSync);
+        ImGui::Checkbox("V-Sync", &enableVSync);
         ImGui::End();
         
         ImGui::Render();
@@ -105,13 +105,13 @@ namespace FikaEngine
             float now = glfwGetTime();
             float dt = now - lastTime;
             if (dt > 1.0)
-                dt = m_DeltaTime;
+                dt = deltaTime;
 
-            m_DeltaTime = dt;
+            deltaTime = dt;
             lastTime = now;
 
             // V-Sync
-            glfwSwapInterval(m_EnableVSync);
+            glfwSwapInterval(enableVSync);
 
             // Poll and clear
             window.poll();
@@ -121,7 +121,7 @@ namespace FikaEngine
             updateFnc(dt);
 
             // Free cam update
-            if (m_Keyboard->pressed[Input::Key::P])
+            if (keyboard->pressed[Input::Key::P])
             {
                 FikaServers::getCameraManager().useFreeCamera(!FikaServers::getCameraManager().isUsingFreeCamera());
                 mainCamera = FikaServers::getCameraManager().getActiveCamera();
@@ -147,5 +147,5 @@ namespace FikaEngine
         window.destroy();
     }
 
-    float Game::getDeltaTime() { return m_DeltaTime; }
+    float Game::getDeltaTime() { return deltaTime; }
 }

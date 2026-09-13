@@ -255,7 +255,7 @@ void TextureResource::activateTexture(unsigned int* texture)
 // Resource manager
 //------------------------------------------------------------------------------
 
-MeshResource* GResourceManager::loadMesh(const char* path, const char* tag)
+MeshResource* GPUResourceManager::loadMesh(const char* path, const char* tag)
 {
 	if (loadedMeshes.find(path) != loadedMeshes.end())
 	{
@@ -276,7 +276,7 @@ MeshResource* GResourceManager::loadMesh(const char* path, const char* tag)
 	return mesh;
 }
 
-TextureResource* GResourceManager::loadTexture(const char* path, const char* tag)
+TextureResource* GPUResourceManager::loadTexture(const char* path, const char* tag)
 {
 	if (loadedTextures.find(path) != loadedTextures.end())
 	{
@@ -297,7 +297,7 @@ TextureResource* GResourceManager::loadTexture(const char* path, const char* tag
 	return &texture;
 }
 
-MeshResource* GResourceManager::reserveMesh(std::string name)
+MeshResource* GPUResourceManager::reserveMesh(std::string name)
 {
 	meshes.push_back(MeshResource());
 	int id = meshes.size() - 1;
@@ -307,7 +307,7 @@ MeshResource* GResourceManager::reserveMesh(std::string name)
 	return &meshes[id];
 }
 
-TextureResource& GResourceManager::reseveTexture(std::string name)
+TextureResource& GPUResourceManager::reseveTexture(std::string name)
 {
 	textures.push_back(TextureResource());
 	int id = textures.size() - 1;
@@ -317,7 +317,7 @@ TextureResource& GResourceManager::reseveTexture(std::string name)
 	return textures[id];
 }
 
-int GResourceManager::storeShader(std::string name, ShaderResource& shader)
+int GPUResourceManager::storeShader(std::string name, ShaderResource& shader)
 {
 	shaders.push_back(shader);
 	int id = shaders.size() - 1;
@@ -327,7 +327,7 @@ int GResourceManager::storeShader(std::string name, ShaderResource& shader)
 	return id;
 }
 
-int GResourceManager::meshHandle(std::string name)
+int GPUResourceManager::meshHandle(std::string name)
 {
 	if (!meshHandles.contains(name))
 		return -1;
@@ -335,7 +335,7 @@ int GResourceManager::meshHandle(std::string name)
 	return meshHandles[name];
 }
 
-int GResourceManager::textureHandle(std::string name)
+int GPUResourceManager::textureHandle(std::string name)
 {
 	if (!textureHandles.contains(name))
 		return -1;
@@ -343,7 +343,7 @@ int GResourceManager::textureHandle(std::string name)
 	return textureHandles[name];
 }
 
-int GResourceManager::shaderHandle(std::string name)
+int GPUResourceManager::shaderHandle(std::string name)
 {
 	if (!shaderHandles.contains(name))
 		return -1;
@@ -351,40 +351,40 @@ int GResourceManager::shaderHandle(std::string name)
 	return shaderHandles[name];
 }
 
-MeshResource& GResourceManager::getMesh(int handle)
+MeshResource& GPUResourceManager::getMesh(int handle)
 {
 	return meshes[handle];
 }
 
-MeshResource& GResourceManager::getMesh(std::string handle)
+MeshResource& GPUResourceManager::getMesh(std::string handle)
 {
 	int id = meshHandle(handle);
 	return meshes[id];
 }
 
-TextureResource& GResourceManager::getTexture(int handle)
+TextureResource& GPUResourceManager::getTexture(int handle)
 {
 	return textures[handle];
 }
 
-TextureResource& GResourceManager::getTexture(std::string handle)
+TextureResource& GPUResourceManager::getTexture(std::string handle)
 {
 	int id = textureHandle(handle);
 	return textures[id];
 }
 
-ShaderResource& GResourceManager::getShader(int handle)
+ShaderResource& GPUResourceManager::getShader(int handle)
 {
 	return shaders[handle];
 }
 
-ShaderResource& GResourceManager::getShader(std::string handle)
+ShaderResource& GPUResourceManager::getShader(std::string handle)
 {
 	int id = shaderHandle(handle);
 	return shaders[id];
 }
 
-void GResourceManager::init()
+void GPUResourceManager::init()
 {
 	// TODO: Add safety for resources changing address due to pushing over reserved count
 	meshes.reserve(128);
@@ -392,7 +392,7 @@ void GResourceManager::init()
 	shaders.reserve(128);
 }
 
-void GResourceManager::reloadShaders()
+void GPUResourceManager::reloadShaders()
 {
 	for (auto shader : shaders)
 	{
@@ -400,7 +400,7 @@ void GResourceManager::reloadShaders()
 	}
 }
 
-void GResourceManager::debugPrint()
+void GPUResourceManager::debugPrint()
 {
 	std::cout << "Meshes: " << &meshes[0] << "\n";
 }

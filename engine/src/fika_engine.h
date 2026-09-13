@@ -73,11 +73,11 @@ namespace FikaEngine
 		float getDeltaTime();
 
 	private:
-		float m_DeltaTime = 1;
-		Input::Keyboard* m_Keyboard = nullptr;
+		float deltaTime = 1;
+		Input::Keyboard* keyboard = nullptr;
 
 		// Settings
-		bool m_EnableVSync = true;
+		bool enableVSync = true;
 
 		void setup();
 		void debugUI(GLFWwindow* window);

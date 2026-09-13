@@ -115,8 +115,7 @@ public:
 // Resource manager
 //------------------------------------------------------------------------------
 
-// TODO: Rename to GPUResourceManager
-class GResourceManager
+class GPUResourceManager
 {
 private:
 	// TODO: Change into pool allocators

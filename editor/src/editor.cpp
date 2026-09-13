@@ -93,7 +93,7 @@ namespace FikaEditor
 
     bool Editor::loadProject()
     {
-        GResourceManager& gResMgnr = FikaServers::getGResourceManager();
+        GPUResourceManager& gResMgnr = FikaServers::getGResourceManager();
         FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
 
         loadActivePrefab();
@@ -195,7 +195,7 @@ namespace FikaEditor
 
     void Editor::placeObject(glm::vec3 position)
     {
-        GResourceManager& gResourceManager = FikaServers::getGResourceManager();
+        GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
         ShaderResource& basicShader = gResourceManager.getShader("basic");
         //MeshResource& customMesh = gResourceManager->getMesh("cube");
 

@@ -13,13 +13,13 @@ class FikaServers
 private:
 	static FikaServers* instance;
 
-	Renderer m_Renderer;
-	Renderer m_DebugRenderer; // Renders helper meshes
-	ECSManager m_EcsManager;
-	PhysicsSolver m_PhysicsSolver;
-	CameraManager m_CameraManager;
-	GResourceManager m_GResourceManager;
-	GameResourceManager m_GameResourceManager;
+	Renderer renderer;
+	Renderer debugRenderer; // Renders helper meshes
+	ECSManager ecsManager;
+	PhysicsSolver physicsSolver;
+	CameraManager cameraManager;
+	GPUResourceManager gpuResourceManager;
+	GameResourceManager gameResourceManager;
 
 public:
 	FikaServers();
@@ -29,11 +29,11 @@ public:
 	void init();
 
 	// Servers getters
-	static Renderer& getMainRenderer()						{ return FikaServers::getInstance()->m_Renderer; }
-	static Renderer& getDebugRenderer()						{ return FikaServers::getInstance()->m_DebugRenderer; }
-	static CameraManager& getCameraManager()				{ return FikaServers::getInstance()->m_CameraManager; }
-	static GResourceManager& getGResourceManager()			{ return FikaServers::getInstance()->m_GResourceManager; }
-	static PhysicsSolver& getPhysicsSolver()				{ return FikaServers::getInstance()->m_PhysicsSolver; }
-	static ECSManager& getECSManager()				{ return FikaServers::getInstance()->m_EcsManager; }
-	static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->m_GameResourceManager; }
+	static Renderer& getMainRenderer()						{ return FikaServers::getInstance()->renderer; }
+	static Renderer& getDebugRenderer()						{ return FikaServers::getInstance()->debugRenderer; }
+	static CameraManager& getCameraManager()				{ return FikaServers::getInstance()->cameraManager; }
+	static GPUResourceManager& getGResourceManager()			{ return FikaServers::getInstance()->gpuResourceManager; }
+	static PhysicsSolver& getPhysicsSolver()				{ return FikaServers::getInstance()->physicsSolver; }
+	static ECSManager& getECSManager()				{ return FikaServers::getInstance()->ecsManager; }
+	static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->gameResourceManager; }
 };

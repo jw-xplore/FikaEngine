@@ -19,7 +19,7 @@ void Renderer::init()
 {
 	// Lines shader
 	FikaServers* systems = FikaServers::getInstance();
-	GResourceManager& gResMngr = systems->getGResourceManager();
+	GPUResourceManager& gResMngr = systems->getGResourceManager();
 	ShaderResource shader = ShaderResource("assets/common/shaders/line.vert", "assets/common/shaders/line.frag");
 	int shaderID = gResMngr.storeShader("Line", shader);
 
