@@ -1,26 +1,29 @@
 #pragma once
 #include "camera.h"
 
-class Window;
-
-class CameraManager
+namespace FikaEngine
 {
-private:
-	Camera mainCamera;
-	Camera freeCamera;
+	class Window;
 
-	Camera* activeCamera;
-	bool usingFreeCamera = false;
+	class CameraManager
+	{
+	private:
+		Camera mainCamera;
+		Camera freeCamera;
 
-public:
-	CameraManager();
-	~CameraManager();
+		Camera* activeCamera;
+		bool usingFreeCamera = false;
 
-	void init(Window& window);
-	Camera* getActiveCamera();
-	void useFreeCamera(bool use);
-	bool isUsingFreeCamera();
+	public:
+		CameraManager();
+		~CameraManager();
 
-	Camera* getMainCamera();
-	Camera* getFreeCamera();
-};
+		void init(Window& window);
+		Camera* getActiveCamera();
+		void useFreeCamera(bool use);
+		bool isUsingFreeCamera();
+
+		Camera* getMainCamera();
+		Camera* getFreeCamera();
+	};
+} // namespace FikaEngine

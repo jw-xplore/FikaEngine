@@ -7,68 +7,71 @@
 #include "core/pool_allocator.h"
 #include "core/transform.h"
 
-struct ColliderShape;
-
-enum EBodyType
+namespace FikaEngine
 {
-	Static,
-	Kinematic,
-	Trigger,
-};
+	struct ColliderShape;
 
-enum EAxes
-{
-	X = 1,
-	Y = 2,
-	Z = 4,
-};
+	enum EBodyType
+	{
+		Static,
+		Kinematic,
+		Trigger,
+	};
 
-struct Body
-{
-	int id;
-	unsigned int tag = 0;
-	unsigned char layers = 1;
-	unsigned char interactiveLayers = 1; // Enables collisions with objects in matching layers
-	EBodyType type = EBodyType::Kinematic;
-	Transform transform;
-	glm::vec3 velocity = glm::vec3(0.0);
-	EAxes freezeMovement = (EAxes)0;
-	EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
-	ColliderShape* shape;
+	enum EAxes
+	{
+		X = 1,
+		Y = 2,
+		Z = 4,
+	};
 
-	// Callbacks
-	std::function<void(Body&)> onEnter;
-	std::function<void(Body&)> onExit;
-};
+	struct Body
+	{
+		int id;
+		unsigned int tag = 0;
+		unsigned char layers = 1;
+		unsigned char interactiveLayers = 1; // Enables collisions with objects in matching layers
+		EBodyType type = EBodyType::Kinematic;
+		Transform transform;
+		glm::vec3 velocity = glm::vec3(0.0);
+		EAxes freezeMovement = (EAxes)0;
+		EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
+		ColliderShape* shape;
 
-void applyForce(Body& body, const glm::vec3& force);
-void bodyFreezeMovement(Body& body, bool x, bool y, bool z);
-void bodyFreezeRotation(Body& body, bool x, bool y, bool z);
+		// Callbacks
+		std::function<void(Body&)> onEnter;
+		std::function<void(Body&)> onExit;
+	};
 
-class PhysicsSolver
-{
-private:
-	CollisionSolver collisionsSolver;
+	void applyForce(Body& body, const glm::vec3& force);
+	void bodyFreezeMovement(Body& body, bool x, bool y, bool z);
+	void bodyFreezeRotation(Body& body, bool x, bool y, bool z);
 
-	PoolAllocator<Body>* bodies;
-	std::vector<std::string> tags;
-	std::vector<std::string> layers;
-	const const char* DEFAULT_TAG = "Default";
-	const const char* DEFAULT_LAYER = "Default";
-	const const char* PLAYER_LAYER = "Player";
+	class PhysicsSolver
+	{
+	private:
+		CollisionSolver collisionsSolver;
 
-public:
-	PhysicsSolver();
-	~PhysicsSolver();
+		PoolAllocator<Body>* bodies;
+		std::vector<std::string> tags;
+		std::vector<std::string> layers;
+		const const char* DEFAULT_TAG = "Default";
+		const const char* DEFAULT_LAYER = "Default";
+		const const char* PLAYER_LAYER = "Player";
 
-	void update(float dt);
+	public:
+		PhysicsSolver();
+		~PhysicsSolver();
 
-	Body& addBody();
+		void update(float dt);
 
-	CollisionSolver& getCollisionSolver() { return collisionsSolver; }
+		Body& addBody();
 
-	int findTagId(std::string tag);
-	int setTag(int position, std::string tag) { tags[position] = tag; }
-	std::string getTagName(int position) { return tags[position]; }
-	static bool canCheckCollision(const Body& body, const Body& target);
-};
+		CollisionSolver& getCollisionSolver() { return collisionsSolver; }
+
+		int findTagId(std::string tag);
+		int setTag(int position, std::string tag) { tags[position] = tag; }
+		std::string getTagName(int position) { return tags[position]; }
+		static bool canCheckCollision(const Body& body, const Body& target);
+	};
+} // namespace FikaEngine

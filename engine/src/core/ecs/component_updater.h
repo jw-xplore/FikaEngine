@@ -7,26 +7,29 @@
 #include <iostream>
 #include <cassert>
 
-class ECSComponent;
-class Entity;
-
-/**
-	* @brief Stores components of one specific types and runs their update.
-	*/
-class ComponentUpdater
+namespace FikaEngine
 {
-protected:
-	unsigned int targetComponentId = 0;
-	std::map<unsigned int, ECSComponent*> entityOwnedComponents;
+	class ECSComponent;
+	class Entity;
 
-public:
-	ComponentUpdater() {}
-	virtual ~ComponentUpdater() {}
+	/**
+		* @brief Stores components of one specific types and runs their update.
+		*/
+	class ComponentUpdater
+	{
+	protected:
+		unsigned int targetComponentId = 0;
+		std::map<unsigned int, ECSComponent*> entityOwnedComponents;
 
-	virtual void update(float dt) {}
-	virtual ECSComponent* addComponent() { return nullptr; }
-	void storeOwner(Entity* entity, ECSComponent* component) { entityOwnedComponents[entity->getId()] = component; }
+	public:
+		ComponentUpdater() {}
+		virtual ~ComponentUpdater() {}
 
-	unsigned int getTargetComponentId() { return targetComponentId; }
-	ECSComponent* getComponent(Entity& entity) { return entityOwnedComponents[entity.getId()]; }
-};
+		virtual void update(float dt) {}
+		virtual ECSComponent* addComponent() { return nullptr; }
+		void storeOwner(Entity* entity, ECSComponent* component) { entityOwnedComponents[entity->getId()] = component; }
+
+		unsigned int getTargetComponentId() { return targetComponentId; }
+		ECSComponent* getComponent(Entity& entity) { return entityOwnedComponents[entity.getId()]; }
+	};
+} // namespace FikaEngine

@@ -2,6 +2,8 @@
 #include <glm/glm.hpp>
 #include <fika_engine.h>
 
+using namespace FikaEngine;
+
 class ContentManager
 {
 private:

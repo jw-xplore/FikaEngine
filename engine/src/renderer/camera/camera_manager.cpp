@@ -1,53 +1,56 @@
 #include "camera_manager.h"
 #include "platform/window.h";
 
-CameraManager::CameraManager()
+namespace FikaEngine
 {
-
-}
-
-CameraManager::~CameraManager()
-{
-
-}
-
-void CameraManager::init(Window& window)
-{
-	mainCamera = Camera(window);
-	freeCamera = Camera(window);
-	useFreeCamera(false);
-}
-
-Camera* CameraManager::getActiveCamera()
-{
-	return activeCamera;
-}
-
-void CameraManager::useFreeCamera(bool use)
-{
-	usingFreeCamera = use;
-
-	if (use)
+	CameraManager::CameraManager()
 	{
-		activeCamera = &freeCamera;
+
 	}
-	else
+
+	CameraManager::~CameraManager()
 	{
-		activeCamera = &mainCamera;
+
 	}
-}
 
-bool CameraManager::isUsingFreeCamera()
-{
-	return usingFreeCamera;
-}
+	void CameraManager::init(Window& window)
+	{
+		mainCamera = Camera(window);
+		freeCamera = Camera(window);
+		useFreeCamera(false);
+	}
 
-Camera* CameraManager::getMainCamera()
-{
-	return &mainCamera;
-}
+	Camera* CameraManager::getActiveCamera()
+	{
+		return activeCamera;
+	}
 
-Camera* CameraManager::getFreeCamera()
-{
-	return &freeCamera;
-}
+	void CameraManager::useFreeCamera(bool use)
+	{
+		usingFreeCamera = use;
+
+		if (use)
+		{
+			activeCamera = &freeCamera;
+		}
+		else
+		{
+			activeCamera = &mainCamera;
+		}
+	}
+
+	bool CameraManager::isUsingFreeCamera()
+	{
+		return usingFreeCamera;
+	}
+
+	Camera* CameraManager::getMainCamera()
+	{
+		return &mainCamera;
+	}
+
+	Camera* CameraManager::getFreeCamera()
+	{
+		return &freeCamera;
+	}
+} // namespace FikaEngine

@@ -3,77 +3,80 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-class Window;
-
-/*
-namespace Input
+namespace FikaEngine
 {
-    struct Keyboard;
-    struct Mouse;
-}
-*/
+    class Window;
 
-class Camera
-{
-private:
-    // TODO: Remove these
-    void processMouse(float dt);
-    void processKeyboard(float dt);
+    /*
+    namespace Input
+    {
+        struct Keyboard;
+        struct Mouse;
+    }
+    */
 
-public:
-    Camera() {}
-    Camera(Window& window);
+    class Camera
+    {
+    private:
+        // TODO: Remove these
+        void processMouse(float dt);
+        void processKeyboard(float dt);
 
-	void updateVectors();
+    public:
+        Camera() {}
+        Camera(Window& window);
 
-    /**
-     * @brief Set direction toward given target.
-     * @param target vec3 position to look at.
-     */
-    void lookAt(glm::vec3 target);
+        void updateVectors();
 
-    /**
-     * @brief Update camera position and direction.
-     * @param position 
-     * @param direction 
-     */
-    void move(glm::vec3 position, glm::vec3 direction);
+        /**
+         * @brief Set direction toward given target.
+         * @param target vec3 position to look at.
+         */
+        void lookAt(glm::vec3 target);
 
-    /**
-     * @brief Updates free flying camera, including keyboard and mouse controls.
-     * @param dt 
-     */
-    void flycamUpdate(float dt);
+        /**
+         * @brief Update camera position and direction.
+         * @param position 
+         * @param direction 
+         */
+        void move(glm::vec3 position, glm::vec3 direction);
 
-    glm::mat4 getProjection() { return projection; }
-    glm::vec3 getPosition() { return position; }
-    glm::vec3 getDirection() { return direction; }
+        /**
+         * @brief Updates free flying camera, including keyboard and mouse controls.
+         * @param dt 
+         */
+        void flycamUpdate(float dt);
 
-private:
-    Window* window;
-    // NOTE: Camera should not know about input devices
-    //Input::Keyboard* keyboard;
-    //Input::Mouse* mouse;
+        glm::mat4 getProjection() { return projection; }
+        glm::vec3 getPosition() { return position; }
+        glm::vec3 getDirection() { return direction; }
 
-    float yaw = 90;
-    float pitch = 0;
+    private:
+        Window* window;
+        // NOTE: Camera should not know about input devices
+        //Input::Keyboard* keyboard;
+        //Input::Mouse* mouse;
 
-    float speed = 5.0f;
-    float minSpeed = 1.0f, maxSpeed = 20.0f, speedChange = 1.0f;
-    float sensitivity = 10.1f;
+        float yaw = 90;
+        float pitch = 0;
 
-    glm::vec3 rotation;
+        float speed = 5.0f;
+        float minSpeed = 1.0f, maxSpeed = 20.0f, speedChange = 1.0f;
+        float sensitivity = 10.1f;
 
-    float fov = 45.0f;
-    float nearPlane = 0.1f;
-    float farPlane = 100.0f;
+        glm::vec3 rotation;
 
-    glm::vec3 position{ 0, 0, -5 };
-    glm::vec3 direction = { 0, 0, 1};
-    glm::vec3 front{ 0,0,-1 };
-    glm::vec3 rightVec{ 1,0,0 };
-    glm::vec3 upVec{ 0,1,0 };
+        float fov = 45.0f;
+        float nearPlane = 0.1f;
+        float farPlane = 100.0f;
 
-    glm::mat4 projection;
-    bool freeControls = true;
-};
+        glm::vec3 position{ 0, 0, -5 };
+        glm::vec3 direction = { 0, 0, 1};
+        glm::vec3 front{ 0,0,-1 };
+        glm::vec3 rightVec{ 1,0,0 };
+        glm::vec3 upVec{ 0,1,0 };
+
+        glm::mat4 projection;
+        bool freeControls = true;
+    };
+} // namespace FikaEngine

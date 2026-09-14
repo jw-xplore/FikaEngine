@@ -6,79 +6,82 @@
 #include <memory>
 #include "core/pool_allocator.h"
 
-class MeshResource;
-class ShaderResource;
-class MeshInstance;
-class TextureResource;
-
-struct LineVertex
+namespace FikaEngine
 {
-	glm::vec3 position = glm::vec3(0.0f);
-	glm::vec3 color = glm::vec3(1.0f);
-};
+	class MeshResource;
+	class ShaderResource;
+	class MeshInstance;
+	class TextureResource;
 
-struct Line
-{
-	LineVertex a;
-	LineVertex b;
-
-	Line() {}
-
-	Line(glm::vec3 posA, glm::vec3 posB, glm::vec3 color)
+	struct LineVertex
 	{
-		a.position = posA;
-		b.position = posB;
-		a.color = color;
-		b.color = color;
-	}
+		glm::vec3 position = glm::vec3(0.0f);
+		glm::vec3 color = glm::vec3(1.0f);
+	};
 
-	Line(glm::vec3 posA, glm::vec3 posB, glm::vec3 colorA, glm::vec3 colorB)
+	struct Line
 	{
-		a.position = posA;
-		b.position = posB;
-		a.color = colorA;
-		b.color = colorB;
-	}
-};
+		LineVertex a;
+		LineVertex b;
 
-struct LinesRenderData
-{
-	PoolAllocator<Line>* lines;
-	std::vector<LineVertex> vertices;
+		Line() {}
 
-	ShaderResource* shader;
-	GLuint vao = 0;
-	GLuint vbo = 0;
-};
+		Line(glm::vec3 posA, glm::vec3 posB, glm::vec3 color)
+		{
+			a.position = posA;
+			b.position = posB;
+			a.color = color;
+			b.color = color;
+		}
 
-class Renderer
-{
-private:
-	PoolAllocator<MeshInstance>* meshes;
-	LinesRenderData linesData;
+		Line(glm::vec3 posA, glm::vec3 posB, glm::vec3 colorA, glm::vec3 colorB)
+		{
+			a.position = posA;
+			b.position = posB;
+			a.color = colorA;
+			b.color = colorB;
+		}
+	};
 
-public:
-	const int MAX_MESHES = 256;
+	struct LinesRenderData
+	{
+		PoolAllocator<Line>* lines;
+		std::vector<LineVertex> vertices;
 
-	Renderer();
-	~Renderer();
+		ShaderResource* shader;
+		GLuint vao = 0;
+		GLuint vbo = 0;
+	};
 
-	void init();
+	class Renderer
+	{
+	private:
+		PoolAllocator<MeshInstance>* meshes;
+		LinesRenderData linesData;
 
-	/**
-	 * @brief Render all mesh instances in list withing given projection.
-	 * @param mvp Model view projection. Camera view matrix.
-	 */
-	void render(glm::mat4 mvp);
-	void renderLines(glm::mat4 mvp);
+	public:
+		const int MAX_MESHES = 256;
 
-	/**
-	 * @brief Create new mesh instance into render pool. Mesh instance will be automatically rendered each frame.
-	 * @param meshRes Model mesh used for the instance.
-	 * @param shader Shader used for the instance
-	 * @return New created mesh instanced
-	 */
-	MeshInstance* addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
+		Renderer();
+		~Renderer();
 
-	Line* addLine(Line line);
-};
+		void init();
+
+		/**
+		 * @brief Render all mesh instances in list withing given projection.
+		 * @param mvp Model view projection. Camera view matrix.
+		 */
+		void render(glm::mat4 mvp);
+		void renderLines(glm::mat4 mvp);
+
+		/**
+		 * @brief Create new mesh instance into render pool. Mesh instance will be automatically rendered each frame.
+		 * @param meshRes Model mesh used for the instance.
+		 * @param shader Shader used for the instance
+		 * @return New created mesh instanced
+		 */
+		MeshInstance* addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
+
+		Line* addLine(Line line);
+	};
+} // namespace FikaEngine

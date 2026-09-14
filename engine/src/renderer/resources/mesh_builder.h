@@ -2,41 +2,44 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-class MeshResource;
-
-struct VertexAttributes
+namespace FikaEngine
 {
-	glm::vec3 position;
-	glm::vec4 color;
-	glm::vec2 uv;
-	glm::vec3 normal;
+	class MeshResource;
 
-	VertexAttributes() {}
-	VertexAttributes(glm::vec3 position, glm::vec4 color, glm::vec2 uv, glm::vec3 normal) :
-		position(position),
-		color(color),
-		uv(uv),
-		normal(normal)
+	struct VertexAttributes
 	{
-	}
-};
+		glm::vec3 position;
+		glm::vec4 color;
+		glm::vec2 uv;
+		glm::vec3 normal;
 
-class MeshBuilder
-{
-public:
-	std::vector<VertexAttributes> vertexBuffer;
-	std::vector<unsigned int> indices;
-	//const char* texturePath;
+		VertexAttributes() {}
+		VertexAttributes(glm::vec3 position, glm::vec4 color, glm::vec2 uv, glm::vec3 normal) :
+			position(position),
+			color(color),
+			uv(uv),
+			normal(normal)
+		{
+		}
+	};
 
-	MeshBuilder();
+	class MeshBuilder
+	{
+	public:
+		std::vector<VertexAttributes> vertexBuffer;
+		std::vector<unsigned int> indices;
+		//const char* texturePath;
 
-	void build(MeshResource& resource);
+		MeshBuilder();
 
-	MeshBuilder& addVertices(glm::vec3 position, glm::vec4 color, glm::vec2 uv, glm::vec3 normal);
-	MeshBuilder& addVertices(VertexAttributes& vertex);
-	MeshBuilder& addTriangles(unsigned int v0, unsigned int v1, unsigned int v2);
+		void build(MeshResource& resource);
 
-	MeshBuilder& loadMesh(const char* path);
-	MeshBuilder& createQuad(float width, float height);
-	MeshBuilder& createCube(float size);
-};
+		MeshBuilder& addVertices(glm::vec3 position, glm::vec4 color, glm::vec2 uv, glm::vec3 normal);
+		MeshBuilder& addVertices(VertexAttributes& vertex);
+		MeshBuilder& addTriangles(unsigned int v0, unsigned int v1, unsigned int v2);
+
+		MeshBuilder& loadMesh(const char* path);
+		MeshBuilder& createQuad(float width, float height);
+		MeshBuilder& createCube(float size);
+	};
+} // namespace FikaEngine

@@ -4,116 +4,119 @@
 #include "core/pool_allocator.h"
 #include "core/filemanagement/json.h"
 
-struct Body;
-
-enum EColliderShapes
+namespace FikaEngine
 {
-	None = 0,
-	ColliderShapeSphere,
-	ColliderShapeBox,
-	ColliderShapeCapsule
-};
+	struct Body;
 
-struct ColliderShape
-{
-	Body* body;
-	virtual nlohmann::json serialize();
-};
-
-struct Sphere : public ColliderShape
-{
-	float radius;
-	nlohmann::json serialize() override;
-};
-
-struct Box : public ColliderShape
-{
-	glm::vec3 volume;
-	nlohmann::json serialize() override;
-};
-
-struct Capsule : public ColliderShape
-{
-	float radius;
-	float height;
-	nlohmann::json serialize() override;
-};
-
-struct Ray
-{
-	glm::vec3 start;
-	glm::vec3 direction;
-	float lenght;
-	unsigned char interactiveLayers = 1;
-
-	Ray(glm::vec3 start, glm::vec3 direction, float lenght): start(start), direction(direction), lenght(lenght)
+	enum EColliderShapes
 	{
-		if (direction != glm::vec3(0.0f))
-			this->direction = glm::normalize(direction);
-	}
+		None = 0,
+		ColliderShapeSphere,
+		ColliderShapeBox,
+		ColliderShapeCapsule
+	};
 
-	inline glm::vec3 end() const { return start + direction * lenght; }
-};
+	struct ColliderShape
+	{
+		Body* body;
+		virtual nlohmann::json serialize();
+	};
 
-struct Contact
-{
-	glm::vec3 normal;
-	float penetration;
-	glm::vec3 point;
-};
+	struct Sphere : public ColliderShape
+	{
+		float radius;
+		nlohmann::json serialize() override;
+	};
 
-const float PENETRATION_MULT = 0.0166f; // TODO: Adjust this with proper behavior and calculation
+	struct Box : public ColliderShape
+	{
+		glm::vec3 volume;
+		nlohmann::json serialize() override;
+	};
 
-class CollisionSolver
-{
-private:
-	PoolAllocator<Sphere>* sphereColliders;
-	PoolAllocator<Box>* boxColliders;
-	PoolAllocator<Capsule>* capsuleColliders;
+	struct Capsule : public ColliderShape
+	{
+		float radius;
+		float height;
+		nlohmann::json serialize() override;
+	};
 
-	int bodiesCount = 0; // TODO: Do safer implementation
-	bool* ongoingContacts = nullptr;
+	struct Ray
+	{
+		glm::vec3 start;
+		glm::vec3 direction;
+		float lenght;
+		unsigned char interactiveLayers = 1;
 
-	const float targetDt = 1.0f / 60.0f;
-	const int SOLVER_ITERATIONS = 3;
-	const float MIN_DISTANCE = 1e-6f;
+		Ray(glm::vec3 start, glm::vec3 direction, float lenght): start(start), direction(direction), lenght(lenght)
+		{
+			if (direction != glm::vec3(0.0f))
+				this->direction = glm::normalize(direction);
+		}
 
-public:
-	CollisionSolver();
-	~CollisionSolver();
+		inline glm::vec3 end() const { return start + direction * lenght; }
+	};
 
-	void update(float dt);
+	struct Contact
+	{
+		glm::vec3 normal;
+		float penetration;
+		glm::vec3 point;
+	};
 
-	void resolveContact(Body& bodyA, Body& bodyB, Contact& contact);
-	void checkCollsionExit(Body& bodyA, Body& bodyB);
+	const float PENETRATION_MULT = 0.0166f; // TODO: Adjust this with proper behavior and calculation
 
-	// Adding colliders
-	Sphere* addSphereCollider(Body& body, float radius);
-	Box* addBoxCollider(Body& body, glm::vec3 volume);
-	Capsule* addCapsuleCollider(Body& body, float radius, float height);
+	class CollisionSolver
+	{
+	private:
+		PoolAllocator<Sphere>* sphereColliders;
+		PoolAllocator<Box>* boxColliders;
+		PoolAllocator<Capsule>* capsuleColliders;
 
-	// Queries
-	Contact* raycast(glm::vec3 start, glm::vec3 direction, float lenght);
+		int bodiesCount = 0; // TODO: Do safer implementation
+		bool* ongoingContacts = nullptr;
 
-	// Collisions
-	// Sphere
-	bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
-	// Box
-	bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
-	bool overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out = nullptr);
-	// Capsule
-	bool overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out = nullptr);
-	bool overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out = nullptr);
-	bool overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out = nullptr);
+		const float targetDt = 1.0f / 60.0f;
+		const int SOLVER_ITERATIONS = 3;
+		const float MIN_DISTANCE = 1e-6f;
 
-	// Ray check
-	bool overlapRaySphere(const Ray& ray, const Sphere& sphere, Contact* out = nullptr);
-	bool overlapRayBox(const Ray& ray, const Box& box, Contact* out = nullptr);
-	bool overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out = nullptr);
+	public:
+		CollisionSolver();
+		~CollisionSolver();
 
-	bool rayCircleCheck(glm::vec2 start, glm::vec2 end, glm::vec2 circlePos, float radius);
-	bool updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit);
+		void update(float dt);
 
-	void setupOngoinContacts(const size_t size);
-	int contactFromPair(int bodyIdA, int bodyIdB);
-};
+		void resolveContact(Body& bodyA, Body& bodyB, Contact& contact);
+		void checkCollsionExit(Body& bodyA, Body& bodyB);
+
+		// Adding colliders
+		Sphere* addSphereCollider(Body& body, float radius);
+		Box* addBoxCollider(Body& body, glm::vec3 volume);
+		Capsule* addCapsuleCollider(Body& body, float radius, float height);
+
+		// Queries
+		Contact* raycast(glm::vec3 start, glm::vec3 direction, float lenght);
+
+		// Collisions
+		// Sphere
+		bool overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out = nullptr);
+		// Box
+		bool overlapBoxBox(const Box& colA, const Box& colB, Contact* out = nullptr);
+		bool overlapSphereBox(const Sphere& colA, const Box& colB, Contact* out = nullptr);
+		// Capsule
+		bool overlapCapsuleCapsule(const Capsule& colA, const Capsule& colB, Contact* out = nullptr);
+		bool overlapCapsuleSphere(const Capsule& colA, const Sphere& colB, Contact* out = nullptr);
+		bool overlapCapsuleBox(const Capsule& colA, const Box& colB, Contact* out = nullptr);
+
+		// Ray check
+		bool overlapRaySphere(const Ray& ray, const Sphere& sphere, Contact* out = nullptr);
+		bool overlapRayBox(const Ray& ray, const Box& box, Contact* out = nullptr);
+		bool overlapRayCapsule(const Ray& ray, const Capsule& capsule, Contact* out = nullptr);
+
+		bool rayCircleCheck(glm::vec2 start, glm::vec2 end, glm::vec2 circlePos, float radius);
+		bool updateAxis(float sAxis, float dAxis, float minAxis, float maxAxis, float& tEnter, float& tExit);
+
+		void setupOngoinContacts(const size_t size);
+		int contactFromPair(int bodyIdA, int bodyIdB);
+	};
+} // namespace FikaEngine

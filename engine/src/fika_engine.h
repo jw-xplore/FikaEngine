@@ -56,9 +56,6 @@ Includes
 Engine
 */
 
-/**
- * @brief Main engine namespace - Call run to initiate engine and game loop in your project.
- */
 namespace FikaEngine
 {
 	class Game

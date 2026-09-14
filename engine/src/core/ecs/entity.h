@@ -1,26 +1,29 @@
 #pragma once
 #include <string>
 
-struct Prefab;
-
-static unsigned int lastEntityId = 0;
-
-class Entity
+namespace FikaEngine
 {
-private:
-	unsigned int id = 0;
-	std::string name;
-	void setId(unsigned int id);
-	Prefab* sourcePrefab;
+	struct Prefab;
 
-public:
-	Entity();
-	Entity(std::string name);
-	~Entity() {}
+	static unsigned int lastEntityId = 0;
 
-	unsigned int getId() const { return id; }
-	void setName(std::string name) { this->name = name; }
-	std::string getName() { return name; }
-	void setSourcePrefab(Prefab* prefab) { sourcePrefab = prefab; }
-	Prefab* getSourcePrefab() { return sourcePrefab; }
-};
+	class Entity
+	{
+	private:
+		unsigned int id = 0;
+		std::string name;
+		void setId(unsigned int id);
+		Prefab* sourcePrefab;
+
+	public:
+		Entity();
+		Entity(std::string name);
+		~Entity() {}
+
+		unsigned int getId() const { return id; }
+		void setName(std::string name) { this->name = name; }
+		std::string getName() { return name; }
+		void setSourcePrefab(Prefab* prefab) { sourcePrefab = prefab; }
+		Prefab* getSourcePrefab() { return sourcePrefab; }
+	};
+} // namespace FikaEngine

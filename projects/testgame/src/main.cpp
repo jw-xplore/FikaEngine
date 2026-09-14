@@ -8,6 +8,7 @@
 #include "components/player_component.h"
 
 ContentManager* contentManager;
+using namespace FikaEngine;
 
 void start()
 {

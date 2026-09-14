@@ -4,7 +4,7 @@
 #include "core/pool_allocator.h"
 #include"fika_engine.h"
 
-struct Body;
+using namespace FikaEngine;
 
 //-------------------------------------------------------
 // Component

@@ -4,30 +4,33 @@
 #include <filesystem>
 #include <map>
 
-class Entity;
-class ECSManager;
-
-struct Prefab
+namespace FikaEngine
 {
-	std::string name;
-	std::string path;
-	nlohmann::json data;
-};
+	class Entity;
+	class ECSManager;
 
-class GameResourceManager
-{
-private:
-	ECSManager* ecsManager;
-	std::map<std::string, Prefab> loadedPrefabs;
+	struct Prefab
+	{
+		std::string name;
+		std::string path;
+		nlohmann::json data;
+	};
 
-public:
-	GameResourceManager();
-	~GameResourceManager();
+	class GameResourceManager
+	{
+	private:
+		ECSManager* ecsManager;
+		std::map<std::string, Prefab> loadedPrefabs;
 
-	void init();
-	void makePrefab(Entity& entity, const char* path);
-	void loadPrefab(const char* path, Prefab& out);
-	Prefab* getLoadedPrefab(std::string path);
-	std::vector<Prefab*> getLoadedPrefabsList();
-	void loadFolderPrefabs(const char* path);
-};
+	public:
+		GameResourceManager();
+		~GameResourceManager();
+
+		void init();
+		void makePrefab(Entity& entity, const char* path);
+		void loadPrefab(const char* path, Prefab& out);
+		Prefab* getLoadedPrefab(std::string path);
+		std::vector<Prefab*> getLoadedPrefabsList();
+		void loadFolderPrefabs(const char* path);
+	};
+} // namespace FikaEngine

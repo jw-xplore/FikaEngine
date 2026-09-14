@@ -4,32 +4,35 @@
 #include <memory>
 #include "core/filemanagement/json.h"
 
-class Entity;
-
-class ECSComponent
+namespace FikaEngine
 {
-protected:
-	Entity* owner;
+	class Entity;
 
-public:
-	ECSComponent() {}
-	virtual ~ECSComponent() {}
+	class ECSComponent
+	{
+	protected:
+		Entity* owner;
 
-	/**
-		* @brief Called when Component is added.
-		*/
-	virtual void start() {}
+	public:
+		ECSComponent() {}
+		virtual ~ECSComponent() {}
 
-	/**
-		* @brief Called each frame.
-		* @param dt
-		*/
-	virtual void update(float dt) {}
+		/**
+			* @brief Called when Component is added.
+			*/
+		virtual void start() {}
 
-	virtual unsigned int getComponentId() const { return 0; }
-	virtual nlohmann::json serialize() { return nullptr; }
-	virtual void deserialize(nlohmann::json js) {}
+		/**
+			* @brief Called each frame.
+			* @param dt
+			*/
+		virtual void update(float dt) {}
 
-	void setOwnerEntity(Entity* entity) { owner = entity; }
-	Entity* getOwnerEntity() { return owner; }
-};
+		virtual unsigned int getComponentId() const { return 0; }
+		virtual nlohmann::json serialize() { return nullptr; }
+		virtual void deserialize(nlohmann::json js) {}
+
+		void setOwnerEntity(Entity* entity) { owner = entity; }
+		Entity* getOwnerEntity() { return owner; }
+	};
+} // namespace FikaEngine

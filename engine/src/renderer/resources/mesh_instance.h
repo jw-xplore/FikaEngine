@@ -4,37 +4,39 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-class MeshResource;
-class TextureResource;
-class ShaderResource;
-
-
-//------------------------------------------------------------------------------
-// Mesh instance
-//------------------------------------------------------------------------------
-
-class MeshInstance
+namespace FikaEngine
 {
-private:
-	MeshResource* mesh = nullptr;
-	TextureResource* texture = nullptr;
-	ShaderResource* shader = nullptr;
+	class MeshResource;
+	class TextureResource;
+	class ShaderResource;
 
-public:
-	glm::mat4* transform;
-	glm::vec3 customScale = glm::vec3(1.0);
+	//------------------------------------------------------------------------------
+	// Mesh instance
+	//------------------------------------------------------------------------------
 
-	MeshInstance();
-	MeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture, glm::mat4* transform);
+	class MeshInstance
+	{
+	private:
+		MeshResource* mesh = nullptr;
+		TextureResource* texture = nullptr;
+		ShaderResource* shader = nullptr;
 
-	void setMesh(MeshResource* mesh) { this->mesh = mesh; }
-	void setTexture(TextureResource* texture) { this->texture = texture; }
-	void setShader(ShaderResource* shader) { this->shader = shader; }
-	void setTransform(glm::mat4* transform) { this->transform = transform; }
+	public:
+		glm::mat4* transform;
+		glm::vec3 customScale = glm::vec3(1.0);
 
-	MeshResource* getMesh() { return mesh; }
-	TextureResource* getTexture() { return texture; }
-	ShaderResource* gettShader() { return shader; }
+		MeshInstance();
+		MeshInstance(MeshResource& meshRes, ShaderResource& shader, TextureResource* texture, glm::mat4* transform);
 
-	void draw(glm::mat4 mvp);
-};
+		void setMesh(MeshResource* mesh) { this->mesh = mesh; }
+		void setTexture(TextureResource* texture) { this->texture = texture; }
+		void setShader(ShaderResource* shader) { this->shader = shader; }
+		void setTransform(glm::mat4* transform) { this->transform = transform; }
+
+		MeshResource* getMesh() { return mesh; }
+		TextureResource* getTexture() { return texture; }
+		ShaderResource* gettShader() { return shader; }
+
+		void draw(glm::mat4 mvp);
+	};
+} // namespace FikaEngine
