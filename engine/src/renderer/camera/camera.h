@@ -41,6 +41,9 @@ namespace FikaEngine
          */
         void move(glm::vec3 position, glm::vec3 direction);
 
+        void translate(glm::vec3 move);
+        void rotate(float yaw, float pitch);
+
         /**
          * @brief Updates free flying camera, including keyboard and mouse controls.
          * @param dt 
@@ -50,6 +53,7 @@ namespace FikaEngine
         glm::mat4 getProjection() { return projection; }
         glm::vec3 getPosition() { return position; }
         glm::vec3 getDirection() { return direction; }
+        glm::vec3 getRightVector() { return rightVec; }
 
     private:
         Window* window;
@@ -60,9 +64,11 @@ namespace FikaEngine
         float yaw = 90;
         float pitch = 0;
 
+        /*
         float speed = 5.0f;
         float minSpeed = 1.0f, maxSpeed = 20.0f, speedChange = 1.0f;
         float sensitivity = 10.1f;
+        */
 
         glm::vec3 rotation;
 
@@ -77,6 +83,6 @@ namespace FikaEngine
         glm::vec3 upVec{ 0,1,0 };
 
         glm::mat4 projection;
-        bool freeControls = true;
+        //bool freeControls = true;
     };
 } // namespace FikaEngine

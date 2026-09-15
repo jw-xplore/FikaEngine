@@ -10,6 +10,7 @@
  * @brief Fika Editor main
  */
 
+using namespace FikaEngine;
 FikaEditor::Editor editor;
 
 void start()
@@ -29,6 +30,7 @@ void start()
     RigidBodyComponentUpdater::init();
     MeshComponentUpdater::init();
 
+    editor.init();
     editor.loadProject();
 }
 
@@ -41,7 +43,7 @@ void update(float dt)
     debugRender.addLine(Line(start, start + glm::vec3(0, 1, 0), glm::vec3(0, 1, 0)));
     debugRender.addLine(Line(start, start + glm::vec3(0, 0, 1), glm::vec3(0, 0, 1)));
 
-    editor.update();
+    editor.update(dt);
 }
 
 int main()

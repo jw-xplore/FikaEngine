@@ -77,6 +77,7 @@ namespace FikaEngine
         if (!window.create(1280, 720, "Fika Engine"))
             return;
 
+        FikaServers::getInstance()->setWindow(&window);
         FikaServers::getInputManager().init(window.getHandle());
         setup();
         glEnable(GL_DEPTH_TEST);

@@ -16,6 +16,7 @@ namespace FikaEngine
 	private:
 		static FikaServers* instance;
 
+		Window* window;
 		Renderer renderer;
 		Renderer debugRenderer; // Renders helper meshes
 		ECSManager ecsManager;
@@ -31,8 +32,10 @@ namespace FikaEngine
 
 		static FikaServers* getInstance();
 		void init();
+		void setWindow(Window* window);
 
 		// Servers getters
+		static Window* getWindow()								{ return FikaServers::getInstance()->window; }
 		static Renderer& getMainRenderer()						{ return FikaServers::getInstance()->renderer; }
 		static Renderer& getDebugRenderer()						{ return FikaServers::getInstance()->debugRenderer; }
 		static CameraManager& getCameraManager()				{ return FikaServers::getInstance()->cameraManager; }

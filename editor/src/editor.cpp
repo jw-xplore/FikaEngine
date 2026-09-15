@@ -6,9 +6,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "core/fika_servers.h"
-#include "core/game_resource_manager.h"
 #include "platform/inputs/input_devices.h"
-#include "platform/inputs/input_handler.h"
+#include "platform/inputs/input_manager.h"
 
 #include "fika_engine.h"
 
@@ -69,8 +68,18 @@ namespace FikaEditor
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void Editor::update()
+    void Editor::init()
     {
+        Camera* camera = FikaServers::getCameraManager().getMainCamera();
+        Window* window = FikaServers::getWindow();
+        editorCamera = EditorCamera(camera, window);
+    }
+
+    void Editor::update(float dt)
+    {
+        // Camera
+        editorCamera.update(dt);
+
         // UI
         selectPrefab();
         debugUI(glfwGetCurrentContext());
@@ -105,6 +114,8 @@ namespace FikaEditor
 
     void Editor::loadActivePrefab()
     {
+        return;
+
         if (!activePrefab)
             activePrefab = new Prefab();
 
@@ -181,6 +192,18 @@ namespace FikaEditor
 
         glm::vec3 pos = cam->getPosition();
         glm::vec3 dir = cam->getDirection();
+
+        // Mouse cursor position
+        glm::vec2 windowSize = FikaServers::getWindow()->getSize();
+        windowSize *= 0.5f;
+
+        glm::vec2 mousePos = FikaServers::getInputManager().mousePosition() - windowSize;
+
+        glm::vec2 mouseDevicePos = glm::vec2(mousePos.x / windowSize.x, mousePos.y / windowSize.y);
+        glm::vec3 mouseWorldDir = glm::vec3(mouseDevicePos.x * dir.z, mouseDevicePos.y, mouseDevicePos.x * -dir.x);
+        dir -= mouseWorldDir;
+
+        FikaServers::getDebugRenderer().addLine(Line(glm::vec3(0), pos, glm::vec3(0, 1, 0)));
 
         float t = -pos.y / dir.y;
         if (t < 0)

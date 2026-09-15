@@ -3,8 +3,10 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "core/filemanagement/json.h"
+#include "core/game_resource_manager.h"
+#include "editor_camera.h"
 
-struct Prefab;
+using namespace FikaEngine;
 
 namespace FikaEditor
 {
@@ -21,11 +23,15 @@ namespace FikaEditor
 		std::vector<Prefab*> projectPrefabs;
 
 		glm::mat4 placingTransform = glm::mat4(1.95);
+		EditorCamera editorCamera;
 
 		void debugUI(GLFWwindow* window);
+
 	public:
 		Editor();
-		void update();
+
+		void init();
+		void update(float dt);
 
 		bool loadProject();
 		void loadActivePrefab();

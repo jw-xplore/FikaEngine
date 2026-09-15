@@ -36,6 +36,20 @@ namespace FikaEngine
         lookAt(position + direction);
     }
 
+    void Camera::translate(glm::vec3 move)
+    {
+        position += move;
+        updateVectors();
+    }
+
+    void Camera::rotate(float yaw, float pitch)
+    {
+        this->yaw += yaw;
+        this->pitch += pitch;
+        updateVectors();
+        lookAt(position + direction);
+    }
+
     void Camera::flycamUpdate(float dt)
     {
         // Free cam controls

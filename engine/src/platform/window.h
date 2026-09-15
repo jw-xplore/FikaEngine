@@ -1,6 +1,7 @@
 #pragma once
-
-struct GLFWwindow;
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 namespace FikaEngine
 {
@@ -16,6 +17,7 @@ namespace FikaEngine
 
         float getWidth() { return width; }
         float getHeight() { return height; }
+        const glm::vec2 getSize() { return glm::vec2(width, height); }
         float getAspect() { return (float)width / (float)height; }
         GLFWwindow* getHandle() { return handle; }
 

@@ -27,4 +27,10 @@ namespace FikaEngine
 		ecsManager.init();
 		gameResourceManager.init();
 	}
+
+	void FikaServers::setWindow(Window* window)
+	{
+		this->window = window;
+	}
+
 } // namespace FikaEngine
