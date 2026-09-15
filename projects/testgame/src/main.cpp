@@ -27,11 +27,11 @@ void start()
     // Test entity cmp setup
     contentManager = new ContentManager();
     Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
-    Entity& wall = contentManager->createWall(glm::vec3(2,0,0), true);
+    Entity& wall = contentManager->createWall(glm::vec3(0,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
-    //FikaServers::getGameResourceManager()->makePrefab(player, "assets/prefabs/player.json");
-    //FikaServers::getGameResourceManager()->makePrefab(wall, "assets/prefabs/wall.json");
+    //FikaServers::getGameResourceManager().makePrefab(player, "C:/Projects/Prog/FikaEngine/projects/testgame/assets/prefabs/player.json");
+    //FikaServers::getGameResourceManager().makePrefab(wall, "C:/Projects/Prog/FikaEngine/projects/testgame/assets/prefabs/wall.json");
 
     //FikaServers::getECSManager().loadEntities("assets/levels/testLevel.json");
 

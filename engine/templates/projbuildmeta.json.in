@@ -1,0 +1,5 @@
+{
+    "project": "@APP_NAME@",
+    "source_dir": "@APP_SOURCE_DIR@",
+    "build_dir": "@APP_BINARY_DIR@"
+}

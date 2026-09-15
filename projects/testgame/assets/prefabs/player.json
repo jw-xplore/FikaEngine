@@ -1,0 +1,50 @@
+{
+  "entity": {
+    "components": [
+      {
+        "id": 7099,
+        "interactiveLayers": 1,
+        "layers": 2,
+        "shape": {
+          "height": 2.0,
+          "radius": 0.5,
+          "type": 3
+        },
+        "tag": 0,
+        "transform": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "type": 1
+      },
+      {
+        "id": 8974,
+        "meshPath": "assets/models/pawn.obj",
+        "meshTag": "pawn",
+        "shaderFPath": "assets/common/shaders/basic.frag",
+        "shaderTag": "basic",
+        "shaderVPath": "assets/common/shaders/basic.vert",
+        "texturePath": "assets/textures/pawn.jpg",
+        "textureTag": "customTex1"
+      },
+      {
+        "id": 11740
+      }
+    ],
+    "name": "player"
+  }
+}
