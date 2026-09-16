@@ -46,10 +46,11 @@ namespace FikaEditor
         ImGui::InputText("Executable", executable, 256);
         ImGui::InputText("Prefabs", projectPrefabPath, 256);
 
-        // Run game
-        if (ImGui::Button("Run"))
+        // Load project
+        if (ImGui::Button("Load project"))
         {
-            runGame();
+            loadProject();
+            //saveLevel(levelPath);
         }
 
         // Save level
@@ -58,9 +59,23 @@ namespace FikaEditor
         if (ImGui::Button("Save"))
         {
             saveLevel(levelPath);
-            //FikaServers::getGameObjectManager()->serialize(levelPath);
-            //nlohmann::json level = FikaServers::getECSManager().serializeEditorEntities();
         }
+
+        // Run game
+        if (ImGui::Button("Run"))
+        {
+            runGame();
+        }
+
+        // Check mouse cursor is inside the window
+        ImVec2 windowStart = ImGui::GetWindowPos();
+        ImVec2 windowEnd = ImGui::GetWindowSize();
+        windowEnd.x += windowStart.x;
+        windowEnd.y += windowStart.y;
+        glm::vec2 mousePos = FikaServers::getInputManager().mousePosition();
+
+        cursorInsideGui = mousePos.x > windowStart.x && mousePos.x < windowEnd.x &&
+                          mousePos.y > windowStart.y && mousePos.y < windowEnd.y;
 
         ImGui::End();
 
@@ -73,6 +88,9 @@ namespace FikaEditor
         Camera* camera = FikaServers::getCameraManager().getMainCamera();
         Window* window = FikaServers::getWindow();
         editorCamera = EditorCamera(camera, window);
+
+        GPUResourceManager& gResMgnr = FikaServers::getGResourceManager();
+        FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
     }
 
     void Editor::update(float dt)
@@ -86,27 +104,20 @@ namespace FikaEditor
 
         glm::vec3 pos = positionFromScreenSpace(glm::vec2(0, 0));
         placingTransform[3] = glm::vec4(pos.x, pos.y, pos.z, 1);
-        //glm::translate(placingTransform, pos);
+        glm::translate(placingTransform, pos);
 
         // Placing
-        /*
-        Input::Mouse* mouse = Input::getDefaultMouse();
-
-        if (mouse->pressed[Input::Mouse::RightButton])
+        if (!cursorInsideGui &&  FikaServers::getInputManager().isMousePressed(Mouse::LeftButton))
         {
             if (pos == glm::vec3(-1))
                 return;
 
             placeObject(pos);
         }
-        */
     }
 
     bool Editor::loadProject()
     {
-        GPUResourceManager& gResMgnr = FikaServers::getGResourceManager();
-        FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
-
         loadActivePrefab();
 
         return true;
@@ -114,8 +125,6 @@ namespace FikaEditor
 
     void Editor::loadActivePrefab()
     {
-        return;
-
         if (!activePrefab)
             activePrefab = new Prefab();
 
@@ -267,13 +276,11 @@ namespace FikaEditor
 
     void Editor::selectPrefab()
     {
-        /*
-        Input::Keyboard* keyboard = Input::getDefaultKeyboard();
+        InputManager input = FikaServers::getInputManager();
 
-        if (keyboard->held[Input::Key::Key1])
+        if (input.isKeyPressed(Key::Key1))
             activePrefab = projectPrefabs[0];
-        if (keyboard->held[Input::Key::Key2])
+        if (input.isKeyPressed(Key::Key2))
             activePrefab = projectPrefabs[1];
-        */
     }
 }

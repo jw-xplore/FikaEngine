@@ -31,7 +31,7 @@ void start()
     MeshComponentUpdater::init();
 
     editor.init();
-    editor.loadProject();
+    //editor.loadProject();
 }
 
 void update(float dt)

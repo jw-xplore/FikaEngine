@@ -18,12 +18,14 @@ namespace FikaEditor
 		char levelPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/levels/testLevel.json";
 		//char activePrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/wall.json";
 
-		Prefab* activePrefab;
+		Prefab* activePrefab = nullptr;
 		char projectPrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/";
 		std::vector<Prefab*> projectPrefabs;
 
 		glm::mat4 placingTransform = glm::mat4(1.95);
 		EditorCamera editorCamera;
+
+		bool cursorInsideGui = false;
 
 		void debugUI(GLFWwindow* window);
 
