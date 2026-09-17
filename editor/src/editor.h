@@ -10,17 +10,25 @@ using namespace FikaEngine;
 
 namespace FikaEditor
 {
+	struct ProjectMetaData
+	{
+		std::string name;
+		std::string sourcePath;
+	};
+
 	class Editor
 	{
 	private:
 		char workingDirectory[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/";
 		char executable[256] = "testgame.exe";
-		char levelPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/levels/testLevel.json";
+		char levelName[256] = "testLevel.json";
 		//char activePrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/wall.json";
 
 		Prefab* activePrefab = nullptr;
 		char projectPrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/";
 		std::vector<Prefab*> projectPrefabs;
+		bool projectLoaded = false;
+		ProjectMetaData metaData;
 
 		glm::mat4 placingTransform = glm::mat4(1.95);
 		EditorCamera editorCamera;

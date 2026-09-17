@@ -50,10 +50,18 @@ namespace FikaEngine
          */
         void flycamUpdate(float dt);
 
+        void setPosition(glm::vec3 position)
+        {
+            this->position = position;
+            updateVectors();
+            lookAt(position + direction);
+        }
+
         glm::mat4 getProjection() { return projection; }
         glm::vec3 getPosition() { return position; }
         glm::vec3 getDirection() { return direction; }
         glm::vec3 getRightVector() { return rightVec; }
+        float getFov() { return fov; }
 
     private:
         Window* window;

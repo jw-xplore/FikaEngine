@@ -42,9 +42,8 @@ namespace FikaEditor
         ImGui::NewFrame();
 
         ImGui::Begin("Fika Editor");
-        ImGui::InputText("Directory", workingDirectory, 256);
-        ImGui::InputText("Executable", executable, 256);
-        ImGui::InputText("Prefabs", projectPrefabPath, 256);
+        ImGui::InputText("Binaries folder", workingDirectory, 256);
+        //ImGui::InputText("Prefabs", projectPrefabPath, 256);
 
         // Load project
         if (ImGui::Button("Load project"))
@@ -53,18 +52,29 @@ namespace FikaEditor
             //saveLevel(levelPath);
         }
 
-        // Save level
-        ImGui::InputText("Level path", levelPath, 256);
-
-        if (ImGui::Button("Save"))
+        if (projectLoaded)
         {
-            saveLevel(levelPath);
-        }
+            ImGui::Text(("Project " + metaData.name).c_str());
+            ImGui::InputText("Executable", executable, 256);
 
-        // Run game
-        if (ImGui::Button("Run"))
-        {
-            runGame();
+            // Save level
+            ImGui::InputText("Level path", levelName, 256);
+
+            if (ImGui::Button("Save"))
+            {
+                std::string levelPathSource = metaData.sourcePath + "/assets/levels/" + levelName;
+                std::string levelPathBinary = workingDirectory;
+                levelPathBinary += "assets/levels/";
+                levelPathBinary += levelName;
+                saveLevel(levelPathSource.c_str());
+                saveLevel(levelPathBinary.c_str());
+            }
+
+            // Run game
+            if (ImGui::Button("Run"))
+            {
+                runGame();
+            }
         }
 
         // Check mouse cursor is inside the window
@@ -102,6 +112,9 @@ namespace FikaEditor
         selectPrefab();
         debugUI(glfwGetCurrentContext());
 
+        if (!projectLoaded)
+            return;
+
         glm::vec3 pos = positionFromScreenSpace(glm::vec2(0, 0));
         placingTransform[3] = glm::vec4(pos.x, pos.y, pos.z, 1);
         glm::translate(placingTransform, pos);
@@ -118,7 +131,36 @@ namespace FikaEditor
 
     bool Editor::loadProject()
     {
+        // Load project
+        std::string path = workingDirectory;
+
+        int remove = path.size() - 2;
+        for (int i = remove; i > 0; i--)
+        {
+            if (path[i] == '/')
+                break;
+
+            remove = i;
+        }
+
+        path = path.substr(0, remove);
+        path += "meta.json";
+
+        std::ifstream file(path);
+        if (!file.is_open())
+        {
+            std::cout << "Failed to load project meta: " << path << "\n";
+            return false;
+        }
+
+        // Parse data
+        nlohmann::json js = nlohmann::ordered_json::parse(file);
+        metaData.name = js["project"];
+        metaData.sourcePath = js["source_dir"];
+
+        // Prefabs
         loadActivePrefab();
+        projectLoaded = true;
 
         return true;
     }
@@ -211,8 +253,6 @@ namespace FikaEditor
         glm::vec2 mouseDevicePos = glm::vec2(mousePos.x / windowSize.x, mousePos.y / windowSize.y);
         glm::vec3 mouseWorldDir = glm::vec3(mouseDevicePos.x * dir.z, mouseDevicePos.y, mouseDevicePos.x * -dir.x);
         dir -= mouseWorldDir;
-
-        FikaServers::getDebugRenderer().addLine(Line(glm::vec3(0), pos, glm::vec3(0, 1, 0)));
 
         float t = -pos.y / dir.y;
         if (t < 0)

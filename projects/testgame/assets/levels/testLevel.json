@@ -1,0 +1,3750 @@
+{
+    "entities": [
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 1,
+                        "layers": 2,
+                        "shape": {
+                            "height": 2.0,
+                            "radius": 0.5,
+                            "type": 3
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "type": 1
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/pawn.obj",
+                        "meshTag": "pawn",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/pawn.jpg",
+                        "textureTag": "customTex1"
+                    },
+                    {
+                        "id": 11740
+                    }
+                ],
+                "name": "player"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            4.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            4.0,
+                            0.0,
+                            2.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            4.0,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            2.0,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -2.0,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -8.5,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            2.5,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            2.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            -2.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            -4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            4.0,
+                            0.0,
+                            -2.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            4.0,
+                            0.0,
+                            -4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            4.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            2.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -2.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -6.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -8.0,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -8.5,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            8.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            8.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            10.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            12.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -6.0,
+                            0.0,
+                            12.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            10.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            12.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            14.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            16.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -8.5,
+                            0.0,
+                            16.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            14.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            16.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            18.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            20.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            21.5,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            21.5,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.0,
+                            0.0,
+                            22.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            18.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            20.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            22.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -6.0,
+                            0.0,
+                            20.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -11.0,
+                            0.0,
+                            25.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            24.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            26.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -10.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -8.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -6.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -4.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -2.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            -0.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            1.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            3.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            28.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            26.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            24.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            22.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            20.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            18.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            16.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            14.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            12.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            10.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            8.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            6.0,
+                            0.0,
+                            2.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            -2.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            -4.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        },
+        {
+            "entity": {
+                "components": [
+                    {
+                        "id": 7099,
+                        "interactiveLayers": 3,
+                        "layers": 1,
+                        "shape": {
+                            "type": 2,
+                            "x": 2.0,
+                            "y": 2.0,
+                            "z": 2.0
+                        },
+                        "tag": 0,
+                        "transform": [
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0,
+                            0.0,
+                            5.5,
+                            0.0,
+                            -6.0,
+                            1.0
+                        ],
+                        "type": 0
+                    },
+                    {
+                        "id": 8974,
+                        "meshPath": "assets/models/crate.obj",
+                        "meshTag": "crate",
+                        "shaderFPath": "assets/common/shaders/basic.frag",
+                        "shaderTag": "basic",
+                        "shaderVPath": "assets/common/shaders/basic.vert",
+                        "texturePath": "assets/textures/crate.jpg",
+                        "textureTag": "crate"
+                    }
+                ],
+                "name": "wall"
+            }
+        }
+    ]
+}

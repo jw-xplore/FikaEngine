@@ -10,8 +10,10 @@
 void PlayerComponent::start()
 {
 	//transform = FikaServers::getECSManager().findEntityTransform(*owner);
-    RigidBodyComponent* rbCmp = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
+    rbCmp = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
     body = rbCmp->getBody();
+
+    FikaServers::getCameraManager().getMainCamera()->rotate(0, -40);
 }
 
 void PlayerComponent::update(float dt)
@@ -46,6 +48,9 @@ void PlayerComponent::update(float dt)
         rayColor = glm::vec3(0, 1, 0);
 
     FikaServers::getDebugRenderer().addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
+
+    // Cam move
+    FikaServers::getCameraManager().getMainCamera()->setPosition(pos + cameraOffset);
 }
 
 nlohmann::json PlayerComponent::serialize()
