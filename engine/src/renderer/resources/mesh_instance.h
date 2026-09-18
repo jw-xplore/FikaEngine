@@ -20,6 +20,7 @@ namespace FikaEngine
 		MeshResource* mesh = nullptr;
 		TextureResource* texture = nullptr;
 		ShaderResource* shader = nullptr;
+		bool visible = true;
 
 	public:
 		glm::mat4* transform;
@@ -36,6 +37,9 @@ namespace FikaEngine
 		MeshResource* getMesh() { return mesh; }
 		TextureResource* getTexture() { return texture; }
 		ShaderResource* gettShader() { return shader; }
+
+		void setVisible(bool visible) { this->visible = visible; }
+		bool getVisible() { return visible; }
 
 		void draw(glm::mat4 mvp);
 	};

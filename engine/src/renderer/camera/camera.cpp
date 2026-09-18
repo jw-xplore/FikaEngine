@@ -19,13 +19,13 @@ namespace FikaEngine
     void Camera::lookAt(glm::vec3 target)
     {
         glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-        projection = glm::lookAt(position, target, up);
 
         GLint viewport[4];
         glGetIntegerv(GL_VIEWPORT, viewport);
         float ratio = (float)viewport[2] / (float)viewport[3];
 
-        projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane) * projection;
+        view = glm::lookAt(position, target, up);
+        projection = glm::perspective(glm::radians(fov), ratio, nearPlane, farPlane);
     }
 
     void Camera::move(glm::vec3 position, glm::vec3 direction)

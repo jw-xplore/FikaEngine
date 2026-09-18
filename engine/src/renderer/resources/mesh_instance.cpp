@@ -21,6 +21,9 @@ namespace FikaEngine
 	// Draw - Render
 	void MeshInstance::draw(glm::mat4 mvp)
 	{
+		if (!visible)
+			return;
+
 		glm::mat4 tr = glm::mat4(*transform);
 		tr = glm::scale(tr, customScale);
 

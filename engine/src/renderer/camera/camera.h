@@ -57,7 +57,9 @@ namespace FikaEngine
             lookAt(position + direction);
         }
 
+        glm::mat4 getView() { return view; }
         glm::mat4 getProjection() { return projection; }
+        glm::mat4 getViewProjection() { return projection * view; }
         glm::vec3 getPosition() { return position; }
         glm::vec3 getDirection() { return direction; }
         glm::vec3 getRightVector() { return rightVec; }
@@ -90,6 +92,7 @@ namespace FikaEngine
         glm::vec3 rightVec{ 1,0,0 };
         glm::vec3 upVec{ 0,1,0 };
 
+        glm::mat4 view;
         glm::mat4 projection;
         //bool freeControls = true;
     };

@@ -137,11 +137,11 @@ namespace FikaEngine
             // Base game update
             FikaServers::getECSManager().update(dt);
             FikaServers::getPhysicsSolver().update(dt);
-            FikaServers::getMainRenderer().render(mainCamera->getProjection());
+            FikaServers::getMainRenderer().render(mainCamera->getViewProjection());
 
             // Debug
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            FikaServers::getDebugRenderer().render(mainCamera->getProjection());
+            FikaServers::getDebugRenderer().render(mainCamera->getViewProjection());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             //debugUI(window.getHandle());
 

@@ -5,6 +5,7 @@
 #include "core/filemanagement/json.h"
 #include "core/game_resource_manager.h"
 #include "editor_camera.h"
+#include "renderer/resources/mesh_instance.h"
 
 using namespace FikaEngine;
 
@@ -30,6 +31,7 @@ namespace FikaEditor
 		bool projectLoaded = false;
 		ProjectMetaData metaData;
 
+		MeshInstance* placingCube;
 		glm::mat4 placingTransform = glm::mat4(1.95);
 		EditorCamera editorCamera;
 
@@ -48,7 +50,8 @@ namespace FikaEditor
 		void saveLevel(const char* path);
 		void runGame();
 
-		glm::vec3 positionFromScreenSpace(glm::vec2 position);
+		glm::vec3 positionFromScreenSpace();
+		glm::vec3 screenToWorldGround(const glm::vec2 mouse, const glm::vec2 screenSize, const glm::mat4& view, const glm::mat4& projection);
 		void placeObject(glm::vec3 position);
 		nlohmann::json meshJsonFromPrefab(Prefab& prefab);
 

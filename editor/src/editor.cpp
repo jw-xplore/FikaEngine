@@ -8,6 +8,8 @@
 #include "core/fika_servers.h"
 #include "platform/inputs/input_devices.h"
 #include "platform/inputs/input_manager.h"
+#include "glm/ext/matrix_projection.hpp"
+#include <limits>
 
 #include "fika_engine.h"
 
@@ -100,7 +102,7 @@ namespace FikaEditor
         editorCamera = EditorCamera(camera, window);
 
         GPUResourceManager& gResMgnr = FikaServers::getGResourceManager();
-        FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
+        placingCube = FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
     }
 
     void Editor::update(float dt)
@@ -115,12 +117,20 @@ namespace FikaEditor
         if (!projectLoaded)
             return;
 
-        glm::vec3 pos = positionFromScreenSpace(glm::vec2(0, 0));
+        // Display placing cube
+        placingCube->setVisible(!cursorInsideGui);
+
+        if (cursorInsideGui)
+        {
+            return;
+        }
+
+        glm::vec3 pos = positionFromScreenSpace();
         placingTransform[3] = glm::vec4(pos.x, pos.y, pos.z, 1);
         glm::translate(placingTransform, pos);
 
         // Placing
-        if (!cursorInsideGui &&  FikaServers::getInputManager().isMousePressed(Mouse::LeftButton))
+        if (FikaServers::getInputManager().isMousePressed(Mouse::LeftButton))
         {
             if (pos == glm::vec3(-1))
                 return;
@@ -236,36 +246,63 @@ namespace FikaEditor
         CloseHandle(processInfo.hProcess);
 	}
 
-    glm::vec3 Editor::positionFromScreenSpace(glm::vec2 position)
+    glm::vec3 Editor::positionFromScreenSpace()
     {
-        CameraManager& cameraManager = FikaServers::getCameraManager();
-        Camera* cam = cameraManager.getActiveCamera();
+        glm::vec2 mouse = FikaServers::getInputManager().mousePosition();
+        glm::vec2 screen = FikaServers::getWindow()->getSize();
+        glm::mat4 view = FikaServers::getCameraManager().getMainCamera()->getView();
+        glm::mat4 projection = FikaServers::getCameraManager().getMainCamera()->getProjection();
 
-        glm::vec3 pos = cam->getPosition();
-        glm::vec3 dir = cam->getDirection();
+        glm::vec3 target = screenToWorldGround(mouse, screen, view, projection);
 
-        // Mouse cursor position
-        glm::vec2 windowSize = FikaServers::getWindow()->getSize();
-        windowSize *= 0.5f;
-
-        glm::vec2 mousePos = FikaServers::getInputManager().mousePosition() - windowSize;
-
-        glm::vec2 mouseDevicePos = glm::vec2(mousePos.x / windowSize.x, mousePos.y / windowSize.y);
-        glm::vec3 mouseWorldDir = glm::vec3(mouseDevicePos.x * dir.z, mouseDevicePos.y, mouseDevicePos.x * -dir.x);
-        dir -= mouseWorldDir;
-
-        float t = -pos.y / dir.y;
-        if (t < 0)
-            return glm::vec3(-1);
-
-        // Target rounding
-        glm::vec3 target = pos + t * dir;
-        target.x = roundf(target.x * 2) / 2;
-        target.y = roundf(target.y * 2) / 2;
-        target.z = roundf(target.z * 2) / 2;
+        // Snapping
+        const float snap = 2;
+        target.x = roundf(target.x * snap) / snap;
+        target.z = roundf(target.z * snap) / snap;
 
         return target;
     }
+
+    glm::vec3 Editor::screenToWorldGround(const glm::vec2 mouse, const glm::vec2 screenSize, const glm::mat4& view, const glm::mat4& projection)
+    {
+        float glMouseY = screenSize.y - mouse.y;
+
+        glm::vec4 viewport(0, 0, screenSize.x, screenSize.y);
+
+        glm::vec3 screenNear(mouse.x, glMouseY, 0);
+        glm::vec3 screenFar(mouse.x, glMouseY, 1.0f);
+
+        glm::vec3 rayOrigin = glm::unProject(screenNear, view, projection, viewport);
+        glm::vec3 rayEnd = glm::unProject(screenFar, view, projection, viewport);
+        glm::vec3 rayDirection = glm::normalize(rayEnd - rayOrigin);
+
+        // Ground
+        const float groundY = 0;
+
+        // Ray is parallel to the ground plane
+        if (glm::abs(rayDirection.y) < 0.000001f)
+        {
+            return glm::vec3(std::numeric_limits<float>::quiet_NaN());
+        }
+
+        // rayOrigin + rayDirection * t
+        // Find t where the ray's y coordinate equals groundY
+        float t = (groundY - rayOrigin.y) / rayDirection.y;
+
+        // The intersection is behind the camera.
+        if (t < 0.0f)
+        {
+            return glm::vec3(std::numeric_limits<float>::quiet_NaN());
+        }
+
+        glm::vec3 worldPosition = rayOrigin + rayDirection * t;
+
+        // Ensure the result is exactly on the plane
+        worldPosition.y = groundY;
+
+        return worldPosition;
+    }
+
 
     void Editor::placeObject(glm::vec3 position)
     {
