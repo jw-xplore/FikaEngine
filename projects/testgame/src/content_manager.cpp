@@ -6,7 +6,7 @@
 
 ContentManager::ContentManager()
 {
-    gResourceManager = &FikaServers::getGResourceManager();
+    gResourceManager = &FikaServers::getGPUResourceManager();
     ecsManager = &FikaServers::getECSManager();
 
     // Setup resources
@@ -34,7 +34,7 @@ ContentManager::~ContentManager()
 
 Entity& ContentManager::createPlayer(glm::vec3 position)
 {
-    GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
+    GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
     MeshResource& customMesh = gResourceManager.getMesh("pawn");
     TextureResource& customTexture = gResourceManager.getTexture("customTex1");
     ShaderResource& basicShader = gResourceManager.getShader("basic");
@@ -61,7 +61,7 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
 
 Entity& ContentManager::createWall(glm::vec3 position, bool solid)
 {
-    GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
+    GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
     MeshResource& customMesh = gResourceManager.getMesh("crate");
     TextureResource& customTexture = gResourceManager.getTexture("crate");
     ShaderResource& basicShader = gResourceManager.getShader("basic");

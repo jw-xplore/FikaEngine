@@ -12,24 +12,24 @@ namespace FikaEngine
         systemsHolder->init();
 
         // Setup and load basic resources
-        FikaServers::getGResourceManager().init();
+        FikaServers::getGPUResourceManager().init();
 
         FikaServers::getMainRenderer().init();
         FikaServers::getDebugRenderer().init();
 
         // Meshes
-        MeshResource* cubeMesh = FikaServers::getGResourceManager().reserveMesh("cube");
+        MeshResource* cubeMesh = FikaServers::getGPUResourceManager().reserveMesh("cube");
         MeshBuilder().createCube(1).build(*cubeMesh);
 
-        MeshResource* sphereMesh = FikaServers::getGResourceManager().reserveMesh("sphere");
+        MeshResource* sphereMesh = FikaServers::getGPUResourceManager().reserveMesh("sphere");
         MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);
 
-        MeshResource* cylinderMesh = FikaServers::getGResourceManager().reserveMesh("cylinder");
+        MeshResource* cylinderMesh = FikaServers::getGPUResourceManager().reserveMesh("cylinder");
         MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
 
         // Shaders
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
-        FikaServers::getGResourceManager().storeShader("basic", basicShader);
+        FikaServers::getGPUResourceManager().storeShader("basic", basicShader);
 
         // Keyboard
         //keyboard = Input::getDefaultKeyboard();

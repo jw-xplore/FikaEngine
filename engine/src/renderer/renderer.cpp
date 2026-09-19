@@ -21,7 +21,7 @@ namespace FikaEngine
 	{
 		// Lines shader
 		FikaServers* systems = FikaServers::getInstance();
-		GPUResourceManager& gResMngr = systems->getGResourceManager();
+		GPUResourceManager& gResMngr = systems->getGPUResourceManager();
 		ShaderResource shader = ShaderResource("assets/common/shaders/line.vert", "assets/common/shaders/line.frag");
 		int shaderID = gResMngr.storeShader("Line", shader);
 

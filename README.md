@@ -22,17 +22,16 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
-- Raycast: Capsules
-- Physics comments: Comment physics and collisions code
+- Editor: Display list of loaded prefabs and selected prefab
+- Editor: Preload all prefab meshes
+- Editor: Start game with selected level name
 - Debug memory: Allocations-dealocations debug log
 - Debug: Implement way to turn on/off debug/log features 
+- Window/camera: Add resizing support
 
 ## Backlog
 - Debug: Add custom debug console running inside game
-- Collisions: Check layers interaction match before collision testing
-- Collisions: Match layers mask and layer names
 - Physics: Rotation freeze implementation
-- GO manager: Use pool allocator for game objects
 - Multithreading: Test separated update and render threads
 - Multithreading: Physics on separated thread
 - Controls: Add controls contexts (so free cam controls can surpress player controls)
@@ -40,5 +39,4 @@ Steps:
 - Use: Create setup for library style of use so engine with all externals can be reused inside other solutions
 - Guide: Add basic API use guide and examples
 - Example: Create proper example project
-- Window/camera: Add resizing support
 - Collisions: Predict and stop objects from moving in and back between collision point

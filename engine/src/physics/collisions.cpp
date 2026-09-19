@@ -154,7 +154,7 @@ namespace FikaEngine
 		body.shape = collider;
 
 		// Debug
-		GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
+		GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
 		MeshResource& cubeMesh = gResourceManager.getMesh("sphere");
 		ShaderResource& basicShader = gResourceManager.getShader("basic");
 
@@ -175,7 +175,7 @@ namespace FikaEngine
 		body.shape = collider;
 
 		// Debug
-		GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
+		GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
 		MeshResource& cubeMesh = gResourceManager.getMesh("cube");
 		ShaderResource& basicShader = gResourceManager.getShader("basic");
 
@@ -197,7 +197,7 @@ namespace FikaEngine
 		body.shape = collider;
 
 		// Debug
-		GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
+		GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
 		MeshResource& debugMesh = gResourceManager.getMesh("cylinder");
 		ShaderResource& basicShader = gResourceManager.getShader("basic");
 

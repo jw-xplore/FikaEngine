@@ -134,6 +134,8 @@ namespace FikaEngine
 		std::map<std::string, ShaderResource*> loadedShaders;
 
 	public:
+		GPUResourceManager() {}
+
 		MeshResource* loadMesh(const char* path, const char* tag);
 		TextureResource* loadTexture(const char* path, const char* tag);
 

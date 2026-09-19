@@ -39,7 +39,7 @@ namespace FikaEngine
 		static Renderer& getMainRenderer()						{ return FikaServers::getInstance()->renderer; }
 		static Renderer& getDebugRenderer()						{ return FikaServers::getInstance()->debugRenderer; }
 		static CameraManager& getCameraManager()				{ return FikaServers::getInstance()->cameraManager; }
-		static GPUResourceManager& getGResourceManager()		{ return FikaServers::getInstance()->gpuResourceManager; }
+		static GPUResourceManager& getGPUResourceManager()		{ return FikaServers::getInstance()->gpuResourceManager; }
 		static PhysicsSolver& getPhysicsSolver()				{ return FikaServers::getInstance()->physicsSolver; }
 		static ECSManager& getECSManager()						{ return FikaServers::getInstance()->ecsManager; }
 		static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->gameResourceManager; }

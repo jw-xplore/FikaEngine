@@ -77,6 +77,20 @@ namespace FikaEditor
             {
                 runGame();
             }
+
+            // Show loaded prefabs
+            ImGui::Text("Prefabs: ");
+            int i = 1;
+
+            for (Prefab*& prefab : projectPrefabs)
+            {
+                std::string selectedStr = "";
+                if (activePrefab == prefab)
+                    selectedStr = " (SELECTED)";
+
+                ImGui::Text(("  " + std::to_string(i) + ". " + prefab->name + selectedStr).c_str());
+                i++;
+            }
         }
 
         // Check mouse cursor is inside the window
@@ -101,8 +115,10 @@ namespace FikaEditor
         Window* window = FikaServers::getWindow();
         editorCamera = EditorCamera(camera, window);
 
-        GPUResourceManager& gResMgnr = FikaServers::getGResourceManager();
+        GPUResourceManager& gResMgnr = FikaServers::getGPUResourceManager();
         placingCube = FikaServers::getMainRenderer().addMeshInstance(&placingTransform, gResMgnr.getMesh("cube"), gResMgnr.getShader("basic"));
+
+        //loadProject();
     }
 
     void Editor::update(float dt)
@@ -180,12 +196,35 @@ namespace FikaEditor
         if (!activePrefab)
             activePrefab = new Prefab();
 
-        //FikaServers::getGameResourceManager()->loadPrefab(activePrefabPath, *activePrefab);
-
         // Load prefabs
         FikaServers::getGameResourceManager().loadFolderPrefabs(projectPrefabPath);
         projectPrefabs = FikaServers::getGameResourceManager().getLoadedPrefabsList();
 
+        // Check success
+        if (projectPrefabs.empty())
+            return;
+
+        // Load meshes
+        for (size_t i = 0; i < projectPrefabs.size(); i++)
+        {
+            activePrefab = projectPrefabs[i];
+            nlohmann::json meshCmpJson = meshJsonFromPrefab(*activePrefab);
+            std::cout << meshCmpJson;
+
+            std::string meshPath = meshCmpJson["meshPath"];
+            assert(meshPath != "");
+            meshPath = workingDirectory + meshPath;
+            MeshResource* meshRes = FikaServers::getGPUResourceManager().reserveMesh(activePrefab->name.c_str());
+            MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
+            //MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
+
+            std::string texturePath = meshCmpJson["texturePath"];
+            assert(texturePath != "");
+            texturePath = workingDirectory + texturePath;
+            TextureResource* textureRes = FikaServers::getGPUResourceManager().loadTexture(texturePath.c_str(), activePrefab->name.c_str());
+        }
+
+        // Set first prefab
         activePrefab = projectPrefabs[0];
     }
 
@@ -306,8 +345,8 @@ namespace FikaEditor
 
     void Editor::placeObject(glm::vec3 position)
     {
-        GPUResourceManager& gResourceManager = FikaServers::getGResourceManager();
-        ShaderResource& basicShader = gResourceManager.getShader("basic");
+        GPUResourceManager& gpuResourceManager = FikaServers::getGPUResourceManager();
+        ShaderResource& basicShader = gpuResourceManager.getShader("basic");
         //MeshResource& customMesh = gResourceManager->getMesh("cube");
 
         Entity* entity = FikaServers::getECSManager().addEntity();
@@ -322,14 +361,16 @@ namespace FikaEditor
         std::string meshPath = meshCmpJson["meshPath"];
         assert(meshPath != "");
         meshPath = workingDirectory + meshPath;
-        MeshResource* meshRes = gResourceManager.reserveMesh(activePrefab->name.c_str());
-        MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
-        //MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
+        //MeshResource* meshRes = gpuResourceManager.reserveMesh(activePrefab->name.c_str());
+        //MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
+        //MeshResource* meshRes = gpuResourceManager.loadMesh(meshPath.c_str(), activePrefab->name.c_str());
+        MeshResource* meshRes = &gpuResourceManager.getMesh(activePrefab->name.c_str());
 
         std::string texturePath = meshCmpJson["texturePath"];
         assert(texturePath != "");
         texturePath = workingDirectory + texturePath;
-        TextureResource* textureRes = gResourceManager.loadTexture(texturePath.c_str(), activePrefab->name.c_str());
+        //TextureResource* textureRes = gpuResourceManager.loadTexture(texturePath.c_str(), activePrefab->name.c_str());
+        TextureResource* textureRes = &gpuResourceManager.getTexture(activePrefab->name.c_str());
 
         MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(FikaServers::getECSManager().addComponent(entity, MeshComponent::componentId));
         meshCmp->setup(*meshRes, basicShader, nullptr);

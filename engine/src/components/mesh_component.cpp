@@ -42,11 +42,11 @@ namespace FikaEngine
 	void MeshComponent::deserialize(nlohmann::json js)
 	{
 		std::string meshStr = js["meshTag"];
-		MeshResource& mesh = FikaServers::getGResourceManager().getMesh(meshStr);
+		MeshResource& mesh = FikaServers::getGPUResourceManager().getMesh(meshStr);
 		std::string texStr = js["textureTag"];
-		TextureResource& texture = FikaServers::getGResourceManager().getTexture(texStr);
+		TextureResource& texture = FikaServers::getGPUResourceManager().getTexture(texStr);
 		std::string shaderStr = js["shaderTag"];
-		ShaderResource& shader = FikaServers::getGResourceManager().getShader(shaderStr);
+		ShaderResource& shader = FikaServers::getGPUResourceManager().getShader(shaderStr);
 
 		setup(mesh, shader, &texture);
 		setTexture(texture);
