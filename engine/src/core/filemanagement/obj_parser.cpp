@@ -11,7 +11,7 @@ namespace FikaEngine
 	{
 		void readFile(const char* path, MeshBuilder& builder)
 		{
-			OBJParsedData* data = new OBJParsedData();
+			OBJParsedData data = OBJParsedData();
 
 			// Read file
 			try
@@ -21,15 +21,13 @@ namespace FikaEngine
 				std::string line;
 				while (std::getline(file, line))
 				{
-					parse(builder, line, *data);
+					parse(builder, line, data);
 				}
 			}
 			catch (std::ifstream::failure e)
 			{
 				std::cout << "Failed to load OBJ: " << path << "\n";
 			}
-
-			delete data;
 		}
 
 		void OBJParser::parse(MeshBuilder& builder, std::string& line, OBJParsedData& data)

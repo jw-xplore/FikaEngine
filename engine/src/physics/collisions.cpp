@@ -45,14 +45,12 @@ namespace FikaEngine
 
 	CollisionSolver::CollisionSolver()
 	{
-		sphereColliders = new PoolAllocator<Sphere>("Sphere colliders", 256);
-		boxColliders = new PoolAllocator<Box>("Box colliders", 256);
-		capsuleColliders = new PoolAllocator<Capsule>("Capsule colliders", 256);
 	}
 
 	CollisionSolver::~CollisionSolver()
 	{
-
+		if (ongoingContacts)
+			delete ongoingContacts;
 	}
 
 	void CollisionSolver::update(float dt)
@@ -60,14 +58,14 @@ namespace FikaEngine
 		Contact contact;
 
 		// Sphere checks
-		for (size_t a = 0; a < sphereColliders->getUsedAmount(); a++)
+		for (size_t a = 0; a < sphereColliders.getUsedAmount(); a++)
 		{
-			Sphere& sphere = (*sphereColliders)[a];
+			Sphere& sphere = sphereColliders[a];
 
 			// Sphere
-			for (size_t b = a + 1; b < sphereColliders->getUsedAmount(); b++)
+			for (size_t b = a + 1; b < sphereColliders.getUsedAmount(); b++)
 			{
-				Sphere& sphereB = (*sphereColliders)[b];
+				Sphere& sphereB = sphereColliders[b];
 
 				if (overlapSphereSphere(sphere, sphereB, &contact))
 				{
@@ -76,9 +74,9 @@ namespace FikaEngine
 			}
 
 			// Box
-			for (size_t b = 0; b < boxColliders->getUsedAmount(); b++)
+			for (size_t b = 0; b < boxColliders.getUsedAmount(); b++)
 			{
-				Box& box = (*boxColliders)[b];
+				Box& box = boxColliders[b];
 
 				if (overlapSphereBox(sphere, box, &contact))
 				{
@@ -87,9 +85,9 @@ namespace FikaEngine
 			}
 
 			// Capsule
-			for (size_t b = 0; b < capsuleColliders->getUsedAmount(); b++)
+			for (size_t b = 0; b < capsuleColliders.getUsedAmount(); b++)
 			{
-				Capsule& capsule = (*capsuleColliders)[b];
+				Capsule& capsule = capsuleColliders[b];
 
 				if (overlapCapsuleSphere(capsule, sphere, &contact))
 				{
@@ -99,14 +97,14 @@ namespace FikaEngine
 		}
 
 		// Box checks
-		for (size_t a = 0; a < boxColliders->getUsedAmount(); a++)
+		for (size_t a = 0; a < boxColliders.getUsedAmount(); a++)
 		{
-			Box& boxA = (*boxColliders)[a];
+			Box& boxA = boxColliders[a];
 
 			// Box
-			for (size_t b = a + 1; b < boxColliders->getUsedAmount(); b++)
+			for (size_t b = a + 1; b < boxColliders.getUsedAmount(); b++)
 			{
-				Box& boxB = (*boxColliders)[b];
+				Box& boxB = boxColliders[b];
 
 				if (overlapBoxBox(boxA, boxB, &contact))
 				{
@@ -115,9 +113,9 @@ namespace FikaEngine
 			}
 
 			// Capsule
-			for (size_t b = 0; b < capsuleColliders->getUsedAmount(); b++)
+			for (size_t b = 0; b < capsuleColliders.getUsedAmount(); b++)
 			{
-				Capsule& capsule = (*capsuleColliders)[b];
+				Capsule& capsule = capsuleColliders[b];
 
 				if (overlapCapsuleBox(capsule, boxA, &contact))
 				{
@@ -127,14 +125,14 @@ namespace FikaEngine
 		}
 
 		// Capsule checks
-		for (size_t a = 0; a < capsuleColliders->getUsedAmount(); a++)
+		for (size_t a = 0; a < capsuleColliders.getUsedAmount(); a++)
 		{
-			Capsule& capsule = (*capsuleColliders)[a];
+			Capsule& capsule = capsuleColliders[a];
 
 			// Capsule
-			for (size_t b = a + 1; b < capsuleColliders->getUsedAmount(); b++)
+			for (size_t b = a + 1; b < capsuleColliders.getUsedAmount(); b++)
 			{
-				Capsule& capsuleB = (*capsuleColliders)[b];
+				Capsule& capsuleB = capsuleColliders[b];
 
 				if (overlapCapsuleCapsule(capsule, capsuleB, &contact))
 				{
@@ -147,7 +145,7 @@ namespace FikaEngine
 	Sphere* CollisionSolver::addSphereCollider(Body& body, float radius)
 	{
 		// Collider
-		Sphere* collider = sphereColliders->allocate();
+		Sphere* collider = sphereColliders.allocate();
 		collider->body = &body;
 		collider->radius = radius;
 
@@ -162,13 +160,13 @@ namespace FikaEngine
 		mesh->customScale = glm::vec3(radius);
 
 		// Return
-		return &(*sphereColliders)[sphereColliders->getUsedAmount() - 1];
+		return &sphereColliders[sphereColliders.getUsedAmount() - 1];
 	}
 
 	Box* CollisionSolver::addBoxCollider(Body& body, glm::vec3 volume)
 	{
 		// Collider
-		Box* collider = boxColliders->allocate();
+		Box* collider = boxColliders.allocate();
 		collider->body = &body;
 		collider->volume = volume;
 
@@ -183,13 +181,13 @@ namespace FikaEngine
 		mesh->customScale = glm::vec3(volume);
 
 		// Return
-		return &(*boxColliders)[boxColliders->getUsedAmount() - 1];
+		return &boxColliders[boxColliders.getUsedAmount() - 1];
 	}
 
 	Capsule* CollisionSolver::addCapsuleCollider(Body& body, float radius, float height)
 	{
 		// Collider
-		Capsule* collider = capsuleColliders->allocate();
+		Capsule* collider = capsuleColliders.allocate();
 		collider->body = &body;
 		collider->radius = radius;
 		collider->height = height;
@@ -204,7 +202,7 @@ namespace FikaEngine
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), debugMesh, basicShader);
 		mesh->customScale = glm::vec3(radius, height, radius);
 
-		return &(*capsuleColliders)[capsuleColliders->getUsedAmount() - 1];
+		return &capsuleColliders[capsuleColliders.getUsedAmount() - 1];
 	}
 
 	void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact)
@@ -272,9 +270,9 @@ namespace FikaEngine
 		Ray ray = Ray(start, direction, lenght);
 
 		// Sphere checks
-		for (size_t a = 0; a < sphereColliders->getUsedAmount(); a++)
+		for (size_t a = 0; a < sphereColliders.getUsedAmount(); a++)
 		{
-			Sphere& sphere = (*sphereColliders)[a];
+			Sphere& sphere = sphereColliders[a];
 
 			if ((ray.interactiveLayers & sphere.body->layers) == 0)
 				continue;
@@ -294,9 +292,9 @@ namespace FikaEngine
 		}
 
 		// Boxes
-		for (size_t a = 0; a < boxColliders->getUsedAmount(); a++)
+		for (size_t a = 0; a < boxColliders.getUsedAmount(); a++)
 		{
-			Box& box = (*boxColliders)[a];
+			Box& box = boxColliders[a];
 
 			if ((ray.interactiveLayers & box.body->layers) == 0)
 				continue;
@@ -316,9 +314,9 @@ namespace FikaEngine
 		}
 
 		// Capsule
-		for (size_t a = 0; a < capsuleColliders->getUsedAmount(); a++)
+		for (size_t a = 0; a < capsuleColliders.getUsedAmount(); a++)
 		{
-			Capsule& capsule = (*capsuleColliders)[a];
+			Capsule& capsule = capsuleColliders[a];
 
 			if ((ray.interactiveLayers & capsule.body->layers) == 0)
 				continue;

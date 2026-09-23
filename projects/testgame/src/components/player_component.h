@@ -42,7 +42,7 @@ public:
 class PlayerComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<PlayerComponent>* components;
+	PoolAllocator<PlayerComponent> components = PoolAllocator<PlayerComponent>("Player Components");
 
 public:
 	PlayerComponentUpdater();

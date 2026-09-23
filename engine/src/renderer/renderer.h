@@ -45,7 +45,7 @@ namespace FikaEngine
 
 	struct LinesRenderData
 	{
-		PoolAllocator<Line>* lines;
+		PoolAllocator<Line> lines = PoolAllocator<Line>("Lines");
 		std::vector<LineVertex> vertices;
 
 		ShaderResource* shader;
@@ -56,12 +56,10 @@ namespace FikaEngine
 	class Renderer
 	{
 	private:
-		PoolAllocator<MeshInstance>* meshes;
+		PoolAllocator<MeshInstance> meshes = PoolAllocator<MeshInstance>("Meshes");
 		LinesRenderData linesData;
 
 	public:
-		const int MAX_MESHES = 256;
-
 		Renderer();
 		~Renderer();
 

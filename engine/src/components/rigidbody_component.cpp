@@ -112,7 +112,6 @@ namespace FikaEngine
 	void RigidBodyComponentUpdater::init()
 	{
 		RigidBodyComponentUpdater* updater = new RigidBodyComponentUpdater();
-		updater->components = new PoolAllocator<RigidBodyComponent>("RigidBody Components");
 		updater->targetComponentId = RigidBodyComponent::componentId;
 
 		FikaServers::getECSManager().registerUpdaters(updater);
@@ -120,16 +119,16 @@ namespace FikaEngine
 
 	void RigidBodyComponentUpdater::update(float dt)
 	{
-		int size = components->getUsedAmount();
+		int size = components.getUsedAmount();
 
 		for (size_t i = 0; i < size; i++)
 		{
-			(*components)[i].update(dt);
+			components[i].update(dt);
 		}
 	}
 
 	ECSComponent* RigidBodyComponentUpdater::addComponent()
 	{
-		return components->allocate();
+		return components.allocate();
 	}
 } // namespace FikaEngine

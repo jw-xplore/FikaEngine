@@ -9,7 +9,7 @@ namespace FikaEngine
 {
 	Renderer::Renderer()
 	{
-		meshes = new PoolAllocator<MeshInstance>("Meshes", MAX_MESHES);
+
 	}
 
 	Renderer::~Renderer()
@@ -28,15 +28,14 @@ namespace FikaEngine
 		linesData.shader = &gResMngr.getShader(shaderID);
 
 		// Setup lines buffer
-		linesData.lines = new PoolAllocator<Line>("Lines", MAX_MESHES);
-		linesData.vertices.reserve(linesData.lines->getSize() * 2);
+		linesData.vertices.reserve(linesData.lines.getSize() * 2);
 
 		glGenVertexArrays(1, &linesData.vao);
 		glGenBuffers(1, &linesData.vbo);
 
 		glBindVertexArray(linesData.vao);
 		glBindBuffer(GL_ARRAY_BUFFER, linesData.vbo);
-		glBufferData(GL_ARRAY_BUFFER, linesData.lines->getSize() * sizeof(LineVertex), nullptr, GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, linesData.lines.getSize() * sizeof(LineVertex), nullptr, GL_DYNAMIC_DRAW);
 
 		// pos
 		glEnableVertexAttribArray(0);
@@ -51,9 +50,9 @@ namespace FikaEngine
 	void Renderer::render(glm::mat4 mvp)
 	{
 		// Meshes
-		for (size_t i = 0; i < meshes->getUsedAmount(); i++)
+		for (size_t i = 0; i < meshes.getUsedAmount(); i++)
 		{
-			MeshInstance mesh = (*meshes)[i];
+			MeshInstance mesh = meshes[i];
 			mesh.draw(mvp);
 		}
 
@@ -64,9 +63,9 @@ namespace FikaEngine
 	{
 		linesData.vertices.clear();
 
-		for (size_t i = 0; i < linesData.lines->getUsedAmount(); i++)
+		for (size_t i = 0; i < linesData.lines.getUsedAmount(); i++)
 		{
-			Line& line = (*linesData.lines)[i];
+			Line& line = linesData.lines[i];
 			linesData.vertices.push_back({ line.a.position, line.a.color });
 			linesData.vertices.push_back({ line.b.position, line.b.color });
 		}
@@ -83,12 +82,12 @@ namespace FikaEngine
 		glBindVertexArray(0);
 		glLineWidth(2);
 
-		linesData.lines->deallocate();
+		linesData.lines.deallocate();
 	}
 
 	MeshInstance* Renderer::addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 	{
-		MeshInstance* mesh = meshes->allocate();
+		MeshInstance* mesh = meshes.allocate();
 		//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 		mesh->setMesh(&meshRes);
 		//mesh->setTexture(texture);
@@ -100,7 +99,7 @@ namespace FikaEngine
 
 	Line* Renderer::addLine(Line line)
 	{
-		Line* l = linesData.lines->allocate();
+		Line* l = linesData.lines.allocate();
 		l->a = line.a;
 		l->b = line.b;
 

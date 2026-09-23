@@ -35,7 +35,6 @@ namespace FikaEngine
 	void TransformComponentUpdater::init()
 	{
 		TransformComponentUpdater* updater = new TransformComponentUpdater();
-		updater->components = new PoolAllocator<TransformComponent>("Transform Components");
 		updater->targetComponentId = TransformComponent::componentId;
 
 		FikaServers::getECSManager().registerUpdaters(updater);
@@ -43,16 +42,16 @@ namespace FikaEngine
 
 	void TransformComponentUpdater::update(float dt)
 	{
-		int size = components->getUsedAmount();
+		int size = components.getUsedAmount();
 
 		for (size_t i = 0; i < size; i++)
 		{
-			(*components)[i].update(dt);
+			components[i].update(dt);
 		}
 	}
 
 	ECSComponent* TransformComponentUpdater::addComponent()
 	{
-		return components->allocate();
+		return components.allocate();
 	}
 } // namespace FikaEngine

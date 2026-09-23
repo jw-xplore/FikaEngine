@@ -18,9 +18,6 @@ namespace FikaEngine
 
 	void InputManager::init(GLFWwindow* window)
 	{
-		//keyboard = new Keyboard();
-		//mouse = new Mouse();
-
 		glfwSetKeyCallback(window, onGLKeyCallback);
 		glfwSetMouseButtonCallback(window, onGLMousePressCallback);
 		glfwSetCursorPosCallback(window, onGLMouseMoveCallback);

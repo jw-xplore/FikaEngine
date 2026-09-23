@@ -18,34 +18,34 @@ namespace FikaEngine
 
 	struct ColliderShape
 	{
-		Body* body;
+		Body* body = nullptr;
 		virtual nlohmann::json serialize();
 	};
 
 	struct Sphere : public ColliderShape
 	{
-		float radius;
+		float radius = 0;
 		nlohmann::json serialize() override;
 	};
 
 	struct Box : public ColliderShape
 	{
-		glm::vec3 volume;
+		glm::vec3 volume = glm::vec3(0);
 		nlohmann::json serialize() override;
 	};
 
 	struct Capsule : public ColliderShape
 	{
-		float radius;
-		float height;
+		float radius = 0;
+		float height = 0;
 		nlohmann::json serialize() override;
 	};
 
 	struct Ray
 	{
-		glm::vec3 start;
-		glm::vec3 direction;
-		float lenght;
+		glm::vec3 start = glm::vec3(0);
+		glm::vec3 direction = glm::vec3(0);
+		float lenght = 0;
 		unsigned char interactiveLayers = 1;
 
 		Ray(glm::vec3 start, glm::vec3 direction, float lenght): start(start), direction(direction), lenght(lenght)
@@ -59,9 +59,9 @@ namespace FikaEngine
 
 	struct Contact
 	{
-		glm::vec3 normal;
-		float penetration;
-		glm::vec3 point;
+		glm::vec3 normal = glm::vec3(1,0,0);
+		float penetration = 0;
+		glm::vec3 point = glm::vec3(0);
 	};
 
 	const float PENETRATION_MULT = 0.0166f; // TODO: Adjust this with proper behavior and calculation
@@ -69,9 +69,9 @@ namespace FikaEngine
 	class CollisionSolver
 	{
 	private:
-		PoolAllocator<Sphere>* sphereColliders;
-		PoolAllocator<Box>* boxColliders;
-		PoolAllocator<Capsule>* capsuleColliders;
+		PoolAllocator<Sphere> sphereColliders = PoolAllocator<Sphere>("Sphere colliders");
+		PoolAllocator<Box> boxColliders = PoolAllocator<Box>("Box colliders");
+		PoolAllocator<Capsule> capsuleColliders = PoolAllocator<Capsule>("Capsule colliders");
 
 		int bodiesCount = 0; // TODO: Do safer implementation
 		bool* ongoingContacts = nullptr;

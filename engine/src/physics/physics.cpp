@@ -56,8 +56,6 @@ namespace FikaEngine
 
 	PhysicsSolver::PhysicsSolver()
 	{
-		bodies = new PoolAllocator<Body>("Physics bodies", 256);
-
 		tags.resize(16);
 		tags[0] = DEFAULT_TAG;
 
@@ -73,9 +71,9 @@ namespace FikaEngine
 
 	void PhysicsSolver::update(float dt)
 	{
-		for (size_t i = 0; i < bodies->getUsedAmount(); i++)
+		for (size_t i = 0; i < bodies.getUsedAmount(); i++)
 		{
-			Body& body = (*bodies)[i];
+			Body& body = bodies[i];
 			applyForce(body, body.velocity * dt);
 		}
 
@@ -85,14 +83,14 @@ namespace FikaEngine
 
 	Body& PhysicsSolver::addBody()
 	{
-		Body* body = bodies->allocate();
-		int id = bodies->getUsedAmount();
+		Body* body = bodies.allocate();
+		int id = bodies.getUsedAmount();
 		body->id = id;
 
 		// TODO: Make option to call this after all
-		collisionsSolver.setupOngoinContacts(bodies->getUsedAmount());
+		collisionsSolver.setupOngoinContacts(bodies.getUsedAmount());
 
-		return (*bodies)[id - 1];
+		return bodies[id - 1];
 	}
 
 	int PhysicsSolver::findTagId(std::string tag)

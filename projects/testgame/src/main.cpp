@@ -7,7 +7,7 @@
 #include "content_manager.h"
 #include "components/player_component.h"
 
-ContentManager* contentManager;
+ContentManager contentManager;
 using namespace FikaEngine;
 
 void start()
@@ -25,7 +25,7 @@ void start()
     PlayerComponentUpdater::init();
    
     // Test entity cmp setup
-    contentManager = new ContentManager();
+    contentManager.init();
     //Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
     //Entity& wall = contentManager->createWall(glm::vec3(0,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
@@ -75,4 +75,7 @@ int main()
 {
     FikaEngine::Game game;
     game.run(start, update);
+
+    _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
+    _CrtDumpMemoryLeaks();
 }

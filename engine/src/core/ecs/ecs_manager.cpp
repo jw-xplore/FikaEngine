@@ -13,7 +13,6 @@ namespace FikaEngine
 {
 	void ECSManager::init()
 	{
-		entities = new PoolAllocator<Entity>("entities");
 		updaters.reserve(64);
 	}
 
@@ -37,7 +36,7 @@ namespace FikaEngine
 
 	Entity* ECSManager::addEntity(std::string name)
 	{
-		Entity* entity = entities->allocate();
+		Entity* entity = entities.allocate();
 		entity->setName(name);
 		return entity;
 	}
@@ -128,14 +127,14 @@ namespace FikaEngine
 
 	nlohmann::json ECSManager::serializeEntities()
 	{
-		size_t size = entities->getUsedAmount();
+		size_t size = entities.getUsedAmount();
 		nlohmann::json js = nlohmann::json::object();
 
 		nlohmann::json jsonEntities = nlohmann::json::array();
 
 		for (size_t i = 0; i < size; i++)
 		{
-			Entity& entity = (*entities)[i];
+			Entity& entity = entities[i];
 			nlohmann::json jsonEntity = serializeEntity(entity);
 			jsonEntities.push_back(jsonEntity);
 		}
@@ -147,14 +146,14 @@ namespace FikaEngine
 
 	nlohmann::json ECSManager::serializeEditorEntities()
 	{
-		size_t size = entities->getUsedAmount();
+		size_t size = entities.getUsedAmount();
 		nlohmann::json js = nlohmann::json::object();
 
 		nlohmann::json jsonEntities = nlohmann::json::array();
 
 		for (size_t i = 0; i < size; i++)
 		{
-			Entity& entity = (*entities)[i];
+			Entity& entity = entities[i];
 			Transform* transform = findEntityTransform(entity);
 
 			nlohmann::json jsonEntity = entity.getSourcePrefab()->data;

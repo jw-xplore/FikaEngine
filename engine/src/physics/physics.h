@@ -36,7 +36,7 @@ namespace FikaEngine
 		glm::vec3 velocity = glm::vec3(0.0);
 		EAxes freezeMovement = (EAxes)0;
 		EAxes freezeRotation = (EAxes)0; // TODO: Add rotation freeze into force calculation and collisions
-		ColliderShape* shape;
+		ColliderShape* shape = nullptr;
 
 		// Callbacks
 		std::function<void(Body&)> onEnter;
@@ -52,7 +52,7 @@ namespace FikaEngine
 	private:
 		CollisionSolver collisionsSolver;
 
-		PoolAllocator<Body>* bodies;
+		PoolAllocator<Body> bodies = PoolAllocator<Body>("Physics bodies");
 		std::vector<std::string> tags;
 		std::vector<std::string> layers;
 		const const char* DEFAULT_TAG = "Default";

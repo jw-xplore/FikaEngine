@@ -34,7 +34,7 @@ public:
 class {{NAME}}ComponentUpdater : public FikaECS::ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component>* components;
+	PoolAllocator<{{NAME}}Component> components = PoolAllocator<{{NAME}}Component>("{{NAME}} Components");
 
 public:
 	{{NAME}}ComponentUpdater();

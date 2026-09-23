@@ -68,7 +68,6 @@ namespace FikaEngine
 	void MeshComponentUpdater::init()
 	{
 		MeshComponentUpdater* updater = new MeshComponentUpdater();
-		updater->components = new PoolAllocator<MeshComponent>("Mesh Components");
 		updater->targetComponentId = MeshComponent::componentId;
 
 		FikaServers::getECSManager().registerUpdaters(updater);
@@ -76,16 +75,16 @@ namespace FikaEngine
 
 	void MeshComponentUpdater::update(float dt)
 	{
-		int size = components->getUsedAmount();
+		int size = components.getUsedAmount();
 
 		for (size_t i = 0; i < size; i++)
 		{
-			(*components)[i].update(dt);
+			components[i].update(dt);
 		}
 	}
 
 	ECSComponent* MeshComponentUpdater::addComponent()
 	{
-		return components->allocate();
+		return components.allocate();
 	}
 } // namespace FikaEngine

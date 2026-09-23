@@ -77,7 +77,6 @@ PlayerComponentUpdater::PlayerComponentUpdater()
 void PlayerComponentUpdater::init()
 {
 	PlayerComponentUpdater* updater = new PlayerComponentUpdater();
-	updater->components = new PoolAllocator<PlayerComponent>("Player Components");
 	updater->targetComponentId = PlayerComponent::componentId;
 
 	FikaServers::getECSManager().registerUpdaters(updater);
@@ -85,15 +84,15 @@ void PlayerComponentUpdater::init()
 
 void PlayerComponentUpdater::update(float dt)
 {
-	int size = components->getUsedAmount();
+	int size = components.getUsedAmount();
 
 	for (size_t i = 0; i < size; i++)
 	{
-		(*components)[i].update(dt);
+		components[i].update(dt);
 	}
 }
 
 ECSComponent* PlayerComponentUpdater::addComponent()
 {
-	return components->allocate();
+	return components.allocate();
 }

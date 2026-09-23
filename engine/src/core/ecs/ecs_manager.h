@@ -5,20 +5,20 @@
 #include <glm/glm.hpp>
 #include "core/pool_allocator.h"
 #include "core/filemanagement/json.h"
+#include "core/ecs/entity.h"
 
 namespace FikaEngine
 {
 	class Transform;
 
 	//class SystemBase;
-	class Entity;
 	class ECSComponent;
 	class ComponentUpdater;
 
 	class ECSManager
 	{
 	private:
-		PoolAllocator<Entity>* entities;
+		PoolAllocator<Entity> entities = PoolAllocator<Entity>("entities");
 		std::vector<ComponentUpdater*> updaters;
 		// Tracks which systems is used for component based on matching id
 		std::map<unsigned int, ComponentUpdater*> componentIdUpdaters;

@@ -51,7 +51,7 @@ namespace FikaEngine
 	class RigidBodyComponentUpdater : public ComponentUpdater
 	{
 	private:
-		PoolAllocator<RigidBodyComponent>* components;
+		PoolAllocator<RigidBodyComponent> components = PoolAllocator<RigidBodyComponent>("RigidBody Components");
 
 	public:
 		RigidBodyComponentUpdater();

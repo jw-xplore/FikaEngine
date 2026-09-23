@@ -44,7 +44,7 @@ namespace FikaEngine
 	class MeshComponentUpdater : public ComponentUpdater
 	{
 	private:
-		PoolAllocator<MeshComponent>* components;
+		PoolAllocator<MeshComponent> components = PoolAllocator<MeshComponent>("Mesh Components");
 
 	public:
 		MeshComponentUpdater();

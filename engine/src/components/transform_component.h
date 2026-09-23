@@ -39,7 +39,7 @@ namespace FikaEngine
 	class TransformComponentUpdater : public ComponentUpdater
 	{
 	private:
-		PoolAllocator<TransformComponent>* components;
+		PoolAllocator<TransformComponent> components = PoolAllocator<TransformComponent>("Transform Components");
 
 	public:
 		TransformComponentUpdater();

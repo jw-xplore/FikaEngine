@@ -6,6 +6,16 @@
 
 ContentManager::ContentManager()
 {
+    
+}
+
+ContentManager::~ContentManager()
+{
+
+}
+
+void ContentManager::init()
+{
     gResourceManager = &FikaServers::getGPUResourceManager();
     ecsManager = &FikaServers::getECSManager();
 
@@ -25,11 +35,6 @@ ContentManager::ContentManager()
     gResourceManager->loadTexture("assets/textures/crate.jpg", "crate");
 
     gResourceManager->debugPrint();
-}
-
-ContentManager::~ContentManager()
-{
-
 }
 
 Entity& ContentManager::createPlayer(glm::vec3 position)

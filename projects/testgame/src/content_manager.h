@@ -18,6 +18,7 @@ public:
 	ContentManager();
 	~ContentManager();
 
+	void init();
 	Entity& createPlayer(glm::vec3 position);
 	Entity& createWall(glm::vec3 position, bool solid = true);
 

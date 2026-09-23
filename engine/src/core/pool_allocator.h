@@ -12,7 +12,7 @@ namespace FikaEngine
 	private:
 		const char* name;
 		unsigned short depth = 0;
-		T* buffer;
+		T* buffer = nullptr;
 
 		size_t elementSize;
 		size_t size;
@@ -57,6 +57,15 @@ namespace FikaEngine
 				T* element = buffer + i;
 				handles[i] = element;
 			}
+		}
+
+		~PoolAllocator()
+		{
+			delete[] buffer;
+			delete[] handles;
+
+			if (nextPool)
+				delete nextPool;
 		}
 
 		/**
