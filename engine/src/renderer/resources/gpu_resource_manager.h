@@ -57,6 +57,7 @@ namespace FikaEngine
 		ShaderResource();
 		ShaderResource(const ShaderResource& shaderRes);
 		ShaderResource(const char* vpath, const char* fpath);
+		~ShaderResource();
 
 		void loadShader(const char* path, GLchar*& buffer);
 		void loadShaders(const char* vpath, const char* fpath);

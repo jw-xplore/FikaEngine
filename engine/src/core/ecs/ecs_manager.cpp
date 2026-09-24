@@ -11,6 +11,17 @@
 
 namespace FikaEngine
 {
+	ECSManager::~ECSManager()
+	{
+		// TODO: Consider non-pointer updaters
+		for (auto& updater : updaters)
+		{
+			delete updater;
+		}
+
+		updaters.clear();
+	}
+
 	void ECSManager::init()
 	{
 		updaters.reserve(64);
@@ -18,9 +29,9 @@ namespace FikaEngine
 
 	void ECSManager::update(float dt)
 	{
-		for (auto& system : updaters)
+		for (auto& updater : updaters)
 		{
-			system->update(dt);
+			updater->update(dt);
 		}
 	}
 

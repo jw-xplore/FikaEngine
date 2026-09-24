@@ -75,7 +75,4 @@ int main()
 {
     FikaEngine::Game game;
     game.run(start, update);
-
-    _CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
-    _CrtDumpMemoryLeaks();
 }

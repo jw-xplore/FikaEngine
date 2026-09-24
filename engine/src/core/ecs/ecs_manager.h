@@ -27,7 +27,7 @@ namespace FikaEngine
 
 	public:
 		ECSManager() {}
-		~ECSManager() {}
+		~ECSManager();
 
 		void init();
 		void update(float dt);

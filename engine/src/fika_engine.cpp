@@ -1,4 +1,6 @@
 #include "fika_engine.h"
+#include <iostream>
+#include "core/memory_tracker.h"
 
 namespace FikaEngine
 {
@@ -76,7 +78,7 @@ namespace FikaEngine
 
         if (!window.create(1280, 720, "Fika Engine"))
             return;
-
+        
         FikaServers::getInstance()->setWindow(&window);
         FikaServers::getInputManager().init(window.getHandle());
         setup();
@@ -151,6 +153,8 @@ namespace FikaEngine
         // Cleanup
         delete FikaServers::getInstance();
         window.destroy();
+
+        FikaMemoryTracker::report();
     }
 
     float Game::getDeltaTime() { return deltaTime; }

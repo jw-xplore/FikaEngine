@@ -67,6 +67,10 @@ namespace FikaEngine
 		compile();
 	}
 
+	ShaderResource::~ShaderResource()
+	{
+	}
+
 	void ShaderResource::loadShader(const char* path, GLchar*& buffer)
 	{
 		std::string fileData;
@@ -180,6 +184,9 @@ namespace FikaEngine
 			printf("[PROGRAM LINK ERROR]: %s", buf);
 			delete[] buf;
 		}
+
+		delete vertexBuffer;
+		delete fragmentBuffer;
 
 		return *this;
 	}
