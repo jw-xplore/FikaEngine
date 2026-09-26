@@ -80,7 +80,7 @@ namespace FikaEditor
 		if (!input.isMouseHeld(Mouse::RightButton))
 			return;
 
-		glm::vec2 change = input.getMouse().positionDelta;
-		camera->rotate(change.x * sensitivity, -change.y * sensitivity);
+		glm::vec2 change = input.getMouse().positionDelta * sensitivity;
+		camera->rotate(change.x, -change.y, pitchLimit);
 	}
 }

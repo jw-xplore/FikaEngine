@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-//#define MEMORY_DEBUG 1
+#define MEMORY_DEBUG 1
 
 namespace FikaMemoryTracker
 {

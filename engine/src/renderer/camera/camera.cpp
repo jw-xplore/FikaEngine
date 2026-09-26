@@ -42,10 +42,17 @@ namespace FikaEngine
         updateVectors();
     }
 
-    void Camera::rotate(float yaw, float pitch)
+    void Camera::rotate(float yaw, float pitch, float pitchLimit)
     {
         this->yaw += yaw;
         this->pitch += pitch;
+
+        if (pitchLimit != -1)
+        {
+            if (this->pitch > pitchLimit) this->pitch = pitchLimit;
+            if (this->pitch < -pitchLimit) this->pitch = -pitchLimit;
+        }
+
         updateVectors();
         lookAt(position + direction);
     }

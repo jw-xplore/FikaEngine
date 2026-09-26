@@ -193,9 +193,6 @@ namespace FikaEditor
 
     void Editor::loadActivePrefab()
     {
-        if (!activePrefab)
-            activePrefab = new Prefab();
-
         // Load prefabs
         FikaServers::getGameResourceManager().loadFolderPrefabs(projectPrefabPath);
         projectPrefabs = FikaServers::getGameResourceManager().getLoadedPrefabsList();

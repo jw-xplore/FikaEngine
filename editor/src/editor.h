@@ -31,7 +31,7 @@ namespace FikaEditor
 		bool projectLoaded = false;
 		ProjectMetaData metaData;
 
-		MeshInstance* placingCube;
+		MeshInstance* placingCube = nullptr;
 		glm::mat4 placingTransform = glm::mat4(1.95);
 		EditorCamera editorCamera;
 

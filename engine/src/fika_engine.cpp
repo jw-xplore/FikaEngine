@@ -145,7 +145,7 @@ namespace FikaEngine
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             FikaServers::getDebugRenderer().render(mainCamera->getViewProjection());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-            debugUI(window.getHandle());
+            //debugUI(window.getHandle());
 
             window.swap();
         }

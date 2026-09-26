@@ -23,6 +23,7 @@ namespace FikaEditor
 
 		float speed = 5.0f;
 		float minSpeed = 1.0f, maxSpeed = 20.0f, speedChange = 1.0f;
-		float sensitivity = 1.1f;
+		float pitchLimit = 60.0f;
+		float sensitivity = 0.5f;
 	};
 }

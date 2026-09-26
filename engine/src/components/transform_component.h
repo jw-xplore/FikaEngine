@@ -24,6 +24,8 @@ namespace FikaEngine
 		unsigned int getComponentId() const override { return componentId; }
 		void start() override;
 		void update(float dt) override;
+		nlohmann::json serialize() override;
+		void deserialize(nlohmann::json js) override;
 
 		TransformComponent(const glm::vec3& startPos);
 		Transform* getTransform() { return &transform; }

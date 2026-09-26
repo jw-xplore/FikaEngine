@@ -23,6 +23,19 @@ namespace FikaEngine
 
 	}
 
+	nlohmann::json TransformComponent::serialize()
+	{
+		nlohmann::json js = nlohmann::json::object();
+		js["id"] = componentId;
+		js["transform"] = transform.serialize();
+
+		return js;
+	}
+
+	void TransformComponent::deserialize(nlohmann::json js)
+	{
+		transform.deserialize(js["transform"]);
+	}
 
 	//-------------------------------------------------------
 	// System

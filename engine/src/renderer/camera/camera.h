@@ -42,7 +42,7 @@ namespace FikaEngine
         void move(glm::vec3 position, glm::vec3 direction);
 
         void translate(glm::vec3 move);
-        void rotate(float yaw, float pitch);
+        void rotate(float yaw, float pitch, float pitchLimit = -1);
 
         /**
          * @brief Updates free flying camera, including keyboard and mouse controls.
