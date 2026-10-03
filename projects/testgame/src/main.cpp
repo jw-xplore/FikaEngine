@@ -12,13 +12,7 @@ using namespace FikaEngine;
 
 void start()
 {
-    // Setup camera
-    FikaServers::getCameraManager().getMainCamera()->move(glm::vec3(0, 4, -8), glm::vec3(0, -0.3f, 1));
-
-    // Input mapping
-    //InputMapping::GetInstance();
-
-    // Component updators inits
+    // Init order defines update order
     TransformComponentUpdater::init();
     RigidBodyComponentUpdater::init();
     MeshComponentUpdater::init();
@@ -26,7 +20,8 @@ void start()
    
     // Test entity cmp setup
     contentManager.init();
-    //Entity& player = contentManager->createPlayer(glm::vec3(0, 0, 0));
+    //contentManager.makePrefabs();
+    //Entity& player = contentManager.createPlayer(glm::vec3(0, 0, 0));
     //Entity& wall = contentManager->createWall(glm::vec3(0,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
@@ -74,5 +69,6 @@ void update(float dt)
 int main()
 {
     FikaEngine::Game game;
-    game.run(start, update);
+    game.setup(start, update);
+    game.run();
 }

@@ -66,11 +66,17 @@ namespace FikaEngine
 		 * @param startFnc Function for setting up custom project. Is called right before first game loop update.
 		 * @param updateFnc Function for custom update. Is called every frame before render.
 		 */
-		void run(void (*startFnc)(), void (*updateFnc)(float));
+		void run();
+		void setup(void (*initFnc)(), void (*preUpdateFnc)(float) = nullptr, void (*postUpdateFnc)(float) = nullptr);
 		float getDeltaTime();
 
 	private:
 		float deltaTime = 1;
+
+		// Functions
+		void (*initFnc)() = nullptr;
+		void (*preUpdateFnc)(float) = nullptr;
+		void (*postUpdateFnc)(float) = nullptr;
 
 		// Settings
 		bool enableVSync = true;

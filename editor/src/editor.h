@@ -37,8 +37,6 @@ namespace FikaEditor
 
 		bool cursorInsideGui = false;
 
-		void debugUI(GLFWwindow* window);
-
 	public:
 		Editor();
 
@@ -49,6 +47,7 @@ namespace FikaEditor
 		void loadActivePrefab();
 		void saveLevel(const char* path);
 		void runGame();
+		void debugUI(GLFWwindow* window);
 
 		glm::vec3 positionFromScreenSpace();
 		glm::vec3 screenToWorldGround(const glm::vec2 mouse, const glm::vec2 screenSize, const glm::mat4& view, const glm::mat4& projection);
@@ -56,5 +55,6 @@ namespace FikaEditor
 		nlohmann::json meshJsonFromPrefab(Prefab& prefab);
 
 		void selectPrefab();
+		int selectValidPrefab(int index);
 	};
 }

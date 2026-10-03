@@ -18,9 +18,13 @@ public:
 	ContentManager();
 	~ContentManager();
 
+	Entity* planeEnt = nullptr;
+
 	void init();
 	Entity& createPlayer(glm::vec3 position);
 	Entity& createWall(glm::vec3 position, bool solid = true);
 
 	void loadWalls(const char* filePath);
+
+	void makePrefabs();
 };

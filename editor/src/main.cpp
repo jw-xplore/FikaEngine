@@ -11,6 +11,7 @@
  */
 
 using namespace FikaEngine;
+
 FikaEditor::Editor editor;
 
 void start()
@@ -46,8 +47,14 @@ void update(float dt)
     editor.update(dt);
 }
 
+void postUpdate(float dt)
+{
+    editor.debugUI(glfwGetCurrentContext());
+}
+
 int main()
 {
     FikaEngine::Game game;
-    game.run(start, update);
+    game.setup(start, update, postUpdate);
+    game.run();
 }

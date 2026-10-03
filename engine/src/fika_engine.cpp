@@ -71,7 +71,14 @@ namespace FikaEngine
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
-    void Game::run(void (*startFnc)(), void (*updateFnc)(float))
+    void Game::setup(void (*initFnc)(), void (*preUpdateFnc)(float), void (*postUpdateFnc)(float))
+    {
+        this->initFnc = initFnc;
+        this->preUpdateFnc = preUpdateFnc;
+        this->postUpdateFnc = postUpdateFnc;
+    }
+
+    void Game::run()
     {
         Window window;
         float lastTime = 0;
@@ -89,7 +96,8 @@ namespace FikaEngine
         Camera* mainCamera = FikaServers::getCameraManager().getMainCamera();
 
         // Custom user start and setup
-        startFnc();
+        if (initFnc)
+            initFnc();
 
         // ImGui
         IMGUI_CHECKVERSION();
@@ -123,7 +131,8 @@ namespace FikaEngine
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             // Custom user update
-            updateFnc(dt);
+            if (preUpdateFnc)
+                preUpdateFnc(dt);
 
             // Free cam update
             if (FikaServers::getInputManager().isKeyPressed(Key::P))
@@ -146,6 +155,9 @@ namespace FikaEngine
             FikaServers::getDebugRenderer().render(mainCamera->getViewProjection());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
             //debugUI(window.getHandle());
+
+            if (postUpdateFnc)
+                postUpdateFnc(dt);
 
             window.swap();
         }

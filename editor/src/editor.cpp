@@ -128,7 +128,7 @@ namespace FikaEditor
 
         // UI
         selectPrefab();
-        debugUI(glfwGetCurrentContext());
+        //debugUI(glfwGetCurrentContext());
 
         if (!projectLoaded)
             return;
@@ -211,14 +211,14 @@ namespace FikaEditor
             std::string meshPath = meshCmpJson["meshPath"];
             assert(meshPath != "");
             meshPath = workingDirectory + meshPath;
-            MeshResource* meshRes = FikaServers::getGPUResourceManager().reserveMesh(activePrefab->name.c_str());
+            MeshResource* meshRes = FikaServers::getGPUResourceManager().reserveMesh(meshPath.c_str());
             MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
             //MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
 
             std::string texturePath = meshCmpJson["texturePath"];
             assert(texturePath != "");
             texturePath = workingDirectory + texturePath;
-            TextureResource* textureRes = FikaServers::getGPUResourceManager().loadTexture(texturePath.c_str(), activePrefab->name.c_str());
+            TextureResource* textureRes = FikaServers::getGPUResourceManager().loadTexture(texturePath.c_str(), texturePath.c_str());
         }
 
         // Set first prefab
@@ -361,13 +361,13 @@ namespace FikaEditor
         //MeshResource* meshRes = gpuResourceManager.reserveMesh(activePrefab->name.c_str());
         //MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
         //MeshResource* meshRes = gpuResourceManager.loadMesh(meshPath.c_str(), activePrefab->name.c_str());
-        MeshResource* meshRes = &gpuResourceManager.getMesh(activePrefab->name.c_str());
+        MeshResource* meshRes = &gpuResourceManager.getMesh(meshPath.c_str());
 
         std::string texturePath = meshCmpJson["texturePath"];
         assert(texturePath != "");
         texturePath = workingDirectory + texturePath;
         //TextureResource* textureRes = gpuResourceManager.loadTexture(texturePath.c_str(), activePrefab->name.c_str());
-        TextureResource* textureRes = &gpuResourceManager.getTexture(activePrefab->name.c_str());
+        TextureResource* textureRes = &gpuResourceManager.getTexture(texturePath.c_str());
 
         MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(FikaServers::getECSManager().addComponent(entity, MeshComponent::componentId));
         meshCmp->setup(*meshRes, basicShader, nullptr);
@@ -392,10 +392,28 @@ namespace FikaEditor
     void Editor::selectPrefab()
     {
         InputManager input = FikaServers::getInputManager();
+        int selected = -1;
 
-        if (input.isKeyPressed(Key::Key1))
-            activePrefab = projectPrefabs[0];
-        if (input.isKeyPressed(Key::Key2))
-            activePrefab = projectPrefabs[1];
+        for (int i = 0; i < 9; i++)
+        {
+            int btn = Key::Key1 + i;
+            if (input.isKeyPressed(static_cast<Key::Code>(btn)))
+            {
+                activePrefab = projectPrefabs[selectValidPrefab(i)];
+                return;
+            }
+        }
+    }
+
+    int Editor::selectValidPrefab(int index)
+    {
+        if (index < 0)
+            return 0;
+
+        int limit = projectPrefabs.size() - 1;
+        if (index > limit)
+            return limit;
+
+        return index;
     }
 }
