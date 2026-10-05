@@ -29,7 +29,7 @@ void start()
     // TODO: Have engine components initilized at engine
     TransformComponentUpdater::init();
     RigidBodyComponentUpdater::init();
-    MeshComponentUpdater::init();
+    MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
 
     editor.init();
     //editor.loadProject();

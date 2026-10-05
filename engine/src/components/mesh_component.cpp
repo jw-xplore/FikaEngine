@@ -70,6 +70,7 @@ namespace FikaEngine
 	{
 		MeshComponentUpdater* updater = new MeshComponentUpdater();
 		//updater->components = PoolAllocator<MeshComponent>("Mesh Components", poolSize);
+		updater->components.init("Mesh Components", poolSize);
 		updater->targetComponentId = MeshComponent::componentId;
 
 		FikaServers::getECSManager().registerUpdaters(updater);

@@ -3,6 +3,7 @@
 //-------------------------------------------------------------------------
 #pragma once
 #include <iostream>
+#include <string>
 
 namespace FikaEngine
 {
@@ -51,6 +52,11 @@ namespace FikaEngine
 
 		PoolAllocator(const char* name, size_t count = POOL_DEFAULT_SIZE)
 		{
+			if (std::string(name) == "Mesh Components")
+			{
+				int a = 5;
+			}
+
 			this->name = name;
 			used = 0;
 			size = count;
@@ -75,11 +81,33 @@ namespace FikaEngine
 				delete nextPool;
 		}
 
+		void init(const char* name, size_t count = POOL_DEFAULT_SIZE)
+		{
+			this->name = name;
+			used = 0;
+			size = count;
+			elementSize = sizeof(T);
+
+			buffer = new T[size];
+			handles = new T * [size];
+
+			for (size_t i = 0; i < size; i++)
+			{
+				T* element = buffer + i;
+				handles[i] = element;
+			}
+		}
+
 		/**
 		 * @return Pointer to recently allocated element.
 		 */
 		T* allocate()
 		{
+			if (std::string(name) == "Mesh Components")
+			{
+				int a = 5;
+			}
+
 			/*
 			if (size == 0)
 				assert("Pool was never defined!");
