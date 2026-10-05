@@ -45,6 +45,7 @@ namespace FikaEngine
 	{
 	private:
 		PoolAllocator<MeshComponent> components = PoolAllocator<MeshComponent>("Mesh Components");
+		//PoolAllocator<MeshComponent> components = PoolAllocator<MeshComponent>();
 
 	public:
 		MeshComponentUpdater();
@@ -53,7 +54,7 @@ namespace FikaEngine
 		 * @brief Call once at start to enable MeshComponent pool update.
 		 * Order of init call reflects in which order will updaters be processed.
 		 */
-		static void init();
+		static void init(size_t poolSize);
 		void update(float dt) override;
 		ECSComponent* addComponent() override;
 	};

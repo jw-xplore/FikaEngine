@@ -13,6 +13,7 @@ Includes
 #include "core/fika_servers.h"
 #include "core/filemanagement/json.h"
 #include "core/game_resource_manager.h"
+#include "core/pool_allocator.h"
 
 // ECS
 #include "core/ecs/ecs_manager.h"

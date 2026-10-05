@@ -40,6 +40,8 @@ namespace FikaEngine
 		int pos = updaters.size();
 		updaters.push_back(system);
 
+		int id = system->getTargetComponentId();
+		std::cout << "id: " << id << "\n";
 		componentIdUpdaters[system->getTargetComponentId()] = system;
 
 		return pos;

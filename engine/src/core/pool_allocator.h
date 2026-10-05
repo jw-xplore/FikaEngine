@@ -6,6 +6,8 @@
 
 namespace FikaEngine
 {
+	static const size_t POOL_DEFAULT_SIZE = 256;
+
 	template <typename T>
 	class PoolAllocator
 	{
@@ -14,10 +16,10 @@ namespace FikaEngine
 		unsigned short depth = 0;
 		T* buffer = nullptr;
 
-		size_t elementSize;
-		size_t size;
+		size_t elementSize = 0;
+		size_t size = 0;
 		size_t used = 0;
-		T** handles;
+		T** handles = nullptr;
 
 		PoolAllocator<T>* nextPool = nullptr;
 
@@ -40,9 +42,14 @@ namespace FikaEngine
 		}
 
 	public:
-		static const size_t defaultSize = 256;
+		PoolAllocator()
+		{
+			this->name = "Default";
+			used = 0;
+			size = 0;
+		}
 
-		PoolAllocator(const char* name, size_t count = defaultSize)
+		PoolAllocator(const char* name, size_t count = POOL_DEFAULT_SIZE)
 		{
 			this->name = name;
 			used = 0;
