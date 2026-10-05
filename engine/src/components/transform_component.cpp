@@ -45,9 +45,10 @@ namespace FikaEngine
 	{
 	}
 
-	void TransformComponentUpdater::init()
+	void TransformComponentUpdater::init(size_t poolSize)
 	{
 		TransformComponentUpdater* updater = new TransformComponentUpdater();
+		updater->components.init("Transform Components", poolSize);
 		updater->targetComponentId = TransformComponent::componentId;
 
 		FikaServers::getECSManager().registerUpdaters(updater);

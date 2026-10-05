@@ -13,22 +13,22 @@ using namespace FikaEngine;
 void start()
 {
     // Init order defines update order
-    TransformComponentUpdater::init();
-    RigidBodyComponentUpdater::init();
+    TransformComponentUpdater::init(POOL_DEFAULT_SIZE);
+    RigidBodyComponentUpdater::init(POOL_DEFAULT_SIZE);
     MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
-    PlayerComponentUpdater::init();
+    PlayerComponentUpdater::init(1);
    
     // Test entity cmp setup
     contentManager.init();
     //contentManager.makePrefabs();
     //Entity& player = contentManager.createPlayer(glm::vec3(0, 0, 0));
-    Entity& wall = contentManager.createWall(glm::vec3(0,0,0), true);
+    //Entity& wall = contentManager.createWall(glm::vec3(0,0,0), true);
     //contentManager->createWall(glm::vec3(2, 0, 0), false);
 
     //FikaServers::getGameResourceManager().makePrefab(player, "C:/Projects/Prog/FikaEngine/projects/testgame/assets/prefabs/player.json");
     //FikaServers::getGameResourceManager().makePrefab(wall, "C:/Projects/Prog/FikaEngine/projects/testgame/assets/prefabs/wall.json");
 
-    //FikaServers::getECSManager().loadEntities("assets/levels/testLevel.json");
+    FikaServers::getECSManager().loadEntities("assets/levels/testLevel.json");
 
     // FikaServers::getECSManager().loadEntities("entitiesTest.json");
     Prefab playerPref;

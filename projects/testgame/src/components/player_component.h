@@ -51,7 +51,7 @@ public:
 	 * @brief Call once at start to enable PlayerComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
-	static void init();
+	static void init(size_t poolSize);
 	void update(float dt) override;
 	ECSComponent* addComponent() override;
 };

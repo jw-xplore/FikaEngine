@@ -3,16 +3,16 @@
 
 using namespace FikaEngine;
 
-void defaultComponentsInit()
+void componentsInit()
 {
-    //TransformComponentUpdater::init(POOL_DEFAULT_SIZE);
-    //RigidBodyComponentUpdater::init(POOL_DEFAULT_SIZE);
-    //MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
+    TransformComponentUpdater::init(POOL_DEFAULT_SIZE);
+    RigidBodyComponentUpdater::init(POOL_DEFAULT_SIZE);
+    MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
 }
 
 void start()
 {
-    
+    componentsInit();
 }
 
 void update(float dt)

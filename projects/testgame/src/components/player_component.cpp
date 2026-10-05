@@ -74,9 +74,10 @@ PlayerComponentUpdater::PlayerComponentUpdater()
 {
 }
 
-void PlayerComponentUpdater::init()
+void PlayerComponentUpdater::init(size_t poolSize)
 {
 	PlayerComponentUpdater* updater = new PlayerComponentUpdater();
+    updater->components.init("Player Components", poolSize);
 	updater->targetComponentId = PlayerComponent::componentId;
 
 	FikaServers::getECSManager().registerUpdaters(updater);

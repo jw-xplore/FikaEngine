@@ -27,8 +27,8 @@ void start()
     //editor.placeObject(glm::vec3(0, 0, 0));
 
     // TODO: Have engine components initilized at engine
-    TransformComponentUpdater::init();
-    RigidBodyComponentUpdater::init();
+    TransformComponentUpdater::init(POOL_DEFAULT_SIZE);
+    RigidBodyComponentUpdater::init(POOL_DEFAULT_SIZE);
     MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
 
     editor.init();

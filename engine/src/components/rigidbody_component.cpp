@@ -109,9 +109,10 @@ namespace FikaEngine
 	{
 	}
 
-	void RigidBodyComponentUpdater::init()
+	void RigidBodyComponentUpdater::init(size_t poolSize)
 	{
 		RigidBodyComponentUpdater* updater = new RigidBodyComponentUpdater();
+		updater->components.init("Rigidbody Components", poolSize);
 		updater->targetComponentId = RigidBodyComponent::componentId;
 
 		FikaServers::getECSManager().registerUpdaters(updater);

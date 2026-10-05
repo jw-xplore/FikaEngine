@@ -41,7 +41,7 @@ namespace FikaEngine
 	class TransformComponentUpdater : public ComponentUpdater
 	{
 	private:
-		PoolAllocator<TransformComponent> components = PoolAllocator<TransformComponent>("Transform Components");
+		PoolAllocator<TransformComponent> components;
 
 	public:
 		TransformComponentUpdater();
@@ -50,7 +50,7 @@ namespace FikaEngine
 		 * @brief Call once at start to enable TransformComponent pool update.
 		 * Order of init call reflects in which order will updaters be processed.
 		 */
-		static void init();
+		static void init(size_t poolSize);
 		void update(float dt) override;
 		ECSComponent* addComponent() override;
 	};

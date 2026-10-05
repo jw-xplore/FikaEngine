@@ -63,13 +63,11 @@ namespace FikaEngine
 
 	MeshComponentUpdater::MeshComponentUpdater()
 	{
-		//components = PoolAllocator<MeshComponent>("Mesh Components", 256);
 	}
 
 	void MeshComponentUpdater::init(size_t poolSize)
 	{
 		MeshComponentUpdater* updater = new MeshComponentUpdater();
-		//updater->components = PoolAllocator<MeshComponent>("Mesh Components", poolSize);
 		updater->components.init("Mesh Components", poolSize);
 		updater->targetComponentId = MeshComponent::componentId;
 
