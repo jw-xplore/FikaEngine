@@ -2,7 +2,7 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
-#include "fika_engine.h"
+#include <fika_engine.h>
 
 using namespace FikaEngine;
 
@@ -11,25 +11,25 @@ using namespace FikaEngine;
 //-------------------------------------------------------
 
 /**
- * @brief 
+ * @brief
  */
-class PlayerComponent : public ECSComponent
+class BulletComponent : public ECSComponent
 {
 private:
-	Body* body;
-	RigidBodyComponent* rbCmp;
-	float speed = 500;
-	glm::vec3 lastDirection = glm::vec3(-1, 0, 0);
-	glm::vec3 cameraOffset = glm::vec3(0, 6, -6);
+	Transform* transform;
+	glm::vec3 velocity = glm::vec3(0);
+	float lifetime = 3;
 
 public:
-	PlayerComponent() {}
-	static const unsigned int componentId = 11740; // Do not change id
+	BulletComponent() {}
+	static const unsigned int componentId = 19865; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
+
+	void setup(glm::vec3 position, glm::vec3 velocity, float lifetime);
 };
 
 //-------------------------------------------------------
@@ -37,18 +37,18 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of PlayerComponent and run updates on them through ECS manager
+ * @brief Holds pool of BulletComponent and run updates on them through ECS manager
  */
-class PlayerComponentUpdater : public ComponentUpdater
+class BulletComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<PlayerComponent> components = PoolAllocator<PlayerComponent>("Player Components");
+	PoolAllocator <BulletComponent> components = PoolAllocator <BulletComponent> ("Bullet Components");
 
 public:
-	PlayerComponentUpdater();
+	BulletComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable PlayerComponent pool update.
+	 * @brief Call once at start to enable BulletComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init(size_t poolSize);

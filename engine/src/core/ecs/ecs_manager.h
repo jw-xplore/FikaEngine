@@ -34,6 +34,7 @@ namespace FikaEngine
 
 		int registerUpdaters(ComponentUpdater* system);
 		Entity* addEntity(std::string name = "");
+		void removeEntity(Entity& entity);
 		ECSComponent* addComponent(Entity* entity, unsigned int componentId);
 		ECSComponent* findComponent(Entity& entity, unsigned int componentId);
 		Transform* findEntityTransform(Entity& entity);

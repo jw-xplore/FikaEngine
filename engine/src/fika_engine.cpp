@@ -19,7 +19,7 @@ namespace FikaEngine
         FikaServers::getMainRenderer().init();
         FikaServers::getDebugRenderer().init();
 
-        // Meshes
+        // Setup basic shapes
         MeshResource* cubeMesh = FikaServers::getGPUResourceManager().reserveMesh("cube");
         MeshBuilder().createCube(1).build(*cubeMesh);
 
@@ -29,12 +29,9 @@ namespace FikaEngine
         MeshResource* cylinderMesh = FikaServers::getGPUResourceManager().reserveMesh("cylinder");
         MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
 
-        // Shaders
+        // Setup basic shaders
         ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
         FikaServers::getGPUResourceManager().storeShader("basic", basicShader);
-
-        // Keyboard
-        //keyboard = Input::getDefaultKeyboard();
 	}
 
     void Game::debugUI(GLFWwindow* window)

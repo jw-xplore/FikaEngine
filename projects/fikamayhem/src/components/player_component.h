@@ -2,7 +2,7 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
-#include "fika_engine.h"
+#include <fika_engine.h>
 
 using namespace FikaEngine;
 
@@ -11,25 +11,32 @@ using namespace FikaEngine;
 //-------------------------------------------------------
 
 /**
- * @brief 
- */
+* @brief
+*/
 class PlayerComponent : public ECSComponent
 {
 private:
-	Body* body;
-	RigidBodyComponent* rbCmp;
-	float speed = 500;
-	glm::vec3 lastDirection = glm::vec3(-1, 0, 0);
-	glm::vec3 cameraOffset = glm::vec3(0, 6, -6);
+	Transform* transform;
+	float speed = 10;
+	glm::vec3 lastDirection = glm::vec3(1,0,0);
+
+	Camera* camera;
+	glm::vec3 camOffset = glm::vec3(0,1,-5);
+
+	float bulletSpeed = 25;
+	float fireDelay = 0.5f;
+	float fireTimer = 0;
 
 public:
 	PlayerComponent() {}
-	static const unsigned int componentId = 11740; // Do not change id
+	static const unsigned int componentId = 29311; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
+
+	void handleFire(glm::vec3 direction, float dt);
 };
 
 //-------------------------------------------------------
@@ -42,7 +49,7 @@ public:
 class PlayerComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<PlayerComponent> components = PoolAllocator<PlayerComponent>("Player Components");
+	PoolAllocator<PlayerComponent> components;
 
 public:
 	PlayerComponentUpdater();

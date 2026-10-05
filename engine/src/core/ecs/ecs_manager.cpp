@@ -54,6 +54,17 @@ namespace FikaEngine
 		return entity;
 	}
 
+	void ECSManager::removeEntity(Entity& entity)
+	{
+		std::vector<ECSComponent*>& components = entityComponets[entity.getId()];
+
+		for (ECSComponent*& comp : components)
+		{
+			// TODO: Removing component from updators
+			//componentIdUpdaters[comp->getComponentId()].
+		}
+	}
+
 	ECSComponent* ECSManager::addComponent(Entity* entity, unsigned int componentId)
 	{
 		bool systemExist = componentIdUpdaters.find(componentId) != componentIdUpdaters.end();

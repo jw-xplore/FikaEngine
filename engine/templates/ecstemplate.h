@@ -3,50 +3,47 @@
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
 
-namespace FikaEngine
+//-------------------------------------------------------
+// Component
+//-------------------------------------------------------
+
+/**
+ * @brief
+ */
+class {{NAME}}Component : public ECSComponent
 {
-	//-------------------------------------------------------
-	// Component
-	//-------------------------------------------------------
+private:
+
+public:
+	{{NAME}}Component() {}
+	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
+	unsigned int getComponentId() const override { return componentId; }
+	void start() override;
+	void update(float dt) override;
+	nlohmann::json serialize() override;
+	void deserialize(nlohmann::json js) override;
+};
+
+//-------------------------------------------------------
+// System
+//-------------------------------------------------------
+
+/**
+ * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ */
+class {{NAME}}ComponentUpdater : public ComponentUpdater
+{
+private:
+	PoolAllocator <{{NAME}}Component> components = PoolAllocator <{{NAME}}Component> ("{{NAME}} Components");
+
+public:
+	{{NAME}}ComponentUpdater();
 
 	/**
-	 * @brief
+	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * Order of init call reflects in which order will updaters be processed.
 	 */
-	class {{NAME}}Component : public ECSComponent
-	{
-	private:
-
-	public:
-		{{NAME}}Component() {}
-		static const unsigned int componentId = {{CMP_ID}}; // Do not change id
-		unsigned int getComponentId() const override { return componentId; }
-		void start() override;
-		void update(float dt) override;
-		nlohmann::json serialize() override;
-		void deserialize(nlohmann::json js) override;
-	};
-
-	//-------------------------------------------------------
-	// System
-	//-------------------------------------------------------
-
-	/**
-	 * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
-	 */
-	class {{NAME}}ComponentUpdater : public ComponentUpdater
-	{
-	private:
-		PoolAllocator <{{NAME}}Component> components = PoolAllocator <{{NAME}}Component> ("{{NAME}} Components");
-
-	public:
-		{{NAME}}ComponentUpdater();
-
-		/**
-		 * @brief Call once at start to enable {{NAME}}Component pool update.
-		 * Order of init call reflects in which order will updaters be processed.
-		 */
-		static void init(size_t poolSize);
-		void update(float dt) override;
-		ECSComponent* addComponent() override;
-	};
-}
+	static void init(size_t poolSize);
+	void update(float dt) override;
+	ECSComponent* addComponent() override;
+};
