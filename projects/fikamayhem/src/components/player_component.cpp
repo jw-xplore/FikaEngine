@@ -86,7 +86,7 @@ void PlayerComponent::handleFire(glm::vec3 direction, float dt)
 	}
 
 	// Fire
-	ContentManager::createBullet(transform->getLocalPosition(), direction * bulletSpeed);
+	ContentManager::createBullet(transform->getLocalPosition(), direction * bulletSpeed, 0.1);
 	fireTimer = fireDelay;
 }
 
@@ -120,4 +120,11 @@ void PlayerComponentUpdater::update(float dt)
 ECSComponent* PlayerComponentUpdater::addComponent()
 {
 	return components.allocate();
+}
+
+void PlayerComponentUpdater::removeComponent(ECSComponent& component)
+{
+	PlayerComponent* casted = static_cast<PlayerComponent*>(&component);
+	assert(casted != nullptr);
+	components.remove(casted);
 }

@@ -132,4 +132,11 @@ namespace FikaEngine
 	{
 		return components.allocate();
 	}
+
+	void RigidBodyComponentUpdater::removeComponent(ECSComponent& component)
+	{
+		RigidBodyComponent* casted = static_cast<RigidBodyComponent*>(&component);
+		assert(casted != nullptr);
+		components.remove(casted);
+	}
 } // namespace FikaEngine

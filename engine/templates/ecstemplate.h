@@ -20,6 +20,7 @@ public:
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
+	void onRemove() override;
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
 };
@@ -34,7 +35,7 @@ public:
 class {{NAME}}ComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator <{{NAME}}Component> components = PoolAllocator <{{NAME}}Component> ("{{NAME}} Components");
+	PoolAllocator<{{NAME}}Component> components;
 
 public:
 	{{NAME}}ComponentUpdater();
@@ -46,4 +47,5 @@ public:
 	static void init(size_t poolSize);
 	void update(float dt) override;
 	ECSComponent* addComponent() override;
+	void removeComponent(ECSComponent& component) override;
 };

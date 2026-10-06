@@ -9,9 +9,6 @@
 
 namespace FikaEngine
 {
-	class ECSComponent;
-	class Entity;
-
 	/**
 		* @brief Stores components of one specific types and runs their update.
 		*/
@@ -27,6 +24,7 @@ namespace FikaEngine
 
 		virtual void update(float dt) {}
 		virtual ECSComponent* addComponent() { return nullptr; }
+		virtual void removeComponent(ECSComponent& component) { static_assert(true); }
 		void storeOwner(Entity* entity, ECSComponent* component) { entityOwnedComponents[entity->getId()] = component; }
 
 		unsigned int getTargetComponentId() { return targetComponentId; }

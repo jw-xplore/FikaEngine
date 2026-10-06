@@ -28,6 +28,11 @@ namespace FikaEngine
 			*/
 		virtual void update(float dt) {}
 
+		/**
+			* @brief Called when Component is removed from componets pool.
+			*/
+		virtual void onRemove() {}
+
 		virtual unsigned int getComponentId() const { return 0; }
 		virtual nlohmann::json serialize() { return nullptr; }
 		virtual void deserialize(nlohmann::json js) {}

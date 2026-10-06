@@ -27,6 +27,7 @@ namespace FikaEngine
 		unsigned int getComponentId() const override { return componentId; }
 		void start() override;
 		void update(float dt) override;
+		void onRemove() override;
 		nlohmann::json serialize() override;
 		void deserialize(nlohmann::json js) override;
 
@@ -56,5 +57,6 @@ namespace FikaEngine
 		static void init(size_t poolSize);
 		void update(float dt) override;
 		ECSComponent* addComponent() override;
+		void removeComponent(ECSComponent& component) override;
 	};
 } // namespace FikaEngine

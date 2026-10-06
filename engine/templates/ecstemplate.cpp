@@ -17,6 +17,14 @@ void {{NAME}}Component::update(float dt)
 
 }
 
+void {{NAME}}Component::onRemove()
+{
+	if (instance != nullptr)
+	{
+		FikaServers::getMainRenderer().removeMeshIntance(*instance);
+	}
+}
+
 nlohmann::json {{NAME}}Component::serialize()
 {
 	nlohmann::json js = nlohmann::json::object();
@@ -60,4 +68,11 @@ void {{NAME}}ComponentUpdater::update(float dt)
 ECSComponent* {{NAME}}ComponentUpdater::addComponent()
 {
 	return components.allocate();
+}
+
+void {{NAME}}ComponentUpdater::removeComponent(ECSComponent& component)
+{
+	{{NAME}}Component* casted = static_cast<{{NAME}}Component*>(&component);
+	assert(casted != nullptr);
+	components.remove(casted);
 }

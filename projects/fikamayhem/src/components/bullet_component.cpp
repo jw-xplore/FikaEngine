@@ -20,7 +20,7 @@ void BulletComponent::update(float dt)
 	lifetime -= dt;
 	if (lifetime <= 0)
 	{
-
+		FikaServers::getECSManager().removeEntity(*owner);
 	}
 }
 
@@ -74,4 +74,11 @@ void BulletComponentUpdater::update(float dt)
 ECSComponent* BulletComponentUpdater::addComponent()
 {
 	return components.allocate();
+}
+
+void BulletComponentUpdater::removeComponent(ECSComponent& component)
+{
+	BulletComponent* casted = static_cast<BulletComponent*>(&component);
+	assert(casted != nullptr);
+	components.remove(casted);
 }

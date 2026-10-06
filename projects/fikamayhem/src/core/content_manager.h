@@ -12,5 +12,5 @@ public:
 	void init();
 	static Entity& createPlayer();
 	static Entity& createBox(glm::vec3 position);
-	static Entity& createBullet(glm::vec3 position, glm::vec3 velocity);
+	static Entity& createBullet(glm::vec3 position, glm::vec3 velocity, float lifetime = 3);
 };

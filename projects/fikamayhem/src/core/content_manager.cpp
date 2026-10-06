@@ -52,7 +52,7 @@ Entity& ContentManager::createBox(glm::vec3 position)
 	return *entity;
 }
 
-Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity)
+Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity, float lifetime)
 {
 	ECSManager& ecsmngr = FikaServers::getECSManager();
 	GPUResourceManager& gpuRes = FikaServers::getGPUResourceManager();
@@ -65,7 +65,7 @@ Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity)
 	mesh->setup(gpuRes.getMesh("sphere"), gpuRes.getShader("basic"), nullptr);
 
 	BulletComponent* bullet = static_cast<BulletComponent*>(ecsmngr.addComponent(entity, BulletComponent::componentId));
-	bullet->setup(position, velocity, 3);
+	bullet->setup(position, velocity, lifetime);
 
 	return *entity;
 }

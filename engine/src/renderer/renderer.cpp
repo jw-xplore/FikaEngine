@@ -97,6 +97,11 @@ namespace FikaEngine
 		return mesh;
 	}
 
+	void Renderer::removeMeshIntance(MeshInstance& instance)
+	{
+		meshes.remove(&instance);
+	}
+
 	Line* Renderer::addLine(Line line)
 	{
 		Line* l = linesData.lines.allocate();

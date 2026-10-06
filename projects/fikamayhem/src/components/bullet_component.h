@@ -42,7 +42,7 @@ public:
 class BulletComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator <BulletComponent> components = PoolAllocator <BulletComponent> ("Bullet Components");
+	PoolAllocator<BulletComponent> components;
 
 public:
 	BulletComponentUpdater();
@@ -54,4 +54,5 @@ public:
 	static void init(size_t poolSize);
 	void update(float dt) override;
 	ECSComponent* addComponent() override;
+	void removeComponent(ECSComponent& component) override;
 };

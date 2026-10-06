@@ -54,4 +54,5 @@ public:
 	static void init(size_t poolSize);
 	void update(float dt) override;
 	ECSComponent* addComponent() override;
+	void removeComponent(ECSComponent& component) override;
 };

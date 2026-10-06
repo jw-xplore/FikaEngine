@@ -79,6 +79,7 @@ namespace FikaEngine
 		 * @return New created mesh instanced
 		 */
 		MeshInstance* addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
+		void removeMeshIntance(MeshInstance& instance);
 
 		Line* addLine(Line line);
 	};

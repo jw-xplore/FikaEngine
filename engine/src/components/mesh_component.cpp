@@ -24,6 +24,14 @@ namespace FikaEngine
 
 	}
 
+	void MeshComponent::onRemove()
+	{
+		if (instance != nullptr)
+		{
+			FikaServers::getMainRenderer().removeMeshIntance(*instance);
+		}
+	}
+
 	nlohmann::json MeshComponent::serialize()
 	{
 		nlohmann::json js = nlohmann::json::object();
@@ -87,5 +95,12 @@ namespace FikaEngine
 	ECSComponent* MeshComponentUpdater::addComponent()
 	{
 		return components.allocate();
+	}
+
+	void MeshComponentUpdater::removeComponent(ECSComponent& component)
+	{
+		MeshComponent* casted = static_cast<MeshComponent*>(&component);
+		assert(casted != nullptr);
+		components.remove(casted);
 	}
 } // namespace FikaEngine

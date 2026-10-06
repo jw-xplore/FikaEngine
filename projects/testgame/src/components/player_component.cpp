@@ -97,3 +97,10 @@ ECSComponent* PlayerComponentUpdater::addComponent()
 {
 	return components.allocate();
 }
+
+void PlayerComponentUpdater::removeComponent(ECSComponent& component)
+{
+    PlayerComponent* casted = static_cast<PlayerComponent*>(&component);
+    assert(casted != nullptr);
+    components.remove(casted);
+}

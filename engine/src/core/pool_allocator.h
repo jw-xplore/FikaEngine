@@ -147,6 +147,8 @@ namespace FikaEngine
 				}
 			}
 
+			assert(pos != -1);
+
 			if (pos == -1)
 				return;
 

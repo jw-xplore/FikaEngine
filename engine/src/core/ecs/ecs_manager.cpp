@@ -60,8 +60,9 @@ namespace FikaEngine
 
 		for (ECSComponent*& comp : components)
 		{
-			// TODO: Removing component from updators
-			//componentIdUpdaters[comp->getComponentId()].
+			comp->onRemove();
+			unsigned int id = comp->getComponentId();
+			componentIdUpdaters[id]->removeComponent(*comp);
 		}
 	}
 
