@@ -11,16 +11,23 @@ void BulletComponent::start()
 {
 	transform = FikaServers::getECSManager().findEntityTransform(*owner);
 	transform->setScale(glm::vec3(1) * 0.2f);
+	removed = false;
 }
 
 void BulletComponent::update(float dt)
 {
+	if (removed)
+	{
+		return;
+	}
+
 	transform->translate(velocity * dt);
 
 	lifetime -= dt;
 	if (lifetime <= 0)
 	{
 		FikaServers::getECSManager().removeEntity(*owner);
+		removed = true;
 	}
 }
 

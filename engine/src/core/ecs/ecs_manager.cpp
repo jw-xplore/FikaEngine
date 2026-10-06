@@ -33,6 +33,8 @@ namespace FikaEngine
 		{
 			updater->update(dt);
 		}
+
+		//std::cout << "entities: " << entities.getUsedAmount() << "\n";
 	}
 
 	int ECSManager::registerUpdaters(ComponentUpdater* system)
@@ -62,8 +64,12 @@ namespace FikaEngine
 		{
 			comp->onRemove();
 			unsigned int id = comp->getComponentId();
+			componentIdUpdaters[id]->removeEntityLink(entity);
 			componentIdUpdaters[id]->removeComponent(*comp);
 		}
+
+		entityComponets.erase(entity.getId());
+		entities.remove(&entity);
 	}
 
 	ECSComponent* ECSManager::addComponent(Entity* entity, unsigned int componentId)

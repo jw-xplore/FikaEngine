@@ -19,18 +19,24 @@ namespace FikaEngine
 	struct ColliderShape
 	{
 		Body* body = nullptr;
+		EColliderShapes type = EColliderShapes::None;
+
 		virtual nlohmann::json serialize();
 	};
 
 	struct Sphere : public ColliderShape
 	{
 		float radius = 0;
+
+		Sphere() { type = EColliderShapes::ColliderShapeSphere; }
 		nlohmann::json serialize() override;
 	};
 
 	struct Box : public ColliderShape
 	{
 		glm::vec3 volume = glm::vec3(0);
+
+		Box() { type = EColliderShapes::ColliderShapeBox; }
 		nlohmann::json serialize() override;
 	};
 
@@ -38,6 +44,8 @@ namespace FikaEngine
 	{
 		float radius = 0;
 		float height = 0;
+
+		Capsule() { type = EColliderShapes::ColliderShapeCapsule; }
 		nlohmann::json serialize() override;
 	};
 
@@ -93,6 +101,8 @@ namespace FikaEngine
 		Sphere* addSphereCollider(Body& body, float radius);
 		Box* addBoxCollider(Body& body, glm::vec3 volume);
 		Capsule* addCapsuleCollider(Body& body, float radius, float height);
+
+		void removeCollider(ColliderShape& collider);
 
 		// Queries
 		Contact* raycast(glm::vec3 start, glm::vec3 direction, float lenght);

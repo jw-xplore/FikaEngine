@@ -26,18 +26,40 @@ void PlayerComponent::update(float dt)
 
 	if (input.isKeyHeld(Key::A))
 	{
-		horizontal = 1;
+		horizontal += 1;
+		vertical += -1;
 	}
-	else if (input.isKeyHeld(Key::D))
+	if (input.isKeyHeld(Key::D))
 	{
-		horizontal = -1;
+		horizontal += -1;
+		vertical += 1;
 	}
 
 	if (input.isKeyHeld(Key::W))
 	{
+		horizontal += 1;
+		vertical += 1;
+	}
+	if (input.isKeyHeld(Key::S))
+	{
+		horizontal += -1;
+		vertical += -1;
+	}
+
+	if (horizontal > 1)
+	{
+		horizontal = 1;
+	}
+	else if (horizontal < -1)
+	{
+		horizontal = -1;
+	}
+
+	if (vertical > 1)
+	{
 		vertical = 1;
 	}
-	else if (input.isKeyHeld(Key::S))
+	else if (vertical < -1)
 	{
 		vertical = -1;
 	}
@@ -54,6 +76,7 @@ void PlayerComponent::update(float dt)
 
 	// Camera update
 	camera->setPosition(transform->getLocalPosition() + camOffset);
+	camera->lookAt(transform->getLocalPosition());
 
 	// Fire
 	handleFire(lastDirection, dt);
@@ -86,7 +109,7 @@ void PlayerComponent::handleFire(glm::vec3 direction, float dt)
 	}
 
 	// Fire
-	ContentManager::createBullet(transform->getLocalPosition(), direction * bulletSpeed, 0.1);
+	ContentManager::createBullet(transform->getLocalPosition(), direction * bulletSpeed, 2);
 	fireTimer = fireDelay;
 }
 

@@ -93,6 +93,11 @@ namespace FikaEngine
 		return bodies[id - 1];
 	}
 
+	void PhysicsSolver::removeBody(Body& body)
+	{
+		bodies.remove(&body);
+	}
+
 	int PhysicsSolver::findTagId(std::string tag)
 	{
 		for (size_t i = 0; i < tags.size(); i++)

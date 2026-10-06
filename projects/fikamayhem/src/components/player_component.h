@@ -21,10 +21,11 @@ private:
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
 	Camera* camera;
-	glm::vec3 camOffset = glm::vec3(0,1,-5);
+	const float cameraDistance = 10;
+	glm::vec3 camOffset = glm::vec3(-cameraDistance, cameraDistance, -cameraDistance);
 
 	float bulletSpeed = 25;
-	float fireDelay = 0.5f;
+	float fireDelay = 0.1f;
 	float fireTimer = 0;
 
 public:

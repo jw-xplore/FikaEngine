@@ -205,6 +205,18 @@ namespace FikaEngine
 		return &capsuleColliders[capsuleColliders.getUsedAmount() - 1];
 	}
 
+	void CollisionSolver::removeCollider(ColliderShape& collider)
+	{
+		assert(collider.type != EColliderShapes::None);
+
+		switch (collider.type)
+		{
+		case EColliderShapes::ColliderShapeSphere: sphereColliders.remove(static_cast<Sphere*>(&collider)); break;
+		case EColliderShapes::ColliderShapeBox: boxColliders.remove(static_cast<Box*>(&collider)); break;
+		case EColliderShapes::ColliderShapeCapsule: capsuleColliders.remove(static_cast<Capsule*>(&collider)); break;
+		}
+	}
+
 	void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact)
 	{
 		glm::vec3 reaction = contact.normal * contact.penetration;

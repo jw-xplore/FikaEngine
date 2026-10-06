@@ -29,6 +29,11 @@ namespace FikaEngine
 
 	}
 
+	void RigidBodyComponent::onRemove()
+	{
+		FikaServers::getPhysicsSolver().removeBody(*body);
+	}
+
 	nlohmann::json RigidBodyComponent::serialize()
 	{
 		nlohmann::json js = nlohmann::json::object();

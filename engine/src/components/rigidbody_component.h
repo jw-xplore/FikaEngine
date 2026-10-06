@@ -28,6 +28,7 @@ namespace FikaEngine
 		unsigned int getComponentId() const override { return componentId; }
 		void start() override;
 		void update(float dt) override;
+		void onRemove() override;
 		nlohmann::json serialize() override;
 		void deserialize(nlohmann::json js) override;
 

@@ -66,6 +66,7 @@ namespace FikaEngine
 		void update(float dt);
 
 		Body& addBody();
+		void removeBody(Body& body);
 
 		CollisionSolver& getCollisionSolver() { return collisionsSolver; }
 

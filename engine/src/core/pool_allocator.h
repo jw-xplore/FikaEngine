@@ -126,6 +126,8 @@ namespace FikaEngine
 			T* pos = handles[used];
 			used++;
 
+			assert(pos != nullptr);
+
 			return pos;
 		}
 
