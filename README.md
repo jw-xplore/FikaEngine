@@ -22,11 +22,11 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
-- Editor: Display list of loaded prefabs and selected prefab
-- Editor: Preload all prefab meshes
-- Editor: Start game with selected level name
-- Debug memory: Allocations-dealocations debug log
-- Debug: Implement way to turn on/off debug/log features 
+- Collisions: Store colliding entity in contact
+- FM project: Test destroy enemy by bullets
+- FM project: Enemy melee attack
+- FM project: Enemy shooting towards player
+- Editor: Starting game from editor will load selected level
 - Window/camera: Add resizing support
 
 ## Backlog

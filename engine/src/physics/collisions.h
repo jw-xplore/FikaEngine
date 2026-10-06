@@ -3,6 +3,7 @@
 #include <memory>
 #include "core/pool_allocator.h"
 #include "core/filemanagement/json.h"
+#include "core/ecs/entity.h"
 
 namespace FikaEngine
 {

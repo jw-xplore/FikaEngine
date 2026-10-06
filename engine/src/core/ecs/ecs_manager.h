@@ -39,6 +39,8 @@ namespace FikaEngine
 		ECSComponent* findComponent(Entity& entity, unsigned int componentId);
 		Transform* findEntityTransform(Entity& entity);
 
+		ComponentUpdater* getUpdater(unsigned int componentId);
+
 		nlohmann::json serializeEntity(Entity& entity);
 		void addEntityFromJson(nlohmann::json js);
 		nlohmann::json serializeEntities();

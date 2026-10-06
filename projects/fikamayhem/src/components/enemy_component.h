@@ -2,6 +2,7 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
+#include "../components/player_component.h"
 
 using namespace FikaEngine;
 
@@ -12,13 +13,18 @@ using namespace FikaEngine;
 /**
  * @brief
  */
-class {{NAME}}Component : public ECSComponent
+class EnemyComponent : public ECSComponent
 {
 private:
+	Transform* playerTransform;
+	RigidBodyComponent* rb;
+
+	int hp = 100;
+	float speed = 80;
 
 public:
-	{{NAME}}Component() {}
-	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
+	EnemyComponent() {}
+	static const unsigned int componentId = 26814; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
@@ -32,18 +38,18 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ * @brief Holds pool of EnemyComponent and run updates on them through ECS manager
  */
-class {{NAME}}ComponentUpdater : public ComponentUpdater
+class EnemyComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component> components;
-
+	PoolAllocator<EnemyComponent> components;
+	
 public:
-	{{NAME}}ComponentUpdater();
+	EnemyComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * @brief Call once at start to enable EnemyComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init(size_t poolSize);

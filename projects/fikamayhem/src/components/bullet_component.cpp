@@ -23,6 +23,18 @@ void BulletComponent::update(float dt)
 
 	transform->translate(velocity * dt);
 
+	// Check hits
+	glm::vec3 start = transform->getLocalPosition();
+	glm::vec3 dir = velocity;
+	glm::normalize(dir);
+
+	Contact* hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(start, dir, velocity.length());
+	if (hit)
+	{
+		// TODO: Check enemy was hit
+	}
+
+	// Remove after timeout
 	lifetime -= dt;
 	if (lifetime <= 0)
 	{

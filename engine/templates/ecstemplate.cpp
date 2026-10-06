@@ -19,10 +19,7 @@ void {{NAME}}Component::update(float dt)
 
 void {{NAME}}Component::onRemove()
 {
-	if (instance != nullptr)
-	{
-		FikaServers::getMainRenderer().removeMeshIntance(*instance);
-	}
+
 }
 
 nlohmann::json {{NAME}}Component::serialize()

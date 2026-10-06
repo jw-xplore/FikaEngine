@@ -118,6 +118,11 @@ namespace FikaEngine
 		return nullptr;
 	}
 
+	ComponentUpdater* ECSManager::getUpdater(unsigned int componentId)
+	{
+		return componentIdUpdaters[componentId];
+	}
+
 	nlohmann::json ECSManager::serializeEntity(Entity& entity)
 	{
 		nlohmann::json js = nlohmann::json::object();
