@@ -20,6 +20,7 @@ private:
 	glm::vec3 velocity = glm::vec3(0);
 	float lifetime = 3;
 	bool removed = false;
+	int rayLayer = 2;
 
 public:
 	BulletComponent() {}

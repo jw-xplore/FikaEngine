@@ -28,10 +28,13 @@ void BulletComponent::update(float dt)
 	glm::vec3 dir = velocity;
 	glm::normalize(dir);
 
-	Contact* hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(start, dir, velocity.length());
+	Contact* hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(start, dir, velocity.length() * 0.5f, rayLayer);
 	if (hit)
 	{
-		// TODO: Check enemy was hit
+		// Destroy
+		Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit->body);
+		FikaServers::getECSManager().removeEntity(*hitEntity);
+		lifetime = 0;
 	}
 
 	// Remove after timeout

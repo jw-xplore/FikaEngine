@@ -62,6 +62,11 @@ namespace FikaEngine
 
 		for (ECSComponent*& comp : components)
 		{
+			if (entity.getName() == "Bullet" && comp->getComponentId() == RigidBodyComponent::componentId)
+			{
+				int a = 5;
+			}
+
 			comp->onRemove();
 			unsigned int id = comp->getComponentId();
 			componentIdUpdaters[id]->removeEntityLink(entity);

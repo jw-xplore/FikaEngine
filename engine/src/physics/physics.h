@@ -6,6 +6,7 @@
 #include "collisions.h"
 #include "core/pool_allocator.h"
 #include "core/transform.h"
+#include "core/event.h"
 
 namespace FikaEngine
 {
@@ -39,8 +40,8 @@ namespace FikaEngine
 		ColliderShape* shape = nullptr;
 
 		// Callbacks
-		std::function<void(Body&)> onEnter;
-		std::function<void(Body&)> onExit;
+		Event<void(Body&)> onEnterEvent;
+		Event<void(Body&)> onExitEvent;
 	};
 
 	void applyForce(Body& body, const glm::vec3& force);
@@ -55,6 +56,9 @@ namespace FikaEngine
 		PoolAllocator<Body> bodies = PoolAllocator<Body>("Physics bodies");
 		std::vector<std::string> tags;
 		std::vector<std::string> layers;
+
+		std::map<Body*, Entity*> bodiesOwners;
+
 		const const char* DEFAULT_TAG = "Default";
 		const const char* DEFAULT_LAYER = "Default";
 		const const char* PLAYER_LAYER = "Player";
@@ -65,8 +69,9 @@ namespace FikaEngine
 
 		void update(float dt);
 
-		Body& addBody();
+		Body& addBody(Entity& owner);
 		void removeBody(Body& body);
+		Entity* getBodyEntity(Body& body);
 
 		CollisionSolver& getCollisionSolver() { return collisionsSolver; }
 

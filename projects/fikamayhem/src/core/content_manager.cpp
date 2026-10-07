@@ -29,6 +29,7 @@ Entity& ContentManager::createPlayer()
 
 	RigidBodyComponent* rb = static_cast<RigidBodyComponent*>(ecsmngr.addComponent(entity, RigidBodyComponent::componentId));
 	rb->setType(EBodyType::Kinematic);
+	rb->setBoxCollider(glm::vec3(1.2f));
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
@@ -63,7 +64,7 @@ Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity, flo
 
 	Entity* entity = ecsmngr.addEntity("Bullet");
 
-	TransformComponent* tranCmp = static_cast<TransformComponent*>(ecsmngr.addComponent(entity, RigidBodyComponent::componentId));
+	TransformComponent* tranCmp = static_cast<TransformComponent*>(ecsmngr.addComponent(entity, TransformComponent::componentId));
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("sphere"), gpuRes.getShader("basic"), nullptr);
@@ -85,6 +86,8 @@ Entity& ContentManager::createEnemy(glm::vec3 position)
 	rb->getTransform()->setLocalPosition(position);
 	rb->setType(EBodyType::Kinematic);
 	rb->setSphereCollider(1.2f);
+	rb->setInteractiveLayers(3);
+	rb->setLayers(2);
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("sphere"), gpuRes.getShader("basic"), nullptr);

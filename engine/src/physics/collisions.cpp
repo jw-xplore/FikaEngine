@@ -248,11 +248,8 @@ namespace FikaEngine
 
 		if (!ongoingContacts[contactId])
 		{
-			if (bodyA.onEnter)
-				bodyA.onEnter(bodyB);
-
-			if (bodyB.onEnter)
-				bodyB.onEnter(bodyA);
+			bodyA.onEnterEvent.broadcast(bodyB);
+			bodyB.onEnterEvent.broadcast(bodyA);
 
 			ongoingContacts[contactId] = true;
 		}
@@ -265,21 +262,19 @@ namespace FikaEngine
 
 		if (ongoingContacts[contactId])
 		{
-			if (bodyA.onExit)
-				bodyA.onExit(bodyB);
-
-			if (bodyB.onExit)
-				bodyB.onExit(bodyA);
+			bodyA.onExitEvent.broadcast(bodyB);
+			bodyB.onExitEvent.broadcast(bodyA);
 		}
 
 		ongoingContacts[contactId] = false;
 	}
 
-	Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float lenght)
+	Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float lenght, int interactiveLayers)
 	{
 		Contact closestOut;
 		float closestDist = std::numeric_limits<float>::max();
 		Ray ray = Ray(start, direction, lenght);
+		ray.interactiveLayers = interactiveLayers;
 
 		// Sphere checks
 		for (size_t a = 0; a < sphereColliders.getUsedAmount(); a++)
@@ -808,6 +803,7 @@ namespace FikaEngine
 
 		if (out)
 		{
+			out->body = sphere.body;
 			out->normal = glm::normalize(closestPoint - spherePos);
 			out->point = closestPoint;
 			out->penetration = ray.lenght - closetsPointL;
@@ -850,6 +846,7 @@ namespace FikaEngine
 
 		if (hit && out)
 		{
+			out->body = box.body;
 			out->penetration = tEnter;
 			out->point = s + ray.direction * tEnter * ray.lenght;
 
@@ -928,6 +925,7 @@ namespace FikaEngine
 		// Out
 		if (out)
 		{
+			out->body = capsule.body;
 			out->normal = glm::normalize(normal);
 			out->point = closestPoint;
 			//out->penetration = ray lenght - closet point lenght from start

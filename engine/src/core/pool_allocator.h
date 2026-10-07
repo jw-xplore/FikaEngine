@@ -155,6 +155,7 @@ namespace FikaEngine
 				return;
 
 			// Decrease used and switch element position
+			assert (used > 0);
 			used--;
 
 			if (pos < used)

@@ -68,6 +68,7 @@ namespace FikaEngine
 
 	struct Contact
 	{
+		Body* body;
 		glm::vec3 normal = glm::vec3(1,0,0);
 		float penetration = 0;
 		glm::vec3 point = glm::vec3(0);
@@ -106,7 +107,7 @@ namespace FikaEngine
 		void removeCollider(ColliderShape& collider);
 
 		// Queries
-		Contact* raycast(glm::vec3 start, glm::vec3 direction, float lenght);
+		Contact* raycast(glm::vec3 start, glm::vec3 direction, float lenght, int interactiveLayers = 1);
 
 		// Collisions
 		// Sphere

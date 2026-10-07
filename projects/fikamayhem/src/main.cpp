@@ -34,6 +34,10 @@ void start()
     ContentManager::createBox(glm::vec3(2, 0, 0));
 
     ContentManager::createEnemy(glm::vec3(4, 0, 3));
+    ContentManager::createEnemy(glm::vec3(1, 0, 3));
+    ContentManager::createEnemy(glm::vec3(-4, 0, 3));
+    ContentManager::createEnemy(glm::vec3(4, 0, 2));
+    ContentManager::createEnemy(glm::vec3(4, 0, -3));
 }
 
 void update(float dt)

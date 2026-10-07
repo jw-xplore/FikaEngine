@@ -15,7 +15,7 @@ namespace FikaEngine
 	void RigidBodyComponent::start()
 	{
 		PhysicsSolver& physics = FikaServers::getPhysicsSolver();
-		body = &physics.addBody();
+		body = &physics.addBody(*owner);
 
 		/*
 		// Callbacks

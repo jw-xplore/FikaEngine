@@ -14,6 +14,7 @@ void EnemyComponent::start()
 	playerTransform = FikaServers::getECSManager().findEntityTransform(*player);
 
 	rb = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
+	rb->getBody()->onEnterEvent.addListener([this](Body& body) { onBodyEnter(body); });
 }
 
 void EnemyComponent::update(float dt)
@@ -40,6 +41,11 @@ nlohmann::json EnemyComponent::serialize()
 void EnemyComponent::deserialize(nlohmann::json js)
 {
 
+}
+
+void EnemyComponent::onBodyEnter(Body& body)
+{
+	
 }
 
 //-------------------------------------------------------

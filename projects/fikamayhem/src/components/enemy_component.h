@@ -3,6 +3,7 @@
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
 #include "../components/player_component.h"
+#include "physics/physics.h"
 
 using namespace FikaEngine;
 
@@ -31,6 +32,8 @@ public:
 	void onRemove() override;
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
+
+	void onBodyEnter(Body& body);
 };
 
 //-------------------------------------------------------

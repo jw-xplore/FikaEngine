@@ -81,11 +81,13 @@ namespace FikaEngine
 		collisionsSolver.update(dt);
 	}
 
-	Body& PhysicsSolver::addBody()
+	Body& PhysicsSolver::addBody(Entity& owner)
 	{
 		Body* body = bodies.allocate();
 		int id = bodies.getUsedAmount();
 		body->id = id;
+
+		bodiesOwners[body] = &owner;
 
 		// TODO: Make option to call this after all
 		collisionsSolver.setupOngoinContacts(bodies.getUsedAmount());
@@ -95,7 +97,18 @@ namespace FikaEngine
 
 	void PhysicsSolver::removeBody(Body& body)
 	{
+		if (body.shape != nullptr)
+		{
+			collisionsSolver.removeCollider(*body.shape);
+		}
+
+		bodiesOwners.erase(& body);
 		bodies.remove(&body);
+	}
+
+	Entity* PhysicsSolver::getBodyEntity(Body& body)
+	{
+		return bodiesOwners[&body];
 	}
 
 	int PhysicsSolver::findTagId(std::string tag)

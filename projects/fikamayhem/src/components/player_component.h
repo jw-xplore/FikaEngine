@@ -25,7 +25,7 @@ private:
 	glm::vec3 camOffset = glm::vec3(-cameraDistance, cameraDistance, -cameraDistance);
 
 	float bulletSpeed = 25;
-	float fireDelay = 0.1f;
+	float fireDelay = 0.5f;
 	float fireTimer = 0;
 
 public:
