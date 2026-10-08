@@ -18,12 +18,19 @@ using namespace FikaEngine;
 class EnemyComponent : public ECSComponent
 {
 private:
+	Transform* transform;
 	Transform* playerTransform;
 	HealthComponent* healthCmp;
 	RigidBodyComponent* rb;
 
 	int hp = 100;
 	float speed = 500;
+
+	int attackDamage = 10;
+	float attackDelay = 0.5;
+	float attackTimer = 0;
+	float attackLenght = 3;
+	int rayLayer = 1;
 
 public:
 	EnemyComponent() {}
@@ -36,6 +43,7 @@ public:
 	void deserialize(nlohmann::json js) override;
 
 	void onBodyEnter(Body& body);
+	void attack(float dt);
 };
 
 //-------------------------------------------------------

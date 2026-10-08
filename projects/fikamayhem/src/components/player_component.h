@@ -42,6 +42,7 @@ public:
 	void movement(float dt);
 	void handleFire(float dt);
 	glm::vec2 inputDirection(Key::Code right, Key::Code left, Key::Code up, Key::Code down);
+	void onDeath(Entity& entity);
 };
 
 //-------------------------------------------------------

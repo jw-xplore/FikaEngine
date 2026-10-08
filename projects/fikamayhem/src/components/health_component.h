@@ -33,6 +33,8 @@ public:
 
 	void dealDamage(int dmg);
 	void heal(int amount);
+	int getHp() { return hp; }
+	int getMaxHp() { return maxHp; }
 	bool isAlive() { return hp > 0; }
 };
 

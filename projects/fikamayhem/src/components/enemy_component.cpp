@@ -13,10 +13,14 @@ void EnemyComponent::start()
 	Entity* player = ContentManager::getPlayerEntity();
 	playerTransform = FikaServers::getECSManager().findEntityTransform(*player);
 
+	transform = FikaServers::getECSManager().findEntityTransform(*owner);
+
 	healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*owner, HealthComponent::componentId));
 
 	rb = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
 	rb->getBody()->onEnterEvent.addListener([this](Body& body) { onBodyEnter(body); });
+
+	attackTimer = attackTimer;
 }
 
 void EnemyComponent::update(float dt)
@@ -32,6 +36,9 @@ void EnemyComponent::update(float dt)
 	dir = glm::normalize(dir);
 
 	rb->getBody()->velocity = dir * speed * dt;
+
+	// Attack
+	attack(dt);
 }
 
 void EnemyComponent::onRemove()
@@ -54,12 +61,40 @@ void EnemyComponent::deserialize(nlohmann::json js)
 
 void EnemyComponent::onBodyEnter(Body& body)
 {
-	Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(body);
 
-	if (hitEntity == ContentManager::getPlayerEntity())
+}
+
+void EnemyComponent::attack(float dt)
+{
+	glm::vec3 start = transform->getLocalPosition();
+	glm::vec3 dir = playerTransform->getLocalPosition() - rb->getTransform()->getLocalPosition();
+	dir = glm::normalize(dir);
+
+	FikaServers::getDebugRenderer().addLine(Line(start, start + dir * attackLenght, glm::vec3(0, 1, 0)));
+
+	// Timer
+	if (attackTimer > 0)
 	{
-		FikaServers::getECSManager().removeEntity(*hitEntity);
+		attackTimer -= dt;
+		return;
 	}
+
+	// Attack
+	Contact* hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(start, dir, attackLenght * 0.5f, rayLayer);
+
+	if (hit)
+	{
+		// Attack player
+		Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit->body);
+
+		if (hitEntity == ContentManager::getPlayerEntity())
+		{
+			HealthComponent* healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*hitEntity, HealthComponent::componentId));
+			healthCmp->dealDamage(attackDamage);
+		}
+	}
+
+	attackTimer = attackDelay;
 }
 
 //-------------------------------------------------------
