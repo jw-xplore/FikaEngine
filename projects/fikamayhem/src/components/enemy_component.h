@@ -3,6 +3,7 @@
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
 #include "../components/player_component.h"
+#include "../components/health_component.h"
 #include "physics/physics.h"
 
 using namespace FikaEngine;
@@ -18,10 +19,11 @@ class EnemyComponent : public ECSComponent
 {
 private:
 	Transform* playerTransform;
+	HealthComponent* healthCmp;
 	RigidBodyComponent* rb;
 
 	int hp = 100;
-	float speed = 80;
+	float speed = 500;
 
 public:
 	EnemyComponent() {}

@@ -5,6 +5,7 @@
 #include "components/player_component.h"
 #include "components/bullet_component.h"
 #include "components/enemy_component.h"
+#include "components/health_component.h"
 
 /*
 Project Fika Mayhem
@@ -23,6 +24,7 @@ void componentsInit()
     PlayerComponentUpdater::init(1);
     BulletComponentUpdater::init(POOL_DEFAULT_SIZE);
     EnemyComponentUpdater::init(POOL_DEFAULT_SIZE);
+    HealthComponentUpdater::init(POOL_DEFAULT_SIZE);
 }
 
 void start()

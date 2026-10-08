@@ -2,6 +2,7 @@
 #include "../components/player_component.h"
 #include "../components/bullet_component.h"
 #include "../components/enemy_component.h"
+#include "../components/health_component.h"
 
 Entity* ContentManager::playerEntity = nullptr;
 
@@ -33,6 +34,8 @@ Entity& ContentManager::createPlayer()
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
+
+	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
 
 	PlayerComponent* player = static_cast<PlayerComponent*>(ecsmngr.addComponent(entity, PlayerComponent::componentId));
 
@@ -91,6 +94,8 @@ Entity& ContentManager::createEnemy(glm::vec3 position)
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("sphere"), gpuRes.getShader("basic"), nullptr);
+
+	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
 
 	EnemyComponent* enemy = static_cast<EnemyComponent*>(ecsmngr.addComponent(entity, EnemyComponent::componentId));
 

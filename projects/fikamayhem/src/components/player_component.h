@@ -3,6 +3,7 @@
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
 #include <fika_engine.h>
+#include "../components/health_component.h"
 
 using namespace FikaEngine;
 
@@ -17,15 +18,16 @@ class PlayerComponent : public ECSComponent
 {
 private:
 	Transform* transform;
+	HealthComponent* healthCmp;
 	float speed = 10;
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
 	Camera* camera;
 	const float cameraDistance = 10;
-	glm::vec3 camOffset = glm::vec3(-cameraDistance, cameraDistance, -cameraDistance);
+	glm::vec3 camOffset = glm::vec3(-cameraDistance, 20, -cameraDistance);
 
 	float bulletSpeed = 25;
-	float fireDelay = 0.5f;
+	float fireDelay = 0.1f;
 	float fireTimer = 0;
 
 public:
@@ -37,7 +39,9 @@ public:
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
 
-	void handleFire(glm::vec3 direction, float dt);
+	void movement(float dt);
+	void handleFire(float dt);
+	glm::vec2 inputDirection(Key::Code right, Key::Code left, Key::Code up, Key::Code down);
 };
 
 //-------------------------------------------------------

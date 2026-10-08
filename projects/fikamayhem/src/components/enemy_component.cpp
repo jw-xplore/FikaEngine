@@ -13,14 +13,23 @@ void EnemyComponent::start()
 	Entity* player = ContentManager::getPlayerEntity();
 	playerTransform = FikaServers::getECSManager().findEntityTransform(*player);
 
+	healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*owner, HealthComponent::componentId));
+
 	rb = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
 	rb->getBody()->onEnterEvent.addListener([this](Body& body) { onBodyEnter(body); });
 }
 
 void EnemyComponent::update(float dt)
 {
+	if (!healthCmp->isAlive())
+	{
+		FikaServers::getECSManager().removeEntity(*owner);
+		return;
+	}
+
+	// Folow player
 	glm::vec3 dir = playerTransform->getLocalPosition() - rb->getTransform()->getLocalPosition();
-	glm::normalize(dir);
+	dir = glm::normalize(dir);
 
 	rb->getBody()->velocity = dir * speed * dt;
 }
@@ -45,7 +54,12 @@ void EnemyComponent::deserialize(nlohmann::json js)
 
 void EnemyComponent::onBodyEnter(Body& body)
 {
-	
+	Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(body);
+
+	if (hitEntity == ContentManager::getPlayerEntity())
+	{
+		FikaServers::getECSManager().removeEntity(*hitEntity);
+	}
 }
 
 //-------------------------------------------------------

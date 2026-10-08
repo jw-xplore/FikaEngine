@@ -2,7 +2,7 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
-#include <fika_engine.h>
+#include "core/event.h"
 
 using namespace FikaEngine;
 
@@ -13,26 +13,27 @@ using namespace FikaEngine;
 /**
  * @brief
  */
-class BulletComponent : public ECSComponent
+class HealthComponent : public ECSComponent
 {
 private:
-	Transform* transform;
-	glm::vec3 velocity = glm::vec3(0);
-	int damage = 10;
-	float lifetime = 3;
-	bool removed = false;
-	int rayLayer = 2;
+	int hp = 100;
+	int maxHp = 100;
 
 public:
-	BulletComponent() {}
-	static const unsigned int componentId = 19865; // Do not change id
+	HealthComponent() {}
+	static const unsigned int componentId = 32432; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
+	void onRemove() override;
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
 
-	void setup(glm::vec3 position, glm::vec3 velocity, float lifetime);
+	Event<void(Entity&)> onDeath;
+
+	void dealDamage(int dmg);
+	void heal(int amount);
+	bool isAlive() { return hp > 0; }
 };
 
 //-------------------------------------------------------
@@ -40,18 +41,18 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of BulletComponent and run updates on them through ECS manager
+ * @brief Holds pool of HealthComponent and run updates on them through ECS manager
  */
-class BulletComponentUpdater : public ComponentUpdater
+class HealthComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<BulletComponent> components;
+	PoolAllocator<HealthComponent> components;
 
 public:
-	BulletComponentUpdater();
+	HealthComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable BulletComponent pool update.
+	 * @brief Call once at start to enable HealthComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init(size_t poolSize);

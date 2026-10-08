@@ -2,6 +2,7 @@
 #include "core/fika_servers.h"
 #include "core/ecs/ecs_manager.h"
 #include "core/ecs/entity.h"
+#include "../components/health_component.h"
 
 //-------------------------------------------------------
 // Component
@@ -33,7 +34,13 @@ void BulletComponent::update(float dt)
 	{
 		// Destroy
 		Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit->body);
-		FikaServers::getECSManager().removeEntity(*hitEntity);
+
+		if (hitEntity->getName() == "Enemy")
+		{
+			HealthComponent* healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*hitEntity, HealthComponent::componentId));
+			healthCmp->dealDamage(damage);
+		}
+
 		lifetime = 0;
 	}
 

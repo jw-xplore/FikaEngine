@@ -158,6 +158,7 @@ namespace FikaEngine
 
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
 		mesh->customScale = glm::vec3(radius);
+		debugMeshes[collider] = mesh;
 
 		// Return
 		return &sphereColliders[sphereColliders.getUsedAmount() - 1];
@@ -179,6 +180,7 @@ namespace FikaEngine
 
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
 		mesh->customScale = glm::vec3(volume);
+		debugMeshes[collider] = mesh;
 
 		// Return
 		return &boxColliders[boxColliders.getUsedAmount() - 1];
@@ -201,6 +203,7 @@ namespace FikaEngine
 
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), debugMesh, basicShader);
 		mesh->customScale = glm::vec3(radius, height, radius);
+		debugMeshes[collider] = mesh;
 
 		return &capsuleColliders[capsuleColliders.getUsedAmount() - 1];
 	}
@@ -215,6 +218,10 @@ namespace FikaEngine
 		case EColliderShapes::ColliderShapeBox: boxColliders.remove(static_cast<Box*>(&collider)); break;
 		case EColliderShapes::ColliderShapeCapsule: capsuleColliders.remove(static_cast<Capsule*>(&collider)); break;
 		}
+
+
+		FikaServers::getDebugRenderer().removeMeshIntance(*debugMeshes[&collider]);
+		debugMeshes.erase(&collider);
 	}
 
 	void CollisionSolver::resolveContact(Body& bodyA, Body& bodyB, Contact& contact)

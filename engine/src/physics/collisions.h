@@ -4,6 +4,7 @@
 #include "core/pool_allocator.h"
 #include "core/filemanagement/json.h"
 #include "core/ecs/entity.h"
+#include "renderer/resources/mesh_instance.h"
 
 namespace FikaEngine
 {
@@ -89,6 +90,8 @@ namespace FikaEngine
 		const float targetDt = 1.0f / 60.0f;
 		const int SOLVER_ITERATIONS = 3;
 		const float MIN_DISTANCE = 1e-6f;
+
+		std::map<ColliderShape*, MeshInstance*> debugMeshes;
 
 	public:
 		CollisionSolver();
