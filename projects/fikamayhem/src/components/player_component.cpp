@@ -14,6 +14,7 @@ void PlayerComponent::start()
 
 	healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*owner, HealthComponent::componentId));
 	healthCmp->onDeath.addListener([this](Entity& entity) { onDeath(entity); });
+	healthCmp->onDamage.addListener([this](Entity& entity, int hp, int dmg) { onDamage(entity, hp, dmg); });
 
 	camera = FikaServers::getCameraManager().getMainCamera();
 	camera->setPosition(transform->getLocalPosition() + camOffset);
@@ -139,6 +140,13 @@ glm::vec2 PlayerComponent::inputDirection(Key::Code right, Key::Code left, Key::
 	inputRes = glm::normalize(inputRes);
 
 	return inputRes;
+}
+
+void PlayerComponent::onDamage(Entity& entity, int hp, int dmg)
+{
+	glm::vec3 start = transform->getLocalPosition();
+	glm::vec3 end = start + glm::vec3(0, 10, 0);
+	FikaServers::getDebugRenderer().addLine(Line(start, end, glm::vec3(1, 0, 0)));
 }
 
 void PlayerComponent::onDeath(Entity& entity)

@@ -38,6 +38,8 @@ void HealthComponent::deserialize(nlohmann::json js)
 void HealthComponent::dealDamage(int dmg)
 {
 	hp -= dmg;
+	onDamage.broadcast(*owner, hp, dmg);
+
 	if (hp <= 0)
 	{
 		onDeath.broadcast(*owner);

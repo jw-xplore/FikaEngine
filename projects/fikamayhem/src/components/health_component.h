@@ -29,6 +29,7 @@ public:
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
 
+	Event<void(Entity&, int, int)> onDamage;
 	Event<void(Entity&)> onDeath;
 
 	void dealDamage(int dmg);

@@ -24,10 +24,10 @@ private:
 	RigidBodyComponent* rb;
 
 	int hp = 100;
-	float speed = 500;
+	float speed = 1200;
 
 	int attackDamage = 10;
-	float attackDelay = 0.5;
+	float attackDelay = 0.4;
 	float attackTimer = 0;
 	float attackLenght = 3;
 	int rayLayer = 1;

@@ -996,7 +996,10 @@ namespace FikaEngine
 	void CollisionSolver::setupOngoinContacts(const size_t size)
 	{
 		if (ongoingContacts)
+		{
+			// TODO: Investigate issue and potentially switch to pool
 			delete ongoingContacts;
+		}
 
 		bodiesCount = size;
 		ongoingContacts = new bool[size * (size - 1) / 2];
