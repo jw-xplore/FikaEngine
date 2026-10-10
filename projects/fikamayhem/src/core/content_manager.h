@@ -15,6 +15,7 @@ public:
 	static Entity* getPlayerEntity() { return playerEntity; }
 	static Transform* getPlayerTransform() { return FikaServers::getECSManager().findEntityTransform(*playerEntity); }
 
+	static void loadAssets();
 	static void buildPrefabs();
 
 	static Entity& createPlayer();

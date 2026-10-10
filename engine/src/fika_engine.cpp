@@ -148,9 +148,11 @@ namespace FikaEngine
             FikaServers::getMainRenderer().render(mainCamera->getViewProjection());
 
             // Debug
+#if SHOW_DEBUG_MESHES == 1
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
             FikaServers::getDebugRenderer().render(mainCamera->getViewProjection());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+#endif
             //debugUI(window.getHandle());
 
             if (postUpdateFnc)

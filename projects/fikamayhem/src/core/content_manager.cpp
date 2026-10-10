@@ -17,6 +17,15 @@ ContentManager::~ContentManager()
 
 }
 
+void ContentManager::loadAssets()
+{
+	// TODO: Auto loading assets as part of engine core
+	GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
+
+	gResourceManager.loadMesh("assets/models/Player.obj", "player");
+	gResourceManager.loadTexture("assets/textures/PlayerBaseCol.jpg", "player");
+}
+
 void ContentManager::buildPrefabs()
 {
 	// Fill list of prefabs
@@ -51,8 +60,9 @@ Entity& ContentManager::createPlayer()
 	rb->setCapsuleCollider(0.5f, 1.0f);
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
-	mesh->setup(gpuRes.getMesh("cylinder"), gpuRes.getShader("basic"), nullptr);
-	mesh->getMeshInstance()->customScale = glm::vec3(0.5f, 1, 0.5f);
+	mesh->setup(gpuRes.getMesh("player"), gpuRes.getShader("basic"), nullptr);
+	// TODO: Fix texture loading
+	mesh->setTexture(gpuRes.getTexture("player"));
 
 	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
 

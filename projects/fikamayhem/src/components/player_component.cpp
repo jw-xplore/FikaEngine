@@ -59,6 +59,12 @@ void PlayerComponent::movement(float dt)
 		lastDirection = direction;
 
 		transform->translate(direction * speed * dt);
+
+		if (!isShooting)
+		{
+			float rot = atan2(input.x, input.y) * RAD_TO_DEG;
+			transform->setRotation(glm::vec3(0, rot, 0));
+		}
 	}
 }
 
@@ -73,12 +79,20 @@ void PlayerComponent::handleFire(float dt)
 	glm::vec2 input = inputDirection(Key::Right, Key::Left, Key::Up, Key::Down);
 	if (input == glm::vec2(0))
 	{
+		isShooting = false;
 		return;
 	}
 
+	isShooting = true;
+
 	// Fire
-	glm::vec3 direction = glm::vec3(input.x, 0, input.y);
-	ContentManager::createBullet(transform->getLocalPosition(), direction * bulletSpeed, 2);
+	glm::vec3 pos = transform->getLocalPosition();
+	glm::vec3 dir = glm::vec3(input.x, 0, input.y);
+
+	float rot = atan2(input.x, input.y) * RAD_TO_DEG;
+	transform->setRotation(glm::vec3(0, rot, 0));
+
+	ContentManager::createBullet(pos + dir, dir * bulletSpeed, 2);
 	fireTimer = fireDelay;
 }
 

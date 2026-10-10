@@ -4,6 +4,9 @@
 
 namespace FikaEngine
 {
+	static const double RAD_TO_DEG = 57.29578f;
+	static const double DEG_TO_RAD = 1.0 / 57.29578;
+
 	class Transform
 	{
 	private:

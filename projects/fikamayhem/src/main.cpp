@@ -36,6 +36,7 @@ HealthComponent* playerHealth;
 void start()
 {
     componentsInit();
+    ContentManager::loadAssets();
     //ContentManager::buildPrefabs();
 
     Entity& player = ContentManager::createPlayer();

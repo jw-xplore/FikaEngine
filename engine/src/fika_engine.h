@@ -15,6 +15,8 @@ Includes
 #include "core/game_resource_manager.h"
 #include "core/pool_allocator.h"
 
+#include "dev/fika_dev.h"
+
 // ECS
 #include "core/ecs/ecs_manager.h"
 #include "core/ecs/component.h"

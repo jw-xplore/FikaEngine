@@ -11,7 +11,7 @@
 void BulletComponent::start()
 {
 	transform = FikaServers::getECSManager().findEntityTransform(*owner);
-	transform->setScale(glm::vec3(1) * 0.15f);
+	transform->setScale(glm::vec3(1) * 0.05f);
 	removed = false;
 }
 
@@ -53,7 +53,7 @@ void BulletComponent::update(float dt)
 	}
 
 	// Trail
-	FikaServers::getDebugRenderer().addLine(Line(start, start -dir * 0.05f, glm::vec3(0.9, 0.8, 0.4)));
+	FikaServers::getMainRenderer().addLine(Line(start, start -dir * 0.02f, glm::vec3(0.9, 0.8, 0.4)));
 }
 
 nlohmann::json BulletComponent::serialize()
