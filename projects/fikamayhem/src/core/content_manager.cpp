@@ -3,6 +3,7 @@
 #include "../components/bullet_component.h"
 #include "../components/enemy_component.h"
 #include "../components/health_component.h"
+#include "../components/spawner_component.h"
 
 Entity* ContentManager::playerEntity = nullptr;
 
@@ -16,9 +17,26 @@ ContentManager::~ContentManager()
 
 }
 
-void ContentManager::init()
+void ContentManager::buildPrefabs()
 {
+	// Fill list of prefabs
+	std::vector<Entity> prefabs;
+	prefabs.push_back(createPlayer());
+	prefabs.push_back(createEnemy(glm::vec3(0)));
+	prefabs.push_back(createBox(glm::vec3(0)));
+	prefabs.push_back(createSpawner(glm::vec3(0), 3, 20, 2));
 
+	// Generate prefabs
+	ECSManager& ecsmngr = FikaServers::getECSManager();
+	GameResourceManager& gameres = FikaServers::getGameResourceManager();
+
+	// TODO: Save data into source folder instead of binaries, Fix removing entities 
+	for (Entity& prefab : prefabs)
+	{
+		std::string path = "assets/" + prefab.getName() + ".json";
+		gameres.makePrefab(prefab, path.c_str());
+		//ecsmngr.removeEntity(prefab);
+	}
 }
 
 Entity& ContentManager::createPlayer()
@@ -30,10 +48,11 @@ Entity& ContentManager::createPlayer()
 
 	RigidBodyComponent* rb = static_cast<RigidBodyComponent*>(ecsmngr.addComponent(entity, RigidBodyComponent::componentId));
 	rb->setType(EBodyType::Kinematic);
-	rb->setBoxCollider(glm::vec3(1.2f));
+	rb->setCapsuleCollider(0.5f, 1.0f);
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
-	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
+	mesh->setup(gpuRes.getMesh("cylinder"), gpuRes.getShader("basic"), nullptr);
+	mesh->getMeshInstance()->customScale = glm::vec3(0.5f, 1, 0.5f);
 
 	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
 
@@ -53,6 +72,7 @@ Entity& ContentManager::createBox(glm::vec3 position)
 	RigidBodyComponent* rb = static_cast<RigidBodyComponent*>(ecsmngr.addComponent(entity, RigidBodyComponent::componentId));
 	rb->getTransform()->setLocalPosition(position);
 	rb->setType(EBodyType::Static);
+	rb->setBoxCollider(glm::vec3(1.0f));
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
@@ -98,6 +118,25 @@ Entity& ContentManager::createEnemy(glm::vec3 position)
 	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
 
 	EnemyComponent* enemy = static_cast<EnemyComponent*>(ecsmngr.addComponent(entity, EnemyComponent::componentId));
+
+	return *entity;
+}
+
+Entity& ContentManager::createSpawner(glm::vec3 position, float delay, int enemies, int enemiesPerSpawn)
+{
+	ECSManager& ecsmngr = FikaServers::getECSManager();
+	GPUResourceManager& gpuRes = FikaServers::getGPUResourceManager();
+
+	Entity* entity = ecsmngr.addEntity("Spawner");
+
+	TransformComponent* tranCmp = static_cast<TransformComponent*>(ecsmngr.addComponent(entity, TransformComponent::componentId));
+	tranCmp->getTransform()->setPosition(position);
+
+	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
+	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
+
+	SpawnerComponent* spawner = static_cast<SpawnerComponent*>(ecsmngr.addComponent(entity, SpawnerComponent::componentId));
+	spawner->setup(delay, enemies, enemiesPerSpawn);
 
 	return *entity;
 }

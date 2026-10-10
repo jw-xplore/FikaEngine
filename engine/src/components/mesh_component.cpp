@@ -36,13 +36,41 @@ namespace FikaEngine
 	{
 		nlohmann::json js = nlohmann::json::object();
 		js["id"] = componentId;
-		js["meshTag"] = instance->getMesh()->tag;
-		js["meshPath"] = instance->getMesh()->sourcePath;
-		js["textureTag"] = instance->getTexture()->tag;
-		js["texturePath"] = instance->getTexture()->sourcePath;
-		js["shaderTag"] = instance->gettShader()->tag;
-		js["shaderVPath"] = instance->gettShader()->lastVpath;
-		js["shaderFPath"] = instance->gettShader()->lastFpath;
+
+		std::string meshTag = "";
+		std::string meshSourcePath = "";
+		std::string textureTag = "";
+		std::string textureSourcePath = "";
+		std::string shaderTag = "";
+		std::string shaderVPath = "";
+		std::string shaderFPath = "";
+
+		if (instance->getMesh())
+		{
+			meshTag = instance->getMesh()->tag;
+			meshSourcePath = instance->getMesh()->sourcePath;
+		}
+
+		if (instance->getTexture())
+		{
+			textureTag = instance->getTexture()->tag;
+			textureSourcePath = instance->getTexture()->sourcePath;
+		}
+
+		if (instance->gettShader())
+		{
+			shaderTag = instance->gettShader()->tag;
+			shaderVPath = instance->gettShader()->lastVpath;
+			shaderFPath = instance->gettShader()->lastFpath;
+		}
+
+		js["meshTag"] = meshTag;
+		js["meshPath"] = meshSourcePath;
+		js["textureTag"] = textureTag;
+		js["texturePath"] = textureSourcePath;
+		js["shaderTag"] = shaderTag;
+		js["shaderVPath"] = shaderVPath;
+		js["shaderFPath"] = shaderFPath;
 
 		return js;
 	}

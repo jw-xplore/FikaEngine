@@ -10,8 +10,8 @@
 namespace FikaEngine
 {
 	/**
-		* @brief Stores components of one specific types and runs their update.
-		*/
+	* @brief Stores components of one specific types and runs their update.
+	*/
 	class ComponentUpdater
 	{
 	protected:

@@ -6,6 +6,7 @@
 #include "components/bullet_component.h"
 #include "components/enemy_component.h"
 #include "components/health_component.h"
+#include "components/spawner_component.h"
 #include "glm/gtc/random.hpp"
 
 /*
@@ -26,6 +27,7 @@ void componentsInit()
     BulletComponentUpdater::init(POOL_DEFAULT_SIZE);
     EnemyComponentUpdater::init(POOL_DEFAULT_SIZE);
     HealthComponentUpdater::init(POOL_DEFAULT_SIZE);
+    SpawnerComponentUpdater::init(POOL_DEFAULT_SIZE);
 }
 
 Transform* playerTransform;
@@ -34,6 +36,7 @@ HealthComponent* playerHealth;
 void start()
 {
     componentsInit();
+    //ContentManager::buildPrefabs();
 
     Entity& player = ContentManager::createPlayer();
     playerTransform = FikaServers::getECSManager().findEntityTransform(player);
@@ -42,6 +45,8 @@ void start()
     //ContentManager::createBox(glm::vec3(2, 0, 0));
 
     //ContentManager::createEnemy(glm::vec3(4, 0, 3));
+
+    ContentManager::createSpawner(glm::vec3(10, 0, 3), 2, 5, 1);
 }
 
 float playTime = 0;
@@ -122,7 +127,7 @@ void update(float dt)
     if (ContentManager::getPlayerEntity() && playerHealth->isAlive())
     {
         playTime += dt;
-        spawnEnemies(dt);
+        //spawnEnemies(dt);
     }
 }
 

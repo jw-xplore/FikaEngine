@@ -2,9 +2,7 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
-#include "../components/player_component.h"
-#include "../components/health_component.h"
-#include "physics/physics.h"
+#include <fika_engine.h>
 
 using namespace FikaEngine;
 
@@ -15,26 +13,24 @@ using namespace FikaEngine;
 /**
  * @brief
  */
-class EnemyComponent : public ECSComponent
+class SpawnerComponent : public ECSComponent
 {
 private:
 	Transform* transform;
-	Transform* playerTransform;
-	HealthComponent* healthCmp;
-	RigidBodyComponent* rb;
+	float spawnTimer = 0;
+	float spawnDelay = 3;
 
-	int hp = 100;
-	float speed = 600;
+	float enemiesPerSpawn = 2;
+	float enemies = 10;
 
-	int attackDamage = 10;
-	float attackDelay = 0.4;
-	float attackTimer = 0;
-	float attackLenght = 3;
-	int rayLayer = 1;
+	// In what distance from player will spawner be active
+	float activateRange = 20; 
+
+	float spawnRange = 10;
 
 public:
-	EnemyComponent() {}
-	static const unsigned int componentId = 26814; // Do not change id
+	SpawnerComponent() {}
+	static const unsigned int componentId = 21678; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
 	void update(float dt) override;
@@ -42,8 +38,9 @@ public:
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
 
-	void onBodyEnter(Body& body);
-	void attack(float dt);
+	void setup(float delay, int enemies, int enemiesPerSpawn);
+	void runSpawner(float dt);
+	void spawn();
 };
 
 //-------------------------------------------------------
@@ -51,18 +48,18 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of EnemyComponent and run updates on them through ECS manager
+ * @brief Holds pool of SpawnerComponent and run updates on them through ECS manager
  */
-class EnemyComponentUpdater : public ComponentUpdater
+class SpawnerComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<EnemyComponent> components;
-	
+	PoolAllocator<SpawnerComponent> components;
+
 public:
-	EnemyComponentUpdater();
+	SpawnerComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable EnemyComponent pool update.
+	 * @brief Call once at start to enable SpawnerComponent pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init(size_t poolSize);
