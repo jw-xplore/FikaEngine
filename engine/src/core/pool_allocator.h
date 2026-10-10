@@ -74,7 +74,7 @@ namespace FikaEngine
 		{
 			// NOTE: Temporary ignore
 			std::string strName(name);
-			if (strName != "Mesh Components")
+			if (strName != "Sphere colliders")
 			{
 				return;
 			}
@@ -174,13 +174,13 @@ namespace FikaEngine
 
 			if (pos < used)
 			{
-				T* temp = handles[pos];			// Temp is selected 
-				handles[pos] = handles[used];	// Selected move to end 
-				handles[used] = temp;			// Selected replaced by last element
-
 				// Switch order
 				handlesMap[handles[pos]] = used;
 				handlesMap[handles[used]] = pos;
+
+				T* temp = handles[pos];			// Temp is selected 
+				handles[pos] = handles[used];	// Selected move to end 
+				handles[used] = temp;			// Selected replaced by last element
 			}
 
 #if POOLALLOCATORS_DEBUG == 1

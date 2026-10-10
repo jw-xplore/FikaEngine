@@ -18,7 +18,7 @@ class BulletComponent : public ECSComponent
 private:
 	Transform* transform;
 	glm::vec3 velocity = glm::vec3(0);
-	int damage = 10;
+	int damage = 20;
 	float lifetime = 3;
 	bool removed = false;
 	int rayLayer = 2;

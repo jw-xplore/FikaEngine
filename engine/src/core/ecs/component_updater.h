@@ -24,7 +24,7 @@ namespace FikaEngine
 
 		virtual void update(float dt) {}
 		virtual ECSComponent* addComponent() { return nullptr; }
-		virtual void removeComponent(ECSComponent& component) { static_assert(true); }
+		virtual void removeComponent(ECSComponent& component) { assert(false); } // Define remove function
 		void removeEntityLink(Entity& entity) { entityOwnedComponents.erase(entity.getId()); }
 		void storeOwner(Entity* entity, ECSComponent* component) { entityOwnedComponents[entity->getId()] = component; }
 

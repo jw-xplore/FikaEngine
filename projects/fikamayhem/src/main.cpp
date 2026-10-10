@@ -39,7 +39,7 @@ void start()
     playerTransform = FikaServers::getECSManager().findEntityTransform(player);
     playerHealth = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(player, HealthComponent::componentId));
     
-    ContentManager::createBox(glm::vec3(2, 0, 0));
+    //ContentManager::createBox(glm::vec3(2, 0, 0));
 
     //ContentManager::createEnemy(glm::vec3(4, 0, 3));
 }

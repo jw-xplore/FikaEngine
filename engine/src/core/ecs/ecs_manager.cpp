@@ -33,8 +33,6 @@ namespace FikaEngine
 		{
 			updater->update(dt);
 		}
-
-		//std::cout << "entities: " << entities.getUsedAmount() << "\n";
 	}
 
 	int ECSManager::registerUpdaters(ComponentUpdater* system)
@@ -43,8 +41,8 @@ namespace FikaEngine
 		updaters.push_back(system);
 
 		int id = system->getTargetComponentId();
-		std::cout << "id: " << id << "\n";
 		componentIdUpdaters[system->getTargetComponentId()] = system;
+		//std::cout << "Register updater id: " << id << "\n";
 
 		return pos;
 	}
@@ -62,11 +60,6 @@ namespace FikaEngine
 
 		for (ECSComponent*& comp : components)
 		{
-			if (entity.getName() == "Bullet" && comp->getComponentId() == RigidBodyComponent::componentId)
-			{
-				int a = 5;
-			}
-
 			comp->onRemove();
 			unsigned int id = comp->getComponentId();
 			componentIdUpdaters[id]->removeEntityLink(entity);

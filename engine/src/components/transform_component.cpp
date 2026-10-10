@@ -68,4 +68,12 @@ namespace FikaEngine
 	{
 		return components.allocate();
 	}
+
+	void TransformComponentUpdater::removeComponent(ECSComponent& component)
+	{
+		TransformComponent* casted = static_cast<TransformComponent*>(&component);
+		assert(casted != nullptr);
+		components.remove(casted);
+	}
+
 } // namespace FikaEngine
