@@ -84,8 +84,8 @@ namespace FikaEngine
 		PoolAllocator<Box> boxColliders = PoolAllocator<Box>("Box colliders");
 		PoolAllocator<Capsule> capsuleColliders = PoolAllocator<Capsule>("Capsule colliders");
 
-		int bodiesCount = 0; // TODO: Do safer implementation
-		bool* ongoingContacts = nullptr;
+		PoolAllocator<Body>* bodiesRef;
+		PoolAllocator<bool> ongoingOverlaps;
 
 		const float targetDt = 1.0f / 60.0f;
 		const int SOLVER_ITERATIONS = 3;
@@ -97,6 +97,7 @@ namespace FikaEngine
 		CollisionSolver();
 		~CollisionSolver();
 
+		void init(PoolAllocator<Body>* bodies);
 		void update(float dt);
 
 		void resolveContact(Body& bodyA, Body& bodyB, Contact& contact);

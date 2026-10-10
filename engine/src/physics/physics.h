@@ -67,11 +67,14 @@ namespace FikaEngine
 		PhysicsSolver();
 		~PhysicsSolver();
 
+		void init();
 		void update(float dt);
 
 		Body& addBody(Entity& owner);
 		void removeBody(Body& body);
 		Entity* getBodyEntity(Body& body);
+		size_t getBodiesPoolSize() { return bodies.getSize(); }
+		unsigned int getBodyOrder(Body& body) { return bodies.orderOfElement(body); }
 
 		CollisionSolver& getCollisionSolver() { return collisionsSolver; }
 

@@ -26,6 +26,7 @@ namespace FikaEngine
 	{
 		ecsManager.init();
 		gameResourceManager.init();
+		physicsSolver.init();
 	}
 
 	void FikaServers::setWindow(Window* window)

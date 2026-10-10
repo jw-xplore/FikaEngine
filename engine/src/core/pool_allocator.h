@@ -4,6 +4,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <unordered_map>
+#include "dev/fika_dev.h"
 
 namespace FikaEngine
 {
@@ -21,6 +23,7 @@ namespace FikaEngine
 		size_t size = 0;
 		size_t used = 0;
 		T** handles = nullptr;
+		std::unordered_map<T*, unsigned int> handlesMap;
 
 		PoolAllocator<T>* nextPool = nullptr;
 
@@ -52,24 +55,7 @@ namespace FikaEngine
 
 		PoolAllocator(const char* name, size_t count = POOL_DEFAULT_SIZE)
 		{
-			if (std::string(name) == "Mesh Components")
-			{
-				int a = 5;
-			}
-
-			this->name = name;
-			used = 0;
-			size = count;
-			elementSize = sizeof(T);
-
-			buffer = new T[size];
-			handles = new T * [size];
-
-			for (size_t i = 0; i < size; i++)
-			{
-				T* element = buffer + i;
-				handles[i] = element;
-			}
+			init(name, count);
 		}
 
 		~PoolAllocator()
@@ -81,6 +67,29 @@ namespace FikaEngine
 				delete nextPool;
 		}
 
+		/**
+		 * @brief Print order of element ids inside the pool
+		 */
+		void reportOrder(std::string actionName)
+		{
+			// NOTE: Temporary ignore
+			std::string strName(name);
+			if (strName != "Mesh Components")
+			{
+				return;
+			}
+
+			std::cout << "(" << actionName << ") Pool order [" << name << "]: ";
+			for (size_t i = 0; i < used; i++)
+			{
+				std::cout << handlesMap[handles[i]];
+				if (i < used - 1)
+					std::cout << ", ";
+			}
+
+			std::cout << "\n";
+		}
+
 		void init(const char* name, size_t count = POOL_DEFAULT_SIZE)
 		{
 			this->name = name;
@@ -90,11 +99,13 @@ namespace FikaEngine
 
 			buffer = new T[size];
 			handles = new T * [size];
+			handlesMap.reserve(size);
 
 			for (size_t i = 0; i < size; i++)
 			{
 				T* element = buffer + i;
 				handles[i] = element;
+				handlesMap[element] = i;
 			}
 		}
 
@@ -103,18 +114,12 @@ namespace FikaEngine
 		 */
 		T* allocate()
 		{
-			if (std::string(name) == "Mesh Components")
-			{
-				int a = 5;
-			}
-
-			/*
-			if (size == 0)
-				assert("Pool was never defined!");
-				*/
+			// Pool undefined or defined empty!
+			assert(size > 0);
 
 			if (used >= size)
 			{
+				// Increase used amount on top level so allocator gives total element count
 				if (depth == 0)
 					used++;
 
@@ -128,6 +133,10 @@ namespace FikaEngine
 
 			assert(pos != nullptr);
 
+#if POOLALLOCATORS_DEBUG == 1
+			reportOrder("Allocate");
+#endif
+
 			return pos;
 		}
 
@@ -136,6 +145,11 @@ namespace FikaEngine
 			used = 0;
 		}
 
+		/**
+		 * @brief Remove a specific element inside the pool.
+		 * Removed element swaps place with last active element in the pool.
+		 * @param element 
+		 */
 		void remove(T* element)
 		{
 			// Find element
@@ -160,10 +174,18 @@ namespace FikaEngine
 
 			if (pos < used)
 			{
-				T* temp = handles[pos];
-				handles[pos] = handles[used];
-				handles[used] = temp;
+				T* temp = handles[pos];			// Temp is selected 
+				handles[pos] = handles[used];	// Selected move to end 
+				handles[used] = temp;			// Selected replaced by last element
+
+				// Switch order
+				handlesMap[handles[pos]] = used;
+				handlesMap[handles[used]] = pos;
 			}
+
+#if POOLALLOCATORS_DEBUG == 1
+			reportOrder("Remove");
+#endif
 		}
 
 		T& operator[](std::size_t idx)
@@ -179,6 +201,11 @@ namespace FikaEngine
 			return *handles[idx];
 		}
 
+		unsigned int orderOfElement(T& element)
+		{
+			return handlesMap.at(&element);
+		}
+
 		/**
 		 * @return How many elements in pool are actually allocated.
 		 */
@@ -187,7 +214,7 @@ namespace FikaEngine
 			return used;
 		}
 
-		int getSize()
+		size_t getSize()
 		{
 			return size;
 		}

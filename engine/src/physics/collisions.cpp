@@ -45,12 +45,19 @@ namespace FikaEngine
 
 	CollisionSolver::CollisionSolver()
 	{
+		
 	}
 
 	CollisionSolver::~CollisionSolver()
 	{
-		if (ongoingContacts)
-			delete ongoingContacts;
+
+	}
+
+	void CollisionSolver::init(PoolAllocator<Body>* bodies)
+	{
+		bodiesRef = bodies;
+		size_t size = FikaServers::getPhysicsSolver().getBodiesPoolSize() * 2;
+		ongoingOverlaps.init("Bodies overlaps", size);
 	}
 
 	void CollisionSolver::update(float dt)
@@ -251,29 +258,33 @@ namespace FikaEngine
 		}
 
 		// Callbacks - On enter
-		int contactId = contactFromPair(bodyA.id, bodyB.id);
+		int ordA = bodiesRef->orderOfElement(bodyA);
+		int ordB = bodiesRef->orderOfElement(bodyB);
+		int contactId = contactFromPair(ordA, ordB);
 
-		if (!ongoingContacts[contactId])
+		if (!ongoingOverlaps[contactId])
 		{
 			bodyA.onEnterEvent.broadcast(bodyB);
 			bodyB.onEnterEvent.broadcast(bodyA);
 
-			ongoingContacts[contactId] = true;
+			ongoingOverlaps[contactId] = true;
 		}
 	}
 
 	void CollisionSolver::checkCollsionExit(Body& bodyA, Body& bodyB)
 	{
 		// On leave callback
-		int contactId = contactFromPair(bodyA.id, bodyB.id);
+		int ordA = bodiesRef->orderOfElement(bodyA);
+		int ordB = bodiesRef->orderOfElement(bodyB);
+		int contactId = contactFromPair(ordA, ordB);
 
-		if (ongoingContacts[contactId])
+		if (ongoingOverlaps[contactId])
 		{
 			bodyA.onExitEvent.broadcast(bodyB);
 			bodyB.onExitEvent.broadcast(bodyA);
 		}
 
-		ongoingContacts[contactId] = false;
+		ongoingOverlaps[contactId] = false;
 	}
 
 	Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float lenght, int interactiveLayers)
@@ -370,7 +381,9 @@ namespace FikaEngine
 		float rsum = colA.radius + colB.radius;
 		float rsum2 = rsum * rsum;
 
-		int contactId = contactFromPair(colA.body->id, colB.body->id);
+		int ordA = bodiesRef->orderOfElement(*colA.body);
+		int ordB = bodiesRef->orderOfElement(*colB.body);
+		int contactId = contactFromPair(ordA, ordB);
 
 		// No collision
 		if (dist2 >= rsum2)
@@ -995,14 +1008,9 @@ namespace FikaEngine
 
 	void CollisionSolver::setupOngoinContacts(const size_t size)
 	{
-		if (ongoingContacts)
-		{
-			// TODO: Investigate issue and potentially switch to pool
-			delete ongoingContacts;
-		}
+		ongoingOverlaps.deallocate();
 
-		bodiesCount = size;
-		ongoingContacts = new bool[size * (size - 1) / 2];
+		size_t overlapsSize = size * (size - 1) / 2;
 
 		int i = 0;
 
@@ -1010,7 +1018,8 @@ namespace FikaEngine
 		{
 			for (size_t b = a + 1; b < size; b++)
 			{
-				ongoingContacts[i] = false;
+				bool* value = ongoingOverlaps.allocate();
+				*value = true;
 				i++;
 			}
 		}
@@ -1018,12 +1027,25 @@ namespace FikaEngine
 
 	int CollisionSolver::contactFromPair(int bodyIdA, int bodyIdB)
 	{
-		// TODO: Check id matching between bodies, gos and contacts
-		bodyIdA--;
-		bodyIdB--;
+		// Can't test collision with self
+		assert(bodyIdA != bodyIdB);
 
-		int a = bodyIdA * (2 * bodiesCount - bodyIdA - 1) / 2;
+		// A needs to be always smaller
+		if (bodyIdA > bodyIdB)
+		{
+			int temp = bodyIdA;
+			bodyIdA = bodyIdB;
+			bodyIdB = temp;
+		}
+
+		int a = bodyIdA * (2 * bodiesRef->getUsedAmount() - bodyIdA - 1) / 2;
 		int b = bodyIdB - bodyIdA - 1;
+
+		if (a + b < 0)
+		{
+			int idk = 5;
+		}
+
 		return a + b;
 	}
 } // namespace FikaEngine

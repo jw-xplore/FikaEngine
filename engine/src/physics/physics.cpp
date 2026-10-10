@@ -69,6 +69,11 @@ namespace FikaEngine
 
 	}
 
+	void PhysicsSolver::init()
+	{
+		collisionsSolver.init(&bodies);
+	}
+
 	void PhysicsSolver::update(float dt)
 	{
 		for (size_t i = 0; i < bodies.getUsedAmount(); i++)

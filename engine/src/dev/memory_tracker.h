@@ -1,11 +1,10 @@
 #pragma once
 #include <iostream>
-
-#define MEMORY_DEBUG 1
+#include "fika_dev.h"
 
 namespace FikaMemoryTracker
 {
-#ifdef MEMORY_DEBUG
+#if MEMORY_DEBUG == 1
     int dynamicAlloc = 0;
     size_t dynamicAllocSize = 0;
     int totalAdds = 0;
@@ -16,7 +15,7 @@ namespace FikaMemoryTracker
 
     void report()
     {
-#ifdef MEMORY_DEBUG
+#if MEMORY_DEBUG == 1
         std::cout << "Leaks: " << dynamicAlloc << ", Amout: " << dynamicAllocSize << "\n";
         std::cout << "Adds: " << totalAdds << ", Dels: " << totalDels << "\n";
         std::cout << "HA: " << highestAdd << ", HD: " << highestDel << "\n";
@@ -26,7 +25,11 @@ namespace FikaMemoryTracker
     }
 }
 
-#ifdef MEMORY_DEBUG
+//-------------------------------------------------------
+// New & delete override
+//-------------------------------------------------------
+
+#if MEMORY_DEBUG == 1
 void* operator new(size_t size)
 {
     if (void* p = std::malloc(size))
