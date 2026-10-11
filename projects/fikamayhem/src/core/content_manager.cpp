@@ -4,6 +4,7 @@
 #include "../components/enemy_component.h"
 #include "../components/health_component.h"
 #include "../components/spawner_component.h"
+#include "../components/shooting_component.h"
 
 Entity* ContentManager::playerEntity = nullptr;
 
@@ -29,22 +30,21 @@ void ContentManager::loadAssets()
 void ContentManager::buildPrefabs()
 {
 	// Fill list of prefabs
-	std::vector<Entity> prefabs;
-	prefabs.push_back(createPlayer());
-	prefabs.push_back(createEnemy(glm::vec3(0)));
-	prefabs.push_back(createBox(glm::vec3(0)));
-	prefabs.push_back(createSpawner(glm::vec3(0), 3, 20, 2));
+	std::vector<Entity*> prefabs;
+	prefabs.push_back(&createPlayer());
+	prefabs.push_back(&createEnemy(glm::vec3(0)));
+	prefabs.push_back(&createBox(glm::vec3(0)));
+	prefabs.push_back(&createSpawner(glm::vec3(0), 3, 20, 2));
 
 	// Generate prefabs
 	ECSManager& ecsmngr = FikaServers::getECSManager();
 	GameResourceManager& gameres = FikaServers::getGameResourceManager();
 
-	// TODO: Save data into source folder instead of binaries, Fix removing entities 
-	for (Entity& prefab : prefabs)
-	{
-		std::string path = "assets/" + prefab.getName() + ".json";
-		gameres.makePrefab(prefab, path.c_str());
-		//ecsmngr.removeEntity(prefab);
+	for (Entity*& prefab : prefabs)
+	{ 
+		std::string path = gameres.getProjectMetaData().sourcePath + "/assets/prefabs/	" + prefab->getName() + ".json";
+		gameres.makePrefab(*prefab, path.c_str());
+		ecsmngr.removeEntity(*prefab);
 	}
 }
 
@@ -65,6 +65,8 @@ Entity& ContentManager::createPlayer()
 	mesh->setTexture(gpuRes.getTexture("player"));
 
 	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
+
+	ShootingComponent* shooting = static_cast<ShootingComponent*>(ecsmngr.addComponent(entity, ShootingComponent::componentId));
 
 	PlayerComponent* player = static_cast<PlayerComponent*>(ecsmngr.addComponent(entity, PlayerComponent::componentId));
 

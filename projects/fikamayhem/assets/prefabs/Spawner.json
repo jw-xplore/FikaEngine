@@ -1,0 +1,41 @@
+{
+  "entity": {
+    "components": [
+      {
+        "id": 2058,
+        "transform": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      },
+      {
+        "id": 8974,
+        "meshPath": "",
+        "meshTag": "cube",
+        "shaderFPath": "assets/common/shaders/basic.frag",
+        "shaderTag": "basic",
+        "shaderVPath": "assets/common/shaders/basic.vert",
+        "texturePath": "",
+        "textureTag": ""
+      },
+      {
+        "id": 21678
+      }
+    ],
+    "name": "Spawner"
+  }
+}

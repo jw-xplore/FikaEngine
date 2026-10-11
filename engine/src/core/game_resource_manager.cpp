@@ -19,6 +19,27 @@ namespace FikaEngine
 	void GameResourceManager::init()
 	{
 		ecsManager = &FikaServers::getECSManager();
+		loadProject(projectMetaData);
+	}
+
+	bool GameResourceManager::loadProject(ProjectMetaData& metaData)
+	{
+		// Load project
+		std::string path = "../meta.json";
+
+		std::ifstream file(path);
+		if (!file.is_open())
+		{
+			std::cout << "Failed to load project meta: " << path << "\n";
+			return false;
+		}
+
+		// Parse data
+		nlohmann::json js = nlohmann::ordered_json::parse(file);
+		metaData.name = js["project"];
+		metaData.sourcePath = js["source_dir"];
+
+		return true;
 	}
 
 	void GameResourceManager::makePrefab(Entity& entity, const char* path)

@@ -1,0 +1,52 @@
+{
+  "entity": {
+    "components": [
+      {
+        "id": 7099,
+        "interactiveLayers": 3,
+        "layers": 2,
+        "shape": {
+          "radius": 1.2000000476837158,
+          "type": 1
+        },
+        "tag": 0,
+        "transform": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "type": 1
+      },
+      {
+        "id": 8974,
+        "meshPath": "",
+        "meshTag": "sphere",
+        "shaderFPath": "assets/common/shaders/basic.frag",
+        "shaderTag": "basic",
+        "shaderVPath": "assets/common/shaders/basic.vert",
+        "texturePath": "",
+        "textureTag": ""
+      },
+      {
+        "id": 32432
+      },
+      {
+        "id": 26814
+      }
+    ],
+    "name": "Enemy"
+  }
+}

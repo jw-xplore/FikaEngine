@@ -16,6 +16,11 @@ void PlayerComponent::start()
 	healthCmp->onDeath.addListener([this](Entity& entity) { onDeath(entity); });
 	healthCmp->onDamage.addListener([this](Entity& entity, int hp, int dmg) { onDamage(entity, hp, dmg); });
 
+	shootingCmp = static_cast<ShootingComponent*>(FikaServers::getECSManager().findComponent(*owner, ShootingComponent::componentId));
+	shootingCmp->bulletsPerFire = 5;
+	shootingCmp->cone = 25;
+	shootingCmp->fireDelay = 0.4f;
+
 	camera = FikaServers::getCameraManager().getMainCamera();
 	camera->setPosition(transform->getLocalPosition() + camOffset);
 	camera->lookAt(transform->getLocalPosition());
@@ -32,6 +37,11 @@ void PlayerComponent::update(float dt)
 
 	// Fire
 	handleFire(dt);
+	
+	// Rotate
+	rotCurrent = glm::slerp(rotCurrent, rotTarget, 1.0f);
+	glm::vec3 rot = glm::vec3(0, rotCurrent.w * RAD_TO_DEG, 0);
+	transform->setRotation(glm::vec3(0,rot.y,0));
 }
 
 nlohmann::json PlayerComponent::serialize()
@@ -62,19 +72,26 @@ void PlayerComponent::movement(float dt)
 
 		if (!isShooting)
 		{
-			float rot = atan2(input.x, input.y) * RAD_TO_DEG;
-			transform->setRotation(glm::vec3(0, rot, 0));
+			rotate(input.x, input.y, dt);
 		}
 	}
 }
 
+void PlayerComponent::rotate(float x, float y, float dt)
+{
+	float rot = atan2(x, y) * RAD_TO_DEG;
+
+	if (rot < 0)
+	{
+		rot = rot + 360;
+	}
+
+	rotTarget.w = rot * DEG_TO_RAD;
+}
+
 void PlayerComponent::handleFire(float dt)
 {
-	if (fireTimer > 0)
-	{
-		fireTimer -= dt;
-		return;
-	}
+	shootingCmp->runTimers(dt);
 
 	glm::vec2 input = inputDirection(Key::Right, Key::Left, Key::Up, Key::Down);
 	if (input == glm::vec2(0))
@@ -83,17 +100,11 @@ void PlayerComponent::handleFire(float dt)
 		return;
 	}
 
-	isShooting = true;
+	glm::vec2 dir = glm::vec2(input.x, input.y);
+	dir = glm::normalize(dir);
+	float angle = atan2(dir.x, dir.y);
 
-	// Fire
-	glm::vec3 pos = transform->getLocalPosition();
-	glm::vec3 dir = glm::vec3(input.x, 0, input.y);
-
-	float rot = atan2(input.x, input.y) * RAD_TO_DEG;
-	transform->setRotation(glm::vec3(0, rot, 0));
-
-	ContentManager::createBullet(pos + dir, dir * bulletSpeed, 2);
-	fireTimer = fireDelay;
+	shootingCmp->fire(angle);
 }
 
 glm::vec2 PlayerComponent::inputDirection(Key::Code right, Key::Code left, Key::Code up, Key::Code down)

@@ -4,6 +4,8 @@
 #include "core/pool_allocator.h"
 #include <fika_engine.h>
 #include "../components/health_component.h"
+#include "../components/shooting_component.h"
+#include <glm/gtc/quaternion.hpp>
 
 using namespace FikaEngine;
 
@@ -19,7 +21,8 @@ class PlayerComponent : public ECSComponent
 private:
 	Transform* transform;
 	HealthComponent* healthCmp;
-	float speed = 10;
+	ShootingComponent* shootingCmp;
+	float speed = 20;
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
 	Camera* camera;
@@ -31,6 +34,13 @@ private:
 	float fireDelay = 0.1f;
 	float fireTimer = 0;
 
+	float rotationSpeed = 15;
+	float facing = 0;
+	float facingTarget = 0;
+
+	glm::quat rotCurrent = glm::quat(0, glm::vec3(0, 1, 0));
+	glm::quat rotTarget = glm::quat(0, glm::vec3(0, 1, 0));
+
 public:
 	PlayerComponent() {}
 	static const unsigned int componentId = 29311; // Do not change id
@@ -41,6 +51,7 @@ public:
 	void deserialize(nlohmann::json js) override;
 
 	void movement(float dt);
+	void rotate(float x, float y, float dt);
 	void handleFire(float dt);
 	glm::vec2 inputDirection(Key::Code right, Key::Code left, Key::Code up, Key::Code down);
 	void onDamage(Entity& entity, int hp, int dmg);

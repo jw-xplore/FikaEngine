@@ -7,7 +7,7 @@
 #include "components/enemy_component.h"
 #include "components/health_component.h"
 #include "components/spawner_component.h"
-#include "glm/gtc/random.hpp"
+#include "components/shooting_component.h"
 
 /*
 Project Fika Mayhem
@@ -27,6 +27,7 @@ void componentsInit()
     BulletComponentUpdater::init(POOL_DEFAULT_SIZE);
     EnemyComponentUpdater::init(POOL_DEFAULT_SIZE);
     HealthComponentUpdater::init(POOL_DEFAULT_SIZE);
+    ShootingComponentUpdater::init(POOL_DEFAULT_SIZE);
     SpawnerComponentUpdater::init(POOL_DEFAULT_SIZE);
 }
 
@@ -37,7 +38,7 @@ void start()
 {
     componentsInit();
     ContentManager::loadAssets();
-    //ContentManager::buildPrefabs();
+    ContentManager::buildPrefabs();
 
     Entity& player = ContentManager::createPlayer();
     playerTransform = FikaServers::getECSManager().findEntityTransform(player);
@@ -51,41 +52,6 @@ void start()
 }
 
 float playTime = 0;
-float spawnTimer = 0;
-float spawnDelay = 3;
-
-void spawnEnemies(float dt)
-{
-    if (spawnTimer > 0)
-    {
-        spawnTimer -= dt;
-        return;
-    }
-
-    const float min = -10;
-    const float max = 10;
-
-    // Spawn
-    float x = 0;
-    while (abs(x) < max * 0.5)
-    {
-        x = glm::linearRand(min, max);
-    }
-
-    float z = 0;
-    while (abs(z) < max * 0.5)
-    {
-        z = glm::linearRand(min, max);
-    }
-
-    glm::vec3 pos = playerTransform->getLocalPosition();
-    ContentManager::createEnemy(pos + glm::vec3(x, 0, z));
-
-    spawnTimer = spawnDelay;
-
-    if (spawnDelay > 0.6f)
-        spawnDelay -= 0.1f;
-}
 
 void debugUI(GLFWwindow* window)
 {
