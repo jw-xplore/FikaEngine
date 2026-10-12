@@ -21,7 +21,7 @@ private:
 	int damage = 20;
 	float lifetime = 3;
 	bool removed = false;
-	int rayLayer = 2;
+	int rayLayer = 0;
 
 public:
 	BulletComponent() {}
@@ -33,6 +33,7 @@ public:
 	void deserialize(nlohmann::json js) override;
 
 	void setup(glm::vec3 position, glm::vec3 velocity, float lifetime);
+	void setRayLayer(int rayLayer);
 };
 
 //-------------------------------------------------------

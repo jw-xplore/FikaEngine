@@ -35,7 +35,7 @@ void BulletComponent::update(float dt)
 		// Destroy
 		Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit->body);
 
-		if (hitEntity->getName() == "Enemy")
+		if (hitEntity->getName() == "Enemy" || hitEntity->getName() == "Player")
 		{
 			HealthComponent* healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*hitEntity, HealthComponent::componentId));
 			healthCmp->dealDamage(damage);
@@ -74,6 +74,11 @@ void BulletComponent::setup(glm::vec3 position, glm::vec3 velocity, float lifeti
 	transform->setPosition(position);
 	this->velocity = velocity;
 	this->lifetime = lifetime;
+}
+
+void BulletComponent::setRayLayer(int rayLayer)
+{
+	this->rayLayer = rayLayer;
 }
 
 //-------------------------------------------------------

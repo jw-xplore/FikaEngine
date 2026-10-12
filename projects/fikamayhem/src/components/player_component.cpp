@@ -10,6 +10,7 @@
 
 void PlayerComponent::start()
 {
+	rb = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
 	transform = FikaServers::getECSManager().findEntityTransform(*owner);
 
 	healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*owner, HealthComponent::componentId));
@@ -17,9 +18,10 @@ void PlayerComponent::start()
 	healthCmp->onDamage.addListener([this](Entity& entity, int hp, int dmg) { onDamage(entity, hp, dmg); });
 
 	shootingCmp = static_cast<ShootingComponent*>(FikaServers::getECSManager().findComponent(*owner, ShootingComponent::componentId));
-	shootingCmp->bulletsPerFire = 5;
-	shootingCmp->cone = 25;
-	shootingCmp->fireDelay = 0.4f;
+	shootingCmp->bulletsPerFire = 1;
+	shootingCmp->fireDelay = 0.25f;
+	shootingCmp->setBulletLayer(2);
+	shootingCmp->cone = 0;
 
 	camera = FikaServers::getCameraManager().getMainCamera();
 	camera->setPosition(transform->getLocalPosition() + camOffset);
@@ -68,12 +70,17 @@ void PlayerComponent::movement(float dt)
 		direction = glm::normalize(direction);
 		lastDirection = direction;
 
-		transform->translate(direction * speed * dt);
+		//transform->translate(direction * speed * dt);
+		rb->getBody()->velocity = direction * speed * dt;
 
 		if (!isShooting)
 		{
 			rotate(input.x, input.y, dt);
 		}
+	}
+	else
+	{
+		rb->getBody()->velocity = glm::vec3(0);
 	}
 }
 

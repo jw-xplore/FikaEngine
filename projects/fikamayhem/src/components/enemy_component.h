@@ -20,11 +20,14 @@ class EnemyComponent : public ECSComponent
 private:
 	Transform* transform;
 	Transform* playerTransform;
+	ShootingComponent* shootingCmp;
 	HealthComponent* healthCmp;
 	RigidBodyComponent* rb;
 
 	int hp = 100;
-	float speed = 600;
+	float speed = 1000;
+
+	float fireAngle = 0;
 
 	int attackDamage = 10;
 	float attackDelay = 0.4;

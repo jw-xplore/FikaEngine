@@ -26,7 +26,7 @@ public:
 	unsigned int bulletsPerFire = 1;
 	float fireDelay = 0.1f;
 	float fireTimer = 0.0f;
-	float bulletSpeed = 10;
+	float bulletSpeed = 20;
 
 	unsigned int ammo = 0;
 	unsigned int maxAmmo = 0;
@@ -44,6 +44,7 @@ public:
 
 	void runTimers(float dt);
 	void fire(float angle);
+	void setBulletLayer(int layer) { bulletLayer = layer; }
 };
 
 //-------------------------------------------------------

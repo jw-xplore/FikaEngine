@@ -21,6 +21,11 @@ void EnemyComponent::start()
 	rb->getBody()->onEnterEvent.addListener([this](Body& body) { onBodyEnter(body); });
 
 	attackTimer = attackTimer;
+
+	shootingCmp = static_cast<ShootingComponent*>(FikaServers::getECSManager().findComponent(*owner, ShootingComponent::componentId));
+	shootingCmp->bulletsPerFire = 4;
+	shootingCmp->fireDelay = 0.8f;
+	shootingCmp->setBulletLayer(1);
 }
 
 void EnemyComponent::update(float dt)
@@ -39,6 +44,9 @@ void EnemyComponent::update(float dt)
 
 	// Attack
 	attack(dt);
+	shootingCmp->runTimers(dt);
+
+	shootingCmp->fire(fireAngle);
 }
 
 void EnemyComponent::onRemove()

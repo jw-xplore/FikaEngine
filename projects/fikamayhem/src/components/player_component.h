@@ -20,9 +20,10 @@ class PlayerComponent : public ECSComponent
 {
 private:
 	Transform* transform;
+	RigidBodyComponent* rb;
 	HealthComponent* healthCmp;
 	ShootingComponent* shootingCmp;
-	float speed = 20;
+	float speed = 1500;
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
 	Camera* camera;

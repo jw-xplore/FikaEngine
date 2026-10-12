@@ -65,8 +65,14 @@ void ShootingComponent::fire(float angle)
 	if (bulletsPerFire > 1)
 	{
 		// Angles distribution
-		angle -= glm::radians(cone * 0.5f);
-		float split = cone / static_cast<float>(bulletsPerFire - 1);
+		int num = bulletsPerFire;
+		if (cone < 360)
+		{
+			angle -= glm::radians(cone * 0.5f);
+			num -= 1;
+		}
+
+		float split = cone / static_cast<float>(num);
 		angleChange = glm::radians(split);
 	}
 
@@ -78,7 +84,7 @@ void ShootingComponent::fire(float angle)
 		vel = glm::normalize(vel);
 		vel *= bulletSpeed;
 
-		ContentManager::createBullet(transform->getLocalPosition(), vel);
+		ContentManager::createBullet(transform->getLocalPosition(), vel, 3, bulletLayer);
 	}
 
 	// Ammo and timer

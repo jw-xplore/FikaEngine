@@ -38,7 +38,7 @@ void start()
 {
     componentsInit();
     ContentManager::loadAssets();
-    ContentManager::buildPrefabs();
+    //ContentManager::buildPrefabs();
 
     Entity& player = ContentManager::createPlayer();
     playerTransform = FikaServers::getECSManager().findEntityTransform(player);
@@ -46,9 +46,9 @@ void start()
     
     //ContentManager::createBox(glm::vec3(2, 0, 0));
 
-    //ContentManager::createEnemy(glm::vec3(4, 0, 3));
+    //ContentManager::createEnemy(glm::vec3(1, 0, 0));
 
-    ContentManager::createSpawner(glm::vec3(10, 0, 3), 2, 5, 1);
+    ContentManager::createSpawner(glm::vec3(10, 0, 3), 5, 20, 2);
 }
 
 float playTime = 0;
@@ -94,7 +94,6 @@ void update(float dt)
     if (ContentManager::getPlayerEntity() && playerHealth->isAlive())
     {
         playTime += dt;
-        //spawnEnemies(dt);
     }
 }
 

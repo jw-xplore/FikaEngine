@@ -64,9 +64,9 @@ Entity& ContentManager::createPlayer()
 	// TODO: Fix texture loading
 	mesh->setTexture(gpuRes.getTexture("player"));
 
-	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
+	ecsmngr.addComponent(entity, HealthComponent::componentId);
 
-	ShootingComponent* shooting = static_cast<ShootingComponent*>(ecsmngr.addComponent(entity, ShootingComponent::componentId));
+	ecsmngr.addComponent(entity, ShootingComponent::componentId);
 
 	PlayerComponent* player = static_cast<PlayerComponent*>(ecsmngr.addComponent(entity, PlayerComponent::componentId));
 
@@ -92,7 +92,7 @@ Entity& ContentManager::createBox(glm::vec3 position)
 	return *entity;
 }
 
-Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity, float lifetime)
+Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity, float lifetime, int layer)
 {
 	ECSManager& ecsmngr = FikaServers::getECSManager();
 	GPUResourceManager& gpuRes = FikaServers::getGPUResourceManager();
@@ -106,6 +106,7 @@ Entity& ContentManager::createBullet(glm::vec3 position, glm::vec3 velocity, flo
 
 	BulletComponent* bullet = static_cast<BulletComponent*>(ecsmngr.addComponent(entity, BulletComponent::componentId));
 	bullet->setup(position, velocity, lifetime);
+	bullet->setRayLayer(layer);
 
 	return *entity;
 }
@@ -128,6 +129,8 @@ Entity& ContentManager::createEnemy(glm::vec3 position)
 	mesh->setup(gpuRes.getMesh("sphere"), gpuRes.getShader("basic"), nullptr);
 
 	HealthComponent* health = static_cast<HealthComponent*>(ecsmngr.addComponent(entity, HealthComponent::componentId));
+
+	ecsmngr.addComponent(entity, ShootingComponent::componentId);
 
 	EnemyComponent* enemy = static_cast<EnemyComponent*>(ecsmngr.addComponent(entity, EnemyComponent::componentId));
 
