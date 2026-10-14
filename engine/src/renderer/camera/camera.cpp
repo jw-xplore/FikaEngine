@@ -32,14 +32,19 @@ namespace FikaEngine
     {
         this->position = position;
         this->direction = direction;
-        updateVectors();
+        //updateVectors();
+        front = glm::normalize(direction);
+        rightVec = glm::normalize(glm::cross(front, glm::vec3(0, 1, 0)));
+        upVec = glm::normalize(glm::cross(rightVec, front));
+
         lookAt(position + direction);
     }
-
+   
     void Camera::translate(glm::vec3 move)
     {
         position += move;
         updateVectors();
+        lookAt(position + direction);
     }
 
     void Camera::rotate(float yaw, float pitch, float pitchLimit)

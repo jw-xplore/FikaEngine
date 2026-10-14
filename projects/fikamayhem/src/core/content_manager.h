@@ -23,4 +23,5 @@ public:
 	static Entity& createBullet(glm::vec3 position, glm::vec3 velocity, float lifetime, int layer);
 	static Entity& createEnemy(glm::vec3 position);
 	static Entity& createSpawner(glm::vec3 position, float delay, int enemies, int enemiesPerSpawn);
+	static Entity& createHealtPack(glm::vec3 position);
 };

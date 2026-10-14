@@ -8,6 +8,7 @@
 #include "components/health_component.h"
 #include "components/spawner_component.h"
 #include "components/shooting_component.h"
+#include "components/pickup_component.h"
 
 /*
 Project Fika Mayhem
@@ -29,6 +30,7 @@ void componentsInit()
     HealthComponentUpdater::init(POOL_DEFAULT_SIZE);
     ShootingComponentUpdater::init(POOL_DEFAULT_SIZE);
     SpawnerComponentUpdater::init(POOL_DEFAULT_SIZE);
+    PickupComponentUpdater::init(POOL_DEFAULT_SIZE);
 }
 
 Transform* playerTransform;
@@ -44,11 +46,13 @@ void start()
     playerTransform = FikaServers::getECSManager().findEntityTransform(player);
     playerHealth = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(player, HealthComponent::componentId));
     
-    //ContentManager::createBox(glm::vec3(2, 0, 0));
+    ContentManager::createBox(glm::vec3(2, 0, 0));
 
     //ContentManager::createEnemy(glm::vec3(1, 0, 0));
 
     ContentManager::createSpawner(glm::vec3(10, 0, 3), 5, 20, 2);
+
+    ContentManager::createHealtPack(glm::vec3(0, 0, 2));
 }
 
 float playTime = 0;

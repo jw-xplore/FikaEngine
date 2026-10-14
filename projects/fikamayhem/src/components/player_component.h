@@ -23,12 +23,18 @@ private:
 	RigidBodyComponent* rb;
 	HealthComponent* healthCmp;
 	ShootingComponent* shootingCmp;
-	float speed = 1500;
+	float maxSpeed = 10;
+	float currentSpeed = 0;
+	float acceleration = 50;
+	float decceleration = 100;
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
 	Camera* camera;
+	float cameraSpeed = 4.25f;
+	float cameraTargetPrediction = 0.25f;
 	const float cameraDistance = 5;
-	glm::vec3 camOffset = glm::vec3(-cameraDistance, cameraDistance, -cameraDistance);
+	const glm::vec3 camOffset = glm::vec3(-cameraDistance, cameraDistance, -cameraDistance);
+	glm::vec3 lastCamPos = glm::vec3(0);
 
 	bool isShooting = false;
 	float bulletSpeed = 25;

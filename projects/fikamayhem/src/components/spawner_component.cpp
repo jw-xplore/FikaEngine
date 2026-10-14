@@ -23,6 +23,11 @@ void SpawnerComponent::update(float dt)
 	}
 
 	// Is player nearby?
+	if (ContentManager::getPlayerTransform() == nullptr)
+	{
+		return;
+	}
+
 	glm::vec3 playerPos = ContentManager::getPlayerTransform()->getLocalPosition();
 	glm::vec3 dif = playerPos - transform->getLocalPosition();
 	float dist = dif.x * dif.x + dif.y * dif.y + dif.z * dif.z;

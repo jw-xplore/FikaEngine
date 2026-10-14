@@ -24,8 +24,10 @@ void PlayerComponent::start()
 	shootingCmp->cone = 0;
 
 	camera = FikaServers::getCameraManager().getMainCamera();
-	camera->setPosition(transform->getLocalPosition() + camOffset);
-	camera->lookAt(transform->getLocalPosition());
+	//camera->setPosition(transform->getLocalPosition() + camOffset);
+	//camera->lookAt(transform->getLocalPosition());
+	lastCamPos = transform->getLocalPosition() + camOffset;
+	camera->move(lastCamPos, glm::vec3(1,-1,1));
 }
 
 void PlayerComponent::update(float dt)
@@ -34,9 +36,10 @@ void PlayerComponent::update(float dt)
 	movement(dt);
 
 	// Camera update
-	camera->setPosition(transform->getLocalPosition() + camOffset);
-	camera->lookAt(transform->getLocalPosition());
-
+	glm::vec3 camTarget = transform->getLocalPosition() + camOffset + rb->getBody()->velocity * cameraTargetPrediction;
+	lastCamPos = glm::mix(lastCamPos, camTarget, cameraSpeed * dt);
+	camera->move(lastCamPos, glm::vec3(1, -1, 1));
+	
 	// Fire
 	handleFire(dt);
 	
@@ -70,13 +73,39 @@ void PlayerComponent::movement(float dt)
 		direction = glm::normalize(direction);
 		lastDirection = direction;
 
-		//transform->translate(direction * speed * dt);
-		rb->getBody()->velocity = direction * speed * dt;
+		// Accelerate
+		if (currentSpeed < maxSpeed)
+		{
+			currentSpeed += acceleration * dt;
+		}
+		else
+		{
+			currentSpeed = maxSpeed;
+		}
 
+		// Direction
 		if (!isShooting)
 		{
 			rotate(input.x, input.y, dt);
 		}
+	}
+	else
+	{
+		// Deccelerate
+		if (currentSpeed > 0)
+		{
+			currentSpeed -= decceleration * dt;
+		}
+		else
+		{
+			currentSpeed = 0;
+		}
+	}
+
+	// Apply speed
+	if (currentSpeed > 0)
+	{
+		rb->getBody()->velocity = direction * currentSpeed;
 	}
 	else
 	{

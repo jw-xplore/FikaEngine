@@ -16,12 +16,6 @@ namespace FikaEngine
 	{
 		PhysicsSolver& physics = FikaServers::getPhysicsSolver();
 		body = &physics.addBody(*owner);
-
-		/*
-		// Callbacks
-		body->onEnter = std::bind(&RigidbodyComponent::onEnter, this, std::placeholders::_1);
-		body->onExit = std::bind(&RigidbodyComponent::onExit, this, std::placeholders::_1);
-		*/
 	}
 
 	void RigidBodyComponent::update(float dt)

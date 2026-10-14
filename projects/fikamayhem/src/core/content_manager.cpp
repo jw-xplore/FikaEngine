@@ -5,6 +5,7 @@
 #include "../components/health_component.h"
 #include "../components/spawner_component.h"
 #include "../components/shooting_component.h"
+#include "../components/pickup_component.h"
 
 Entity* ContentManager::playerEntity = nullptr;
 
@@ -85,6 +86,8 @@ Entity& ContentManager::createBox(glm::vec3 position)
 	rb->getTransform()->setLocalPosition(position);
 	rb->setType(EBodyType::Static);
 	rb->setBoxCollider(glm::vec3(1.0f));
+	rb->setLayers(3);
+	rb->setInteractiveLayers(3);
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
 	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
@@ -152,6 +155,28 @@ Entity& ContentManager::createSpawner(glm::vec3 position, float delay, int enemi
 
 	SpawnerComponent* spawner = static_cast<SpawnerComponent*>(ecsmngr.addComponent(entity, SpawnerComponent::componentId));
 	spawner->setup(delay, enemies, enemiesPerSpawn);
+
+	return *entity;
+}
+
+Entity& ContentManager::createHealtPack(glm::vec3 position)
+{
+	ECSManager& ecsmngr = FikaServers::getECSManager();
+	GPUResourceManager& gpuRes = FikaServers::getGPUResourceManager();
+
+	Entity* entity = ecsmngr.addEntity("HealthPack");
+
+	RigidBodyComponent* rb = static_cast<RigidBodyComponent*>(ecsmngr.addComponent(entity, RigidBodyComponent::componentId));
+	rb->getTransform()->setLocalPosition(position);
+	rb->setType(EBodyType::Trigger);
+	rb->setSphereCollider(1.0f);
+
+	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
+	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
+	mesh->getMeshInstance()->customScale = glm::vec3(0.3f);
+
+	PickupComponent* pickup = static_cast<PickupComponent*>(ecsmngr.addComponent(entity, PickupComponent::componentId));
+	pickup->setup(EPickupType::Health);
 
 	return *entity;
 }
