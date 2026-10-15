@@ -83,6 +83,9 @@ void PlayerComponent::movement(float dt)
 			currentSpeed = maxSpeed;
 		}
 
+		// Camera predictino
+		cameraTargetPrediction = glm::mix(cameraTargetPrediction, cameraMaxTargetPrediction, dt);
+
 		// Direction
 		if (!isShooting)
 		{
@@ -100,6 +103,9 @@ void PlayerComponent::movement(float dt)
 		{
 			currentSpeed = 0;
 		}
+
+		// Camera deccelerate
+		cameraTargetPrediction = glm::mix(cameraTargetPrediction, 0.0f, dt);
 	}
 
 	// Apply speed

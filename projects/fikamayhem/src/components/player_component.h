@@ -30,8 +30,9 @@ private:
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
 	Camera* camera;
-	float cameraSpeed = 4.25f;
-	float cameraTargetPrediction = 0.25f;
+	float cameraSpeed = 5.0f;
+	float cameraTargetPrediction = 0;
+	float cameraMaxTargetPrediction = 0.25f;
 	const float cameraDistance = 5;
 	const glm::vec3 camOffset = glm::vec3(-cameraDistance, cameraDistance, -cameraDistance);
 	glm::vec3 lastCamPos = glm::vec3(0);
