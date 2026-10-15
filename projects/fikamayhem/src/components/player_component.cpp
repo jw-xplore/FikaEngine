@@ -64,13 +64,34 @@ void PlayerComponent::deserialize(nlohmann::json js)
 
 void PlayerComponent::movement(float dt)
 {
+	InputManager& inputMngr = FikaServers::getInputManager();
 	glm::vec2 input = inputDirection(Key::D, Key::A, Key::W, Key::S);
+	bool normalizeMovement = true;
+
+	// Gamepad 
+	if (input == glm::vec2(0))
+	{
+		float gamepadX = -inputMngr.isGamepadAxis(Gamepad::GamepadAxes::LS_Horizontal);
+		float gamepadY = -inputMngr.isGamepadAxis(Gamepad::GamepadAxes::LS_Vertical);
+		
+		input = glm::vec2(gamepadX, gamepadY);
+		normalizeMovement = false;
+
+		if (glm::length(input) < 0.2)
+		{
+			input = glm::vec2(0);
+		}
+	}
 
 	glm::vec3 direction = glm::vec3(input.x, 0, input.y);
 
 	if (direction != glm::vec3(0))
 	{
-		direction = glm::normalize(direction);
+		if (normalizeMovement)
+		{
+			direction = glm::normalize(direction);
+		}
+
 		lastDirection = direction;
 
 		// Accelerate
@@ -108,10 +129,44 @@ void PlayerComponent::movement(float dt)
 		cameraTargetPrediction = glm::mix(cameraTargetPrediction, 0.0f, dt);
 	}
 
+	// Dashing 
+	if (inputMngr.isKeyPressed(Key::Code::Space) || inputMngr.isGamepadButtonPressed(Gamepad::GamepadButton::A))
+	{
+		if (dashTimer <= 0 && dashCooldownTimer <= 0)
+		{
+			dashTimer = dashTime;
+		}
+	}
+
+	if (dashTimer > 0)
+	{
+		dashTimer -= dt;
+		healthCmp->setIgnoreDamage(true);
+
+		// End dash
+		if (dashTimer <= 0)
+		{
+			healthCmp->setIgnoreDamage(false);
+			dashCooldownTimer = dashCooldown;
+		}
+	}
+
+	if (dashCooldownTimer > 0)
+	{
+		dashCooldownTimer -= dt;
+	}
+
 	// Apply speed
 	if (currentSpeed > 0)
 	{
-		rb->getBody()->velocity = direction * currentSpeed;
+		float finalSpeed = currentSpeed;
+
+		if (dashTimer > 0)
+		{
+			finalSpeed += dashSpeed;
+		}
+
+		rb->getBody()->velocity = direction * finalSpeed;
 	}
 	else
 	{
@@ -136,6 +191,21 @@ void PlayerComponent::handleFire(float dt)
 	shootingCmp->runTimers(dt);
 
 	glm::vec2 input = inputDirection(Key::Right, Key::Left, Key::Up, Key::Down);
+
+	// Gamepad 
+	if (input == glm::vec2(0))
+	{
+		InputManager& inputMngr = FikaServers::getInputManager();
+		float gamepadX = -inputMngr.isGamepadAxis(Gamepad::GamepadAxes::RS_Horizontal);
+		float gamepadY = -inputMngr.isGamepadAxis(Gamepad::GamepadAxes::RS_Vertical);
+
+		input = glm::vec2(gamepadX, gamepadY);
+		if (glm::length(input) < 0.5)
+		{
+			input = glm::vec2(0);
+		}
+	}
+
 	if (input == glm::vec2(0))
 	{
 		isShooting = false;

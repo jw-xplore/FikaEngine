@@ -1,10 +1,14 @@
 #include "input_manager.h"
+#include <iostream>
 
 namespace FikaEngine
 {
 	// TODO: Check if this can be moved into the input manager
 	static Keyboard keyboard;
 	static Mouse mouse;
+
+	static bool isGamepadConnected = false;
+	static Gamepad gamepad0;
 
 	InputManager::InputManager()
 	{
@@ -22,6 +26,12 @@ namespace FikaEngine
 		glfwSetMouseButtonCallback(window, onGLMousePressCallback);
 		glfwSetCursorPosCallback(window, onGLMouseMoveCallback);
 		glfwSetScrollCallback(window, onGLMouseScrollCallback);
+
+		// Register gamepads
+		if (glfwJoystickPresent(GLFW_JOYSTICK_1))
+			connectGamepad(GLFW_JOYSTICK_1);
+
+		glfwSetJoystickCallback(gamepadCallback);
 	}
 
 	void InputManager::beginFrame()
@@ -49,6 +59,29 @@ namespace FikaEngine
 		mouse.positionDelta = glm::vec2(0);
 		mouse.previousPosition = mouse.position;
 		mouse.scrollInput = 0;
+
+		// Gamepad
+		gamepad0.handleInput();
+	}
+
+	Keyboard& InputManager::getKeyboard()
+	{
+		return keyboard;
+	}
+
+	Mouse& InputManager::getMouse()
+	{
+		return mouse;
+	}
+
+	Gamepad* InputManager::getGamepad()
+	{
+		if (!isGamepadConnected)
+		{
+			return nullptr;
+		}
+
+		return &gamepad0;
 	}
 
 	bool InputManager::isKeyPressed(Key::Code key)
@@ -89,6 +122,46 @@ namespace FikaEngine
 	double InputManager::mouseScroll()
 	{
 		return mouse.scrollInput;
+	}
+
+	bool InputManager::isGamepadButtonPressed(Gamepad::GamepadButton button)
+	{
+		if (!isGamepadConnected)
+		{
+			return false;
+		}
+
+		return gamepad0.buttonPressed[button];
+	}
+
+	bool InputManager::isGamepadButtonRelease(Gamepad::GamepadButton button)
+	{
+		if (!isGamepadConnected)
+		{
+			return false;
+		}
+
+		return gamepad0.buttonReleased[button];
+	}
+
+	bool InputManager::isGamepadButtonHeld(Gamepad::GamepadButton button)
+	{
+		if (!isGamepadConnected)
+		{
+			return false;
+		}
+
+		return gamepad0.buttonHeld[button];
+	}
+
+	float InputManager::isGamepadAxis(Gamepad::GamepadAxes axis)
+	{
+		if (!isGamepadConnected)
+		{
+			return 0;
+		}
+
+		return gamepad0.axesValues[axis];
 	}
 
 	void InputManager::onGLKeyCallback(GLFWwindow* win, int key, int scancode, int action, int mods)
@@ -183,13 +256,37 @@ namespace FikaEngine
 		mouse.positionDelta = mouse.position - mouse.previousPosition;
 	}
 
-	Keyboard& InputManager::getKeyboard()
+	void InputManager::gamepadCallback(int gamepadId, int event)
 	{
-		return keyboard;
+		switch (event)
+		{
+		case GLFW_CONNECTED: connectGamepad(gamepadId); break;
+		case GLFW_DISCONNECTED: disconnectGamepad(gamepadId); break;
+		}
 	}
 
-	Mouse& InputManager::getMouse()
+	void InputManager::connectGamepad(int gamepadId)
 	{
-		return mouse;
+		std::cout << "Connected gamepad " << gamepadId << "\n";
+
+		if (gamepadId != 0)
+		{
+			return;
+		}
+
+		isGamepadConnected = true;
 	}
+
+	void InputManager::disconnectGamepad(int gamepadId)
+	{
+		std::cout << "Disconnected gamepad " << gamepadId << "\n";
+
+		if (gamepadId != 0)
+		{
+			return;
+		}
+
+		isGamepadConnected = false;
+	}
+
 } // namespace FikaEngine

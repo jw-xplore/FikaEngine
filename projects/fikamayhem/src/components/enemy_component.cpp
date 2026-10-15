@@ -3,6 +3,7 @@
 #include "core/ecs/ecs_manager.h"
 #include "core/ecs/entity.h"
 #include "../core/content_manager.h"
+#include "glm/gtc/random.hpp"
 
 //-------------------------------------------------------
 // Component
@@ -26,6 +27,8 @@ void EnemyComponent::start()
 	shootingCmp->bulletsPerFire = 4;
 	shootingCmp->fireDelay = 0.8f;
 	shootingCmp->setBulletLayer(1);
+
+	shootingCmp->fireTimer = glm::linearRand(shootingCmp->fireDelay * 0.1f, shootingCmp->fireDelay);
 }
 
 void EnemyComponent::update(float dt)

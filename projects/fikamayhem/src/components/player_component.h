@@ -29,6 +29,12 @@ private:
 	float decceleration = 100;
 	glm::vec3 lastDirection = glm::vec3(1,0,0);
 
+	float dashSpeed = 20.0f;
+	float dashTimer = 0;
+	float dashTime = 0.15f;
+	float dashCooldown = 1.0f;
+	float dashCooldownTimer = 0;
+
 	Camera* camera;
 	float cameraSpeed = 5.0f;
 	float cameraTargetPrediction = 0;

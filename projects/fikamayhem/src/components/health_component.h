@@ -18,6 +18,7 @@ class HealthComponent : public ECSComponent
 private:
 	int hp = 100;
 	int maxHp = 100;
+	bool ignoreDamage = false;
 
 public:
 	HealthComponent() {}
@@ -37,6 +38,8 @@ public:
 	int getHp() { return hp; }
 	int getMaxHp() { return maxHp; }
 	bool isAlive() { return hp > 0; }
+	void setIgnoreDamage(bool ignore) { ignoreDamage = ignore; }
+	bool getIgnoreDamage() { return ignoreDamage; }
 };
 
 //-------------------------------------------------------

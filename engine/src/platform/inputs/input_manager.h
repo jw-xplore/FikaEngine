@@ -3,6 +3,7 @@
 * @author Based on inputserver.h from Nebula: https://github.com/gscept/nebula.git
 */
 #include "input_devices.h"
+#include "gamepad.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -22,6 +23,7 @@ namespace FikaEngine
 
         Keyboard& getKeyboard();
         Mouse& getMouse();
+        Gamepad* getGamepad();
 
         bool isKeyPressed(Key::Code key);
         bool isKeyReleased(Key::Code key);
@@ -33,6 +35,11 @@ namespace FikaEngine
         glm::vec2 mousePosition();
         double mouseScroll();
 
+        bool isGamepadButtonPressed(Gamepad::GamepadButton button);
+        bool isGamepadButtonRelease(Gamepad::GamepadButton button);
+        bool isGamepadButtonHeld(Gamepad::GamepadButton button);
+        float isGamepadAxis(Gamepad::GamepadAxes axis);
+
     private:
         // GL callbacks
         static void onGLKeyCallback(GLFWwindow* win, int key, int scancode, int action, int mods);
@@ -43,5 +50,9 @@ namespace FikaEngine
         static void handleKeyEvent(int key, int scancode, int action, int mods);
         static void handleMousePressEvent(int button, int pressedKeys, int mods);
         static void handleMouseMoveEvent(double x, double y);
+
+        static void gamepadCallback(int gamepadId, int event);
+        static void connectGamepad(int gamepadId);
+        static void disconnectGamepad(int gamepadId);
     };
 } // namespace FikaEngine
