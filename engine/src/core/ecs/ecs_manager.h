@@ -40,6 +40,7 @@ namespace FikaEngine
 		Transform* findEntityTransform(Entity& entity);
 
 		ComponentUpdater* getUpdater(unsigned int componentId);
+		PoolAllocator<Entity>& getEntities() { return entities; }
 
 		nlohmann::json serializeEntity(Entity& entity);
 		void addEntityFromJson(nlohmann::json js);

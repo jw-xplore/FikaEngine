@@ -26,7 +26,7 @@ namespace FikaEditor
 		//char activePrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/wall.json";
 
 		Prefab* activePrefab = nullptr;
-		char projectPrefabPath[256] = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/";
+		const char* projectPrefabPath = "C:/Projects/Prog/FikaEngine/build/projects/testgame/Debug/assets/prefabs/";
 		std::vector<Prefab*> projectPrefabs;
 		bool projectLoaded = false;
 		ProjectMetaData metaData;
@@ -44,7 +44,8 @@ namespace FikaEditor
 		void update(float dt);
 
 		bool loadProject();
-		void loadActivePrefab();
+		void loadProjectPrefabs();
+		void loadPrefab(Prefab& prefabToLoad);
 		void saveLevel(const char* path);
 		void runGame();
 		void debugUI(GLFWwindow* window);

@@ -41,7 +41,12 @@ namespace FikaEditor
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
 
+        cursorInsideGui = false;
+
         ImGui::NewFrame();
+
+        ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(400, 300));
 
         ImGui::Begin("Fika Editor");
         ImGui::InputText("Binaries folder", workingDirectory, 256);
@@ -93,15 +98,54 @@ namespace FikaEditor
             }
         }
 
-        // Check mouse cursor is inside the window
-        ImVec2 windowStart = ImGui::GetWindowPos();
-        ImVec2 windowEnd = ImGui::GetWindowSize();
-        windowEnd.x += windowStart.x;
-        windowEnd.y += windowStart.y;
-        glm::vec2 mousePos = FikaServers::getInputManager().mousePosition();
+        if (ImGui::IsWindowHovered())
+        {
+            cursorInsideGui = true;
+        }
 
-        cursorInsideGui = mousePos.x > windowStart.x && mousePos.x < windowEnd.x &&
-                          mousePos.y > windowStart.y && mousePos.y < windowEnd.y;
+        ImGui::End();
+
+
+        // Entity list
+        ImGui::SetNextWindowPos(ImVec2(20, 300), ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(400, 300));
+
+        ImGui::Begin("Entities");
+        
+        // Display entities
+        PoolAllocator<Entity>& entities = FikaServers::getECSManager().getEntities();
+
+        for (size_t i = 0; i < entities.getUsedAmount(); i++)
+        {
+            std::string name = entities[i].getName();
+            if (name == "")
+            {
+                name = "Entity";
+            }
+
+            std::string displayName = name + "(" + std::to_string(entities[i].getId()) + ")";
+            bool removed = false;
+
+            // Remove entity on click
+            if (ImGui::Button(displayName.c_str(), ImVec2(200, 0)))
+            {
+                FikaServers::getECSManager().removeEntity(entities[i]);
+                removed = true;
+            }
+
+            // Button hover
+            if (ImGui::IsItemHovered() && !removed)
+            {
+                placingCube->setVisible(true);
+                glm::vec3 entityPos = FikaServers::getECSManager().findEntityTransform(entities[i])->getLocalPosition();
+                placingTransform[3] = glm::vec4(entityPos.x, entityPos.y, entityPos.z, 1);
+            }
+        }
+
+        if (ImGui::IsWindowHovered())
+        {
+            cursorInsideGui = true;
+        }
 
         ImGui::End();
 
@@ -134,7 +178,7 @@ namespace FikaEditor
             return;
 
         // Display placing cube
-        placingCube->setVisible(!cursorInsideGui);
+        //placingCube->setVisible(!cursorInsideGui);
 
         if (cursorInsideGui)
         {
@@ -184,14 +228,17 @@ namespace FikaEditor
         metaData.name = js["project"];
         metaData.sourcePath = js["source_dir"];
 
+        std::string prefPath = metaData.sourcePath + "/assets/prefabs";
+        projectPrefabPath = prefPath.c_str();
+
         // Prefabs
-        loadActivePrefab();
+        loadProjectPrefabs();
         projectLoaded = true;
 
         return true;
     }
 
-    void Editor::loadActivePrefab()
+    void Editor::loadProjectPrefabs()
     {
         // Load prefabs
         FikaServers::getGameResourceManager().loadFolderPrefabs(projectPrefabPath);
@@ -204,25 +251,39 @@ namespace FikaEditor
         // Load meshes
         for (size_t i = 0; i < projectPrefabs.size(); i++)
         {
-            activePrefab = projectPrefabs[i];
-            nlohmann::json meshCmpJson = meshJsonFromPrefab(*activePrefab);
-            std::cout << meshCmpJson;
-
-            std::string meshPath = meshCmpJson["meshPath"];
-            assert(meshPath != "");
-            meshPath = workingDirectory + meshPath;
-            MeshResource* meshRes = FikaServers::getGPUResourceManager().reserveMesh(meshPath.c_str());
-            MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
-            //MeshResource* meshRes = gResourceManager->loadMesh(meshPath.c_str(), activePrefab->name.c_str());
-
-            std::string texturePath = meshCmpJson["texturePath"];
-            assert(texturePath != "");
-            texturePath = workingDirectory + texturePath;
-            TextureResource* textureRes = FikaServers::getGPUResourceManager().loadTexture(texturePath.c_str(), texturePath.c_str());
+            loadPrefab(*projectPrefabs[i]);
         }
 
         // Set first prefab
         activePrefab = projectPrefabs[0];
+    }
+
+    void Editor::loadPrefab(Prefab& prefabToLoad)
+    {
+        // Prefab data
+        nlohmann::json meshCmpJson = meshJsonFromPrefab(prefabToLoad);
+        std::cout << meshCmpJson;
+
+        // Meshes
+        std::string meshPath = meshCmpJson["meshPath"];
+
+        if (meshPath != "")
+        {
+            meshPath = workingDirectory + meshPath;
+            MeshResource* meshRes = FikaServers::getGPUResourceManager().reserveMesh(meshPath.c_str());
+            MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
+        }
+
+        // Textures
+        std::string texturePath = meshCmpJson["texturePath"];
+
+        if (texturePath != "")
+        {
+            texturePath = workingDirectory + texturePath;
+            TextureResource* textureRes = FikaServers::getGPUResourceManager().loadTexture(texturePath.c_str(), texturePath.c_str());
+        }
+
+        // TODO: Shaders
     }
 
     void Editor::saveLevel(const char* path)
@@ -355,20 +416,52 @@ namespace FikaEditor
         // Translate mesh instance 
         nlohmann::json meshCmpJson = meshJsonFromPrefab(*activePrefab);
 
+        if (meshCmpJson == "")
+        {
+            return;
+        }
+
+        // Mesh
+        MeshResource* meshRes = nullptr;
         std::string meshPath = meshCmpJson["meshPath"];
-        assert(meshPath != "");
-        meshPath = workingDirectory + meshPath;
-        //MeshResource* meshRes = gpuResourceManager.reserveMesh(activePrefab->name.c_str());
-        //MeshBuilder().loadMesh(meshPath.c_str()).build(*meshRes);
-        //MeshResource* meshRes = gpuResourceManager.loadMesh(meshPath.c_str(), activePrefab->name.c_str());
-        MeshResource* meshRes = &gpuResourceManager.getMesh(meshPath.c_str());
+        
+        if (meshPath != "")
+        {
+            meshPath = workingDirectory + meshPath;
+            meshRes = &gpuResourceManager.getMesh(meshPath);
+        }
+        else
+        {
+            // Engine mesh
+            std::string meshTag = meshCmpJson["meshTag"];
 
+            if (meshTag != "")
+            {
+                meshRes = &gpuResourceManager.getMesh(meshTag);
+            }
+        }
+
+        // Texture
+        TextureResource* textureRes = nullptr;
         std::string texturePath = meshCmpJson["texturePath"];
-        assert(texturePath != "");
-        texturePath = workingDirectory + texturePath;
-        //TextureResource* textureRes = gpuResourceManager.loadTexture(texturePath.c_str(), activePrefab->name.c_str());
-        TextureResource* textureRes = &gpuResourceManager.getTexture(texturePath.c_str());
 
+        if (texturePath != "")
+        {
+            texturePath = workingDirectory + texturePath;
+            textureRes = &gpuResourceManager.getTexture(texturePath);
+        }
+        else
+        {
+            // Engine textures
+            std::string textureTag = meshCmpJson["textureTag"];
+
+            if (textureTag != "")
+            {
+                textureRes = &gpuResourceManager.getTexture(textureTag);
+            }
+        }
+
+        // Create mesh component
         MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(FikaServers::getECSManager().addComponent(entity, MeshComponent::componentId));
         meshCmp->setup(*meshRes, basicShader, nullptr);
         meshCmp->setTexture(*textureRes);
@@ -376,7 +469,7 @@ namespace FikaEditor
 
     nlohmann::json Editor::meshJsonFromPrefab(Prefab& prefab)
     {
-        nlohmann::json entityJson = activePrefab->data["entity"];
+        nlohmann::json entityJson = prefab.data["entity"];
         nlohmann::json componentJson = entityJson["components"];
 
         for (auto& jsComp : componentJson.items())
