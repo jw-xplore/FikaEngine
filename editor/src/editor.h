@@ -6,6 +6,7 @@
 #include "core/game_resource_manager.h"
 #include "editor_camera.h"
 #include "renderer/resources/mesh_instance.h"
+#include "gui/editor_gui.h"
 
 using namespace FikaEngine;
 
@@ -35,6 +36,8 @@ namespace FikaEditor
 		glm::mat4 placingTransform = glm::mat4(1.95);
 		EditorCamera editorCamera;
 
+		EditorGUI editorGUI;
+		Entity* selectedEntity = nullptr;
 		bool cursorInsideGui = false;
 
 	public:

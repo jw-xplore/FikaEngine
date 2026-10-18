@@ -111,26 +111,28 @@ namespace FikaEditor
         ImGui::SetNextWindowSize(ImVec2(400, 300));
 
         ImGui::Begin("Entities");
+
+        // Display selected entity
+        std::string selectedEntityText = "Selected: ";
+        if (selectedEntity != nullptr)
+        {
+            selectedEntityText += EditorGUI::entityDisplayName(*selectedEntity);
+        }
+
+        ImGui::Text(selectedEntityText.c_str());
         
         // Display entities
         PoolAllocator<Entity>& entities = FikaServers::getECSManager().getEntities();
 
         for (size_t i = 0; i < entities.getUsedAmount(); i++)
         {
-            std::string name = entities[i].getName();
-            if (name == "")
-            {
-                name = "Entity";
-            }
-
-            std::string displayName = name + "(" + std::to_string(entities[i].getId()) + ")";
+            std::string displayName = EditorGUI::entityDisplayName(entities[i]);
             bool removed = false;
 
             // Remove entity on click
             if (ImGui::Button(displayName.c_str(), ImVec2(200, 0)))
             {
-                FikaServers::getECSManager().removeEntity(entities[i]);
-                removed = true;
+                selectedEntity = &entities[i];
             }
 
             // Button hover
@@ -149,8 +151,32 @@ namespace FikaEditor
 
         ImGui::End();
 
+        // Entity inspector
+        editorGUI.entityInspector(selectedEntity);
+        if (!cursorInsideGui)
+        {
+            cursorInsideGui = editorGUI.getCursorHover();
+        }
+
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        // Entity interactions
+        if (selectedEntity != nullptr)
+        {
+            // Click away
+            if (FikaServers::getInputManager().isMousePressed(Mouse::LeftButton) && !cursorInsideGui)
+            {
+                selectedEntity = nullptr;
+            }
+
+            // Delete
+            if (FikaServers::getInputManager().isKeyPressed(Key::Delete))
+            {
+                FikaServers::getECSManager().removeEntity(*selectedEntity);
+                selectedEntity = nullptr;
+            }
+        }
     }
 
     void Editor::init()
