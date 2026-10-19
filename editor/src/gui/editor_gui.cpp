@@ -23,7 +23,7 @@ namespace FikaEditor
         }
 
         ImGui::SetNextWindowPos(ImVec2(400, 20), ImGuiCond_Always);
-        ImGui::SetNextWindowSize(ImVec2(200, 200));
+        ImGui::SetNextWindowSize(ImVec2(400, 200));
 
         std::string title = entityDisplayName(*entity);
         ImGui::Begin(title.c_str());
@@ -37,9 +37,12 @@ namespace FikaEditor
         ImGui::Text("Position");
 
         glm::vec3 position = transform->getLocalPosition();
-        ImGui::InputFloat("pX", &position.x);
-        ImGui::InputFloat("pY", &position.y);
-        ImGui::InputFloat("pZ", &position.z);
+        ImGui::PushItemWidth(100);
+        ImGui::InputFloat("pX", &position.x, 0.1f);
+        ImGui::SameLine();
+        ImGui::InputFloat("pY", &position.y, 0.1f);
+        ImGui::SameLine();
+        ImGui::InputFloat("pZ", &position.z, 0.1f);
 
         transform->setPosition(position);
 
@@ -47,19 +50,59 @@ namespace FikaEditor
         ImGui::Text("Rotation");
 
         glm::vec3 rotation = transform->getLocalRotation();
-        ImGui::InputFloat("rX", &rotation.x);
-        ImGui::InputFloat("rY", &rotation.y);
-        ImGui::InputFloat("rZ", &rotation.z);
+        ImGui::InputFloat("rX", &rotation.x, 1.0f);
+        ImGui::SameLine();
+        ImGui::InputFloat("rY", &rotation.y, 1.0f);
+        ImGui::SameLine();
+        ImGui::InputFloat("rZ", &rotation.z, 1.0f);
 
         transform->setRotation(rotation);
 
         // Scale
         ImGui::Text("Scale");
 
+        std::string scaleLockText = "SLock";
+        if (consistentScaling)
+        {
+            scaleLockText = "SUnlock";
+        }
+
+        ImGui::SameLine();
+ 
+        if (ImGui::Button(scaleLockText.c_str()))
+        {
+            consistentScaling = !consistentScaling;
+        }
+
         glm::vec3 scale = transform->getLocalScale();
-        ImGui::InputFloat("sX", &scale.x);
-        ImGui::InputFloat("sY", &scale.y);
-        ImGui::InputFloat("sZ", &scale.z);
+        if (ImGui::InputFloat("sX", &scale.x, 0.1f))
+        {
+            if (consistentScaling)
+            {
+                scale.y = scale.x;
+                scale.z = scale.x;
+            }
+        }
+
+        ImGui::SameLine();
+        if (ImGui::InputFloat("sY", &scale.y, 0.1f))
+        {
+            if (consistentScaling)
+            {
+                scale.x = scale.y;
+                scale.z = scale.y;
+            }
+        }
+
+        ImGui::SameLine();
+        if (ImGui::InputFloat("sZ", &scale.z, 0.1f))
+        {
+            if (consistentScaling)
+            {
+                scale.x = scale.z;
+                scale.y = scale.z;
+            }
+        }
 
         transform->setScale(scale);
 

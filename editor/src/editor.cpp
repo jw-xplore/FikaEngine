@@ -164,6 +164,12 @@ namespace FikaEditor
         // Entity interactions
         if (selectedEntity != nullptr)
         {
+            // Esc
+            if (FikaServers::getInputManager().isKeyPressed(Key::Escape))
+            {
+                selectedEntity = nullptr;
+            }
+
             // Click away
             if (FikaServers::getInputManager().isMousePressed(Mouse::LeftButton) && !cursorInsideGui)
             {
@@ -218,8 +224,10 @@ namespace FikaEditor
         // Placing
         if (FikaServers::getInputManager().isMousePressed(Mouse::LeftButton))
         {
-            if (pos == glm::vec3(-1))
+            if (pos == glm::vec3(-1) || selectedEntity)
+            {
                 return;
+            }
 
             placeObject(pos);
         }

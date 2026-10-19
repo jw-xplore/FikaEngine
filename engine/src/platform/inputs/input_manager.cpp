@@ -166,11 +166,13 @@ namespace FikaEngine
 
 	void InputManager::onGLKeyCallback(GLFWwindow* win, int key, int scancode, int action, int mods)
 	{
+		/*
 		if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		{
 			glfwSetWindowShouldClose(win, GLFW_TRUE);
 			return;
 		}
+		*/
 
 		handleKeyEvent(key, scancode, action, mods);
 	}

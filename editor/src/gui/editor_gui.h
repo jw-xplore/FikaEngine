@@ -16,6 +16,7 @@ namespace FikaEditor
 	{
 	private:
 		bool cursorHover = false;
+		bool consistentScaling = false;
 
 		void projectPanel();
 		void entitiesList();
