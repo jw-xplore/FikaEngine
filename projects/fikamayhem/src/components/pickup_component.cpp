@@ -12,11 +12,20 @@ void PickupComponent::start()
 {
 	RigidBodyComponent* rb = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
 	rb->getBody()->onEnterEvent.addListener([this](Body& body) { onBodyEnter(body); });
+
+	transform = FikaServers::getECSManager().findEntityTransform(*owner);
+	startPosition = transform->getLocalPosition();
 }
 
 void PickupComponent::update(float dt)
 {
+	// Animation
+	timer += dt * 4;
+	float y = sin(timer) * 0.2f;
+	float rot = timer * 5;
 
+	transform->setLocalPosition(startPosition + glm::vec3(0,y,0));
+	transform->setRotation(glm::vec3(0, rot, 0));
 }
 
 void PickupComponent::onRemove()
@@ -62,6 +71,11 @@ void PickupComponent::onBodyEnter(Body& body)
 void PickupComponent::heal(Entity& entity)
 {
 	HealthComponent* healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(entity, HealthComponent::componentId));
+	if (healthCmp->getHp() >= healthCmp->getMaxHp())
+	{
+		return;
+	}
+	
 	healthCmp->heal(25);
 }
 

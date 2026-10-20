@@ -21,7 +21,10 @@ enum EPickupType
 class PickupComponent : public ECSComponent
 {
 private:
+	Transform* transform;
 	EPickupType type = EPickupType::Health;
+	glm::vec3 startPosition = glm::vec3(0);
+	float timer = 0;
 
 public:
 	PickupComponent() {}

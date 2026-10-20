@@ -26,6 +26,8 @@ void ContentManager::loadAssets()
 
 	gResourceManager.loadMesh("assets/models/Player.obj", "player");
 	gResourceManager.loadTexture("assets/textures/PlayerBaseCol.jpg", "player");
+	gResourceManager.loadMesh("assets/models/Cup.obj", "cup");
+	gResourceManager.loadTexture("assets/textures/CupBaseCol.jpg", "cup");
 }
 
 void ContentManager::buildPrefabs()
@@ -172,8 +174,9 @@ Entity& ContentManager::createHealtPack(glm::vec3 position)
 	rb->setSphereCollider(1.0f);
 
 	MeshComponent* mesh = static_cast<MeshComponent*>(ecsmngr.addComponent(entity, MeshComponent::componentId));
-	mesh->setup(gpuRes.getMesh("cube"), gpuRes.getShader("basic"), nullptr);
-	mesh->getMeshInstance()->customScale = glm::vec3(0.3f);
+	mesh->setup(gpuRes.getMesh("cup"), gpuRes.getShader("basic"), nullptr);
+	mesh->setTexture(gpuRes.getTexture("cup"));
+	mesh->getMeshInstance()->customScale = glm::vec3(0.2f);
 
 	PickupComponent* pickup = static_cast<PickupComponent*>(ecsmngr.addComponent(entity, PickupComponent::componentId));
 	pickup->setup(EPickupType::Health);

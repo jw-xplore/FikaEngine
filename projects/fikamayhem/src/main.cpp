@@ -40,7 +40,7 @@ void start()
 {
     componentsInit();
     ContentManager::loadAssets();
-    //ContentManager::buildPrefabs();
+    ContentManager::buildPrefabs();
 
     Entity& player = ContentManager::createPlayer();
     playerTransform = FikaServers::getECSManager().findEntityTransform(player);
