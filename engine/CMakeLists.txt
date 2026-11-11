@@ -12,9 +12,14 @@ target_link_libraries(${ENGINE_NAME}
     glfw
     glm::glm
     glad
-    opengl32
     imgui
 )
+
+if(WIN32)
+    target_link_libraries(${ENGINE_NAME} PUBLIC opengl32)
+else()
+    target_link_libraries(${ENGINE_NAME} PUBLIC OpenGL::GL)
+endif()
 
 target_include_directories(${ENGINE_NAME}
     PUBLIC
