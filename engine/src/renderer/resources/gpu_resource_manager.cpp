@@ -1,10 +1,18 @@
 #include "gpu_resource_manager.h"
 #include <iostream>
 #include <fstream>
-#include <windows.h>
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "renderer/resources/mesh_builder.h"
+
+#if defined(_WIN32)
+	// Windows
+	#include <windows.h>
+#elif defined(__linux__)
+	// Linux
+#else 
+
+#endif
 
 namespace FikaEngine
 {
@@ -242,12 +250,15 @@ namespace FikaEngine
 		}
 		else
 		{
+			// Debug
+#if defined(_WIN32)
 			char pBuf[256];
 			size_t len = sizeof(pBuf);
 			GetCurrentDirectoryA(len, pBuf);
 
 			std::cout << "Texture not loaded: " << pBuf << " + /" << path << "\n";
 			std::cout << "Reason: " << stbi_failure_reason() << "\n";
+#endif
 		}
 
 		// Cleanup
