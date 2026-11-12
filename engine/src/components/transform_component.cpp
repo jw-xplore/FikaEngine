@@ -4,6 +4,8 @@
 
 namespace FikaEngine
 {
+	const unsigned int TransformComponent::componentId;
+
 	//-------------------------------------------------------
 	// Component
 	//-------------------------------------------------------

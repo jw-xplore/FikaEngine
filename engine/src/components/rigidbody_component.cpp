@@ -2,12 +2,13 @@
 #include "core/fika_servers.h"
 #include "core/ecs/ecs_manager.h"
 #include "core/ecs/entity.h"
-#include "physics/physics.h"
 #include "physics/collisions.h"
 #include "core/transform.h"
 
 namespace FikaEngine
 {
+	const unsigned int RigidBodyComponent::componentId;
+
 	//-------------------------------------------------------
 	// Component
 	//-------------------------------------------------------

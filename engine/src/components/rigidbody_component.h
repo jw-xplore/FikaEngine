@@ -3,6 +3,7 @@
 #include "core/ecs/component.h"
 #include "core/ecs/component_updater.h"
 #include "core/pool_allocator.h"
+#include "physics/physics.h"
 
 namespace FikaEngine
 {

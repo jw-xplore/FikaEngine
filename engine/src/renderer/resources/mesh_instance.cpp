@@ -50,6 +50,8 @@ namespace FikaEngine
 
 		shader->setUniform("useTexture", useTexture);
 
+		// This cause segfault if mesh is provided
+		//std::cout << "-----searching for segfault: " << mesh->indicesCount << "\n";
 		glDrawElements(GL_TRIANGLES, mesh->indicesCount, GL_UNSIGNED_INT, 0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindVertexArray(0);

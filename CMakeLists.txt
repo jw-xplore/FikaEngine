@@ -44,7 +44,11 @@ target_link_libraries(imgui PUBLIC OpenGL::GL)
 add_subdirectory(engine)
 
 # Editor
-add_subdirectory(editor)
+if(WIN32)
+    add_subdirectory(editor)
+else()
+    # No editor for linux in early build
+endif()
 
 # Projects
 file(GLOB PROJECT_DIRS RELATIVE ${CMAKE_SOURCE_DIR} projects/*)

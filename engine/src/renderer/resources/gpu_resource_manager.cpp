@@ -4,6 +4,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "renderer/resources/mesh_builder.h"
+#include <cstring>
 
 #if defined(_WIN32)
 	// Windows

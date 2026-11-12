@@ -59,9 +59,9 @@ namespace FikaEngine
 
 		std::map<Body*, Entity*> bodiesOwners;
 
-		const const char* DEFAULT_TAG = "Default";
-		const const char* DEFAULT_LAYER = "Default";
-		const const char* PLAYER_LAYER = "Player";
+		const char* const DEFAULT_TAG = "Default";
+		const char* const DEFAULT_LAYER = "Default";
+		const char* const PLAYER_LAYER = "Player";
 
 	public:
 		PhysicsSolver();

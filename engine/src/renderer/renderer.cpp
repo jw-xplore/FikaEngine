@@ -88,6 +88,7 @@ namespace FikaEngine
 	MeshInstance* Renderer::addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 	{
 		MeshInstance* mesh = meshes.allocate();
+
 		//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 		mesh->setMesh(&meshRes);
 		//mesh->setTexture(texture);

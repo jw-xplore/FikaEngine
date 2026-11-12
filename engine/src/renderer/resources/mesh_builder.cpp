@@ -3,6 +3,7 @@
 #include <GLFW/glfw3.h>
 #include "gpu_resource_manager.h"
 #include "core/filemanagement/obj_parser.h"
+#include <iostream>
 
 namespace FikaEngine
 {

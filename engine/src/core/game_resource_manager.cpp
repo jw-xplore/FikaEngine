@@ -19,7 +19,7 @@ namespace FikaEngine
 	void GameResourceManager::init()
 	{
 		ecsManager = &FikaServers::getECSManager();
-		loadProject(projectMetaData);
+		//loadProject(projectMetaData);
 	}
 
 	bool GameResourceManager::loadProject(ProjectMetaData& metaData)

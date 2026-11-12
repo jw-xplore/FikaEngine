@@ -30,7 +30,7 @@ namespace FikaEngine
 			}
 		}
 
-		void OBJParser::parse(MeshBuilder& builder, std::string& line, OBJParsedData& data)
+		void parse(MeshBuilder& builder, std::string& line, OBJParsedData& data)
 		{
 			// Ignore comments
 			if (line.empty() || line[0] == '#')
@@ -167,7 +167,7 @@ namespace FikaEngine
 			}
 		}
 
-		void OBJParser::parseFace(OBJFace& face, OBJParsedData& data, std::vector<std::string>& params)
+		void parseFace(OBJFace& face, OBJParsedData& data, std::vector<std::string>& params)
 		{
 			int verticesSize = data.vertices.size();
 			int uvsSize = data.uvs.size();
@@ -220,7 +220,7 @@ namespace FikaEngine
 			}
 		}
 
-		int OBJParser::validateStrNumber(std::string str, int elementsSize)
+		int validateStrNumber(std::string str, int elementsSize)
 		{
 			if (str == "")
 				return -1;

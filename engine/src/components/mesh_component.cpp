@@ -6,9 +6,12 @@
 #include "renderer/renderer.h"
 #include <cassert>
 #include "renderer/resources/gpu_resource_manager.h"
+#include <string>
 
 namespace FikaEngine
 {
+	const unsigned int MeshComponent::componentId;
+
 	//-------------------------------------------------------
 	// Component
 	//-------------------------------------------------------

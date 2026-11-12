@@ -142,6 +142,7 @@ namespace FikaEngine
             if (FikaServers::getCameraManager().isUsingFreeCamera())
                 FikaServers::getCameraManager().getFreeCamera()->flycamUpdate(dt);
 
+
             // Base game update
             FikaServers::getECSManager().update(dt);
             FikaServers::getPhysicsSolver().update(dt);

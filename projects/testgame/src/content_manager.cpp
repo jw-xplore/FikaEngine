@@ -40,7 +40,7 @@ void ContentManager::init()
 Entity& ContentManager::createPlayer(glm::vec3 position)
 {
     GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
-    MeshResource& customMesh = gResourceManager.getMesh("pawn");
+    MeshResource& customMesh = gResourceManager.getMesh("cube");
     TextureResource& customTexture = gResourceManager.getTexture("customTex1");
     ShaderResource& basicShader = gResourceManager.getShader("basic");
 
@@ -56,7 +56,7 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, &customTexture);
-    meshCmp->setTexture(customTexture);
+    //meshCmp->setTexture(customTexture);
 
     // Player
     ecsManager->addComponent(entity, PlayerComponent::componentId);
