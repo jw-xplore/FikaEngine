@@ -9,6 +9,7 @@ class ContentManager
 private:
 	GPUResourceManager* gResourceManager;
 	ECSManager* ecsManager;
+
 	MeshResource* cubeMesh;
 	ShaderResource* basicShader;
 	MeshResource* customMesh;

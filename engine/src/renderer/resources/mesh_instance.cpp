@@ -45,7 +45,7 @@ namespace FikaEngine
 				glBindTexture(GL_TEXTURE_2D, texture->texture);
 			}
 
-			shader->setUniform("textureSampler", GL_TEXTURE_2D);
+			//shader->setUniform("textureSampler", GL_TEXTURE_2D);
 		}
 
 		shader->setUniform("useTexture", useTexture);

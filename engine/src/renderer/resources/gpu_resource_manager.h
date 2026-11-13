@@ -155,6 +155,8 @@ namespace FikaEngine
 		ShaderResource& getShader(int handle);
 		ShaderResource& getShader(std::string handle);
 
+		static std::string fileExtension(std::string path);
+
 		void init();
 		void reloadShaders();
 		void debugPrint();

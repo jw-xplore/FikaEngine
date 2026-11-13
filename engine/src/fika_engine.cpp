@@ -20,6 +20,9 @@ namespace FikaEngine
         FikaServers::getDebugRenderer().init();
 
         // Setup basic shapes
+        MeshResource* quadMesh = FikaServers::getGPUResourceManager().reserveMesh("quad");
+        MeshBuilder().createQuad(1, 1).build(*quadMesh);
+
         MeshResource* cubeMesh = FikaServers::getGPUResourceManager().reserveMesh("cube");
         MeshBuilder().createCube(1).build(*cubeMesh);
 

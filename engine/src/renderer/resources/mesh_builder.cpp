@@ -90,10 +90,10 @@ namespace FikaEngine
 
 	MeshBuilder& MeshBuilder::createQuad(float width, float height)
 	{
-		addVertices({ -width, -height,-1 }, { 1,0,0,1 });			// 0 - TL
-		addVertices({ width, -height,-1 }, { 0,1,0,1 });		// 1 - TR
-		addVertices({ width, height,-1 }, { 0,0,1,1 });	// 2 - BR
-		addVertices({ -width, height,-1 }, { 1,1,1,1 });		// 3 - BL
+		addVertices({ -width, -height,-1 }, { 1,0,0,1 }, {0,0});			// 0 - TL
+		addVertices({ width, -height,-1 }, { 0,1,0,1 }, { 1,0 });		// 1 - TR
+		addVertices({ width, height,-1 }, { 0,0,1,1 }, { 1,1 });	// 2 - BR
+		addVertices({ -width, height,-1 }, { 1,1,1,1 }, { 0,1 });		// 3 - BL
 
 		addTriangles(0, 1, 2);
 		addTriangles(2, 3, 0);

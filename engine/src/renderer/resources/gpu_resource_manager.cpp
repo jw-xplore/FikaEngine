@@ -227,8 +227,7 @@ namespace FikaEngine
 
 	void TextureResource::loadTexture(const char* path)
 	{
-
-		//glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		// Bind
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
@@ -246,7 +245,15 @@ namespace FikaEngine
 		unsigned char* image = stbi_load(path, &width, &height, &channels, 0);
 		if (image)
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+			if (channels == 4)
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
+			}
+			else if (channels == 3)
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+			}
+
 			glGenerateMipmap(GL_TEXTURE_2D);
 		}
 		else
@@ -263,7 +270,7 @@ namespace FikaEngine
 		}
 
 		// Cleanup
-		//stbi_image_free(image);
+		stbi_image_free(image);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
@@ -425,4 +432,18 @@ namespace FikaEngine
 	{
 		std::cout << "Meshes: " << &meshes[0] << "\n";
 	}
+
+	std::string GPUResourceManager::fileExtension(std::string path)
+	{
+		int dotPos = path.find_last_of('.', path.size());
+		std::string extension = "";
+
+		for (size_t i = dotPos + 1; i < path.size(); i++)
+		{
+			extension += path[i];
+		}
+
+		return extension;
+	}
+
 } // namespace FikaEngine
