@@ -392,7 +392,7 @@ namespace FikaEngine
 			return false;
 		}
 
-		float dist = std::sqrtf(dist2);
+		float dist = std::sqrt(dist2);
 		float penetration = rsum - dist;
 		glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
 
@@ -581,7 +581,7 @@ namespace FikaEngine
 		// Contact
 		if (out)
 		{
-			float dist = std::sqrtf(dist2);
+			float dist = std::sqrt(dist2);
 			glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
 
 			// Hemispheres handling
@@ -596,7 +596,7 @@ namespace FikaEngine
 					sign = -1;
 
 				d.y = sphereYDist * -sign;
-				dist = std::sqrtf(glm::dot(d, d));
+				dist = std::sqrt(glm::dot(d, d));
 
 				// Sphere missing eachother
 				if (dist > rsum)
@@ -654,7 +654,7 @@ namespace FikaEngine
 		// Contact
 		if (out)
 		{
-			float dist = std::sqrtf(dist2);
+			float dist = std::sqrt(dist2);
 			glm::vec3 normal = dist > MIN_DISTANCE ? d / dist : glm::vec3(0, 1, 0);
 
 			// Hemispheres handling
@@ -669,7 +669,7 @@ namespace FikaEngine
 					sign = -1;
 
 				d.y = sphereYDist * -sign;
-				dist = std::sqrtf(glm::dot(d, d));
+				dist = std::sqrt(glm::dot(d, d));
 
 				// Sphere missing eachother
 				if (dist > rsum)
@@ -769,7 +769,7 @@ namespace FikaEngine
 					sign = -1;
 
 				pd.y = sphereYDist * -sign;
-				float dist = std::sqrtf(glm::dot(pd, pd));
+				float dist = std::sqrt(glm::dot(pd, pd));
 
 				// Sphere missing eachother
 				if (dist > colA.radius)
