@@ -41,7 +41,7 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
 {
     GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
     MeshResource& customMesh = gResourceManager.getMesh("quad");
-    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/dot.png", "dot");
+    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/charIdle.png", "char");
     ShaderResource& basicShader = gResourceManager.getShader("basic");
 
     Entity* entity = FikaServers::getECSManager().addEntity("player");
@@ -57,6 +57,11 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, customTexture);
     meshCmp->setTexture(*customTexture);
+
+    // Sprite sheet
+    SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager->addComponent(entity, SpritesheetComponent::componentId));
+    spriteSheetCmp->setupSheet(1, 2);
+    spriteSheetCmp->setAnimationPlaying(true);
 
     // Player
     ecsManager->addComponent(entity, PlayerComponent::componentId);

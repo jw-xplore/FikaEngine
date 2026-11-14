@@ -54,6 +54,7 @@ Includes
 #include "components/transform_component.h"
 #include "components/mesh_component.h"
 #include "components/rigidbody_component.h"
+#include "components/spritesheet_component.h"
 
 /*
 Engine

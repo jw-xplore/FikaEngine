@@ -83,6 +83,12 @@ namespace FikaEngine
 			glUniform3fv(location, 1, (GLfloat*)&value);
 		}
 
+		void setUniform(const GLchar* name, glm::vec2 value)
+		{
+			unsigned int location = glGetUniformLocation(program, name);
+			glUniform2fv(location, 1, (GLfloat*)&value);
+		}
+
 		void setUniform(const GLchar* name, float value)
 		{
 			unsigned int location = glGetUniformLocation(program, name);

@@ -12,6 +12,8 @@ void start()
     TransformComponentUpdater::init(POOL_DEFAULT_SIZE);
     RigidBodyComponentUpdater::init(POOL_DEFAULT_SIZE);
     MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
+    SpritesheetComponentUpdater::init(POOL_DEFAULT_SIZE);
+
     PlayerComponentUpdater::init(1);
    
     // Test entity cmp setup
