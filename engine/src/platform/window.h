@@ -10,6 +10,8 @@ namespace FikaEngine
         //Window() {}
 
         bool create(int width, int height, const char* title);
+        static void windowSizeCallback(GLFWwindow* window, int width, int height);
+        void onSetWindowSize(int width, int height);
         void poll();
         bool shouldClose() const;
         void swap();

@@ -36,7 +36,24 @@ namespace FikaEngine
         glfwSetWindowUserPointer(handle, this);
         //Input::InputHandler::init(handle);
 
+        glfwSetWindowSizeCallback(handle, Window::windowSizeCallback);
+
         return true;
+    }
+
+    void Window::windowSizeCallback(GLFWwindow* window, int width, int height)
+    {
+        auto* self = static_cast<Window*>(glfwGetWindowUserPointer(window));
+        if (self)
+            self->onSetWindowSize(width, height);
+    }
+
+    void Window::onSetWindowSize(int width, int height)
+    {
+        this->width = width;
+        this->height = height;
+
+        glViewport(0, 0, width, height);
     }
 
     void Window::poll()
