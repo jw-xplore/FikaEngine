@@ -13,6 +13,7 @@ target_link_libraries(${ENGINE_NAME}
     glm::glm
     glad
     imgui
+    miniaudio
 )
 
 if(WIN32)

@@ -3,8 +3,26 @@
 #include "content_manager.h"
 #include "components/player_component.h"
 
+#include "miniaudio.h"
+#include <stdio.h>
+
 ContentManager contentManager;
 using namespace FikaEngine;
+
+ma_engine engine;
+
+void playTestSound()
+{
+    ma_result result;
+
+    result = ma_engine_init(NULL, &engine);
+    if (result != MA_SUCCESS)
+    {
+        return;
+    }
+
+    ma_engine_play_sound(&engine, "assets/sfx/tone_c.wav", NULL);
+}
 
 void start()
 {
@@ -21,6 +39,8 @@ void start()
 
     Entity& player = contentManager.createPlayer(glm::vec3(0, 0, 0));
     Entity& wall = contentManager.createWall(glm::vec3(2,0,0), true);
+
+    //playTestSound();
 }
 
 void update(float dt)
@@ -33,4 +53,6 @@ int main()
     FikaEngine::Game game;
     game.setup(start, update);
     game.run();
+
+    ma_engine_uninit(&engine);
 }

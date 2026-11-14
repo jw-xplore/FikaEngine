@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(external/glfw)
 add_subdirectory(external/glm)
 
+# Glad
 add_library(glad external/glad/src/glad.c)
 target_include_directories(glad PUBLIC external/glad/include)
 
@@ -30,10 +31,18 @@ target_include_directories(imgui PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/external/backends
 )
 
+# Miniaudio
+add_library(miniaudio STATIC external/miniaudio/miniaudio.c)
+
+target_include_directories(miniaudio PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}/external/miniaudio"
+)
+
 target_link_libraries(imgui
     PUBLIC
         glfw
         glad
+        miniaudio
 )
 
 # Platform-specific: link OpenGL system library (GL on Linux, OpenGL on macOS/Windows)
