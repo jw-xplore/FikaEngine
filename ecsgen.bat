@@ -48,10 +48,10 @@ if %FORCE_OVERRIDE%=="0" (
 )
 
 :: Generate header
-powershell.exe -NoProfile -Command "(Get-Content 'engine\templates\ecstemplate.h') -replace '{{NAME}}', '%NAME_CAPITALIZED%' ` -replace '{{CMP_ID}}', '%CMP_ID%' | Set-Content '%OUTPUT_DIR%\%FILE_NAME%.h'"
+powershell.exe -NoProfile -Command "(Get-Content 'engine\templates\ecstemplate.h') -replace '{{CLASS_NAME}}', '%NAME_CAPITALIZED%' ` -replace '{{CMP_ID}}', '%CMP_ID%' | Set-Content '%OUTPUT_DIR%\%FILE_NAME%.h'"
 
 :: Generate source
-powershell.exe -NoProfile -Command "(Get-Content 'engine\templates\ecstemplate.cpp') -replace '{{NAME}}', '%NAME_CAPITALIZED%' | Set-Content '%OUTPUT_DIR%\%FILE_NAME%.cpp'"
+powershell.exe -NoProfile -Command "(Get-Content 'engine\templates\ecstemplate.cpp') -replace '{{CLASS_NAME}}', '%NAME_CAPITALIZED%' ` -replace '{{FILE_NAME}}', '%FILE_NAME%' | Set-Content '%OUTPUT_DIR%\%FILE_NAME%.cpp'"
 
 echo Created %FILE_NAME%.h and %FILE_NAME%.cpp
 

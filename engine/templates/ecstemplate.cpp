@@ -1,4 +1,4 @@
-#include "{{NAME}}_component.h"
+#include "{{FILE_NAME}}.h"
 #include "core/fika_servers.h"
 #include "core/ecs/ecs_manager.h"
 #include "core/ecs/entity.h"
@@ -7,22 +7,22 @@
 // Component
 //-------------------------------------------------------
 
-void {{NAME}}Component::start()
+void {{CLASS_NAME}}Component::start()
 {
 
 }
 
-void {{NAME}}Component::update(float dt)
+void {{CLASS_NAME}}Component::update(float dt)
 {
 
 }
 
-void {{NAME}}Component::onRemove()
+void {{CLASS_NAME}}Component::onRemove()
 {
 
 }
 
-nlohmann::json {{NAME}}Component::serialize()
+nlohmann::json {{CLASS_NAME}}Component::serialize()
 {
 	nlohmann::json js = nlohmann::json::object();
 	js["id"] = componentId;
@@ -30,7 +30,7 @@ nlohmann::json {{NAME}}Component::serialize()
 	return js;
 }
 
-void {{NAME}}Component::deserialize(nlohmann::json js)
+void {{CLASS_NAME}}Component::deserialize(nlohmann::json js)
 {
 
 }
@@ -39,20 +39,20 @@ void {{NAME}}Component::deserialize(nlohmann::json js)
 // System
 //-------------------------------------------------------
 
-{{NAME}}ComponentUpdater::{{NAME}}ComponentUpdater()
+{{CLASS_NAME}}ComponentUpdater::{{CLASS_NAME}}ComponentUpdater()
 {
 }
 
-void {{NAME}}ComponentUpdater::init(size_t poolSize)
+void {{CLASS_NAME}}ComponentUpdater::init(size_t poolSize)
 {
-	{{NAME}}ComponentUpdater* updater = new {{NAME}}ComponentUpdater();
-	updater->components.init("{{NAME}} Components", poolSize);
-	updater->targetComponentId = {{NAME}}Component::componentId;
+	{{CLASS_NAME}}ComponentUpdater* updater = new {{CLASS_NAME}}ComponentUpdater();
+	updater->components.init("{{CLASS_NAME}} Components", poolSize);
+	updater->targetComponentId = {{CLASS_NAME}}Component::componentId;
 
 	FikaServers::getECSManager().registerUpdaters(updater);
 }
 
-void {{NAME}}ComponentUpdater::update(float dt)
+void {{CLASS_NAME}}ComponentUpdater::update(float dt)
 {
 	int size = components.getUsedAmount();
 
@@ -62,14 +62,14 @@ void {{NAME}}ComponentUpdater::update(float dt)
 	}
 }
 
-ECSComponent* {{NAME}}ComponentUpdater::addComponent()
+ECSComponent* {{CLASS_NAME}}ComponentUpdater::addComponent()
 {
 	return components.allocate();
 }
 
-void {{NAME}}ComponentUpdater::removeComponent(ECSComponent& component)
+void {{CLASS_NAME}}ComponentUpdater::removeComponent(ECSComponent& component)
 {
-	{{NAME}}Component* casted = static_cast<{{NAME}}Component*>(&component);
+	{{CLASS_NAME}}Component* casted = static_cast<{{CLASS_NAME}}Component*>(&component);
 	assert(casted != nullptr);
 	components.remove(casted);
 }

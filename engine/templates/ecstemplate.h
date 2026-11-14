@@ -12,12 +12,12 @@ using namespace FikaEngine;
 /**
  * @brief
  */
-class {{NAME}}Component : public ECSComponent
+class {{CLASS_NAME}}Component : public ECSComponent
 {
 private:
 
 public:
-	{{NAME}}Component() {}
+	{{CLASS_NAME}}Component() {}
 	static const unsigned int componentId = {{CMP_ID}}; // Do not change id
 	unsigned int getComponentId() const override { return componentId; }
 	void start() override;
@@ -32,18 +32,18 @@ public:
 //-------------------------------------------------------
 
 /**
- * @brief Holds pool of {{NAME}}Component and run updates on them through ECS manager
+ * @brief Holds pool of {{CLASS_NAME}}Component and run updates on them through ECS manager
  */
-class {{NAME}}ComponentUpdater : public ComponentUpdater
+class {{CLASS_NAME}}ComponentUpdater : public ComponentUpdater
 {
 private:
-	PoolAllocator<{{NAME}}Component> components;
+	PoolAllocator<{{CLASS_NAME}}Component> components;
 
 public:
-	{{NAME}}ComponentUpdater();
+	{{CLASS_NAME}}ComponentUpdater();
 
 	/**
-	 * @brief Call once at start to enable {{NAME}}Component pool update.
+	 * @brief Call once at start to enable {{CLASS_NAME}}Component pool update.
 	 * Order of init call reflects in which order will updaters be processed.
 	 */
 	static void init(size_t poolSize);
