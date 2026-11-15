@@ -22,17 +22,11 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
-- Collisions: Store colliding entity in contact
-- FM project: Test destroy enemy by bullets
-- FM project: Enemy melee attack
-- FM project: Enemy shooting towards player
 - Editor: Starting game from editor will load selected level
-- Window/camera: Add resizing support
 
 ## Backlog
 - Debug: Add custom debug console running inside game
 - Physics: Rotation freeze implementation
-- Multithreading: Test separated update and render threads
 - Multithreading: Physics on separated thread
 - Controls: Add controls contexts (so free cam controls can surpress player controls)
 - UI: Create more general purpouse utility for imgui
