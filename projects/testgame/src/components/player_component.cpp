@@ -15,25 +15,31 @@ void PlayerComponent::start()
     rbCmp = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
     body = rbCmp->getBody();
 
-    FikaServers::getCameraManager().getMainCamera()->rotate(0, -40);
+    FikaServers::getCameraManager().getMainCamera()->rotate(180, -10);
 
     // Add test sound
     FikaServers::getAudioManager().loadSound("test", "assets/sfx/tone_c.wav");
     FikaServers::getAudioManager().loadSound("melody", "assets/sfx/short_melody.wav");
 
     // Play test music
-    //FikaServers::getAudioManager().loadStreamable("testmusic", "assets/sfx/music.mp3");
-    //FikaServers::getAudioManager().playStreamable("testmusic")
+    FikaServers::getAudioManager().loadStreamable("testmusic", "assets/sfx/music.mp3");
+    ma_sound* music = FikaServers::getAudioManager().playStreamable("testmusic");
+    ma_sound_set_volume(music, 0.05f);
 }
+
+float idk = 0;
 
 void PlayerComponent::update(float dt)
 {
-    float fp = FikaServers::getInputManager().isKeyHeld(Key::W);
-    float fn = FikaServers::getInputManager().isKeyHeld(Key::S) * -1;
+    idk += dt;
+    //FikaServers::getCameraManager().getMainCamera()->rotate(dt, 0);
+
+    float fp = FikaServers::getInputManager().isKeyHeld(Key::W) * -1;
+    float fn = FikaServers::getInputManager().isKeyHeld(Key::S);
     float forward = fp + fn;
 
-    float rp = FikaServers::getInputManager().isKeyHeld(Key::D) * -1;
-    float rn = FikaServers::getInputManager().isKeyHeld(Key::A);
+    float rp = FikaServers::getInputManager().isKeyHeld(Key::D);
+    float rn = FikaServers::getInputManager().isKeyHeld(Key::A) * -1;
     float right = rp + rn;
 
     if (forward != 0 || right != 0)
@@ -67,7 +73,7 @@ void PlayerComponent::update(float dt)
     }
 
     // Update sound listener
-    FikaServers::getAudioManager().setAudioListenerPosition(pos);
+    FikaServers::getAudioManager().setListenerPosition(pos);
 }
 
 nlohmann::json PlayerComponent::serialize()

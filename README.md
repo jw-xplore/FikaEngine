@@ -23,7 +23,6 @@ Steps:
 
 ## TODO:
 - Audio: Looping setup for streamble sounds
-- Audio: Stereo panning
 - Editor: Starting game from editor will load selected level
 
 ## Backlog

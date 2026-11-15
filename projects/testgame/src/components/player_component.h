@@ -20,7 +20,7 @@ private:
 	RigidBodyComponent* rbCmp;
 	float speed = 500;
 	glm::vec3 lastDirection = glm::vec3(-1, 0, 0);
-	glm::vec3 cameraOffset = glm::vec3(0, 6, -6);
+	glm::vec3 cameraOffset = glm::vec3(0, 2, 10);
 
 public:
 	PlayerComponent() {}

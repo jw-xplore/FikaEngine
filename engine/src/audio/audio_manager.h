@@ -14,12 +14,14 @@ namespace FikaEngine
 	struct AudioListener
 	{
 		glm::vec3 position = glm::vec3(0.0f);
+		glm::vec3 rightVector = glm::vec3(1.0f, 0.0f, 0.0f);
 	};
 
 	struct AudioSource
 	{
 		glm::vec3 position = glm::vec3(0.0f);
 		ma_sound* soundInstance = nullptr;
+		float minDistance = 5.0f;
 		float maxDistance = 20.0f;
 	};
 
@@ -57,9 +59,10 @@ namespace FikaEngine
 		bool loadStreamable(std::string name, std::string path);
 		ma_sound* getStreamable(std::string name);
 		bool removeStreamable(std::string name);
-		void playStreamable(std::string name);
+		ma_sound* playStreamable(std::string name);
 
 		AudioSource* playfromAudioSource(ma_sound& sound, glm::vec3 position);
-		void setAudioListenerPosition(glm::vec3 position);
+		void setListenerPosition(glm::vec3 position);
+		void setListenerRightVector(glm::vec3 right);
 	};
 }

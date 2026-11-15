@@ -30,6 +30,8 @@ namespace FikaEngine
 
     void AudioManager::update(float dt)
     {
+        glm::vec3 normListenerRight = glm::normalize(listener.rightVector);
+
         // Update source-listeners
         for (size_t i = 0; i < audioSources.getUsedAmount(); i++)
         {
@@ -52,15 +54,26 @@ namespace FikaEngine
             }
 
             // Adjust volume to distance
-            glm::vec3 diff = listener.position - audioSources[i].position;
-            float dist = glm::dot(diff, diff);
+            glm::vec3 diff = audioSources[i].position - listener.position;
+            float distSqr = glm::dot(diff, diff);
 
-            float distVolume = 1.0f - (dist / (audioSources[i].maxDistance * audioSources[i].maxDistance));
-            distVolume = std::clamp(distVolume, 0.0f, 1.0f);
-            distVolume = 1 + std::log10(distVolume);
-            distVolume = std::clamp(distVolume, 0.0f, 1.0f);
+            float minDistSqr = audioSources[i].minDistance * audioSources[i].minDistance;
+            float maxDistSqr = audioSources[i].maxDistance * audioSources[i].maxDistance;
 
+            float distVolume = 1.0f - ((distSqr - minDistSqr) / distSqr);
+            if (distSqr > maxDistSqr)
+            {
+                distVolume = 0.0f;
+            }
+
+            distVolume = std::clamp(distVolume, 0.0f, 1.0f);
             ma_sound_set_volume(sound, distVolume);
+
+            // Panning
+            glm::vec3 normDiff = glm::normalize(diff);
+            float pan = glm::dot(normListenerRight, normDiff);
+
+            ma_sound_set_pan(sound, pan);
         }
 
         // Update sound instances
@@ -71,6 +84,7 @@ namespace FikaEngine
                 // Remove finished sound instance
                 ma_sound_uninit(&playingSounds[i]);
                 playingSounds.remove(&playingSounds[i]);
+                i--;
             }
         }
     }
@@ -197,15 +211,16 @@ namespace FikaEngine
         return false;
     }
 
-    void AudioManager::playStreamable(std::string name)
+    ma_sound* AudioManager::playStreamable(std::string name)
     {
         auto it = loadedStreamables.find(name);
         if (it == loadedStreamables.end())
         {
-            return;
+            return nullptr;
         }
 
         ma_sound_start(&it->second);
+        return &it->second;
     }
 
     AudioSource* AudioManager::playfromAudioSource(ma_sound& sound, glm::vec3 position)
@@ -217,8 +232,13 @@ namespace FikaEngine
         return source;
     }
 
-    void AudioManager::setAudioListenerPosition(glm::vec3 position)
+    void AudioManager::setListenerPosition(glm::vec3 position)
     {
         listener.position = position;
+    }
+
+    void AudioManager::setListenerRightVector(glm::vec3 right)
+    {
+        listener.rightVector = right;
     }
 }
