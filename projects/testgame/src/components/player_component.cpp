@@ -19,10 +19,11 @@ void PlayerComponent::start()
 
     // Add test sound
     FikaServers::getAudioManager().loadSound("test", "assets/sfx/tone_c.wav");
+    FikaServers::getAudioManager().loadSound("melody", "assets/sfx/short_melody.wav");
 
     // Play test music
-    FikaServers::getAudioManager().loadStreamable("testmusic", "assets/sfx/music.mp3");
-    FikaServers::getAudioManager().playStreamable("testmusic");
+    //FikaServers::getAudioManager().loadStreamable("testmusic", "assets/sfx/music.mp3");
+    //FikaServers::getAudioManager().playStreamable("testmusic")
 }
 
 void PlayerComponent::update(float dt)
@@ -60,8 +61,13 @@ void PlayerComponent::update(float dt)
     if (FikaServers::getInputManager().isKeyPressed(Key::Space))
     {
         ma_sound* sound = FikaServers::getAudioManager().getSound("test");
-        FikaServers::getAudioManager().playSound(*sound);
+        //FikaServers::getAudioManager().playSound(*sound);
+
+        FikaServers::getAudioManager().playfromAudioSource(*sound, glm::vec3(0, 0, 0));
     }
+
+    // Update sound listener
+    FikaServers::getAudioManager().setAudioListenerPosition(pos);
 }
 
 nlohmann::json PlayerComponent::serialize()

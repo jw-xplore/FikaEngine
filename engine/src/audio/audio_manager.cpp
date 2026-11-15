@@ -1,4 +1,5 @@
 #include "audio_manager.h"
+#include <algorithm>
 
 namespace FikaEngine
 {
@@ -15,6 +16,7 @@ namespace FikaEngine
     void AudioManager::init()
     {
         playingSounds.init("Playing sounds", 64);
+        audioSources.init("Audio sources", 64);
 
         ma_result result;
 
@@ -28,6 +30,40 @@ namespace FikaEngine
 
     void AudioManager::update(float dt)
     {
+        // Update source-listeners
+        for (size_t i = 0; i < audioSources.getUsedAmount(); i++)
+        {
+            ma_sound* sound = audioSources[i].soundInstance;
+
+            if (!sound)
+            {
+                continue;
+            }
+
+            if (ma_sound_at_end(sound))
+            {
+                // Remove and ignore finished sound instance
+                ma_sound_uninit(sound);
+                audioSources.remove(&audioSources[i]);
+                playingSounds.remove(sound);
+                i--;
+
+                continue;
+            }
+
+            // Adjust volume to distance
+            glm::vec3 diff = listener.position - audioSources[i].position;
+            float dist = glm::dot(diff, diff);
+
+            float distVolume = 1.0f - (dist / (audioSources[i].maxDistance * audioSources[i].maxDistance));
+            distVolume = std::clamp(distVolume, 0.0f, 1.0f);
+            distVolume = 1 + std::log10(distVolume);
+            distVolume = std::clamp(distVolume, 0.0f, 1.0f);
+
+            ma_sound_set_volume(sound, distVolume);
+        }
+
+        // Update sound instances
         for (size_t i = 0; i < playingSounds.getUsedAmount(); i++)
         {
             if (ma_sound_at_end(&playingSounds[i]))
@@ -86,7 +122,7 @@ namespace FikaEngine
         return false;
     }
 
-    void AudioManager::playSound(ma_sound& sound)
+    ma_sound* AudioManager::playSound(ma_sound& sound)
     {
         // Create sound copy
         ma_sound* instance = playingSounds.allocate();
@@ -96,6 +132,8 @@ namespace FikaEngine
             playingSounds.remove(instance);
             std::cout << "Audio manager failed to create sound copy";
             assert(false);
+
+            return nullptr;
         }
 
         // Play
@@ -105,7 +143,11 @@ namespace FikaEngine
             playingSounds.remove(instance);
             std::cout << "Failed to play sound";
             assert(false);
+
+            return nullptr;
         }
+
+        return instance;
     }
 
     bool AudioManager::loadStreamable(std::string name, std::string path)
@@ -164,5 +206,19 @@ namespace FikaEngine
         }
 
         ma_sound_start(&it->second);
+    }
+
+    AudioSource* AudioManager::playfromAudioSource(ma_sound& sound, glm::vec3 position)
+    {
+        AudioSource* source = audioSources.allocate();
+        source->soundInstance = playSound(sound);
+        source->position = position;
+
+        return source;
+    }
+
+    void AudioManager::setAudioListenerPosition(glm::vec3 position)
+    {
+        listener.position = position;
     }
 }

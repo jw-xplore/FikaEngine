@@ -22,7 +22,6 @@ Steps:
 7. Running the program should display black window with FPS counter.
 
 ## TODO:
-- Audio: Spacial audio component with distance fall off
 - Audio: Looping setup for streamble sounds
 - Audio: Stereo panning
 - Editor: Starting game from editor will load selected level
