@@ -56,7 +56,8 @@ namespace FikaEngine
             nullptr,
             &it->second) != MA_SUCCESS)
         {
-            ma_engine_uninit(&engine);
+            // Fail to init file
+            //ma_engine_uninit(&engine);
             loadedSounds.erase(name);
             return false;
         }
@@ -105,5 +106,63 @@ namespace FikaEngine
             std::cout << "Failed to play sound";
             assert(false);
         }
+    }
+
+    bool AudioManager::loadStreamable(std::string name, std::string path)
+    {
+        auto [it, inserted] = loadedStreamables.try_emplace(name);
+        if (!inserted)
+        {
+            // Already exists
+            return &it->second;
+        }
+
+        if (ma_sound_init_from_file(
+            &engine,
+            path.c_str(),
+            MA_SOUND_FLAG_STREAM,
+            nullptr,
+            nullptr,
+            &it->second) != MA_SUCCESS)
+        {
+            // Fail to init file
+            //ma_engine_uninit(&engine);
+            loadedStreamables.erase(name);
+            return false;
+        }
+
+        return true;
+    }
+
+    ma_sound* AudioManager::getStreamable(std::string name)
+    {
+        if (loadedStreamables.find(name) != loadedStreamables.end())
+        {
+            return &loadedStreamables[name];
+        }
+
+        return nullptr;
+    }
+
+    bool AudioManager::removeStreamable(std::string name)
+    {
+        if (loadedStreamables.find(name) != loadedStreamables.end())
+        {
+            loadedStreamables.erase(name);
+            return true;
+        }
+
+        return false;
+    }
+
+    void AudioManager::playStreamable(std::string name)
+    {
+        auto it = loadedStreamables.find(name);
+        if (it == loadedStreamables.end())
+        {
+            return;
+        }
+
+        ma_sound_start(&it->second);
     }
 }

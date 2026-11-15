@@ -19,6 +19,10 @@ void PlayerComponent::start()
 
     // Add test sound
     FikaServers::getAudioManager().loadSound("test", "assets/sfx/tone_c.wav");
+
+    // Play test music
+    FikaServers::getAudioManager().loadStreamable("testmusic", "assets/sfx/music.mp3");
+    FikaServers::getAudioManager().playStreamable("testmusic");
 }
 
 void PlayerComponent::update(float dt)
