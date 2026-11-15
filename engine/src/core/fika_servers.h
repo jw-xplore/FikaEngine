@@ -8,6 +8,7 @@
 #include "core/game_resource_manager.h"
 #include "core/ecs/ecs_manager.h"
 #include "platform/inputs/input_manager.h"
+#include "audio/audio_manager.h"
 
 namespace FikaEngine
 {
@@ -25,6 +26,7 @@ namespace FikaEngine
 		GPUResourceManager gpuResourceManager;
 		GameResourceManager gameResourceManager;
 		InputManager inputManager;
+		AudioManager audioManager;
 
 	public:
 		FikaServers();
@@ -44,5 +46,6 @@ namespace FikaEngine
 		static ECSManager& getECSManager()						{ return FikaServers::getInstance()->ecsManager; }
 		static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->gameResourceManager; }
 		static InputManager& getInputManager()					{ return FikaServers::getInstance()->inputManager; }
+		static AudioManager& getAudioManager()					{ return FikaServers::getInstance()->audioManager; }
 	};
 } // namespace FikaEngine

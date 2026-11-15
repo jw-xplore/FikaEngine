@@ -41,6 +41,9 @@ Includes
 #include "platform/inputs/input_manager.h"
 //#include "platform/inputs/input_mapping.h"
 
+// Audio
+#include "audio/audio_manager.h"
+
 // External
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>

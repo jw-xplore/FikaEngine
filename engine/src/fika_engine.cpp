@@ -150,6 +150,7 @@ namespace FikaEngine
             FikaServers::getECSManager().update(dt);
             FikaServers::getPhysicsSolver().update(dt);
             FikaServers::getMainRenderer().render(mainCamera->getViewProjection());
+            FikaServers::getAudioManager().update(dt);
 
             // Debug
 #if SHOW_DEBUG_MESHES == 1

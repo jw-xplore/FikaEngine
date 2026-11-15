@@ -16,6 +16,9 @@ void PlayerComponent::start()
     body = rbCmp->getBody();
 
     FikaServers::getCameraManager().getMainCamera()->rotate(0, -40);
+
+    // Add test sound
+    FikaServers::getAudioManager().loadSound("test", "assets/sfx/tone_c.wav");
 }
 
 void PlayerComponent::update(float dt)
@@ -48,6 +51,13 @@ void PlayerComponent::update(float dt)
 
     // Cam move
     FikaServers::getCameraManager().getMainCamera()->setPosition(pos + cameraOffset);
+
+    // Play test sound
+    if (FikaServers::getInputManager().isKeyPressed(Key::Space))
+    {
+        ma_sound* sound = FikaServers::getAudioManager().getSound("test");
+        FikaServers::getAudioManager().playSound(*sound);
+    }
 }
 
 nlohmann::json PlayerComponent::serialize()
