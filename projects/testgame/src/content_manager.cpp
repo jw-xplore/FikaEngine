@@ -41,7 +41,7 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
 {
     GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
     MeshResource& customMesh = gResourceManager.getMesh("quad");
-    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/charIdle.png", "char");
+    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/charidle.png", "char");
     ShaderResource& basicShader = gResourceManager.getShader("basic");
 
     Entity* entity = FikaServers::getECSManager().addEntity("player");

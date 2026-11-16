@@ -33,7 +33,15 @@ namespace FikaEngine
         MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
 
         // Setup basic shaders
-        ShaderResource basicShader = ShaderResource("assets/common/shaders/basic.vert", "assets/common/shaders/basic.frag");
+        const char* basicShaderVert = "assets/common/shaders/basic.vert";
+        const char* basicShaderFrag = "assets/common/shaders/basic.frag";
+
+#if defined(__linux__)
+        basicShaderVert = "assets/common/shaders/v3es/basic.vert";
+        basicShaderFrag = "assets/common/shaders/v3es/basic.frag";
+#endif
+
+        ShaderResource basicShader = ShaderResource(basicShaderVert, basicShaderFrag);
         FikaServers::getGPUResourceManager().storeShader("basic", basicShader);
 	}
 

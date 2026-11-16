@@ -22,7 +22,16 @@ namespace FikaEngine
 		// Lines shader
 		FikaServers* systems = FikaServers::getInstance();
 		GPUResourceManager& gResMngr = systems->getGPUResourceManager();
-		ShaderResource shader = ShaderResource("assets/common/shaders/line.vert", "assets/common/shaders/line.frag");
+
+		const char* lineShaderVert = "assets/common/shaders/line.vert";
+		const char* lineShaderFrag = "assets/common/shaders/line.frag";
+
+#if defined(__linux__)
+		lineShaderVert = "assets/common/shaders/v3es/line.vert";
+		lineShaderFrag = "assets/common/shaders/v3es/line.frag";
+#endif
+
+		ShaderResource shader = ShaderResource(lineShaderVert, lineShaderFrag);
 		int shaderID = gResMngr.storeShader("Line", shader);
 
 		linesData.shader = &gResMngr.getShader(shaderID);

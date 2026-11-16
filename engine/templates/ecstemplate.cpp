@@ -3,6 +3,8 @@
 #include "core/ecs/ecs_manager.h"
 #include "core/ecs/entity.h"
 
+const unsigned int {{CLASS_NAME}}Component::componentId;
+
 //-------------------------------------------------------
 // Component
 //-------------------------------------------------------
