@@ -38,7 +38,7 @@ namespace FikaEngine
         bool isGamepadButtonPressed(Gamepad::GamepadButton button);
         bool isGamepadButtonRelease(Gamepad::GamepadButton button);
         bool isGamepadButtonHeld(Gamepad::GamepadButton button);
-        float isGamepadAxis(Gamepad::GamepadAxes axis);
+        float getGamepadAxis(Gamepad::GamepadAxes axis);
 
     private:
         // GL callbacks

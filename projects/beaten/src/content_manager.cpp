@@ -1,0 +1,89 @@
+#include "content_manager.h"
+//#include "playerComponent.h"
+#include <fstream>
+#include <iostream>
+#include "components/player_component.h"
+
+ContentManager::ContentManager()
+{
+    
+}
+
+ContentManager::~ContentManager()
+{
+
+}
+
+void ContentManager::init()
+{
+    gResourceManager = &FikaServers::getGPUResourceManager();
+    ecsManager = &FikaServers::getECSManager();
+
+    // Setup resources
+    cubeMesh = &gResourceManager->getMesh("cube");
+    basicShader = &gResourceManager->getShader("basic");
+
+    // Crate
+    gResourceManager->loadMesh("assets/models/crate.obj", "crate");
+    gResourceManager->loadTexture("assets/textures/crate.jpg", "crate");
+
+    gResourceManager->debugPrint();
+}
+
+Entity& ContentManager::createPlayer(glm::vec3 position)
+{
+    GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
+    MeshResource& customMesh = gResourceManager.getMesh("quad");
+    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/charidle.png", "char");
+    ShaderResource& basicShader = gResourceManager.getShader("basic");
+
+    Entity* entity = FikaServers::getECSManager().addEntity("player");
+
+    // RB
+    RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
+    //rb->setSphereCollider(1);
+    rb->setCapsuleCollider(0.5, 2);
+    rb->getTransform()->setPosition(position);
+    rb->setLayers(2);
+
+    // Mesh
+    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
+    meshCmp->setup(customMesh, basicShader, customTexture);
+    meshCmp->setTexture(*customTexture);
+
+    // Sprite sheet
+    SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager->addComponent(entity, SpritesheetComponent::componentId));
+    spriteSheetCmp->setupSheet(1, 2);
+    spriteSheetCmp->setAnimationPlaying(true);
+
+    // Player
+    ecsManager->addComponent(entity, PlayerComponent::componentId);
+    
+    return *entity;
+}
+
+Entity& ContentManager::createWall(glm::vec3 position, bool solid)
+{
+    GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
+    MeshResource& customMesh = gResourceManager.getMesh("crate");
+    TextureResource& customTexture = gResourceManager.getTexture("crate");
+    ShaderResource& basicShader = gResourceManager.getShader("basic");
+
+    Entity* entity = FikaServers::getECSManager().addEntity("wall");
+
+    // RB
+    RigidBodyComponent* rb = dynamic_cast<RigidBodyComponent*>(ecsManager->addComponent(entity, RigidBodyComponent::componentId));
+    rb->setBoxCollider(glm::vec3(2));
+    rb->setType(EBodyType::Static);
+    if (!solid)
+        rb->setType(EBodyType::Kinematic);
+    rb->getTransform()->setPosition(position);
+    rb->setInteractiveLayers(3);
+
+    // Mesh
+    MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager->addComponent(entity, MeshComponent::componentId));
+    meshCmp->setup(customMesh, basicShader, &customTexture);
+    meshCmp->setTexture(customTexture);
+
+    return *entity;
+}

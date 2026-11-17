@@ -154,7 +154,7 @@ namespace FikaEngine
 		return gamepad0.buttonHeld[button];
 	}
 
-	float InputManager::isGamepadAxis(Gamepad::GamepadAxes axis)
+	float InputManager::getGamepadAxis(Gamepad::GamepadAxes axis)
 	{
 		if (!isGamepadConnected)
 		{

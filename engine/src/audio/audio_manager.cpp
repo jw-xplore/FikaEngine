@@ -109,6 +109,8 @@ namespace FikaEngine
             // Fail to init file
             //ma_engine_uninit(&engine);
             loadedSounds.erase(name);
+            std::cout << "Failed to load: " << path << "\n";
+
             return false;
         }
 
@@ -145,8 +147,6 @@ namespace FikaEngine
         {
             playingSounds.remove(instance);
             std::cout << "Audio manager failed to create sound copy";
-            assert(false);
-
             return nullptr;
         }
 
@@ -156,8 +156,6 @@ namespace FikaEngine
             ma_sound_uninit(instance);
             playingSounds.remove(instance);
             std::cout << "Failed to play sound";
-            assert(false);
-
             return nullptr;
         }
 

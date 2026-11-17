@@ -1,0 +1,29 @@
+#pragma once
+#include <glm/glm.hpp>
+#include <fika_engine.h>
+
+using namespace FikaEngine;
+
+class ContentManager
+{
+private:
+	GPUResourceManager* gResourceManager;
+	ECSManager* ecsManager;
+
+	MeshResource* cubeMesh;
+	ShaderResource* basicShader;
+	MeshResource* customMesh;
+	TextureResource* customTexture;
+
+public:
+	ContentManager();
+	~ContentManager();
+
+	Entity* planeEnt = nullptr;
+
+	void init();
+	Entity& createPlayer(glm::vec3 position);
+	Entity& createWall(glm::vec3 position, bool solid = true);
+
+	void makePrefabs();
+};
