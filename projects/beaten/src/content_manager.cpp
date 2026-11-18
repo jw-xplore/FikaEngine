@@ -32,7 +32,7 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
 {
     GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
     MeshResource& customMesh = gResourceManager.getMesh("quad");
-    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/charidle.png", "char");
+    TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/test_sprite_sheet.png", "char");
     ShaderResource& basicShader = gResourceManager.getShader("basic");
 
     ECSManager& ecsManager = FikaServers::getECSManager();
@@ -53,7 +53,12 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
 
     // Sprite sheet
     SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager.addComponent(entity, SpritesheetComponent::componentId));
-    spriteSheetCmp->setupSheet(1, 2);
+    spriteSheetCmp->setupSheet(3, 10);
+    spriteSheetCmp->addAnimation("run", 5, 8);
+    spriteSheetCmp->addAnimation("walk", 5, 10);
+    spriteSheetCmp->addAnimation("idle", 5, 10);
+
+    //spriteSheetCmp->selectAnimation("run");
     spriteSheetCmp->setAnimationPlaying(true);
 
     // Melee

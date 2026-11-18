@@ -4,9 +4,17 @@
 #include "core/pool_allocator.h"
 #include "renderer/resources/gpu_resource_manager.h"
 #include "mesh_component.h"
+#include <map>
 
 namespace FikaEngine
 {
+	struct SpriteSheetColumnAnim
+	{
+		float animationFPS = 1.0f;
+		float animationTimeline = 1.0f;
+		int cells = 1;
+		int row = 0;
+	};
 
 	//-------------------------------------------------------
 	// Component
@@ -29,6 +37,9 @@ namespace FikaEngine
 		float animationTimeline = 1.0f;
 		float animationTime = 0.0f;
 
+		SpriteSheetColumnAnim* activeAnimation = nullptr;
+		std::map<std::string, SpriteSheetColumnAnim> animations;
+
 		void playAnimation(float dt);
 
 	public:
@@ -45,6 +56,8 @@ namespace FikaEngine
 		void setCell(int column, int row);
 
 		void setAnimationPlaying(bool playing) { isAnimationPlaying = playing; }
+		SpriteSheetColumnAnim& addAnimation(std::string name, float animationFPS, int cells, float timeline = 1.0f);
+		void selectAnimation(std::string name);
 	};
 
 	//-------------------------------------------------------

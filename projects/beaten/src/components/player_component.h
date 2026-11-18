@@ -25,7 +25,9 @@ private:
 	glm::vec3 cameraOffset = glm::vec3(0, 2, 10);
 
 	// Components
+	MeshComponent* meshCmp = nullptr;
 	MeleeComponent* meleeCmp = nullptr;
+	SpritesheetComponent* spritesheetCmp = nullptr;
 
 public:
 	PlayerComponent() {}

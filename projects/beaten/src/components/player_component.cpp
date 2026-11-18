@@ -18,6 +18,8 @@ void PlayerComponent::start()
     body = rbCmp->getBody();
 
     meleeCmp = static_cast<MeleeComponent*>(FikaServers::getECSManager().findComponent(*owner, MeleeComponent::componentId));
+    spritesheetCmp = static_cast<SpritesheetComponent*>(FikaServers::getECSManager().findComponent(*owner, SpritesheetComponent::componentId));
+    meshCmp = static_cast<MeshComponent*>(FikaServers::getECSManager().findComponent(*owner, MeshComponent::componentId));
 }
 
 void PlayerComponent::update(float dt)
@@ -85,7 +87,14 @@ void PlayerComponent::movement(float dt)
 
     // Apply movement
     if (forward != 0 || right != 0)
+    {
         lastDirection = glm::vec3(right, 0, forward);
+        spritesheetCmp->selectAnimation("run");
+    }
+    else
+    {
+        spritesheetCmp->selectAnimation("idle");
+    }
 
     glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
     body->velocity = velocity * dt;
@@ -94,10 +103,12 @@ void PlayerComponent::movement(float dt)
     if (right > 0)
     {
         meleeCmp->setDirection(glm::vec3(1, 0, 0));
+        meshCmp->getMeshInstance()->customScale = glm::vec3(1, 1, 1);
     }
     else if (right < 0)
     {
         meleeCmp->setDirection(glm::vec3(-1, 0, 0));
+        meshCmp->getMeshInstance()->customScale = glm::vec3(-1, 1, 1);
     }
 }
 

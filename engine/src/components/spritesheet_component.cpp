@@ -68,15 +68,45 @@ namespace FikaEngine
 
 	void SpritesheetComponent::playAnimation(float dt)
 	{
-		animationTime += dt * animationFPS;
-		if (animationTime > animationTimeline)
+		if (!activeAnimation)
 		{
-			animationTime = animationTime - animationTimeline;
+			return;
 		}
 
-		int position = (animationTime / animationTimeline) * columns;
+		animationTime += dt * (activeAnimation->animationFPS / activeAnimation->cells);
+		if (animationTime > animationTimeline)
+		{
+			animationTime = animationTime - activeAnimation->animationTimeline;
+		}
 
-		setCell(position, cell.y);
+		int position = (animationTime / activeAnimation->animationTimeline) * activeAnimation->cells;
+		int row = activeAnimation->row;
+
+		setCell(position, row);
+	}
+
+	SpriteSheetColumnAnim& SpritesheetComponent::addAnimation(std::string name, float animationFPS, int cells, float timeline)
+	{
+		if (animations.find(name) != animations.end())
+		{
+			return animations[name];
+		}
+
+		int row = animations.size();
+		animations.insert({name, SpriteSheetColumnAnim()});
+
+		SpriteSheetColumnAnim& anim = animations[name];
+		anim.row = row;
+		anim.animationFPS = animationFPS;
+		anim.animationTimeline = timeline;
+		anim.cells = cells;
+
+		return anim;
+	}
+
+	void SpritesheetComponent::selectAnimation(std::string name)
+	{
+		activeAnimation = &animations[name];
 	}
 
 	//-------------------------------------------------------
