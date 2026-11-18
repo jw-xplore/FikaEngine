@@ -10,7 +10,7 @@ uniform sampler2D textureSampler;
 uniform vec4 defaultColor;
 
 uniform vec2 textureScale;
-uniform vec2 textureOffset;
+uniform vec2 textureUVOffset;
 
 void main()
 {
@@ -22,7 +22,7 @@ void main()
     }
 
     // Texture
-    vec2 texturePos = TexCoord * textureScale + textureOffset;
+    vec2 texturePos = TexCoord * textureScale + textureUVOffset;
     FragColor = texture(textureSampler, texturePos);
 
     if (FragColor.a < 0.1)

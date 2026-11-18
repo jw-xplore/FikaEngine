@@ -31,7 +31,7 @@ namespace FikaEngine
 		shader->setUniform("transform", tr);
 		shader->setUniform("MVP", mvp);
 		shader->setUniform("textureScale", textureScale);
-		shader->setUniform("textureOffset", textureOffset);
+		shader->setUniform("textureUVOffset", textureOffset);
 
 		// VOA
 		glBindVertexArray(mesh->VOA);
