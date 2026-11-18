@@ -3,6 +3,9 @@
 
 #include "content_manager.h"
 #include "components/player_component.h"
+#include "components/health_component.h"
+#include "components/melee_component.h"
+#include "components/enemy_component.h"
 
 using namespace FikaEngine;
 
@@ -15,19 +18,24 @@ void componentsInit()
     MeshComponentUpdater::init(POOL_DEFAULT_SIZE);
     SpritesheetComponentUpdater::init(POOL_DEFAULT_SIZE);
 
+    // Project components
+    MeleeComponentUpdater::init(POOL_DEFAULT_SIZE);
+    HealthComponentUpdater::init(POOL_DEFAULT_SIZE);
     PlayerComponentUpdater::init(1);
+    EnemyComponentUpdater::init(POOL_DEFAULT_SIZE);
 
     contentManager.init();
 
     Entity& player = contentManager.createPlayer(glm::vec3(0, 0, 0));
-    Entity& crate = contentManager.createWall(glm::vec3(2, 0, 0));
+    Entity& crate = contentManager.createWall(glm::vec3(0, 0, -2));
+
+    Entity& enemy = contentManager.createEnemy(glm::vec3(4, 0, 0));
+    Entity& enemy1 = contentManager.createEnemy(glm::vec3(-4, 0, 0));
 }
 
 void start()
 {
     componentsInit();
-
-
 }
 
 void update(float dt)

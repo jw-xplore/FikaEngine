@@ -7,13 +7,6 @@ using namespace FikaEngine;
 class ContentManager
 {
 private:
-	GPUResourceManager* gResourceManager;
-	ECSManager* ecsManager;
-
-	MeshResource* cubeMesh;
-	ShaderResource* basicShader;
-	MeshResource* customMesh;
-	TextureResource* customTexture;
 
 public:
 	ContentManager();
@@ -22,8 +15,9 @@ public:
 	Entity* planeEnt = nullptr;
 
 	void init();
-	Entity& createPlayer(glm::vec3 position);
-	Entity& createWall(glm::vec3 position, bool solid = true);
+	static Entity& createPlayer(glm::vec3 position);
+	static Entity& createWall(glm::vec3 position, bool solid = true);
+	static Entity& createEnemy(glm::vec3 position);
 
 	void makePrefabs();
 };

@@ -11,42 +11,21 @@ const unsigned int PlayerComponent::componentId;
 
 void PlayerComponent::start()
 {
-	//transform = FikaServers::getECSManager().findEntityTransform(*owner);
+    FikaServers::getCameraManager().getMainCamera()->rotate(180, -10);
+
+    // Setup components
     rbCmp = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*owner, RigidBodyComponent::componentId));
     body = rbCmp->getBody();
 
-    FikaServers::getCameraManager().getMainCamera()->rotate(180, -10);
+    meleeCmp = static_cast<MeleeComponent*>(FikaServers::getECSManager().findComponent(*owner, MeleeComponent::componentId));
 }
 
 void PlayerComponent::update(float dt)
 {
-    InputManager& inputMngr = FikaServers::getInputManager();
+    //InputManager& inputMngr = FikaServers::getInputManager();
 
-    // Keyboard movemnet
-    float fp = inputMngr.isKeyHeld(Key::W) * -1;
-    float fn = inputMngr.isKeyHeld(Key::S);
-    float forward = fp + fn;
-
-    float rp = inputMngr.isKeyHeld(Key::D);
-    float rn = inputMngr.isKeyHeld(Key::A) * -1;
-    float right = rp + rn;
-
-    // Gamepad movement
-    if (forward == 0)
-    {
-        forward = inputMngr.getGamepadAxis(Gamepad::LS_Vertical);
-    }
-
-    if (right == 0)
-    {
-        right = inputMngr.getGamepadAxis(Gamepad::LS_Horizontal);
-    }
-
-    if (forward != 0 || right != 0)
-        lastDirection = glm::vec3(right, 0, forward);
-
-    glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
-    body->velocity = velocity * dt;
+    movement(dt);
+    attack(dt);
 
     // Test raycast
     const float l = 2.0f;
@@ -78,6 +57,67 @@ nlohmann::json PlayerComponent::serialize()
 void PlayerComponent::deserialize(nlohmann::json js)
 {
 
+}
+
+void PlayerComponent::movement(float dt)
+{
+    InputManager& inputMngr = FikaServers::getInputManager();
+
+    // Keyboard
+    float fp = inputMngr.isKeyHeld(Key::W) * -1;
+    float fn = inputMngr.isKeyHeld(Key::S);
+    float forward = fp + fn;
+
+    float rp = inputMngr.isKeyHeld(Key::D);
+    float rn = inputMngr.isKeyHeld(Key::A) * -1;
+    float right = rp + rn;
+
+    // Gamepad
+    if (forward == 0)
+    {
+        forward = inputMngr.getGamepadAxis(Gamepad::LS_Vertical);
+    }
+
+    if (right == 0)
+    {
+        right = inputMngr.getGamepadAxis(Gamepad::LS_Horizontal);
+    }
+
+    // Apply movement
+    if (forward != 0 || right != 0)
+        lastDirection = glm::vec3(right, 0, forward);
+
+    glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
+    body->velocity = velocity * dt;
+
+    // Attack direction
+    if (right > 0)
+    {
+        meleeCmp->setDirection(glm::vec3(1, 0, 0));
+    }
+    else if (right < 0)
+    {
+        meleeCmp->setDirection(glm::vec3(-1, 0, 0));
+    }
+}
+
+void PlayerComponent::attack(float dt)
+{
+    InputManager& inputMngr = FikaServers::getInputManager();
+
+    bool attackInput = false;
+
+    // Keyboard
+    if (inputMngr.isKeyPressed(Key::Space))
+    {
+        attackInput = true;
+    }
+
+    // Start attack
+    if (attackInput)
+    {
+        meleeCmp->startAttack();
+    }
 }
 
 //-------------------------------------------------------

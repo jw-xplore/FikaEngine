@@ -4,6 +4,8 @@
 #include "core/pool_allocator.h"
 #include "fika_engine.h"
 
+#include "melee_component.h"
+
 using namespace FikaEngine;
 
 //-------------------------------------------------------
@@ -22,6 +24,9 @@ private:
 	glm::vec3 lastDirection = glm::vec3(-1, 0, 0);
 	glm::vec3 cameraOffset = glm::vec3(0, 2, 10);
 
+	// Components
+	MeleeComponent* meleeCmp = nullptr;
+
 public:
 	PlayerComponent() {}
 	static const unsigned int componentId = 11740; // Do not change id
@@ -30,6 +35,9 @@ public:
 	void update(float dt) override;
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
+
+	void movement(float dt);
+	void attack(float dt);
 };
 
 //-------------------------------------------------------
