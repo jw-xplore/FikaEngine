@@ -40,6 +40,7 @@ public:
 
 	void movement(float dt);
 	void attack(float dt);
+	void animationHandling(float dt);
 };
 
 //-------------------------------------------------------

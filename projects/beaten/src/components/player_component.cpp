@@ -28,6 +28,7 @@ void PlayerComponent::update(float dt)
 
     movement(dt);
     attack(dt);
+    animationHandling(dt);
 
     glm::vec3 pos = body->transform.getLocalPosition();
 
@@ -80,11 +81,9 @@ void PlayerComponent::movement(float dt)
     if (abs(forward) > inputTreshold || abs(right) > inputTreshold)
     {
         lastDirection = glm::vec3(right, 0, forward);
-        spritesheetCmp->selectAnimation("run");
     }
     else
     {
-        spritesheetCmp->selectAnimation("idle");
         forward = 0;
         right = 0;
     }
@@ -107,6 +106,11 @@ void PlayerComponent::movement(float dt)
 
 void PlayerComponent::attack(float dt)
 {
+    if (meleeCmp->isAttacking())
+    {
+        return;
+    }
+
     InputManager& inputMngr = FikaServers::getInputManager();
 
     // Keyboard
@@ -121,7 +125,28 @@ void PlayerComponent::attack(float dt)
     // Start attack
     if (attackInput)
     {
+        spritesheetCmp->setAnimationTime(0.0f);
         meleeCmp->startAttack();
+    }
+}
+
+void PlayerComponent::animationHandling(float dt)
+{
+    // Attack
+    if (meleeCmp->isAttacking())
+    {
+        spritesheetCmp->selectAnimation("attack");
+        return;
+    }
+
+    // Movement
+    if (body->velocity != glm::vec3(0.0f))
+    {
+        spritesheetCmp->selectAnimation("run");
+    }
+    else
+    {
+        spritesheetCmp->selectAnimation("idle");
     }
 }
 

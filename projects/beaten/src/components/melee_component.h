@@ -49,6 +49,7 @@ public:
 
 	void startAttack();
 	void setDirection(const glm::vec3& direction) { attackDirection = direction; }
+	bool isAttacking() { return activeAttack != nullptr; }
 };
 
 //-------------------------------------------------------

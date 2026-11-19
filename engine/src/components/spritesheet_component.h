@@ -33,8 +33,6 @@ namespace FikaEngine
 		glm::vec2 cell = glm::vec2(0.0f);
 
 		bool isAnimationPlaying = false;
-		float animationFPS = 1.0f;
-		float animationTimeline = 1.0f;
 		float animationTime = 0.0f;
 
 		SpriteSheetColumnAnim* activeAnimation = nullptr;
@@ -58,6 +56,7 @@ namespace FikaEngine
 		void setAnimationPlaying(bool playing) { isAnimationPlaying = playing; }
 		SpriteSheetColumnAnim& addAnimation(std::string name, float animationFPS, int cells, float timeline = 1.0f);
 		void selectAnimation(std::string name);
+		void setAnimationTime(float time);
 	};
 
 	//-------------------------------------------------------

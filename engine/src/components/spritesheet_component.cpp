@@ -73,13 +73,17 @@ namespace FikaEngine
 			return;
 		}
 
-		animationTime += dt * (activeAnimation->animationFPS / activeAnimation->cells);
-		if (animationTime > animationTimeline)
+		float timeline = activeAnimation->animationTimeline;
+		float fps = activeAnimation->animationFPS;
+		int cells = activeAnimation->cells;
+
+		animationTime += dt * (fps / cells);
+		if (animationTime > timeline)
 		{
-			animationTime = animationTime - activeAnimation->animationTimeline;
+			animationTime = animationTime - timeline;
 		}
 
-		int position = (animationTime / activeAnimation->animationTimeline) * activeAnimation->cells;
+		int position = (animationTime / timeline) * cells;
 		int row = activeAnimation->row;
 
 		setCell(position, row);
@@ -107,6 +111,11 @@ namespace FikaEngine
 	void SpritesheetComponent::selectAnimation(std::string name)
 	{
 		activeAnimation = &animations[name];
+	}
+
+	void SpritesheetComponent::setAnimationTime(float time)
+	{
+		animationTime = time;
 	}
 
 	//-------------------------------------------------------
