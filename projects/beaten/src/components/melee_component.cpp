@@ -65,12 +65,28 @@ void MeleeComponent::executeActiveAttack(float dt)
 		Contact* hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(start, attackDirection, distance, attackCollisionLayers);
 		FikaServers::getMainRenderer().addLine(Line(start, start + attackDirection * distance, glm::vec3(0.9, 0.8, 0.4)));
 
+		if (!hit)
+		{
+			std::cout << "found no hit \n";
+		}
+
 		if (hit)
 		{
 			// Deal damage
 			Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit->body);
+			if (!hitEntity)
+			{
+				std::cout << "no hit entity \n";
+				hitCheckDone = true;
+				return;
+			}
+
+			std::cout << "attack hit hitEntity: " << hitEntity << "\n";
+
 			HealthComponent* healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*hitEntity, HealthComponent::componentId));
 			
+			std::cout << "attack hit found healthCmp: " << healthCmp << "\n";
+
 			if (healthCmp)
 			{
 				healthCmp->dealDamage(activeAttack->damage);

@@ -30,6 +30,7 @@ void PlayerComponent::update(float dt)
     attack(dt);
 
     // Test raycast
+    /*
     const float l = 2.0f;
 
     glm::vec3 pos = body->transform.getLocalPosition();
@@ -40,6 +41,9 @@ void PlayerComponent::update(float dt)
         rayColor = glm::vec3(0, 1, 0);
 
     FikaServers::getDebugRenderer().addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
+    */
+
+    glm::vec3 pos = body->transform.getLocalPosition();
 
     // Cam move
     FikaServers::getCameraManager().getMainCamera()->setPosition(pos + cameraOffset);
@@ -64,6 +68,7 @@ void PlayerComponent::deserialize(nlohmann::json js)
 void PlayerComponent::movement(float dt)
 {
     InputManager& inputMngr = FikaServers::getInputManager();
+    const float inputTreshold = 0.05f;
 
     // Keyboard
     float fp = inputMngr.isKeyHeld(Key::W) * -1;
@@ -86,7 +91,7 @@ void PlayerComponent::movement(float dt)
     }
 
     // Apply movement
-    if (forward != 0 || right != 0)
+    if (abs(forward) > inputTreshold || abs(right) > inputTreshold)
     {
         lastDirection = glm::vec3(right, 0, forward);
         spritesheetCmp->selectAnimation("run");
@@ -94,18 +99,20 @@ void PlayerComponent::movement(float dt)
     else
     {
         spritesheetCmp->selectAnimation("idle");
+        forward = 0;
+        right = 0;
     }
 
     glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
     body->velocity = velocity * dt;
 
     // Attack direction
-    if (right > 0)
+    if (right > inputTreshold)
     {
         meleeCmp->setDirection(glm::vec3(1, 0, 0));
         meshCmp->getMeshInstance()->customScale = glm::vec3(1, 1, 1);
     }
-    else if (right < 0)
+    else if (right < -inputTreshold)
     {
         meleeCmp->setDirection(glm::vec3(-1, 0, 0));
         meshCmp->getMeshInstance()->customScale = glm::vec3(-1, 1, 1);
