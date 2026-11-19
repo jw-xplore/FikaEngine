@@ -287,9 +287,8 @@ namespace FikaEngine
 		ongoingOverlaps[contactId] = false;
 	}
 
-	Contact* CollisionSolver::raycast(glm::vec3 start, glm::vec3 direction, float lenght, int interactiveLayers)
+	bool CollisionSolver::raycast(Contact& outContact, glm::vec3 start, glm::vec3 direction, float lenght, int interactiveLayers)
 	{
-		Contact closestOut;
 		float closestDist = std::numeric_limits<float>::max();
 		Ray ray = Ray(start, direction, lenght);
 		ray.interactiveLayers = interactiveLayers;
@@ -311,7 +310,7 @@ namespace FikaEngine
 				if (dist2 < closestDist)
 				{
 					closestDist = dist2;
-					closestOut = out;
+					outContact = out;
 				}
 			}
 		}
@@ -333,7 +332,7 @@ namespace FikaEngine
 				if (dist2 < closestDist)
 				{
 					closestDist = dist2;
-					closestOut = out;
+					outContact = out;
 				}
 			}
 		}
@@ -355,7 +354,7 @@ namespace FikaEngine
 				if (dist2 < closestDist)
 				{
 					closestDist = dist2;
-					closestOut = out;
+					outContact = out;
 				}
 			}
 		}
@@ -363,12 +362,12 @@ namespace FikaEngine
 		// Hit
 		if (closestDist < std::numeric_limits<float>::max())
 		{
-			FikaServers::getDebugRenderer().addLine(Line(closestOut.point, closestOut.point + closestOut.normal * 2.0f, glm::vec3(1), glm::vec3(0, 0, 1)));
-			return &closestOut;
+			FikaServers::getDebugRenderer().addLine(Line(outContact.point, outContact.point + outContact.normal * 2.0f, glm::vec3(1), glm::vec3(0, 0, 1)));
+			return true;
 		}
 
 		// No hit
-		return nullptr;
+		return false;
 	}
 
 	bool CollisionSolver::overlapSphereSphere(const Sphere& colA, const Sphere& colB, Contact* out)

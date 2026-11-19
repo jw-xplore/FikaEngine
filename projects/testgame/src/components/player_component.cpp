@@ -54,9 +54,13 @@ void PlayerComponent::update(float dt)
     glm::vec3 pos = body->transform.getLocalPosition();
 
     glm::vec3 rayColor = glm::vec3(1, 0, 0);
-    bool hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(pos, lastDirection, l);
-    if (hit)
+
+    Contact hit;
+    bool foundHit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(hit, pos, lastDirection, l);
+    if (foundHit)
+    {
         rayColor = glm::vec3(0, 1, 0);
+    }
 
     FikaServers::getDebugRenderer().addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
 

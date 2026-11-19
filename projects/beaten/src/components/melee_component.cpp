@@ -61,19 +61,20 @@ void MeleeComponent::executeActiveAttack(float dt)
 		// Check collision
 		glm::vec3 start = transform->getLocalPosition();
 		float distance = activeAttack->distance;
-
-		Contact* hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(start, attackDirection, distance, attackCollisionLayers);
+		
+		Contact hit;
+		bool hitFound = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(hit, start, attackDirection, distance, attackCollisionLayers);
 		FikaServers::getMainRenderer().addLine(Line(start, start + attackDirection * distance, glm::vec3(0.9, 0.8, 0.4)));
 
-		if (!hit)
+		if (!hitFound)
 		{
 			std::cout << "found no hit \n";
 		}
 
-		if (hit)
+		if (hitFound)
 		{
 			// Deal damage
-			Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit->body);
+			Entity* hitEntity = FikaServers::getPhysicsSolver().getBodyEntity(*hit.body);
 			if (!hitEntity)
 			{
 				std::cout << "no hit entity \n";

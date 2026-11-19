@@ -29,20 +29,6 @@ void PlayerComponent::update(float dt)
     movement(dt);
     attack(dt);
 
-    // Test raycast
-    /*
-    const float l = 2.0f;
-
-    glm::vec3 pos = body->transform.getLocalPosition();
-
-    glm::vec3 rayColor = glm::vec3(1, 0, 0);
-    bool hit = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(pos, lastDirection, l);
-    if (hit)
-        rayColor = glm::vec3(0, 1, 0);
-
-    FikaServers::getDebugRenderer().addLine(Line(pos, pos + lastDirection * l * glm::length(lastDirection), rayColor));
-    */
-
     glm::vec3 pos = body->transform.getLocalPosition();
 
     // Cam move
@@ -123,12 +109,13 @@ void PlayerComponent::attack(float dt)
 {
     InputManager& inputMngr = FikaServers::getInputManager();
 
-    bool attackInput = false;
-
     // Keyboard
-    if (inputMngr.isKeyPressed(Key::Space))
+    bool attackInput = inputMngr.isKeyPressed(Key::Space);
+
+    // Gamepad
+    if (!attackInput)
     {
-        attackInput = true;
+        attackInput = inputMngr.isGamepadButtonPressed(Gamepad::A);
     }
 
     // Start attack
