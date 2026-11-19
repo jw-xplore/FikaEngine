@@ -27,13 +27,15 @@ class MeleeComponent : public ECSComponent
 private:
 	Transform* transform;
 
-	MeleeAttack* activeAttack = nullptr;
+	//MeleeAttack* activeAttack = nullptr;
 	float attackTimer = 0.0f;
 	bool hitCheckDone = false;
 	glm::vec3 attackDirection = glm::vec3(1.0f, 0.0f, 0.0f);
 	int attackCollisionLayers = 1;
 
-	MeleeAttack attack;
+	int currentAttack = -1;
+	std::vector<MeleeAttack> attacks;
+	//MeleeAttack attack;
 
 	void executeActiveAttack(float dt);
 
@@ -49,7 +51,8 @@ public:
 
 	void startAttack();
 	void setDirection(const glm::vec3& direction) { attackDirection = direction; }
-	bool isAttacking() { return activeAttack != nullptr; }
+	bool isAttacking() { return currentAttack > -1; }
+	int getCurrentAttack() { return currentAttack; }
 };
 
 //-------------------------------------------------------

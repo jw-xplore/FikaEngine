@@ -106,11 +106,6 @@ void PlayerComponent::movement(float dt)
 
 void PlayerComponent::attack(float dt)
 {
-    if (meleeCmp->isAttacking())
-    {
-        return;
-    }
-
     InputManager& inputMngr = FikaServers::getInputManager();
 
     // Keyboard
@@ -133,9 +128,14 @@ void PlayerComponent::attack(float dt)
 void PlayerComponent::animationHandling(float dt)
 {
     // Attack
-    if (meleeCmp->isAttacking())
+    if (meleeCmp->getCurrentAttack() == 0)
     {
         spritesheetCmp->selectAnimation("attack");
+        return;
+    }
+    else if (meleeCmp->getCurrentAttack() == 1)
+    {
+        spritesheetCmp->selectAnimation("attack1");
         return;
     }
 

@@ -53,7 +53,8 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
 
     // Sprite sheet
     SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager.addComponent(entity, SpritesheetComponent::componentId));
-    spriteSheetCmp->setupSheet(3, 8);
+    spriteSheetCmp->setupSheet(4, 8);
+    spriteSheetCmp->addAnimation("attack1", 5, 5);
     spriteSheetCmp->addAnimation("attack", 5, 5);
     spriteSheetCmp->addAnimation("run", 5, 6);
     spriteSheetCmp->addAnimation("idle", 5, 6);

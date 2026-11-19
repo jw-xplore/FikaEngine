@@ -14,6 +14,9 @@ const unsigned int MeleeComponent::componentId;
 void MeleeComponent::start()
 {
 	transform = FikaServers::getECSManager().findEntityTransform(*owner);
+
+	attacks.push_back(MeleeAttack());
+	attacks.push_back(MeleeAttack());
 }
 
 void MeleeComponent::update(float dt)
@@ -41,17 +44,19 @@ void MeleeComponent::deserialize(nlohmann::json js)
 
 void MeleeComponent::executeActiveAttack(float dt)
 {
-	if (!activeAttack)
+	if (currentAttack < 0)
 	{
 		return;
 	}
 
 	attackTimer += dt;
 
-	float collisionCheckTime = activeAttack->attackDelay + activeAttack->attackCheckTime;
-	float hangTime = collisionCheckTime + activeAttack->postAttackDelay;
+	MeleeAttack& activeAttack = attacks[currentAttack];
 
-	if (attackTimer > activeAttack->attackDelay && attackTimer < collisionCheckTime)
+	float collisionCheckTime = activeAttack.attackDelay + activeAttack.attackCheckTime;
+	float hangTime = collisionCheckTime + activeAttack.postAttackDelay;
+
+	if (attackTimer > activeAttack.attackDelay && attackTimer < collisionCheckTime)
 	{
 		if (hitCheckDone)
 		{
@@ -60,7 +65,7 @@ void MeleeComponent::executeActiveAttack(float dt)
 
 		// Check collision
 		glm::vec3 start = transform->getLocalPosition();
-		float distance = activeAttack->distance;
+		float distance = activeAttack.distance;
 		
 		Contact hit;
 		bool hitFound = FikaServers::getPhysicsSolver().getCollisionSolver().raycast(hit, start, attackDirection, distance, attackCollisionLayers);
@@ -80,7 +85,7 @@ void MeleeComponent::executeActiveAttack(float dt)
 
 			if (healthCmp)
 			{
-				healthCmp->dealDamage(activeAttack->damage);
+				healthCmp->dealDamage(activeAttack.damage);
 			}
 		}
 
@@ -93,7 +98,7 @@ void MeleeComponent::executeActiveAttack(float dt)
 	else if (attackTimer > hangTime)
 	{
 		// Done
-		activeAttack = nullptr;
+		currentAttack = -1;
 		hitCheckDone = false;
 		attackTimer = 0.0f;
 	}
@@ -101,13 +106,30 @@ void MeleeComponent::executeActiveAttack(float dt)
 
 void MeleeComponent::startAttack()
 {
-	if (activeAttack)
+	if (currentAttack > -1)
 	{
+		MeleeAttack& activeAttack = attacks[currentAttack];
+		float collisionCheckTime = activeAttack.attackDelay + activeAttack.attackCheckTime;
+		float hangTime = collisionCheckTime + activeAttack.postAttackDelay;
+
+		if (attackTimer > collisionCheckTime && attackTimer < hangTime)
+		{
+			currentAttack++;
+			if (currentAttack >= attacks.size())
+			{
+				currentAttack = 0;
+			}
+
+			hitCheckDone = false;
+			attackTimer = 0.0f;
+		}
+		
 		return;
 	}
 
 	// Start new attack
-	activeAttack = &attack;
+	currentAttack++;
+	hitCheckDone = false;
 	attackTimer = 0.0f;
 }
 
