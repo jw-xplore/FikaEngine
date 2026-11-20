@@ -28,7 +28,7 @@ namespace FikaEngine
 		glfwSetScrollCallback(window, onGLMouseScrollCallback);
 
 		// Register gamepads
-		if (glfwJoystickPresent(GLFW_JOYSTICK_1) && glfwJoystickIsGamepad(GLFW_JOYSTICK_1))
+		if (glfwJoystickPresent(GLFW_JOYSTICK_1))
 		{
 			connectGamepad(GLFW_JOYSTICK_1);
 		}
