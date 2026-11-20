@@ -86,11 +86,20 @@ void MeleeComponent::executeActiveAttack(float dt)
 				return;
 			}
 
+			// Damage
 			HealthComponent* healthCmp = static_cast<HealthComponent*>(FikaServers::getECSManager().findComponent(*hitEntity, HealthComponent::componentId));
 
 			if (healthCmp)
 			{
 				healthCmp->dealDamage(activeAttack.damage);
+			}
+
+			// Knockback
+			RigidBodyComponent* rbCmp = static_cast<RigidBodyComponent*>(FikaServers::getECSManager().findComponent(*hitEntity, RigidBodyComponent::componentId));
+			if (rbCmp)
+			{
+				glm::vec3 dir = glm::normalize(attackDirection);
+				//rbCmp->getBody()->velocity = dir * activeAttack.knockback;
 			}
 		}
 

@@ -8,8 +8,10 @@ using namespace FikaEngine;
 
 struct MeleeAttack
 {
-	int damage = 100;
+	int damage = 10;
 	float distance = 2.0f;
+	float knockback = 0.1f;
+
 	float attackDelay = 0.25f;
 	float attackCheckTime = 0.1f; // Attack collision will be done in this window
 	float postAttackDelay = 0.25f; // Wait after attack this long to chain next attack
