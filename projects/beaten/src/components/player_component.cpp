@@ -24,8 +24,6 @@ void PlayerComponent::start()
 
 void PlayerComponent::update(float dt)
 {
-    //InputManager& inputMngr = FikaServers::getInputManager();
-
     movement(dt);
     attack(dt);
     animationHandling(dt);
@@ -117,11 +115,18 @@ void PlayerComponent::attack(float dt)
         attackInput = inputMngr.isGamepadButtonPressed(Gamepad::A);
     }
 
-    // Start attack
-    if (attackInput)
+    if (!attackInput)
     {
+        return;
+    }
+
+    // Start attack
+    EMeleeAttackState state = meleeCmp->getAttackState();
+    if (state == EMeleeAttackState::None || state == EMeleeAttackState::Hanging)
+    {
+        int attackId = meleeCmp->getNextAttack();
+        meleeCmp->startAttack(attackId);
         spritesheetCmp->setAnimationTime(0.0f);
-        meleeCmp->startAttack();
     }
 }
 
@@ -131,11 +136,13 @@ void PlayerComponent::animationHandling(float dt)
     if (meleeCmp->getCurrentAttack() == 0)
     {
         spritesheetCmp->selectAnimation("attack");
+        spritesheetCmp->setAnimationLooping(false);
         return;
     }
     else if (meleeCmp->getCurrentAttack() == 1)
     {
         spritesheetCmp->selectAnimation("attack1");
+        spritesheetCmp->setAnimationLooping(false);
         return;
     }
 
@@ -143,10 +150,12 @@ void PlayerComponent::animationHandling(float dt)
     if (body->velocity != glm::vec3(0.0f))
     {
         spritesheetCmp->selectAnimation("run");
+        spritesheetCmp->setAnimationLooping(true);
     }
     else
     {
         spritesheetCmp->selectAnimation("idle");
+        spritesheetCmp->setAnimationLooping(true);
     }
 }
 

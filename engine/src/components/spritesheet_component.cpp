@@ -80,16 +80,23 @@ namespace FikaEngine
 		animationTime += dt * (fps / cells);
 		if (animationTime > timeline)
 		{
-			animationTime = animationTime - timeline;
+			if (isAnimationLooping)
+			{
+				animationTime = animationTime - timeline;
+			}
+			else
+			{
+				animationTime = timeline;
+			}
 		}
 
-		int position = (animationTime / timeline) * cells;
+		int position = (animationTime / timeline) * cells - 1;
 		int row = activeAnimation->row;
 
 		setCell(position, row);
 	}
 
-	SpriteSheetColumnAnim& SpritesheetComponent::addAnimation(std::string name, float animationFPS, int cells, float timeline)
+	SpriteSheetColumnAnim& SpritesheetComponent::addAnimation(std::string name, int cells, float timeline)
 	{
 		if (animations.find(name) != animations.end())
 		{
@@ -101,7 +108,7 @@ namespace FikaEngine
 
 		SpriteSheetColumnAnim& anim = animations[name];
 		anim.row = row;
-		anim.animationFPS = animationFPS;
+		anim.animationFPS = cells / timeline;
 		anim.animationTimeline = timeline;
 		anim.cells = cells;
 

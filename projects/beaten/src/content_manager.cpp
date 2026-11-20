@@ -51,19 +51,22 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
     meshCmp->setup(customMesh, basicShader, customTexture);
     meshCmp->setTexture(*customTexture);
 
+    // Melee
+    MeleeComponent* meleeCmp = dynamic_cast<MeleeComponent*>(ecsManager.addComponent(entity, MeleeComponent::componentId));
+
+    float attackTime0 = meleeCmp->getAttacks()[0].getAttackTime();
+    float attackTime1 = meleeCmp->getAttacks()[1].getAttackTime();
+
     // Sprite sheet
     SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager.addComponent(entity, SpritesheetComponent::componentId));
     spriteSheetCmp->setupSheet(4, 8);
-    spriteSheetCmp->addAnimation("attack1", 5, 5);
-    spriteSheetCmp->addAnimation("attack", 5, 5);
-    spriteSheetCmp->addAnimation("run", 5, 6);
-    spriteSheetCmp->addAnimation("idle", 5, 6);
+    spriteSheetCmp->addAnimation("attack1", 5, attackTime0);
+    spriteSheetCmp->addAnimation("attack", 5, attackTime1);
+    spriteSheetCmp->addAnimation("run", 6, 0.75f);
+    spriteSheetCmp->addAnimation("idle", 6, 1.0f);
 
     //spriteSheetCmp->selectAnimation("run");
     spriteSheetCmp->setAnimationPlaying(true);
-
-    // Melee
-    MeleeComponent* meleeCmp = dynamic_cast<MeleeComponent*>(ecsManager.addComponent(entity, MeleeComponent::componentId));
 
     // Health
     HealthComponent* healthCmp = dynamic_cast<HealthComponent*>(ecsManager.addComponent(entity, HealthComponent::componentId));
@@ -128,7 +131,7 @@ Entity& ContentManager::createEnemy(glm::vec3 position)
     // Sprite sheet
     SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager.addComponent(entity, SpritesheetComponent::componentId));
     spriteSheetCmp->setupSheet(1, 2);
-    spriteSheetCmp->addAnimation("idle", 1, 2);
+    spriteSheetCmp->addAnimation("idle", 2);
 
     spriteSheetCmp->selectAnimation("idle");
     spriteSheetCmp->setAnimationPlaying(true);

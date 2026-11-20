@@ -12,7 +12,18 @@ struct MeleeAttack
 	float distance = 2.0f;
 	float attackDelay = 0.25f;
 	float attackCheckTime = 0.1f; // Attack collision will be done in this window
-	float postAttackDelay = 0.1f; // Wait after attack this long to chain next attack
+	float postAttackDelay = 0.25f; // Wait after attack this long to chain next attack
+
+	float getAttackTime() { return attackDelay + attackCheckTime; }
+	float getTotalTime() { return attackDelay + attackCheckTime + postAttackDelay; }
+};
+
+enum EMeleeAttackState
+{
+	None = 0,
+	Attacking = 1,
+	Hitting = 2,
+	Hanging = 3
 };
 
 //-------------------------------------------------------
@@ -27,7 +38,7 @@ class MeleeComponent : public ECSComponent
 private:
 	Transform* transform;
 
-	//MeleeAttack* activeAttack = nullptr;
+	EMeleeAttackState attackState = EMeleeAttackState::None;
 	float attackTimer = 0.0f;
 	bool hitCheckDone = false;
 	glm::vec3 attackDirection = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -35,7 +46,6 @@ private:
 
 	int currentAttack = -1;
 	std::vector<MeleeAttack> attacks;
-	//MeleeAttack attack;
 
 	void executeActiveAttack(float dt);
 
@@ -49,10 +59,13 @@ public:
 	nlohmann::json serialize() override;
 	void deserialize(nlohmann::json js) override;
 
-	void startAttack();
+	void startAttack(int attackId);
+	EMeleeAttackState getAttackState() { return attackState; }
 	void setDirection(const glm::vec3& direction) { attackDirection = direction; }
 	bool isAttacking() { return currentAttack > -1; }
 	int getCurrentAttack() { return currentAttack; }
+	int getNextAttack();
+	std::vector<MeleeAttack>& getAttacks() { return attacks; }
 };
 
 //-------------------------------------------------------

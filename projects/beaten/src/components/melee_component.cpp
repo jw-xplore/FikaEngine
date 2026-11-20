@@ -56,12 +56,17 @@ void MeleeComponent::executeActiveAttack(float dt)
 	float collisionCheckTime = activeAttack.attackDelay + activeAttack.attackCheckTime;
 	float hangTime = collisionCheckTime + activeAttack.postAttackDelay;
 
+	attackState = EMeleeAttackState::Attacking;
+
+
 	if (attackTimer > activeAttack.attackDelay && attackTimer < collisionCheckTime)
 	{
 		if (hitCheckDone)
 		{
 			return;
 		}
+
+		attackState = EMeleeAttackState::Hitting;
 
 		// Check collision
 		glm::vec3 start = transform->getLocalPosition();
@@ -94,6 +99,7 @@ void MeleeComponent::executeActiveAttack(float dt)
 	else if (attackTimer > collisionCheckTime && attackTimer < hangTime)
 	{
 		// Wait for next attack
+		attackState = EMeleeAttackState::Hanging;
 	}
 	else if (attackTimer > hangTime)
 	{
@@ -101,36 +107,32 @@ void MeleeComponent::executeActiveAttack(float dt)
 		currentAttack = -1;
 		hitCheckDone = false;
 		attackTimer = 0.0f;
+		attackState = EMeleeAttackState::None;
 	}
 }
 
-void MeleeComponent::startAttack()
+void MeleeComponent::startAttack(int attackId)
 {
-	if (currentAttack > -1)
+	if (attackId < 0 || attackId >= attacks.size())
 	{
-		MeleeAttack& activeAttack = attacks[currentAttack];
-		float collisionCheckTime = activeAttack.attackDelay + activeAttack.attackCheckTime;
-		float hangTime = collisionCheckTime + activeAttack.postAttackDelay;
-
-		if (attackTimer > collisionCheckTime && attackTimer < hangTime)
-		{
-			currentAttack++;
-			if (currentAttack >= attacks.size())
-			{
-				currentAttack = 0;
-			}
-
-			hitCheckDone = false;
-			attackTimer = 0.0f;
-		}
-		
+		std::cout << "Attack overflow: " << attackId << "\n";
 		return;
 	}
 
-	// Start new attack
-	currentAttack++;
+	currentAttack = attackId;
 	hitCheckDone = false;
 	attackTimer = 0.0f;
+}
+
+int MeleeComponent::getNextAttack()
+{
+	int id = currentAttack + 1;
+	if (id >= attacks.size())
+	{
+		id = 0;
+	}
+
+	return id;
 }
 
 //-------------------------------------------------------

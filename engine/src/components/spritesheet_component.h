@@ -34,6 +34,7 @@ namespace FikaEngine
 
 		bool isAnimationPlaying = false;
 		float animationTime = 0.0f;
+		bool isAnimationLooping = false;
 
 		SpriteSheetColumnAnim* activeAnimation = nullptr;
 		std::map<std::string, SpriteSheetColumnAnim> animations;
@@ -54,9 +55,10 @@ namespace FikaEngine
 		void setCell(int column, int row);
 
 		void setAnimationPlaying(bool playing) { isAnimationPlaying = playing; }
-		SpriteSheetColumnAnim& addAnimation(std::string name, float animationFPS, int cells, float timeline = 1.0f);
+		SpriteSheetColumnAnim& addAnimation(std::string name, int cells, float timeline = 1.0f);
 		void selectAnimation(std::string name);
 		void setAnimationTime(float time);
+		void setAnimationLooping(bool looping) { isAnimationLooping = looping; }
 	};
 
 	//-------------------------------------------------------

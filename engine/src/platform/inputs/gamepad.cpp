@@ -13,7 +13,7 @@ namespace FikaEngine
 		for (int i = 0; i < buttonsCount; i++)
 		{
 			Gamepad::GamepadButton input = ButtonFromGLFW(i);
-
+ 
 			if (buttonPressed[input] && !buttonReleased[input])
 			{
 				buttonHeld[input] = (buttons[i] == GLFW_PRESS);
@@ -26,11 +26,6 @@ namespace FikaEngine
 
 			buttonPressed[input] = (buttonReleased[input]) && (buttons[i] == GLFW_PRESS);
 			buttonReleased[input] = (buttons[i] == GLFW_RELEASE);
-
-			if (i == 0)
-			{
-				std::cout << "pressed: " << buttonPressed[input] << ", released: " << buttonReleased[input] << ", held: " << buttonHeld[input] << "\n";
-			}
 		}
 
 		// Axes
