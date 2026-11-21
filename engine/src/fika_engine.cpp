@@ -113,7 +113,12 @@ namespace FikaEngine
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(window.getHandle(), true);
+
+#if defined(_WIN32)
         ImGui_ImplOpenGL3_Init("#version 330");
+#elif defined(__linux__)
+        ImGui_ImplOpenGL3_Init("#version 300 es");
+#endif
 
         // Game loop
         while (!window.shouldClose())
