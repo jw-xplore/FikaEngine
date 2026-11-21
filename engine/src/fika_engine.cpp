@@ -166,7 +166,7 @@ namespace FikaEngine
             FikaServers::getDebugRenderer().render(mainCamera->getViewProjection());
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
-            //debugUI(window.getHandle());
+            debugUI(window.getHandle());
 
             if (postUpdateFnc)
                 postUpdateFnc(dt);
