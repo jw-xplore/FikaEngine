@@ -9,6 +9,7 @@
 #include "core/ecs/ecs_manager.h"
 #include "platform/inputs/input_manager.h"
 #include "audio/audio_manager.h"
+#include "dev/debug_console.h"
 
 namespace FikaEngine
 {
@@ -27,6 +28,7 @@ namespace FikaEngine
 		GameResourceManager gameResourceManager;
 		InputManager inputManager;
 		AudioManager audioManager;
+		DebugConsole debugConsole;
 
 	public:
 		FikaServers();
@@ -35,6 +37,7 @@ namespace FikaEngine
 		static FikaServers* getInstance();
 		void init();
 		void setWindow(Window* window);
+		static void consolePrint(std::string text, std::initializer_list<std::string> additionalText = {});
 
 		// Servers getters
 		static Window* getWindow()								{ return FikaServers::getInstance()->window; }
@@ -47,5 +50,6 @@ namespace FikaEngine
 		static GameResourceManager& getGameResourceManager()	{ return FikaServers::getInstance()->gameResourceManager; }
 		static InputManager& getInputManager()					{ return FikaServers::getInstance()->inputManager; }
 		static AudioManager& getAudioManager()					{ return FikaServers::getInstance()->audioManager; }
+		static DebugConsole& getDebugConsole()					{ return FikaServers::getInstance()->debugConsole; }
 	};
 } // namespace FikaEngine

@@ -67,12 +67,12 @@ void PlayerComponent::movement(float dt)
     // Gamepad
     if (forward == 0)
     {
-        forward = inputMngr.getGamepadAxis(Gamepad::LS_Vertical);
+        forward = inputMngr.getGamepadAxis(Gamepad::LS_Y);
     }
 
     if (right == 0)
     {
-        right = inputMngr.getGamepadAxis(Gamepad::LS_Horizontal);
+        right = inputMngr.getGamepadAxis(Gamepad::LS_X);
     }
 
     // Apply movement

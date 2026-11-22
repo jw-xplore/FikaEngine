@@ -16,6 +16,7 @@ Includes
 #include "core/pool_allocator.h"
 
 #include "dev/fika_dev.h"
+#include "dev/debug_console.h"
 
 // ECS
 #include "core/ecs/ecs_manager.h"

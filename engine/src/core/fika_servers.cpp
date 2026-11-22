@@ -35,4 +35,9 @@ namespace FikaEngine
 		this->window = window;
 	}
 
+	void FikaServers::consolePrint(std::string text, std::initializer_list<std::string> additionalText)
+	{
+		FikaServers::getInstance()->debugConsole.print(text, additionalText);
+	}
+
 } // namespace FikaEngine

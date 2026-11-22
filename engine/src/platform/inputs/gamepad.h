@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 namespace FikaEngine
 {
@@ -10,20 +11,11 @@ namespace FikaEngine
         enum GamepadButton
         {
             A, B, X, Y,
-            Back, Start,
-            DPAD_Right, DPAD_Left, DPAD_Up, DPAD_Down,
-            RightStick, LeftStick, // Thumbstick clicks
-            RightBumper, LeftBumper,
+            Back, Start, Guide,
+            LeftThumb, RightThumb, // Thumbstick clicks
+            LeftBumper, RightBumper,
+            DPAD_Up, DPAD_Right, DPAD_Down, DPAD_Left,
             GamepadButtonCount,
-        };
-
-        constexpr static const char* const gamepadButtonNames[GamepadButton::GamepadButtonCount] =
-        {
-            "A", "B", "X", "Y",
-            "Back", "Start",
-            "DPAD_Right", "DPAD_Left", "DPAD_Up", "DPAD_Down",
-            "RightStick", "LeftStick",
-            "RightBumper", "LeftBumper"
         };
 
         bool buttonPressed[GamepadButton::GamepadButtonCount];
@@ -33,23 +25,18 @@ namespace FikaEngine
         // Axes - Thumbs sticks and triggers
         enum GamepadAxes
         {
-            LS_Horizontal, LS_Vertical,
-            RS_Horizontal, RS_Vertical,
+            LS_X, LS_Y,
+            RS_X, RS_Y,
             LT, RT,
             GamepadAxesCount,
-        };
-
-        constexpr static const char* const gamepadAxesNames[GamepadAxes::GamepadAxesCount] =
-        {
-            "LS_Horizontal", "LS_Vertical",
-            "RS_Horizontal", "RS_Vertical",
-            "Left Trigger", "Right Trigger",
         };
 
         float axesValues[GamepadAxes::GamepadAxesCount];
 
         void handleInput();
-        static GamepadButton ButtonFromGLFW(int key);
-        static GamepadAxes AxisFromGLFW(int input);
+        static GamepadButton buttonFromGLFW(int key);
+        static std::string buttonNameFromGLFW(int key);
+        static GamepadAxes axisFromGLFW(int input);
+        static std::string axisNameFromGLFW(int input);
     };
 }

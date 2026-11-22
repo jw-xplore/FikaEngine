@@ -62,21 +62,16 @@ namespace FikaEngine
             );
         }
 
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-
-        ImGui::NewFrame();
-        
+        // Debug window 
         ImGui::Begin("Debug");
+
+        // FPS
         int fps = 1.0f / deltaTime;
         std::string strFps = "FPS: " + std::to_string(fps);
         ImGui::Text(strFps.c_str());
         ImGui::Checkbox("V-Sync", &enableVSync);
+
         ImGui::End();
-        
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     void Game::setup(void (*initFnc)(), void (*preUpdateFnc)(float), void (*postUpdateFnc)(float))
@@ -126,6 +121,11 @@ namespace FikaEngine
             //Input::InputHandler::beginFrame();
             FikaServers::getInputManager().beginFrame();
 
+            // Start the Dear ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
             // TODO: Create proper debug UI
             // Display current FPS in window title
             float now = glfwGetTime();
@@ -172,9 +172,16 @@ namespace FikaEngine
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 #endif
             debugUI(window.getHandle());
+            
+#if SHOW_DEBUG_CONSOLE == 1
+            FikaServers::getDebugConsole().drawConsole();
+#endif
 
             if (postUpdateFnc)
                 postUpdateFnc(dt);
+
+            ImGui::Render();
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
             window.swap();
         }

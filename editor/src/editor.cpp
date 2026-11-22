@@ -37,13 +37,7 @@ namespace FikaEditor
             );
         }
 
-        // Start the Dear ImGui frame
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-
         cursorInsideGui = false;
-
-        ImGui::NewFrame();
 
         ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Always);
         ImGui::SetNextWindowSize(ImVec2(400, 300));
