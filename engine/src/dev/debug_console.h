@@ -3,18 +3,25 @@
 #include <vector>
 #include <initializer_list>
 #include "imgui.h"
+#include "../core/event.h"
 
-class DebugConsole
+namespace FikaEngine
 {
-private:
-	const unsigned int ENTRIES_LIMIT = 50;
-	//std::vector<std::string> entries;
-	std::string consoleText = "";
-	float prevScroll = 1.0f;
+	class DebugConsole
+	{
+	private:
+		const unsigned int ENTRIES_LIMIT = 50;
+		std::vector<std::string> entries;
+		float prevScroll = 1.0f;
+		char command[256] = "";
+		Event<void(std::string)> onCommandExecuted;
 
-public:
-	DebugConsole();
-	~DebugConsole();
-	void drawConsole();
-	void print(std::string text, std::initializer_list<std::string> additionalText = {});
-};
+	public:
+		DebugConsole();
+		~DebugConsole();
+		void drawConsole();
+		void print(std::string text, std::initializer_list<std::string> additionalText = {});
+
+		void addListener(std::function<void(std::string)> fnc);
+	};
+}
