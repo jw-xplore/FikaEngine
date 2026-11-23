@@ -1,7 +1,7 @@
 #pragma once
 #include <functional>
 #include <utility>
-#include <vector>
+#include <list>
 
 namespace FikaEngine
 {
@@ -14,17 +14,35 @@ namespace FikaEngine
     public:
         using Listener = std::function<void(Args...)>;
 
-        void addListener(Listener listener) {
+        Listener* addListener(Listener listener)
+        {
             listeners.push_back(std::move(listener));
+            return &listeners.back();
         }
 
-        void broadcast(Args... args) {
-            for (auto& listener : listeners) {
+        bool removeListener(Listener& listener)
+        {
+            auto it = std::find(listeners.begin(), listeners.end(), listener);
+
+            if (it == listeners.end())
+            {
+                return false;
+            }
+
+            listeners.erase(it);
+            return true;
+        }
+
+        void broadcast(Args... args)
+        {
+            for (auto& listener : listeners)
+            {
                 listener(args...);
             }
         }
 
     private:
-        std::vector<Listener> listeners;
+        std::list<Listener> listeners;
+        int lastFreeElement = 0;
 	};
 }

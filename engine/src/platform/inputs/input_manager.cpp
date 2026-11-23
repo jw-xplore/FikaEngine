@@ -1,5 +1,6 @@
 #include "input_manager.h"
 #include <iostream>
+#include "../../core/fika_servers.h"
 
 namespace FikaEngine
 {
@@ -34,6 +35,9 @@ namespace FikaEngine
 		}
 
 		glfwSetJoystickCallback(gamepadCallback);
+
+		// Testing
+		FikaServers::getDebugConsole().addListener([this](std::string cmd) { onConsoleCommand(cmd); });
 	}
 
 	void InputManager::beginFrame()
@@ -291,6 +295,25 @@ namespace FikaEngine
 		}
 
 		isGamepadConnected = false;
+	}
+
+	void InputManager::onConsoleCommand(std::string cmd)
+	{
+		if (cmd == "gp0")
+		{
+			gamepad0.id = 0;
+			FikaServers::consolePrint("Gamepad id set to 0");
+		}
+		else if (cmd == "gp1")
+		{
+			gamepad0.id = 1;
+			FikaServers::consolePrint("Gamepad id set to 1");
+		}
+		else if (cmd == "gp2")
+		{
+			gamepad0.id = 2;
+			FikaServers::consolePrint("Gamepad id set to 2");
+		}
 	}
 
 } // namespace FikaEngine

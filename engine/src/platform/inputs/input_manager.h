@@ -6,6 +6,7 @@
 #include "gamepad.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <string>
 
 namespace FikaEngine
 {
@@ -54,5 +55,7 @@ namespace FikaEngine
         static void gamepadCallback(int gamepadId, int event);
         static void connectGamepad(int gamepadId);
         static void disconnectGamepad(int gamepadId);
+
+        void onConsoleCommand(std::string cmd);
     };
 } // namespace FikaEngine
