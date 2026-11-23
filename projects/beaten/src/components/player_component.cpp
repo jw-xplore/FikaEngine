@@ -76,16 +76,7 @@ void PlayerComponent::movement(float dt)
     }
 
     // Apply movement
-    if (abs(forward) > inputTreshold || abs(right) > inputTreshold)
-    {
-        lastDirection = glm::vec3(right, 0, forward);
-    }
-    else
-    {
-        forward = 0;
-        right = 0;
-    }
-
+    lastDirection = glm::vec3(right, 0, forward);
     glm::vec3 velocity = glm::vec3(right, 0, forward) * speed;
     body->velocity = velocity * dt;
 

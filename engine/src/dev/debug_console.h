@@ -11,8 +11,7 @@ namespace FikaEngine
 	{
 	private:
 		const unsigned int ENTRIES_LIMIT = 50;
-		//std::vector<std::string> entries;
-		std::string consoleText = "";
+		std::vector<std::string> entries;
 		float prevScroll = 1.0f;
 		char command[256] = "";
 		Event<void(std::string)> onCommandExecuted;

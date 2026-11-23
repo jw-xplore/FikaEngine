@@ -6,7 +6,7 @@ namespace FikaEngine
 {
 	DebugConsole::DebugConsole()
 	{
-
+		entries.reserve(ENTRIES_LIMIT);
 	}
 
 	DebugConsole::~DebugConsole()
@@ -19,11 +19,20 @@ namespace FikaEngine
 		ImGui::SetNextWindowPos(ImVec2(20, 400));
 		ImGui::SetNextWindowSize(ImVec2(400, 300));
 
-		// Text
+		// Output
 		ImGui::Begin("Output");
+
+		// Texte
+		std::string consoleText = "";
+
+		for (std::string entry : entries)
+		{
+			consoleText += entry + "\n";
+		}
 
 		ImGui::Text(consoleText.c_str());
 
+		// Scroll
 		if (prevScroll <= ImGui::GetScrollMaxY())
 		{
 			ImGui::SetScrollHereY(1.0f);
@@ -42,6 +51,7 @@ namespace FikaEngine
 
 		if (ImGui::IsWindowFocused())
 		{
+			// Confirm
 			if (FikaServers::getInputManager().isKeyPressed(Key::Return))
 			{
 				onCommandExecuted.broadcast(command);
@@ -60,8 +70,16 @@ namespace FikaEngine
 			mergedString += txt;
 		}
 
-		//entries.push_back(mergedString);
-		consoleText += mergedString + "\n";
+		if (entries.size() < ENTRIES_LIMIT)
+		{
+			entries.push_back(mergedString);
+		}
+		else
+		{
+			entries.erase(entries.begin());
+			entries.push_back(mergedString);
+		}
+
 		std::cout << mergedString << "\n";
 	}
 
