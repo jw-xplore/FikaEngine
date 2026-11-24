@@ -8,7 +8,7 @@ namespace FikaEngine
 	static Keyboard keyboard;
 	static Mouse mouse;
 
-	static bool isGamepadConnected = false;
+	static int connectedGamepad = -1;
 	static Gamepad gamepad0;
 
 	InputManager::InputManager()
@@ -28,11 +28,8 @@ namespace FikaEngine
 		glfwSetCursorPosCallback(window, onGLMouseMoveCallback);
 		glfwSetScrollCallback(window, onGLMouseScrollCallback);
 
-		// Register gamepads
-		if (glfwJoystickPresent(GLFW_JOYSTICK_1))
-		{
-			connectGamepad(GLFW_JOYSTICK_1);
-		}
+		// Register gamepad
+		tryConnectFirstGamepad();
 
 		glfwSetJoystickCallback(gamepadCallback);
 
@@ -82,7 +79,7 @@ namespace FikaEngine
 
 	Gamepad* InputManager::getGamepad()
 	{
-		if (!isGamepadConnected)
+		if (connectedGamepad == -1)
 		{
 			return nullptr;
 		}
@@ -132,7 +129,7 @@ namespace FikaEngine
 
 	bool InputManager::isGamepadButtonPressed(Gamepad::GamepadButton button)
 	{
-		if (!isGamepadConnected)
+		if (connectedGamepad == -1)
 		{
 			return false;
 		}
@@ -142,7 +139,7 @@ namespace FikaEngine
 
 	bool InputManager::isGamepadButtonRelease(Gamepad::GamepadButton button)
 	{
-		if (!isGamepadConnected)
+		if (connectedGamepad == -1)
 		{
 			return false;
 		}
@@ -152,7 +149,7 @@ namespace FikaEngine
 
 	bool InputManager::isGamepadButtonHeld(Gamepad::GamepadButton button)
 	{
-		if (!isGamepadConnected)
+		if (connectedGamepad == -1)
 		{
 			return false;
 		}
@@ -162,7 +159,7 @@ namespace FikaEngine
 
 	float InputManager::getGamepadAxis(Gamepad::GamepadAxes axis)
 	{
-		if (!isGamepadConnected)
+		if (connectedGamepad == -1)
 		{
 			return 0;
 		}
@@ -273,28 +270,42 @@ namespace FikaEngine
 		}
 	}
 
+	void InputManager::tryConnectFirstGamepad()
+	{
+		for (int i = GLFW_JOYSTICK_1; i < GLFW_JOYSTICK_10; i++)
+		{
+			if (glfwJoystickPresent(i) && glfwJoystickIsGamepad(i))
+			{
+				connectGamepad(i);
+				return;
+			}
+		}
+	}
+
 	void InputManager::connectGamepad(int gamepadId)
 	{
 		std::cout << "Connected gamepad " << gamepadId << "\n";
 
-		if (gamepadId != 0)
+		if (connectedGamepad != -1)
 		{
 			return;
 		}
 
-		isGamepadConnected = true;
+		connectedGamepad = gamepadId;
+		gamepad0.id = connectedGamepad;
 	}
 
 	void InputManager::disconnectGamepad(int gamepadId)
 	{
 		std::cout << "Disconnected gamepad " << gamepadId << "\n";
 
-		if (gamepadId != 0)
+		if (gamepadId != connectedGamepad)
 		{
 			return;
 		}
 
-		isGamepadConnected = false;
+		connectedGamepad = -1;
+		tryConnectFirstGamepad();
 	}
 
 	void InputManager::onConsoleCommand(std::string cmd)

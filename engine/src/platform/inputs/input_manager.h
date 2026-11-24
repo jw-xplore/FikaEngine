@@ -53,6 +53,7 @@ namespace FikaEngine
         static void handleMouseMoveEvent(double x, double y);
 
         static void gamepadCallback(int gamepadId, int event);
+        static void tryConnectFirstGamepad();
         static void connectGamepad(int gamepadId);
         static void disconnectGamepad(int gamepadId);
 
