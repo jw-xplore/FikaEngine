@@ -100,7 +100,7 @@ namespace FikaEngine
 
 		//std::cout << "meshRes" << meshRes->VOA << "&meshRes" << &meshRes.VOA << "\n";
 		mesh->setMesh(&meshRes);
-		//mesh->setTexture(texture);
+		mesh->setTexture(texture);
 		mesh->setShader(&shader);
 		mesh->setTransform(transform);
 

@@ -31,9 +31,9 @@ void ContentManager::init()
 Entity& ContentManager::createPlayer(glm::vec3 position)
 {
     GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
-    MeshResource& customMesh = gResourceManager.getMesh("quad");
+    MeshResource& customMesh = gResourceManager.getMesh(GPUResourceManager::MESH_QUAD);
     TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/cobol.png", "char");
-    ShaderResource& basicShader = gResourceManager.getShader("basic");
+    ShaderResource& basicShader = gResourceManager.getShader(GPUResourceManager::SHADER_BASIC);
 
     ECSManager& ecsManager = FikaServers::getECSManager();
 
@@ -49,7 +49,6 @@ Entity& ContentManager::createPlayer(glm::vec3 position)
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager.addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, customTexture);
-    meshCmp->setTexture(*customTexture);
 
     // Melee
     MeleeComponent* meleeCmp = dynamic_cast<MeleeComponent*>(ecsManager.addComponent(entity, MeleeComponent::componentId));
@@ -100,7 +99,6 @@ Entity& ContentManager::createWall(glm::vec3 position, bool solid)
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager.addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, &customTexture);
-    meshCmp->setTexture(customTexture);
 
     return *entity;
 }
@@ -108,9 +106,9 @@ Entity& ContentManager::createWall(glm::vec3 position, bool solid)
 Entity& ContentManager::createEnemy(glm::vec3 position)
 {
     GPUResourceManager& gResourceManager = FikaServers::getGPUResourceManager();
-    MeshResource& customMesh = gResourceManager.getMesh("quad");
+    MeshResource& customMesh = gResourceManager.getMesh(GPUResourceManager::MESH_QUAD);
     TextureResource* customTexture = gResourceManager.loadTexture("assets/textures/charidle.png", "enemy");
-    ShaderResource& basicShader = gResourceManager.getShader("basic");
+    ShaderResource& basicShader = gResourceManager.getShader(GPUResourceManager::SHADER_BASIC);
 
     ECSManager& ecsManager = FikaServers::getECSManager();
 
@@ -126,7 +124,6 @@ Entity& ContentManager::createEnemy(glm::vec3 position)
     // Mesh
     MeshComponent* meshCmp = dynamic_cast<MeshComponent*>(ecsManager.addComponent(entity, MeshComponent::componentId));
     meshCmp->setup(customMesh, basicShader, customTexture);
-    meshCmp->setTexture(*customTexture);
 
     // Sprite sheet
     SpritesheetComponent* spriteSheetCmp = dynamic_cast<SpritesheetComponent*>(ecsManager.addComponent(entity, SpritesheetComponent::componentId));

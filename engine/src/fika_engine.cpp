@@ -20,16 +20,16 @@ namespace FikaEngine
         FikaServers::getDebugRenderer().init();
 
         // Setup basic shapes
-        MeshResource* quadMesh = FikaServers::getGPUResourceManager().reserveMesh("quad");
+        MeshResource* quadMesh = FikaServers::getGPUResourceManager().reserveMesh(GPUResourceManager::MESH_QUAD);
         MeshBuilder().createQuad(1, 1).build(*quadMesh);
 
-        MeshResource* cubeMesh = FikaServers::getGPUResourceManager().reserveMesh("cube");
+        MeshResource* cubeMesh = FikaServers::getGPUResourceManager().reserveMesh(GPUResourceManager::MESH_CUBE);
         MeshBuilder().createCube(1).build(*cubeMesh);
 
-        MeshResource* sphereMesh = FikaServers::getGPUResourceManager().reserveMesh("sphere");
+        MeshResource* sphereMesh = FikaServers::getGPUResourceManager().reserveMesh(GPUResourceManager::MESH_SPHERE);
         MeshBuilder().loadMesh("assets/common/models/sphere.obj").build(*sphereMesh);
 
-        MeshResource* cylinderMesh = FikaServers::getGPUResourceManager().reserveMesh("cylinder");
+        MeshResource* cylinderMesh = FikaServers::getGPUResourceManager().reserveMesh(GPUResourceManager::MESH_CYLINDER);
         MeshBuilder().loadMesh("assets/common/models/cylinder.obj").build(*cylinderMesh);
 
         // Setup basic shaders
@@ -42,7 +42,7 @@ namespace FikaEngine
 #endif
 
         ShaderResource basicShader = ShaderResource(basicShaderVert, basicShaderFrag);
-        FikaServers::getGPUResourceManager().storeShader("basic", basicShader);
+        FikaServers::getGPUResourceManager().storeShader(GPUResourceManager::SHADER_BASIC, basicShader);
 	}
 
     void Game::debugUI(GLFWwindow* window)

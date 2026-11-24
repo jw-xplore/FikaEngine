@@ -141,6 +141,14 @@ namespace FikaEngine
 		std::map<std::string, ShaderResource*> loadedShaders;
 
 	public:
+		static const std::string MESH_QUAD;
+		static const std::string MESH_CUBE;
+		static const std::string MESH_SPHERE;
+		static const std::string MESH_CYLINDER;
+
+		static const std::string SHADER_BASIC;
+		static const std::string SHADER_BASIC_UI;
+
 		GPUResourceManager() {}
 
 		MeshResource* loadMesh(const char* path, const char* tag);

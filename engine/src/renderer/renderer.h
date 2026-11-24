@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 #include <memory>
 #include "core/pool_allocator.h"
+#include "ui/ui_node.h"
 
 namespace FikaEngine
 {
@@ -57,6 +58,7 @@ namespace FikaEngine
 	{
 	private:
 		PoolAllocator<MeshInstance> meshes = PoolAllocator<MeshInstance>("Meshes");
+		PoolAllocator<UINode> uiNodes = PoolAllocator<UINode>("UINodes");
 		LinesRenderData linesData;
 
 	public:

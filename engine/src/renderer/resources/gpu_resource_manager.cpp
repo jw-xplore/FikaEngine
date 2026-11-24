@@ -283,6 +283,14 @@ namespace FikaEngine
 	// Resource manager
 	//------------------------------------------------------------------------------
 
+	const std::string GPUResourceManager::MESH_QUAD = "quad";
+	const std::string GPUResourceManager::MESH_CUBE = "cube";
+	const std::string GPUResourceManager::MESH_SPHERE = "sphere";
+	const std::string GPUResourceManager::MESH_CYLINDER = "cylinder";
+
+	const std::string GPUResourceManager::SHADER_BASIC = "basic";
+	const std::string GPUResourceManager::SHADER_BASIC_UI = "basicUI";
+
 	MeshResource* GPUResourceManager::loadMesh(const char* path, const char* tag)
 	{
 		if (loadedMeshes.find(path) != loadedMeshes.end())
