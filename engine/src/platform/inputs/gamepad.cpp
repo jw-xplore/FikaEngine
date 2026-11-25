@@ -11,13 +11,13 @@ namespace FikaEngine
 
 		if (!glfwJoystickPresent(id))
 		{
-			FikaServers::consolePrint("Gamepad not present: ", { std::to_string(id) });
+			//FikaServers::consolePrint("Gamepad not present: ", { std::to_string(id) });
 			return;
 		}
 
 		if (!glfwJoystickIsGamepad(id))
 		{
-			FikaServers::consolePrint("Device is not gamepad: ", { std::to_string(id) });
+			//FikaServers::consolePrint("Device is not gamepad: ", { std::to_string(id) });
 		}
 
 		GLFWgamepadstate gamepadState;

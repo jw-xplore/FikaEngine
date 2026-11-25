@@ -66,7 +66,7 @@ namespace FikaEngine
 		}
 
 		renderLines(mvp);
-		//renderUI();
+		renderUI();
 	}
 
 	void Renderer::renderLines(glm::mat4 mvp)

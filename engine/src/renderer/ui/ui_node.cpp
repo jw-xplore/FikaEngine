@@ -38,16 +38,17 @@ namespace FikaEngine
 
 	void UINode::draw()
 	{
-
-		glm::mat3 tr = transformMatrix();
-
 		MeshResource* meshRes = mesh.getMesh();
 		ShaderResource* shader = mesh.gettShader();
 
 		shader->use();
-		//shader->setUniformMat3("transform", tr);
-		//shader->setUniform("textureScale", textureScale);
-		//shader->setUniform("textureUVOffset", textureOffset);
+
+		int width, height;
+		glfwGetWindowSize(glfwGetCurrentContext(), &width, &height);
+		shader->setUniform("screenSize", glm::vec2(width, height));
+
+		shader->setUniform("size", size);
+		shader->setUniform("position", position);
 
 		// VOA
 		glBindVertexArray(meshRes->VOA);

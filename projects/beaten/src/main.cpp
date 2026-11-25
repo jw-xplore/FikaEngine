@@ -53,7 +53,7 @@ void componentsInit()
     stressTest(0);
 
     // UI test
-    FikaServers::getMainRenderer().addUINode();
+    FikaServers::getMainRenderer().addUINode(glm::vec2(100, 200), glm::vec2(100, 400));
 }
 
 void start()

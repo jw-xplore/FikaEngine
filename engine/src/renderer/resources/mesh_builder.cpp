@@ -293,6 +293,8 @@ namespace FikaEngine
 		attribute.position = position;
 		attribute.uv = uv;
 
+		vertexBuffer.push_back(attribute);
+
 		return *this;
 	}
 
@@ -308,10 +310,10 @@ namespace FikaEngine
 
 	MeshBuilder2D& MeshBuilder2D::createRectangle(float width, float height)
 	{
-		addVertices({ -width, -height }, { 0,0 });		// 0 - TL
-		addVertices({  width, -height }, { 1,0 });		// 1 - TR
-		addVertices({  width,  height }, { 1,1 });		// 2 - BR
-		addVertices({ -width,  height }, { 0,1 });		// 3 - BL
+		addVertices({ 0, 0 }, { 0,0 });		// 0 - TL
+		addVertices({ width, 0 }, { 1,0 });		// 1 - TR
+		addVertices({ width, height }, { 1,1 });		// 2 - BR
+		addVertices({ 0, height }, { 0,1 });		// 3 - BL
 
 		addTriangles(0, 1, 2);
 		addTriangles(2, 3, 0);
