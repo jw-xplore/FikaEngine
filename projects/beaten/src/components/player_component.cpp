@@ -84,12 +84,12 @@ void PlayerComponent::movement(float dt)
     if (right > inputTreshold)
     {
         meleeCmp->setDirection(glm::vec3(1, 0, 0));
-        meshCmp->getMeshInstance()->customScale = glm::vec3(1, 1, 1);
+        meshCmp->getMeshInstance()->setCustomScale(glm::vec3(1, 1, 1));
     }
     else if (right < -inputTreshold)
     {
         meleeCmp->setDirection(glm::vec3(-1, 0, 0));
-        meshCmp->getMeshInstance()->customScale = glm::vec3(-1, 1, 1);
+        meshCmp->getMeshInstance()->setCustomScale(glm::vec3(-1, 1, 1));
     }
 }
 

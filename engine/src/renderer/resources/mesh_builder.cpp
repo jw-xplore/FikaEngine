@@ -249,4 +249,74 @@ namespace FikaEngine
 
 		return *this;
 	}
+
+	//------------------------------------------------------------------------------
+	// 2D Mesh builder
+	//------------------------------------------------------------------------------
+
+	void MeshBuilder2D::build(MeshResource& resource)
+	{
+		glGenVertexArrays(1, &resource.VOA);
+		glBindVertexArray(resource.VOA);
+
+		// Vertices
+		glGenBuffers(1, &resource.VBO);
+		glBindBuffer(GL_ARRAY_BUFFER, resource.VBO);
+		int size = sizeof(VertexAttributes2D) * vertexBuffer.size();
+		glBufferData(GL_ARRAY_BUFFER, size, vertexBuffer.data(), GL_STATIC_DRAW);
+
+		// Elements
+		glGenBuffers(1, &resource.EBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, resource.EBO);
+		size = sizeof(int) * indices.size();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices.data(), GL_STATIC_DRAW);
+
+		// Attributes
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+
+		// Position
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(VertexAttributes2D), NULL);
+		int offset = 2;
+		// UVs
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(VertexAttributes2D), (GLvoid*)(sizeof(GLfloat) * offset));
+
+		resource.indicesCount = indices.size();
+
+		vertexBuffer.clear();
+		indices.clear();
+	}
+
+	MeshBuilder2D& MeshBuilder2D::addVertices(glm::vec2 position, glm::vec2 uv)
+	{
+		VertexAttributes2D attribute;
+		attribute.position = position;
+		attribute.uv = uv;
+
+		return *this;
+	}
+
+	MeshBuilder2D& MeshBuilder2D::addTriangles(unsigned int v0, unsigned int v1, unsigned int v2)
+	{
+		// Add position
+		indices.push_back(v0);
+		indices.push_back(v1);
+		indices.push_back(v2);
+
+		return *this;
+	}
+
+	MeshBuilder2D& MeshBuilder2D::createRectangle(float width, float height)
+	{
+		addVertices({ -width, -height }, { 0,0 });		// 0 - TL
+		addVertices({  width, -height }, { 1,0 });		// 1 - TR
+		addVertices({  width,  height }, { 1,1 });		// 2 - BR
+		addVertices({ -width,  height }, { 0,1 });		// 3 - BL
+
+		addTriangles(0, 1, 2);
+		addTriangles(2, 3, 0);
+
+		return *this;
+	}
+
 } // namespace FikaEngine

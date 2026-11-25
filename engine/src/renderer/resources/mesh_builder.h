@@ -19,8 +19,7 @@ namespace FikaEngine
 			color(color),
 			uv(uv),
 			normal(normal)
-		{
-		}
+		{}
 	};
 
 	class MeshBuilder
@@ -42,4 +41,33 @@ namespace FikaEngine
 		MeshBuilder& createQuad(float width, float height);
 		MeshBuilder& createCube(float size);
 	};
+
+	//------------------------------------------------------------------------------
+	// 2D Mesh builder
+	//------------------------------------------------------------------------------
+
+	struct VertexAttributes2D
+	{
+		glm::vec2 position;
+		glm::vec2 uv;
+
+		VertexAttributes2D() {}
+		VertexAttributes2D(glm::vec2 position, glm::vec2 uv) : position(position), uv(uv) {}
+	};
+
+	class MeshBuilder2D
+	{
+	private:
+		std::vector<VertexAttributes2D> vertexBuffer;
+		std::vector<unsigned int> indices;
+
+	public:
+		void build(MeshResource& resource);
+
+		MeshBuilder2D& addVertices(glm::vec2 position, glm::vec2 uv);
+		MeshBuilder2D& addTriangles(unsigned int v0, unsigned int v1, unsigned int v2);
+
+		MeshBuilder2D& createRectangle(float width, float height);
+	};
+
 } // namespace FikaEngine

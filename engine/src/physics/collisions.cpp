@@ -164,7 +164,7 @@ namespace FikaEngine
 		ShaderResource& basicShader = gResourceManager.getShader("basic");
 
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
-		mesh->customScale = glm::vec3(radius);
+		mesh->setCustomScale(glm::vec3(radius));
 		debugMeshes[collider] = mesh;
 
 		// Return
@@ -186,7 +186,7 @@ namespace FikaEngine
 		ShaderResource& basicShader = gResourceManager.getShader("basic");
 
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), cubeMesh, basicShader);
-		mesh->customScale = glm::vec3(volume);
+		mesh->setCustomScale(glm::vec3(volume));
 		debugMeshes[collider] = mesh;
 
 		// Return
@@ -209,7 +209,7 @@ namespace FikaEngine
 		ShaderResource& basicShader = gResourceManager.getShader("basic");
 
 		MeshInstance* mesh = FikaServers::getDebugRenderer().addMeshInstance(&body.transform.getGlobalTransform(), debugMesh, basicShader);
-		mesh->customScale = glm::vec3(radius, height, radius);
+		mesh->setCustomScale(glm::vec3(radius, height, radius));
 		debugMeshes[collider] = mesh;
 
 		return &capsuleColliders[capsuleColliders.getUsedAmount() - 1];

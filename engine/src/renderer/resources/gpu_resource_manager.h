@@ -71,6 +71,12 @@ namespace FikaEngine
 			glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)&value);
 		}
 
+		void setUniformMat3(const GLchar* name, glm::mat3 value)
+		{
+			unsigned int location = glGetUniformLocation(program, name);
+			glUniformMatrix3fv(location, 1, GL_FALSE, (GLfloat*)&value);
+		}
+
 		void setUniform(const GLchar* name, glm::vec4 value)
 		{
 			unsigned int location = glGetUniformLocation(program, name);
@@ -142,6 +148,7 @@ namespace FikaEngine
 
 	public:
 		static const std::string MESH_QUAD;
+		static const std::string MESH_RECTANGLE;
 		static const std::string MESH_CUBE;
 		static const std::string MESH_SPHERE;
 		static const std::string MESH_CYLINDER;

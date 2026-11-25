@@ -51,6 +51,9 @@ void componentsInit()
 
     // Stress test
     stressTest(0);
+
+    // UI test
+    FikaServers::getMainRenderer().addUINode();
 }
 
 void start()

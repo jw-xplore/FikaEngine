@@ -284,6 +284,7 @@ namespace FikaEngine
 	//------------------------------------------------------------------------------
 
 	const std::string GPUResourceManager::MESH_QUAD = "quad";
+	const std::string GPUResourceManager::MESH_RECTANGLE = "rectangle";
 	const std::string GPUResourceManager::MESH_CUBE = "cube";
 	const std::string GPUResourceManager::MESH_SPHERE = "sphere";
 	const std::string GPUResourceManager::MESH_CYLINDER = "cylinder";

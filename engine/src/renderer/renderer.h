@@ -73,6 +73,7 @@ namespace FikaEngine
 		 */
 		void render(glm::mat4 mvp);
 		void renderLines(glm::mat4 mvp);
+		void renderUI();
 
 		/**
 		 * @brief Create new mesh instance into render pool. Mesh instance will be automatically rendered each frame.
@@ -82,6 +83,8 @@ namespace FikaEngine
 		 */
 		MeshInstance* addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
 		void removeMeshIntance(MeshInstance& instance);
+
+		UINode* addUINode(glm::vec2 size = glm::vec2(1.0f), glm::vec2 position = glm::vec2(0.0f), float rotation = 0.0f);
 
 		Line* addLine(Line line);
 	};

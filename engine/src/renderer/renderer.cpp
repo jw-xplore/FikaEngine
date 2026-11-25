@@ -66,6 +66,7 @@ namespace FikaEngine
 		}
 
 		renderLines(mvp);
+		//renderUI();
 	}
 
 	void Renderer::renderLines(glm::mat4 mvp)
@@ -94,6 +95,14 @@ namespace FikaEngine
 		linesData.lines.deallocate();
 	}
 
+	void Renderer::renderUI()
+	{
+		for (size_t i = 0; i < uiNodes.getUsedAmount(); i++)
+		{
+			uiNodes[i].draw();
+		}
+	}
+
 	MeshInstance* Renderer::addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture)
 	{
 		MeshInstance* mesh = meshes.allocate();
@@ -112,6 +121,19 @@ namespace FikaEngine
 		meshes.remove(&instance);
 	}
 
+	UINode* Renderer::addUINode(glm::vec2 size, glm::vec2 position, float rotation)
+	{
+		UINode* uiNode = uiNodes.allocate();
+
+		uiNode->initMesh();
+
+		uiNode->setPosition(position);
+		uiNode->setSize(size);
+		uiNode->setRotation(rotation);
+
+		return uiNode;
+	}
+
 	Line* Renderer::addLine(Line line)
 	{
 		Line* l = linesData.lines.allocate();
@@ -120,4 +142,5 @@ namespace FikaEngine
 
 		return l;
 	}
+
 } // namespace FikaEngine
