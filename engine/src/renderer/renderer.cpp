@@ -99,7 +99,7 @@ namespace FikaEngine
 	{
 		for (size_t i = 0; i < uiNodes.getUsedAmount(); i++)
 		{
-			uiNodes[i].draw();
+			uiNodes[i].drawWindow();
 		}
 	}
 
@@ -124,8 +124,6 @@ namespace FikaEngine
 	UINode* Renderer::addUINode(glm::vec2 size, glm::vec2 position, float rotation)
 	{
 		UINode* uiNode = uiNodes.allocate();
-
-		uiNode->initMesh();
 
 		uiNode->setPosition(position);
 		uiNode->setSize(size);

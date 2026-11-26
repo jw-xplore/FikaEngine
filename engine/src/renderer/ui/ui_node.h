@@ -3,6 +3,9 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include "../resources/mesh_instance.h"
+#include "../../external/imgui/imgui.h"
+#include "../../external/imgui/imgui_impl_glfw.h"
+#include "../../external/imgui/imgui_impl_opengl3.h"
 
 namespace FikaEngine
 {
@@ -29,6 +32,7 @@ namespace FikaEngine
 		MeshInstance& getMeshInstance() { return mesh; }
 
 		glm::mat3 transformMatrix();
-		void draw();
+		virtual void draw();
+		void drawWindow();
 	};
 }

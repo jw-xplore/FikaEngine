@@ -5,7 +5,6 @@ namespace FikaEngine
 {
 	UINode::UINode()
 	{
-		//createMesh();
 	}
 
 	UINode::UINode(glm::vec2 position, glm::vec2 size, float rotation):
@@ -13,7 +12,6 @@ namespace FikaEngine
 		size(size),
 		rotation(rotation)
 	{
-		//createMesh();
 	}
 
 	UINode::~UINode()
@@ -38,47 +36,28 @@ namespace FikaEngine
 
 	void UINode::draw()
 	{
-		MeshResource* meshRes = mesh.getMesh();
-		ShaderResource* shader = mesh.gettShader();
-
-		shader->use();
-
-		int width, height;
-		glfwGetWindowSize(glfwGetCurrentContext(), &width, &height);
-		shader->setUniform("screenSize", glm::vec2(width, height));
-
-		shader->setUniform("size", size);
-		shader->setUniform("position", position);
-
-		// VOA
-		glBindVertexArray(meshRes->VOA);
-
-		// Texture
-		float useTexture = 0;
-		/*
-		if (texture)
-		{
-			useTexture = 1;
-
-			if (texture->texture)
-			{
-				glBindTexture(GL_TEXTURE_2D, texture->texture);
-			}
-		}
-		*/
-
-		//shader->setUniform("useTexture", useTexture);
-
-		glDrawElements(GL_TRIANGLES, meshRes->indicesCount, GL_UNSIGNED_INT, 0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glBindVertexArray(0);
-
-		glUseProgram(0);
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0, 0.0, 0.0, 0.5));
+		ImGui::Button(".", ImVec2(size.x, size.y));
+		ImGui::PopStyleColor();
 	}
 
-	void UINode::initMesh()
+	void UINode::drawWindow()
 	{
-		mesh.setMesh(&FikaServers::getGPUResourceManager().getMesh(GPUResourceManager::MESH_RECTANGLE));
-		mesh.setShader(&FikaServers::getGPUResourceManager().getShader(GPUResourceManager::SHADER_BASIC_UI));
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f); // optional
+
+		ImGui::SetNextWindowPos(ImVec2(position.x, position.y));
+		ImGui::SetNextWindowSize(ImVec2(size.x, size.y));
+
+		ImGui::Begin("Window", nullptr, 
+			ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoBackground |
+			ImGuiWindowFlags_NoSavedSettings);
+
+		draw();
+
+		ImGui::End();
+
+		ImGui::PopStyleVar(2);
 	}
 }

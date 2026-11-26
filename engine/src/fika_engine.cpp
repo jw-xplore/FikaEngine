@@ -39,25 +39,14 @@ namespace FikaEngine
         const char* basicShaderVert = "assets/common/shaders/basic.vert";
         const char* basicShaderFrag = "assets/common/shaders/basic.frag";
 
-        // Basic UI Shaders
-        const char* basicUIShaderVert = "assets/common/shaders/basic_ui.vert";
-        const char* basicUIShaderFrag = "assets/common/shaders/basic_ui.frag";
-
 #if defined(__linux__)
         // Basic 3D shaders
         basicShaderVert = "assets/common/shaders/v3es/basic.vert";
         basicShaderFrag = "assets/common/shaders/v3es/basic.frag";
-
-        // Basic UI Shaders
-        basicUIShaderVert = "assets/common/shaders/v3es/basic_ui.vert";
-        basicUIShaderVert = "assets/common/shaders/v3es/basic_ui.frag";
 #endif
 
         ShaderResource basicShader = ShaderResource(basicShaderVert, basicShaderFrag);
         FikaServers::getGPUResourceManager().storeShader(GPUResourceManager::SHADER_BASIC, basicShader);
-
-        ShaderResource basicUIShader = ShaderResource(basicUIShaderVert, basicUIShaderFrag);
-        FikaServers::getGPUResourceManager().storeShader(GPUResourceManager::SHADER_BASIC_UI, basicUIShader);
 	}
 
     void Game::debugUI(GLFWwindow* window)
