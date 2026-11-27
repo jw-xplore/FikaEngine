@@ -31,6 +31,7 @@ Includes
 #include "renderer/resources/mesh_builder.h"
 #include "renderer/camera/camera_manager.h"
 #include "renderer/camera/camera.h"
+#include "renderer/ui/ui_widgets.h"
 
 // Physics
 #include "physics/physics.h"

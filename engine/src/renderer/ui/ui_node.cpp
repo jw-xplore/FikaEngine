@@ -1,5 +1,5 @@
 #include "ui_node.h"
-#include "../../core/fika_servers.h"
+#include "core/fika_servers.h"
 
 namespace FikaEngine
 {
@@ -32,13 +32,6 @@ namespace FikaEngine
 		transform[1][2] += position.x;
 
 		return transform;
-	}
-
-	void UINode::draw()
-	{
-		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0, 0.0, 0.0, 0.5));
-		ImGui::Button(".", ImVec2(size.x, size.y));
-		ImGui::PopStyleColor();
 	}
 
 	void UINode::drawWindow()

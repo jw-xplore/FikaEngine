@@ -97,9 +97,9 @@ namespace FikaEngine
 
 	void Renderer::renderUI()
 	{
-		for (size_t i = 0; i < uiNodes.getUsedAmount(); i++)
+		for (size_t i = 0; i < canvases.getUsedAmount(); i++)
 		{
-			uiNodes[i].drawWindow();
+			canvases[i].render();
 		}
 	}
 
@@ -121,15 +121,15 @@ namespace FikaEngine
 		meshes.remove(&instance);
 	}
 
-	UINode* Renderer::addUINode(glm::vec2 size, glm::vec2 position, float rotation)
+	Canvas& Renderer::addCanvas()
 	{
-		UINode* uiNode = uiNodes.allocate();
+		return *canvases.allocate();
+	}
 
-		uiNode->setPosition(position);
-		uiNode->setSize(size);
-		uiNode->setRotation(rotation);
-
-		return uiNode;
+	bool Renderer::removeCanvas(Canvas& canvas)
+	{
+		canvases.remove(&canvas);
+		return true;
 	}
 
 	Line* Renderer::addLine(Line line)

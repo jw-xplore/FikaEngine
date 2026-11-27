@@ -11,19 +11,17 @@ namespace FikaEngine
 {
 	class UINode
 	{
-	private:
+	protected:
 		MeshInstance mesh;
 
 		glm::vec2 position = glm::vec2(0.0f);
-		glm::vec2 size = glm::vec2(0.0f);
+		glm::vec2 size = glm::vec2(100.0f, 50.0f);
 		float rotation = 0.0f;
 
 	public:
 		UINode();
 		UINode(glm::vec2 position, glm::vec2 size, float rotation);
 		~UINode();
-
-		void initMesh();
 
 		void setPosition(const glm::vec2& position) { this->position = position; }
 		void setSize(const glm::vec2& size) { this->size = size; }
@@ -32,7 +30,7 @@ namespace FikaEngine
 		MeshInstance& getMeshInstance() { return mesh; }
 
 		glm::mat3 transformMatrix();
-		virtual void draw();
+		virtual void draw() {}
 		void drawWindow();
 	};
 }

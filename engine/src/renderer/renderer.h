@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <memory>
 #include "core/pool_allocator.h"
-#include "ui/ui_node.h"
+#include "ui/canvas.h"
 
 namespace FikaEngine
 {
@@ -58,7 +58,7 @@ namespace FikaEngine
 	{
 	private:
 		PoolAllocator<MeshInstance> meshes = PoolAllocator<MeshInstance>("Meshes");
-		PoolAllocator<UINode> uiNodes = PoolAllocator<UINode>("UINodes");
+		PoolAllocator<Canvas> canvases = PoolAllocator<Canvas>("Canvases", 16);
 		LinesRenderData linesData;
 
 	public:
@@ -84,7 +84,8 @@ namespace FikaEngine
 		MeshInstance* addMeshInstance(glm::mat4* transform, MeshResource& meshRes, ShaderResource& shader, TextureResource* texture = nullptr);
 		void removeMeshIntance(MeshInstance& instance);
 
-		UINode* addUINode(glm::vec2 size = glm::vec2(1.0f), glm::vec2 position = glm::vec2(0.0f), float rotation = 0.0f);
+		Canvas& addCanvas();
+		bool removeCanvas(Canvas& canvas);
 
 		Line* addLine(Line line);
 	};
